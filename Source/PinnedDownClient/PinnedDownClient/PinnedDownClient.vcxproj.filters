@@ -77,16 +77,37 @@
     <Image Include="Assets\SplashScreen.png">
       <Filter>Assets</Filter>
     </Image>
+    <Filter Include="Core">
+      <UniqueIdentifier>{ba9eecaf-1b9a-46c4-af87-62b8ac48f6b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{ed8f45ab-a472-4d7b-b562-2017dabbf3d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="PinnedDownClientMain.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Core\SystemManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\RenderSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Core\SystemManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ISystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\RenderSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

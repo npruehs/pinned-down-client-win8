@@ -9,6 +9,9 @@
 #include "PinnedDownClientMain.h"
 #include "Helpers\DirectXHelper.h"
 
+#include "Core\SystemManager.h"
+#include "Systems\RenderSystem.h"
+
 using namespace PinnedDownClient;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
@@ -20,6 +23,9 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
 {
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
+
+	systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager());
+	systemManager->AddSystem(new Systems::RenderSystem());
 
     // Note to developer: Replace this with your app's content initialization.
     m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
@@ -172,7 +178,9 @@ void PinnedDownClientMain::Update()
     m_timer.Tick([&]()
     {
         // Note to developer: Replace these with your app's content update functions.
-        m_overlayManager->Update(m_timer);
+		systemManager->Update(m_timer);
+		
+		m_overlayManager->Update(m_timer);
         m_inputManager->Update(m_timer);
 
         std::vector<PlayerInputData> playerActions;
