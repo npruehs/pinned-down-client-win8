@@ -95,11 +95,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    
     <PackageCertificateKeyFile>PinnedDownClient_TemporaryKey.pfx</PackageCertificateKeyFile>
-    
   </PropertyGroup>
-  
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
       <AdditionalDependencies>d2d1.lib; d3d11.lib; dxgi.lib; ole32.lib; windowscodecs.lib; dwrite.lib; xaudio2.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;xinput.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -184,7 +181,6 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <Image Include="Assets\Logo.png" />
     <Image Include="Assets\SmallLogo.png" />
@@ -192,30 +188,26 @@
     <Image Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Helpers\InputManager.h"/>
-    <ClInclude Include="Helpers\OverlayManager.h"/>
-    <ClInclude Include="Helpers\SoundPlayer.h"/>
-
+    <ClInclude Include="Helpers\InputManager.h" />
+    <ClInclude Include="Helpers\OverlayManager.h" />
+    <ClInclude Include="Helpers\SoundPlayer.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Helpers\DeviceResources.h" />
     <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="Helpers\DirectXHelper.h" />
     <ClInclude Include="Helpers\StepTimer.h" />
-    <ClInclude Include="Content\Sample3DSceneRenderer.h" />
     <ClInclude Include="Content\SampleDebugTextRenderer.h" />
     <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Helpers\InputManager.cpp"/>
-    <ClCompile Include="Helpers\OverlayManager.cpp"/>
+    <ClCompile Include="Helpers\InputManager.cpp" />
+    <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />
-
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Helpers\DeviceResources.cpp" />
     <ClCompile Include="PinnedDownClientMain.cpp" />
-    <ClCompile Include="Content\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Content\SampleDebugTextRenderer.cpp" />
     <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp" />
     <ClCompile Include="pch.cpp">
@@ -231,23 +223,11 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    
     <None Include="PinnedDownClient_TemporaryKey.pfx" />
-    
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\becky.wma" />
     <Media Include="Assets\chord.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <ShaderType>Pixel</ShaderType>
-      <ShaderModel>4.0_level_9_1</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <ShaderType>Vertex</ShaderType>
-      <ShaderModel>4.0_level_9_1</ShaderModel>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

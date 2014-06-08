@@ -13,7 +13,6 @@
 #include "Helpers\SoundPlayer.h"
 #include "Helpers\OverlayManager.h"
 
-#include "Content\Sample3DSceneRenderer.h"
 #include "Content\SampleDebugTextRenderer.h"
 #include "Content\SampleVirtualControllerRenderer.h"
 
@@ -41,7 +40,6 @@ namespace PinnedDownClient
         std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
         // Note to developer: Replace these with your own content rendering.
-        std::unique_ptr<Sample3DSceneRenderer>           m_sceneRenderer;
         std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
         std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;
 

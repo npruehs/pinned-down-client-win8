@@ -14,10 +14,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>a4832c97-b232-422e-8ea2-059f315a5b30</UniqueIdentifier>
     </Filter>
-
-    <Page Include="Common\StandardStyles.xaml">
-      <Filter>Common</Filter>
-    </Page>
     <ClInclude Include="Helpers\DirectXHelper.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -27,11 +23,9 @@
     <ClInclude Include="Helpers\DeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-
     <ClCompile Include="Helpers\DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-
     <ClInclude Include="Helpers\InputManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -41,19 +35,6 @@
     <ClInclude Include="Helpers\SoundPlayer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\RandomAccessReader.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\SoundFile.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\SoundFileReader.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\StreamEffect.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-
     <ClCompile Include="Helpers\InputManager.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
@@ -63,22 +44,6 @@
     <ClCompile Include="Helpers\SoundPlayer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\RandomAccessReader.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\SoundFile.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\SoundFileReader.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\StreamEffect.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-
-    <ClInclude Include="Content\Sample3DSceneRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
     <ClInclude Include="Content\SampleVirtualControllerRenderer.h">
       <Filter>Content</Filter>
     </ClInclude>
@@ -88,22 +53,12 @@
     <ClInclude Include="Content\ShaderStructures.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClCompile Include="Content\Sample3DSceneRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
     <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp">
       <Filter>Content</Filter>
     </ClCompile>
     <ClCompile Include="Content\SampleDebugTextRenderer.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-
     <Media Include="Assets\chord.wav">
       <Filter>Assets</Filter>
     </Media>
@@ -122,5 +77,21 @@
     <Image Include="Assets\SplashScreen.png">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="PinnedDownClientMain.cpp" />
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="PinnedDownClientMain.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PinnedDownClient_TemporaryKey.pfx" />
   </ItemGroup>
 </Project>

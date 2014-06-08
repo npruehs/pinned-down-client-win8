@@ -22,7 +22,6 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
     m_deviceResources->RegisterDeviceNotify(this);
 
     // Note to developer: Replace this with your app's content initialization.
-    m_sceneRenderer     = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
     m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
 
     // Note to developer: Use these to get input data, play audio, and draw HUDs and menus.
@@ -154,7 +153,6 @@ PinnedDownClientMain::~PinnedDownClientMain()
 void PinnedDownClientMain::CreateWindowSizeDependentResources() 
 {
     // Note to developer: Replace this with the size-dependent initialization of your app's content.
-    m_sceneRenderer->CreateWindowSizeDependentResources();
     
     // Input events are dependent on having the correct CoreWindow.
     m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
@@ -174,7 +172,6 @@ void PinnedDownClientMain::Update()
     m_timer.Tick([&]()
     {
         // Note to developer: Replace these with your app's content update functions.
-        m_sceneRenderer->Update(m_timer);
         m_overlayManager->Update(m_timer);
         m_inputManager->Update(m_timer);
 
@@ -246,7 +243,6 @@ bool PinnedDownClientMain::Render()
 
     // Render the scene objects.
     // Note to developer: Replace this with your app's content rendering functions.
-    m_sceneRenderer->Render();
     m_overlayManager->Render();
 
     return true;
@@ -255,14 +251,12 @@ bool PinnedDownClientMain::Render()
 // Notifies renderers that device resources need to be released.
 void PinnedDownClientMain::OnDeviceLost()
 {
-    m_sceneRenderer->ReleaseDeviceDependentResources();
     m_overlayManager->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
 void PinnedDownClientMain::OnDeviceRestored()
 {
-    m_sceneRenderer->CreateDeviceDependentResources();
     m_overlayManager->CreateDeviceDependentResources();
     CreateWindowSizeDependentResources();
 }
