@@ -25,39 +25,41 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
     m_deviceResources->RegisterDeviceNotify(this);
 
 	systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager());
-	systemManager->AddSystem(new Systems::RenderSystem());
+	systemManager->AddSystem(new Systems::RenderSystem(deviceResources->GetWindow().Get()));
+
+	systemManager->InitSystems();
 
     // Note to developer: Replace this with your app's content initialization.
-    m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
+    //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
 
-    // Note to developer: Use these to get input data, play audio, and draw HUDs and menus.
-    m_inputManager   = std::unique_ptr<InputManager>(new InputManager());
-    m_soundPlayer    = std::unique_ptr<SoundPlayer>(new SoundPlayer());
-    m_overlayManager = std::unique_ptr<OverlayManager>(new OverlayManager(m_deviceResources));
+    //// Note to developer: Use these to get input data, play audio, and draw HUDs and menus.
+    //m_inputManager   = std::unique_ptr<InputManager>(new InputManager());
+    //m_soundPlayer    = std::unique_ptr<SoundPlayer>(new SoundPlayer());
+    //m_overlayManager = std::unique_ptr<OverlayManager>(new OverlayManager(m_deviceResources));
 
-    // This vector will be sent to the overlay manager.
-    std::vector<std::shared_ptr<Overlay>> overlays;
-    overlays.push_back(m_debugTextRenderer);
+    //// This vector will be sent to the overlay manager.
+    //std::vector<std::shared_ptr<Overlay>> overlays;
+    //overlays.push_back(m_debugTextRenderer);
 
-    // Check whether the device is touch capable before setting up the virtual controller.
-    TouchCapabilities^ pTouchCapabilities = ref new TouchCapabilities();
-    if (pTouchCapabilities->TouchPresent != 0)
-    {
-        // Create and add virtual controller overlay.
-        m_virtualControllerRenderer = std::shared_ptr<SampleVirtualControllerRenderer>(new SampleVirtualControllerRenderer(m_deviceResources));
-        overlays.push_back(m_virtualControllerRenderer);
+    //// Check whether the device is touch capable before setting up the virtual controller.
+    //TouchCapabilities^ pTouchCapabilities = ref new TouchCapabilities();
+    //if (pTouchCapabilities->TouchPresent != 0)
+    //{
+    //    // Create and add virtual controller overlay.
+    //    m_virtualControllerRenderer = std::shared_ptr<SampleVirtualControllerRenderer>(new SampleVirtualControllerRenderer(m_deviceResources));
+    //    overlays.push_back(m_virtualControllerRenderer);
 
-        // Set up touch regions.
-        InitializeTouchRegions();
-    }
+    //    // Set up touch regions.
+    //    InitializeTouchRegions();
+    //}
 
-    // Send the final list of overlays to the overlay manager.
-    m_overlayManager->SetOverlays(overlays);
+    //// Send the final list of overlays to the overlay manager.
+    //m_overlayManager->SetOverlays(overlays);
 
-    // Note to developer: Apply input to your game.
-    // This template supports all control types by default.
-    m_inputManager->SetFilter(INPUT_DEVICE_ALL);
-    m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
+    //// Note to developer: Apply input to your game.
+    //// This template supports all control types by default.
+    //m_inputManager->SetFilter(INPUT_DEVICE_ALL);
+    //m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
 
     // Note to developer: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
@@ -180,19 +182,19 @@ void PinnedDownClientMain::Update()
         // Note to developer: Replace these with your app's content update functions.
 		systemManager->Update(m_timer);
 		
-		m_overlayManager->Update(m_timer);
-        m_inputManager->Update(m_timer);
+		//m_overlayManager->Update(m_timer);
+  //      m_inputManager->Update(m_timer);
 
-        std::vector<PlayerInputData> playerActions;
-        ProcessInput(&playerActions);
+  //      std::vector<PlayerInputData> playerActions;
+  //      ProcessInput(&playerActions);
 
-        m_debugTextRenderer->Update(&playerActions, m_playersConnected);
+  //      m_debugTextRenderer->Update(&playerActions, m_playersConnected);
 
-        // Only update the virtual controller if it's present.
-        if (m_virtualControllerRenderer != nullptr)
-        {
-            m_virtualControllerRenderer->Update(&playerActions);
-        }
+  //      // Only update the virtual controller if it's present.
+  //      if (m_virtualControllerRenderer != nullptr)
+  //      {
+  //          m_virtualControllerRenderer->Update(&playerActions);
+  //      }
     });
 }
 
@@ -235,23 +237,23 @@ bool PinnedDownClientMain::Render()
         return false;
     }
 
-    auto context = m_deviceResources->GetD3DDeviceContext();
+    //auto context = m_deviceResources->GetD3DDeviceContext();
 
-    // Reset the viewport to target the whole screen.
-    auto viewport = m_deviceResources->GetScreenViewport();
-    context->RSSetViewports(1, &viewport);
+    //// Reset the viewport to target the whole screen.
+    //auto viewport = m_deviceResources->GetScreenViewport();
+    //context->RSSetViewports(1, &viewport);
 
-    // Reset render targets to the screen.
-    ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
-    context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
+    //// Reset render targets to the screen.
+    //ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
+    //context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
 
-    // Clear the back buffer and depth stencil view.
-    context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
-    context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+    //// Clear the back buffer and depth stencil view.
+    //context->ClearRenderTargetView(m_deviceResources->GetBackBufferRenderTargetView(), DirectX::Colors::CornflowerBlue);
+    //context->ClearDepthStencilView(m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-    // Render the scene objects.
-    // Note to developer: Replace this with your app's content rendering functions.
-    m_overlayManager->Render();
+    //// Render the scene objects.
+    //// Note to developer: Replace this with your app's content rendering functions.
+    //m_overlayManager->Render();
 
     return true;
 }

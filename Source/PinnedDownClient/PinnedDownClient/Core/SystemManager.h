@@ -14,6 +14,7 @@ namespace PinnedDownClient
 			SystemManager();
 
 			void AddSystem(ISystem* system);
+			void InitSystems();
 			void Update(DX::StepTimer const& timer);
 
 		private:

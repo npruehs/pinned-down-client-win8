@@ -34,6 +34,8 @@ namespace DX
 		void Present();
 
 		// Device Accessors.
+		// TODO: Remove direct access to window.
+		Platform::Agile<Windows::UI::Core::CoreWindow> GetWindow()		{ return m_window; }
 		Windows::Foundation::Size GetOutputSize() const					{ return m_outputSize; }
 		Windows::Foundation::Size GetLogicalSize() const				{ return m_logicalSize; }
 
