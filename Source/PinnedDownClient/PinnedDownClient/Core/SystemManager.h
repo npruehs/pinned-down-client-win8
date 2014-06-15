@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Core\ISystem.h"
 #include <vector>
 #include <memory>
+#include "Core\ISystem.h"
+#include "Core\EventManager.h"
 
 namespace PinnedDownClient
 {
@@ -11,13 +12,14 @@ namespace PinnedDownClient
 		class SystemManager
 		{
 		public:
-			SystemManager();
+			SystemManager(std::shared_ptr<EventManager> eventManager);
 
 			void AddSystem(ISystem* system);
 			void InitSystems();
 			void Update(DX::StepTimer const& timer);
 
 		private:
+			std::shared_ptr<EventManager> eventManager;
 			std::vector<std::shared_ptr<ISystem>> systems;
 		};
 	}

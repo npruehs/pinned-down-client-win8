@@ -11,6 +11,7 @@
 
 #include "Core\SystemManager.h"
 #include "Systems\RenderSystem.h"
+#include "Events\AppWindowChangedEvent.h"
 
 using namespace PinnedDownClient;
 using namespace Windows::Foundation;
@@ -24,12 +25,17 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
 
-	eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
+	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
 
-	systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager());
-	systemManager->AddSystem(new Systems::RenderSystem(deviceResources->GetWindow().Get()));
+	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(eventManager));
+	this->systemManager->AddSystem(new Systems::RenderSystem());
 
-	systemManager->InitSystems();
+	this->systemManager->InitSystems();
+
+	// Pass new app window to all systems.
+	auto appWindow = deviceResources->GetWindow().Get();
+	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(appWindow));
+	eventManager->QueueEvent(appWindowChangedEvent);
 
     // Note to developer: Replace this with your app's content initialization.
     //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
@@ -182,6 +188,7 @@ void PinnedDownClientMain::Update()
     m_timer.Tick([&]()
     {
         // Note to developer: Replace these with your app's content update functions.
+		eventManager->Tick();
 		systemManager->Update(m_timer);
 		
 		//m_overlayManager->Update(m_timer);

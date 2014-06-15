@@ -9,7 +9,7 @@ namespace PinnedDownClient
 		class IEventListener
 		{
 		public:
-			virtual void OnEvent(Event const & event) = 0;
+			virtual void OnEvent(Event & event) = 0;
 		};
 	}
 }

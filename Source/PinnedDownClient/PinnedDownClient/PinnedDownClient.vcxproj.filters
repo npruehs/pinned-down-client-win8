@@ -86,6 +86,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{2dea5b5e-7f73-4105-a580-031060483c46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{7761561d-1681-4942-92fd-55153e54e091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -99,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="Core\EventManager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppWindowChangedEvent.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="Core\IEventListener.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppWindowChangedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

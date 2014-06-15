@@ -2,6 +2,7 @@
 
 #include "../Core/ISystem.h"
 #include "../Helpers/DirectXHelper.h"
+#include "Core\IEventListener.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
@@ -10,13 +11,15 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class RenderSystem : public Core::ISystem
+		class RenderSystem : public Core::ISystem, public Core::IEventListener
 		{
 		public:
-			RenderSystem(Windows::UI::Core::CoreWindow^ window);
+			RenderSystem();
 
-			void InitSystem();
+			void InitSystem(std::shared_ptr<Core::EventManager> eventManager);
 			void Update(DX::StepTimer const& timer);
+
+			void OnEvent(Event & event);
 
 		private:
 			Platform::Agile<Windows::UI::Core::CoreWindow>	window;

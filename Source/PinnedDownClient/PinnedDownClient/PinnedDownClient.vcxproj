@@ -194,6 +194,7 @@
     <ClInclude Include="Core\IEventListener.h" />
     <ClInclude Include="Core\ISystem.h" />
     <ClInclude Include="Core\SystemManager.h" />
+    <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
@@ -212,6 +213,7 @@
   <ItemGroup>
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\SystemManager.cpp" />
+    <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />

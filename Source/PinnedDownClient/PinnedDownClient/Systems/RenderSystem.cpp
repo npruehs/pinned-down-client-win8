@@ -1,24 +1,38 @@
 
 #include "pch.h"
+#include "Core\Event.h"
+#include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
+#include "Events\AppWindowChangedEvent.h"
 
 using namespace PinnedDownClient::Systems;
 
-RenderSystem::RenderSystem(Windows::UI::Core::CoreWindow^ window)
+RenderSystem::RenderSystem()
 {
-	// TODO: Register for Window Changed event.
-	this->window = window;
 }
 
-void RenderSystem::InitSystem()
+void RenderSystem::OnEvent(Event & newEvent)
 {
-	// Create devices.
-	this->CreateD3DDevice();
-	this->CreateD2DDevice();
+	if (newEvent.GetEventType() == Util::HashedString("AppWindowChanged"))
+	{
+		Events::AppWindowChangedEvent appWindowChangedEvent = static_cast<Events::AppWindowChangedEvent&>(newEvent);
+		this->window = appWindowChangedEvent.appWindow;
 
-	// Set render target.
-	this->CreateSwapChain();
-	this->SetRenderTarget();
+		// Create devices.
+		this->CreateD3DDevice();
+		this->CreateD2DDevice();
+
+		// Set render target.
+		this->CreateSwapChain();
+		this->SetRenderTarget();
+	}
+}
+
+void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+{
+	ISystem::InitSystem(eventManager);
+
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowChanged"));
 }
 
 void RenderSystem::CreateD3DDevice()
