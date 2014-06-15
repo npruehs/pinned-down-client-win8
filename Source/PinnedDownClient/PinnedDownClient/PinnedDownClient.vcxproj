@@ -190,11 +190,14 @@
   <ItemGroup>
     <ClInclude Include="Core\ISystem.h" />
     <ClInclude Include="Core\SystemManager.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Helpers\DeviceResources.h" />
+    <ClInclude Include="IEventListener.h" />
     <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="Helpers\DirectXHelper.h" />
     <ClInclude Include="Helpers\StepTimer.h" />
@@ -203,6 +206,8 @@
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
+    <ClInclude Include="Util\GameException.h" />
+    <ClInclude Include="Util\HashedString.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\SystemManager.cpp" />
@@ -223,6 +228,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Systems\RenderSystem.cpp" />
+    <ClCompile Include="Util\EventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

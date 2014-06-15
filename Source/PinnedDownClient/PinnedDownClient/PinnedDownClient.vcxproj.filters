@@ -83,6 +83,9 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{ed8f45ab-a472-4d7b-b562-2017dabbf3d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{2dea5b5e-7f73-4105-a580-031060483c46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -93,6 +96,9 @@
     </ClCompile>
     <ClCompile Include="Systems\RenderSystem.cpp">
       <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\EventManager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +113,21 @@
     </ClInclude>
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IEventListener.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\HashedString.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\GameException.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
