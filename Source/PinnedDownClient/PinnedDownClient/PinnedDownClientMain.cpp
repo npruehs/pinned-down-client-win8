@@ -24,6 +24,8 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
 
+	eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
+
 	systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager());
 	systemManager->AddSystem(new Systems::RenderSystem(deviceResources->GetWindow().Get()));
 

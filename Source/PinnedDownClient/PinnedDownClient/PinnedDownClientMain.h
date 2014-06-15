@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Core\SystemManager.h"
+#include "Core\EventManager.h"
 
 #include "Helpers\StepTimer.h"
 #include "Helpers\DeviceResources.h"
@@ -42,6 +43,7 @@ namespace PinnedDownClient
         std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
         // Note to developer: Replace these with your own content rendering.
+		std::shared_ptr<Core::EventManager> eventManager;
 		std::shared_ptr<Core::SystemManager> systemManager;
 		
 		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;

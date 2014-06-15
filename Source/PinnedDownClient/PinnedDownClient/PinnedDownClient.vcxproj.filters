@@ -97,7 +97,7 @@
     <ClCompile Include="Systems\RenderSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Util\EventManager.cpp">
+    <ClCompile Include="Core\EventManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -114,19 +114,19 @@
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IEventListener.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Util\HashedString.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\GameException.h">
+    <ClInclude Include="Core\Event.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameException.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\IEventListener.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

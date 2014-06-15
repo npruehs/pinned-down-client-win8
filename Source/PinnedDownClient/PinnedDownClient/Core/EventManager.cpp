@@ -4,6 +4,10 @@
 
 using namespace PinnedDownClient::Core;
 
+EventManager::EventManager()
+{
+}
+
 void EventManager::AddListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType)
 {
 	// Get the event type entry in the listeners map.
