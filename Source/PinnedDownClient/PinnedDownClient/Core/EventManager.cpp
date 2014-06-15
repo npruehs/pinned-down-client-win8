@@ -12,21 +12,21 @@ void EventManager::AddListener(std::shared_ptr<IEventListener> const & listener,
 {
 	// Get the event type entry in the listeners map.
 	std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::iterator iterator = this->listeners.find(eventType.getHash());
-	std::list<std::shared_ptr<IEventListener>> eventListeners;
 
 	if (iterator != this->listeners.end())
 	{
-		eventListeners = iterator->second;
+		std::list<std::shared_ptr<IEventListener>> eventListeners = iterator->second;
+
+		// Add listener.
+		eventListeners.push_back(listener);
 	}
 	else
 	{
 		// Add new entry to listeners map.
-		eventListeners = std::list<std::shared_ptr<IEventListener>>();
+		std::list<std::shared_ptr<IEventListener>> eventListeners = std::list<std::shared_ptr<IEventListener>>();
+		eventListeners.push_back(listener);
 		this->listeners.insert(std::pair<unsigned long, std::list<std::shared_ptr<IEventListener>>>(eventType.getHash(), eventListeners));
 	}
-
-	// Add listener.
-	eventListeners.push_back(listener);
 }
 
 void EventManager::RemoveListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType)
@@ -72,9 +72,10 @@ void EventManager::Tick()
 			this->currentEvents.pop_front();
 
 			PinnedDownClient::Util::HashedString const & eventType = currentEvent->GetEventType();
+			unsigned long eventHash = eventType.getHash();
 
 			// Get listeners for the event.
-			std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::const_iterator itListeners = this->listeners.find(eventType.getHash());
+			std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::const_iterator itListeners = this->listeners.find(eventHash);
 
 			if (itListeners != this->listeners.end())
 			{
