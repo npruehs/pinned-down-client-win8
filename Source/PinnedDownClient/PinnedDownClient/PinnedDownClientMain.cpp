@@ -32,11 +32,6 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
 
 	this->systemManager->InitSystems();
 
-	// Pass new app window to all systems.
-	auto appWindow = deviceResources->GetWindow().Get();
-	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(appWindow));
-	eventManager->QueueEvent(appWindowChangedEvent);
-
     // Note to developer: Replace this with your app's content initialization.
     //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
 

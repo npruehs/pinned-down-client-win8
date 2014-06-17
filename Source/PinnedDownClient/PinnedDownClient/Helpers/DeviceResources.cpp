@@ -704,23 +704,6 @@ void DX::DeviceResources::SetWindow(CoreWindow^ window)
 	//CreateWindowSizeDependentResources();
 }
 
-// This method is called when the XAML control is created (or re-created).
-void DX::DeviceResources::SetSwapChainPanel(SwapChainPanel^ panel)
-{
-	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
-
-	m_swapChainPanel = panel;
-	m_logicalSize = Windows::Foundation::Size(static_cast<float>(panel->ActualWidth), static_cast<float>(panel->ActualHeight));
-	m_nativeOrientation = currentDisplayInformation->NativeOrientation;
-	m_currentOrientation = currentDisplayInformation->CurrentOrientation;
-	m_compositionScaleX = panel->CompositionScaleX;
-	m_compositionScaleY = panel->CompositionScaleY;
-	m_dpi = currentDisplayInformation->LogicalDpi;
-	m_d2dContext->SetDpi(m_dpi, m_dpi);
-
-	CreateWindowSizeDependentResources();
-}
-
 // This method is called in the event handler for the SizeChanged event.
 void DX::DeviceResources::SetLogicalSize(Windows::Foundation::Size logicalSize)
 {

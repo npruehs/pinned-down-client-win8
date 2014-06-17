@@ -31,6 +31,8 @@ namespace PinnedDownClient
         void Update();
         bool Render();
 
+		std::shared_ptr<Core::EventManager> GetEventManager() { return std::shared_ptr<Core::EventManager>(this->eventManager); }
+
         // IDeviceNotify
         virtual void OnDeviceLost();
         virtual void OnDeviceRestored();

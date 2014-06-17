@@ -188,6 +188,12 @@ void RenderSystem::SetRenderTarget()
 
 void RenderSystem::Update(DX::StepTimer const& timer)
 {
+	// Early out if there's no window to render to.
+	if (this->window == nullptr)
+	{
+		return;
+	}
+
 	// Create solid blue brush.
 	ComPtr<ID2D1SolidColorBrush> pBlackBrush;
 	DX::ThrowIfFailed(

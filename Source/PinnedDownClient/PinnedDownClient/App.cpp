@@ -10,6 +10,8 @@
 
 #include <ppltasks.h>
 
+#include "Events\AppWindowChangedEvent.h"
+
 using namespace PinnedDownClient;
 
 using namespace concurrency;
@@ -97,6 +99,10 @@ void App::SetWindow(CoreWindow^ window)
 void App::Load(Platform::String^ entryPoint)
 {
     m_main = std::unique_ptr<PinnedDownClientMain>(new PinnedDownClientMain(m_deviceResources));
+
+	// Pass window to game.
+	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(m_coreWindow.Get()));
+	m_main->GetEventManager()->QueueEvent(appWindowChangedEvent);
 }
 
 // This method is called after the window becomes active.
