@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="PinnedDownClientMain.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Core\SystemManager.cpp">
       <Filter>Core</Filter>
@@ -106,10 +105,10 @@
     <ClCompile Include="Events\AppWindowChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="PinnedDownGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Core\SystemManager.h">
       <Filter>Core</Filter>
@@ -138,6 +137,7 @@
     <ClInclude Include="Events\AppWindowChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="PinnedDownGame.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

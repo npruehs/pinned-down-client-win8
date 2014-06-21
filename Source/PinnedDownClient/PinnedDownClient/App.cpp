@@ -66,8 +66,8 @@ void App::Initialize(CoreApplicationView^ applicationView)
 // Called when the CoreWindow object is created (or re-created).
 void App::SetWindow(CoreWindow^ window)
 {
-    m_coreWindow = window;
-    m_deviceResources->SetWindow(m_coreWindow.Get());
+    this->coreWindow = window;
+	m_deviceResources->SetWindow(this->coreWindow.Get());
 
     window->SizeChanged += 
         ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &App::OnWindowSizeChanged);
@@ -98,11 +98,11 @@ void App::SetWindow(CoreWindow^ window)
 // Initializes scene resources, or loads a previously saved app state.
 void App::Load(Platform::String^ entryPoint)
 {
-    m_main = std::unique_ptr<PinnedDownClientMain>(new PinnedDownClientMain(m_deviceResources));
+	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame(m_deviceResources));
 
 	// Pass window to game.
-	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(m_coreWindow.Get()));
-	m_main->GetEventManager()->QueueEvent(appWindowChangedEvent);
+	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow.Get()));
+	this->game->GetEventManager()->QueueEvent(appWindowChangedEvent);
 }
 
 // This method is called after the window becomes active.
@@ -112,14 +112,14 @@ void App::Run()
     {
 		if (this->windowVisible)
         {
-            m_coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+			this->coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
-            m_main->Update();
-			m_main->Render();
+			this->game->Update();
+			this->game->Render();
         }
         else
         {
-            m_coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
+			this->coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
         }
     }
 }
@@ -136,7 +136,7 @@ void App::Uninitialize()
 void App::OnActivated(CoreApplicationView^ applicationView, IActivatedEventArgs^ args)
 {
     // Run() won't start until the CoreWindow is activated.
-    m_coreWindow->Activate();
+	this->coreWindow->Activate();
 }
 
 void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
@@ -170,11 +170,11 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
-    m_coreWindow = sender;
-    m_deviceResources->SetWindow(m_coreWindow.Get());
+	this->coreWindow = sender;
+	m_deviceResources->SetWindow(this->coreWindow.Get());
 
     m_deviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-    m_main->CreateWindowSizeDependentResources();
+	this->game->CreateWindowSizeDependentResources();
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
@@ -192,13 +192,13 @@ void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
     m_deviceResources->SetDpi(sender->LogicalDpi);
-    m_main->CreateWindowSizeDependentResources();
+	this->game->CreateWindowSizeDependentResources();
 }
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
     m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
-    m_main->CreateWindowSizeDependentResources();
+	this->game->CreateWindowSizeDependentResources();
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)

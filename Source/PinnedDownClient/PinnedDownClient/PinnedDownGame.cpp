@@ -6,7 +6,7 @@
 //// Copyright (c) Microsoft Corporation. All rights reserved
 
 #include "pch.h"
-#include "PinnedDownClientMain.h"
+#include "PinnedDownGame.h"
 #include "Helpers\DirectXHelper.h"
 
 #include "Core\SystemManager.h"
@@ -19,7 +19,7 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
     m_deviceResources(deviceResources)
 {
     // Register to be notified if the Device is lost or recreated.
@@ -72,7 +72,7 @@ PinnedDownClientMain::PinnedDownClientMain(const std::shared_ptr<DX::DeviceResou
     */
 }
 
-void PinnedDownClientMain::InitializeTouchRegions()
+void PinnedDownGame::InitializeTouchRegions()
 {
     // Here we set up the touch control regions.
     Windows::Foundation::Size logicalSize = m_deviceResources->GetLogicalSize();
@@ -154,14 +154,14 @@ void PinnedDownClientMain::InitializeTouchRegions()
 }
 
 
-PinnedDownClientMain::~PinnedDownClientMain()
+PinnedDownGame::~PinnedDownGame()
 {
     // Deregister device notification
     m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
-void PinnedDownClientMain::CreateWindowSizeDependentResources() 
+void PinnedDownGame::CreateWindowSizeDependentResources()
 {
     // Note to developer: Replace this with the size-dependent initialization of your app's content.
     
@@ -177,7 +177,7 @@ void PinnedDownClientMain::CreateWindowSizeDependentResources()
 }
 
 // Updates the application state once per frame.
-void PinnedDownClientMain::Update()
+void PinnedDownGame::Update()
 {
     // Update scene objects.
     m_timer.Tick([&]()
@@ -203,7 +203,7 @@ void PinnedDownClientMain::Update()
 }
 
 // Process all input from the user before updating game state
-void PinnedDownClientMain::ProcessInput(std::vector<PlayerInputData>* playerActions)
+void PinnedDownGame::ProcessInput(std::vector<PlayerInputData>* playerActions)
 {
     m_playersConnected = m_inputManager->GetPlayersConnected();
 
@@ -233,7 +233,7 @@ void PinnedDownClientMain::ProcessInput(std::vector<PlayerInputData>* playerActi
 
 // Renders the current frame according to the current application state.
 // Returns true if the frame was rendered and is ready to be displayed.
-bool PinnedDownClientMain::Render() 
+bool PinnedDownGame::Render()
 {
     // Don't try to render anything before the first Update.
     if (m_timer.GetFrameCount() == 0)
@@ -263,13 +263,13 @@ bool PinnedDownClientMain::Render()
 }
 
 // Notifies renderers that device resources need to be released.
-void PinnedDownClientMain::OnDeviceLost()
+void PinnedDownGame::OnDeviceLost()
 {
     m_overlayManager->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
-void PinnedDownClientMain::OnDeviceRestored()
+void PinnedDownGame::OnDeviceRestored()
 {
     m_overlayManager->CreateDeviceDependentResources();
     CreateWindowSizeDependentResources();

@@ -9,7 +9,7 @@
 
 #include "pch.h"
 #include "Helpers\DeviceResources.h"
-#include "PinnedDownClientMain.h"
+#include "PinnedDownGame.h"
 
 namespace PinnedDownClient
 {
@@ -44,10 +44,10 @@ namespace PinnedDownClient
 
     private:
         std::shared_ptr<DX::DeviceResources> m_deviceResources;
-        std::unique_ptr<PinnedDownClientMain> m_main;
+		std::unique_ptr<PinnedDownGame> game;
         bool windowClosed;
         bool windowVisible;
-        Platform::Agile<Windows::UI::Core::CoreWindow> m_coreWindow;
+        Platform::Agile<Windows::UI::Core::CoreWindow> coreWindow;
     };
 }
 
