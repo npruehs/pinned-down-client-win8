@@ -16,6 +16,7 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowChanged"));
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppSuspending"));
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowSizeChanged"));
 }
 
 void RenderSystem::OnEvent(Event & newEvent)
@@ -29,9 +30,14 @@ void RenderSystem::OnEvent(Event & newEvent)
 	{
 		this->OnAppSuspending();
 	}
+	else if (newEvent.GetEventType() == Util::HashedString("AppWindowSizeChanged"))
+	{
+		Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<Events::AppWindowSizeChangedEvent&>(newEvent);
+		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
+	}
 }
 
-void RenderSystem::OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent)
+void RenderSystem::OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent)
 {
 	this->window = appWindowChangedEvent.appWindow;
 
@@ -51,6 +57,74 @@ void RenderSystem::OnAppSuspending()
 	this->d3dDevice.As(&dxgiDevice);
 
 	dxgiDevice->Trim();
+}
+
+void RenderSystem::OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+{
+	// Clear the previous window size specific context.
+	this->d2dContext->SetTarget(nullptr);
+	this->d2dTargetBitmap = nullptr;
+	this->d3dContext->Flush();
+
+	// Calculate the necessary render target size in pixels (for CoreWindow).
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+
+	float currentWidth = DX::ConvertDipsToPixels(appWindowSizeChangedEvent.width, currentDisplayInformation->LogicalDpi);
+	float currentHeight = DX::ConvertDipsToPixels(appWindowSizeChangedEvent.height, currentDisplayInformation->LogicalDpi);
+
+	// Prevent zero size DirectX content from being created.
+	currentWidth = max(currentWidth, 1);
+	currentHeight = max(currentHeight, 1);
+
+	// The width and height of the swap chain must be based on the window's
+	// natively-oriented width and height. If the window is not in the native
+	// orientation, the dimensions must be reversed.
+	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, currentDisplayInformation->CurrentOrientation);
+
+	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
+	float newWidth = swapDimensions ? currentHeight : currentWidth;
+	float newHeight = swapDimensions ? currentWidth : currentHeight;
+
+	if (this->dxgiSwapChain != nullptr)
+	{
+		// If the swap chain already exists, resize it.
+		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
+			this->swapChainBufferCount,
+			static_cast<UINT>(newWidth),
+			static_cast<UINT>(newHeight),
+			DXGI_FORMAT_B8G8R8A8_UNORM,
+			0
+			);
+
+		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+		{
+			// If the device was removed for any reason, a new device and swap chain will need to be created.
+			this->OnDeviceLost();
+
+			// Everything is set up now. Do not continue execution of this method.
+			// HandleDeviceLost will reenter this method and correctly set up the new device.
+			return;
+		}
+		else
+		{
+			DX::ThrowIfFailed(hr);
+		}
+	}
+	else
+	{
+		// Otherwise, create a new one using the same adapter as the existing Direct3D device.
+		this->CreateSwapChain();
+	}
+
+	// Set the proper orientation for the swap chain.
+	// TODO(np): Always set swap chain rotation?
+	DX::ThrowIfFailed(
+		this->dxgiSwapChain->SetRotation(displayRotation)
+		);
+
+	// Create a Direct2D target bitmap associated with the
+	// swap chain back buffer and set it as the current target.
+	this->SetRenderTarget();
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -74,7 +148,6 @@ void RenderSystem::CreateD3DDevice()
 
 	// Create the DX11 API device object, and get a corresponding context.
 	ComPtr<ID3D11Device> device;
-	ComPtr<ID3D11DeviceContext> d3dContext;
 
 	DX::ThrowIfFailed(
 		D3D11CreateDevice(
@@ -87,7 +160,7 @@ void RenderSystem::CreateD3DDevice()
 		D3D11_SDK_VERSION,
 		&device,
 		&d3dFeatureLevel,
-		&d3dContext)
+		&this->d3dContext)
 		);
 
 	DX::ThrowIfFailed(
@@ -140,7 +213,7 @@ void RenderSystem::CreateSwapChain()
 	swapChainDesc.SampleDesc.Count = 1;								// Don't use multi-sampling.
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 2;									// Use double buffering to enable flip.
+	swapChainDesc.BufferCount = swapChainBufferCount;
 	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;	// All apps must use this swap effect.
 	swapChainDesc.Flags = 0;
@@ -182,7 +255,7 @@ void RenderSystem::SetRenderTarget()
 		this->dxgiSwapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer))
 		);
 
-	// Create ID2D1Bitmap from the back buffer. Anything rendered to this bitmap is rendered to the surface of the swap chain.
+	// Create ID2D1Bitmap from the back buffer.
 	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
 		D2D1::BitmapProperties1(
 		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
@@ -191,17 +264,19 @@ void RenderSystem::SetRenderTarget()
 		-1.0f
 		);
 
-	ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 	DX::ThrowIfFailed(
 		this->d2dContext->CreateBitmapFromDxgiSurface(
 		dxgiBackBuffer.Get(),
 		&bitmapProperties,
-		&d2dTargetBitmap
+		&this->d2dTargetBitmap
 		)
 		);
 
 	// Set the Direct2D render target.
-	this->d2dContext->SetTarget(d2dTargetBitmap.Get());
+	this->d2dContext->SetTarget(this->d2dTargetBitmap.Get());
+
+	// Grayscale text anti-aliasing is recommended for all Windows Store apps.
+	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
 void RenderSystem::Update(DX::StepTimer const& timer)
@@ -243,4 +318,61 @@ void RenderSystem::Update(DX::StepTimer const& timer)
 	DX::ThrowIfFailed(
 		this->dxgiSwapChain->Present(1, 0)
 	);
+}
+
+DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nativeOrientation, DisplayOrientations currentOrientation)
+{
+	DXGI_MODE_ROTATION rotation = DXGI_MODE_ROTATION_UNSPECIFIED;
+
+	// NativeOrientation can only be Landscape or Portrait even though the DisplayOrientations enum has other values.
+	switch (nativeOrientation)
+	{
+	case Windows::Graphics::Display::DisplayOrientations::Landscape:
+		switch (currentOrientation)
+		{
+		case Windows::Graphics::Display::DisplayOrientations::Landscape:
+			rotation = DXGI_MODE_ROTATION_IDENTITY;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::Portrait:
+			rotation = DXGI_MODE_ROTATION_ROTATE270;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE180;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::PortraitFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE90;
+			break;
+		}
+		break;
+
+	case Windows::Graphics::Display::DisplayOrientations::Portrait:
+		switch (currentOrientation)
+		{
+		case Windows::Graphics::Display::DisplayOrientations::Landscape:
+			rotation = DXGI_MODE_ROTATION_ROTATE90;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::Portrait:
+			rotation = DXGI_MODE_ROTATION_IDENTITY;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE270;
+			break;
+
+		case Windows::Graphics::Display::DisplayOrientations::PortraitFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE180;
+			break;
+		}
+		break;
+	}
+	return rotation;
+}
+
+void RenderSystem::OnDeviceLost()
+{
+	throw ref new Platform::FailureException();
 }

@@ -4,9 +4,11 @@
 #include "../Helpers/DirectXHelper.h"
 #include "Core\IEventListener.h"
 #include "Events\AppWindowChangedEvent.h"
+#include "Events\AppWindowSizeChangedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
+using namespace Windows::Graphics::Display;
 
 namespace PinnedDownClient
 {
@@ -28,6 +30,9 @@ namespace PinnedDownClient
 			// Direct3D hardware device for the default adapter.
 			ComPtr<ID3D11Device2> d3dDevice;
 
+			// Set of state and command buffers used to render to a target. Call methods on this context to set pipeline state and generate rendering commands.
+			ComPtr<ID3D11DeviceContext> d3dContext;
+
 			// Feature level of the current Direct3D device.
 			D3D_FEATURE_LEVEL d3dFeatureLevel;
 
@@ -37,16 +42,27 @@ namespace PinnedDownClient
 			// Swap chain presenting our results.
 			ComPtr<IDXGISwapChain1> dxgiSwapChain;
 
+			// Use double buffering to enable flip.
+			float swapChainBufferCount = 2;
+
 			// Set of state and command buffers used to render to a target. Call methods on this context to set pipeline state and generate rendering commands.
 			ComPtr<ID2D1DeviceContext> d2dContext;
+
+			// Anything rendered to this bitmap is rendered to the surface of the swap chain.
+			ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateSwapChain();
 			void SetRenderTarget();
 
-			void OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent);
+			// Converts between Windows display orientation and DXGI rotation.
+			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
+
+			void OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppSuspending();
+			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChanged);
+			void OnDeviceLost();
 		};
 	}
 }
