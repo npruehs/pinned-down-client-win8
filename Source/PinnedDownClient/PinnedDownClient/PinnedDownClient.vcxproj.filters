@@ -124,6 +124,9 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\InputSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\InputSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

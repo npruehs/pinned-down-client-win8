@@ -37,7 +37,7 @@ void RenderSystem::OnEvent(Event & newEvent)
 	}
 }
 
-void RenderSystem::OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent)
+void RenderSystem::OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent)
 {
 	this->window = appWindowChangedEvent.appWindow;
 
@@ -59,7 +59,7 @@ void RenderSystem::OnAppSuspending()
 	dxgiDevice->Trim();
 }
 
-void RenderSystem::OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+void RenderSystem::OnAppWindowSizeChanged(PinnedDownClient::Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent)
 {
 	// Clear the previous window size specific context.
 	this->d2dContext->SetTarget(nullptr);
