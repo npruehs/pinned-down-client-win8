@@ -106,6 +106,12 @@
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="PinnedDownGame.cpp" />
+    <ClCompile Include="Events\AppSupendingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppResumingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -138,6 +144,12 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="PinnedDownGame.h" />
+    <ClInclude Include="Events\AppSuspendingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppResumingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

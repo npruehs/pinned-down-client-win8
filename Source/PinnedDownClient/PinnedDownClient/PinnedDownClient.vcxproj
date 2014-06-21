@@ -197,6 +197,8 @@
     <ClInclude Include="Core\IEventListener.h" />
     <ClInclude Include="Core\ISystem.h" />
     <ClInclude Include="Core\SystemManager.h" />
+    <ClInclude Include="Events\AppResumingEvent.h" />
+    <ClInclude Include="Events\AppSuspendingEvent.h" />
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
@@ -216,6 +218,8 @@
   <ItemGroup>
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\SystemManager.cpp" />
+    <ClCompile Include="Events\AppResumingEvent.cpp" />
+    <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />

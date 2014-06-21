@@ -1,16 +1,11 @@
-﻿//// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-//// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-//// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//// PARTICULAR PURPOSE.
-////
-//// Copyright (c) Microsoft Corporation. All rights reserved
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "App.h"
 
 #include <ppltasks.h>
 
 #include "Events\AppWindowChangedEvent.h"
+#include "Events\AppSuspendingEvent.h"
+#include "Events\AppResumingEvent.h"
 
 using namespace PinnedDownClient;
 
@@ -131,8 +126,6 @@ void App::Uninitialize()
 {
 }
 
-// Application lifecycle event handlers.
-
 void App::OnActivated(CoreApplicationView^ applicationView, IActivatedEventArgs^ args)
 {
     // Run() won't start until the CoreWindow is activated.
@@ -151,7 +144,9 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
     {
         m_deviceResources->Trim();
 
-        // Insert your code here.
+		// Allow subsystems to their state.
+		auto appSuspendingEvent = std::shared_ptr<Events::AppSuspendingEvent>(new Events::AppSuspendingEvent());
+		this->game->GetEventManager()->QueueEvent(appSuspendingEvent);
 
         deferral->Complete();
     });
@@ -162,8 +157,8 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
     // Restore any data or state that was unloaded on suspend. By default, data
     // and state are persisted when resuming from suspend. Note that this event
     // does not occur if the app was previously terminated.
-
-    // Insert your code here.
+	auto appResumingEvent = std::shared_ptr<Events::AppResumingEvent>(new Events::AppResumingEvent());
+	this->game->GetEventManager()->QueueEvent(appResumingEvent);
 }
 
 // Window event handlers.
