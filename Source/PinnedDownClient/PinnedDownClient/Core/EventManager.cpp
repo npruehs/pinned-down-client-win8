@@ -15,7 +15,7 @@ void EventManager::AddListener(std::shared_ptr<IEventListener> const & listener,
 
 	if (iterator != this->listeners.end())
 	{
-		std::list<std::shared_ptr<IEventListener>> eventListeners = iterator->second;
+		std::list<std::shared_ptr<IEventListener>> & eventListeners = iterator->second;
 
 		// Add listener.
 		eventListeners.push_back(listener);
