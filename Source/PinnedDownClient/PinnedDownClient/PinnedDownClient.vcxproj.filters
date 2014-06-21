@@ -112,6 +112,18 @@
     <ClCompile Include="Events\AppResumingEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayDpiChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -148,6 +160,18 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Events\AppResumingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppWindowSizeChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayDpiChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayOrientationChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>

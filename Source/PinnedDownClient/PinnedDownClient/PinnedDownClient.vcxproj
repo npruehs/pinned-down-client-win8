@@ -200,6 +200,10 @@
     <ClInclude Include="Events\AppResumingEvent.h" />
     <ClInclude Include="Events\AppSuspendingEvent.h" />
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
+    <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
+    <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
+    <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
+    <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
@@ -221,6 +225,10 @@
     <ClCompile Include="Events\AppResumingEvent.cpp" />
     <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
+    <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
+    <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
+    <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
+    <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />
