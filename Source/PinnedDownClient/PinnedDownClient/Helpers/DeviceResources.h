@@ -30,7 +30,6 @@ namespace DX
 		void HandleDeviceLost();
 		void RegisterDeviceNotify(IDeviceNotify* deviceNotify);
 		void Trim();
-		void Present();
 
 		// Device Accessors.
 		Platform::Agile<Windows::UI::Core::CoreWindow> GetWindow()		{ return m_window; }

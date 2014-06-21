@@ -38,10 +38,10 @@ IFrameworkView^ Direct3DApplicationSource::CreateView()
     return ref new App();
 }
 
-App::App() :
-    m_windowClosed(false),
-    m_windowVisible(true)
+App::App()
 {
+	this->windowClosed = false;
+	this->windowVisible = true;
 }
 
 // The first method called when the IFrameworkView is being created.
@@ -108,18 +108,14 @@ void App::Load(Platform::String^ entryPoint)
 // This method is called after the window becomes active.
 void App::Run()
 {
-    while (!m_windowClosed)
+    while (!this->windowClosed)
     {
-        if (m_windowVisible)
+		if (this->windowVisible)
         {
             m_coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
             m_main->Update();
-
-            if (m_main->Render())
-            {
-                m_deviceResources->Present();
-            }
+			m_main->Render();
         }
         else
         {
@@ -183,12 +179,12 @@ void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ ar
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
 {
-    m_windowVisible = args->Visible;
+	this->windowVisible = args->Visible;
 }
 
 void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 {
-    m_windowClosed = true;
+	this->windowClosed = true;
 }
 
 // DisplayInformation event handlers.

@@ -45,8 +45,8 @@ namespace PinnedDownClient
     private:
         std::shared_ptr<DX::DeviceResources> m_deviceResources;
         std::unique_ptr<PinnedDownClientMain> m_main;
-        bool m_windowClosed;
-        bool m_windowVisible;
+        bool windowClosed;
+        bool windowVisible;
         Platform::Agile<Windows::UI::Core::CoreWindow> m_coreWindow;
     };
 }
