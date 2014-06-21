@@ -29,7 +29,6 @@ namespace DX
 		void ValidateDevice();
 		void HandleDeviceLost();
 		void RegisterDeviceNotify(IDeviceNotify* deviceNotify);
-		void Trim();
 
 		// Device Accessors.
 		Platform::Agile<Windows::UI::Core::CoreWindow> GetWindow()		{ return m_window; }

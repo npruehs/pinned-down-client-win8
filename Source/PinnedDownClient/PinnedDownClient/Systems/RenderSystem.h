@@ -3,6 +3,7 @@
 #include "../Core/ISystem.h"
 #include "../Helpers/DirectXHelper.h"
 #include "Core\IEventListener.h"
+#include "Events\AppWindowChangedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
@@ -43,6 +44,9 @@ namespace PinnedDownClient
 			void CreateD2DDevice();
 			void CreateSwapChain();
 			void SetRenderTarget();
+
+			void OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent);
+			void OnAppSuspending();
 		};
 	}
 }

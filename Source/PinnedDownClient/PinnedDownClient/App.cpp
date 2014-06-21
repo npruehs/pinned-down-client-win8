@@ -146,9 +146,7 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
 
     create_task([this, deferral]()
     {
-        m_deviceResources->Trim();
-
-		// Allow subsystems to their state.
+		// Allow subsystems to save their state.
 		auto appSuspendingEvent = std::shared_ptr<Events::AppSuspendingEvent>(new Events::AppSuspendingEvent());
 		this->game->GetEventManager()->QueueEvent(appSuspendingEvent);
 

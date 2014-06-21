@@ -831,16 +831,6 @@ void DX::DeviceResources::RegisterDeviceNotify(DX::IDeviceNotify* deviceNotify)
 	m_deviceNotify = deviceNotify;
 }
 
-// Call this method when the app suspends. It provides a hint to the driver that the app 
-// is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
-void DX::DeviceResources::Trim()
-{
-	ComPtr<IDXGIDevice3> dxgiDevice;
-	m_d3dDevice.As(&dxgiDevice);
-
-	dxgiDevice->Trim();
-}
-
 // This method determines the rotation between the display device's native Orientation and the
 // current display orientation.
 DXGI_MODE_ROTATION DX::DeviceResources::ComputeDisplayRotation()

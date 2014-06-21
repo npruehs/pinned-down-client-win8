@@ -3,7 +3,6 @@
 #include "Core\Event.h"
 #include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
-#include "Events\AppWindowChangedEvent.h"
 
 using namespace PinnedDownClient::Systems;
 
@@ -11,28 +10,47 @@ RenderSystem::RenderSystem()
 {
 }
 
-void RenderSystem::OnEvent(Event & newEvent)
-{
-	if (newEvent.GetEventType() == Util::HashedString("AppWindowChanged"))
-	{
-		Events::AppWindowChangedEvent appWindowChangedEvent = static_cast<Events::AppWindowChangedEvent&>(newEvent);
-		this->window = appWindowChangedEvent.appWindow;
-
-		// Create devices.
-		this->CreateD3DDevice();
-		this->CreateD2DDevice();
-
-		// Set render target.
-		this->CreateSwapChain();
-		this->SetRenderTarget();
-	}
-}
-
 void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 {
 	ISystem::InitSystem(eventManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowChanged"));
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppSuspending"));
+}
+
+void RenderSystem::OnEvent(Event & newEvent)
+{
+	if (newEvent.GetEventType() == Util::HashedString("AppWindowChanged"))
+	{
+		Events::AppWindowChangedEvent appWindowChangedEvent = static_cast<Events::AppWindowChangedEvent&>(newEvent);
+		this->OnAppWindowChanged(appWindowChangedEvent);
+	}
+	else if (newEvent.GetEventType() == Util::HashedString("AppSuspending"))
+	{
+		this->OnAppSuspending();
+	}
+}
+
+void RenderSystem::OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent)
+{
+	this->window = appWindowChangedEvent.appWindow;
+
+	// Create devices.
+	this->CreateD3DDevice();
+	this->CreateD2DDevice();
+
+	// Set render target.
+	this->CreateSwapChain();
+	this->SetRenderTarget();
+}
+
+void RenderSystem::OnAppSuspending()
+{
+	// Provides a hint to the driver that the app is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
+	ComPtr<IDXGIDevice3> dxgiDevice;
+	this->d3dDevice.As(&dxgiDevice);
+
+	dxgiDevice->Trim();
 }
 
 void RenderSystem::CreateD3DDevice()
