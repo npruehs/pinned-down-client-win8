@@ -4,6 +4,9 @@
 #include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
 
+#include "Events\GraphicsDeviceLostEvent.h"
+#include "Events\GraphicsDeviceRestoredEvent.h"
+
 using namespace PinnedDownClient::Systems;
 
 RenderSystem::RenderSystem()
@@ -94,7 +97,6 @@ void RenderSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSiz
 void RenderSystem::OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent)
 {
 	this->logicalDpi = displayDpiChangedEvent.logicalDpi;
-	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
 
 	this->CreateWindowSizeDependentResources();
 }
@@ -339,9 +341,18 @@ void RenderSystem::Update(DX::StepTimer const& timer)
 	// The first argument instructs DXGI to block until VSync, putting the application
 	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
 	// frames that will never be displayed to the screen.
-	DX::ThrowIfFailed(
-		this->dxgiSwapChain->Present(1, 0)
-	);
+	HRESULT hr = this->dxgiSwapChain->Present(1, 0);
+
+	// If the device was removed either by a disconnection or a driver upgrade, we
+	// must recreate all device resources.
+	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+	{
+		this->OnDeviceLost();
+	}
+	else
+	{
+		DX::ThrowIfFailed(hr);
+	}
 }
 
 DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nativeOrientation, DisplayOrientations currentOrientation)
@@ -398,6 +409,8 @@ DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nati
 
 void RenderSystem::CreateWindowSizeDependentResources()
 {
+	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
+
 	// Clear the previous window size specific context.
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
@@ -466,5 +479,28 @@ void RenderSystem::CreateWindowSizeDependentResources()
 
 void RenderSystem::OnDeviceLost()
 {
-	throw ref new Platform::FailureException();
+	// Crash on unnatural lost devices.
+	HRESULT reason = this->d3dDevice->GetDeviceRemovedReason();
+
+	if (reason == DXGI_ERROR_DEVICE_HUNG || reason == DXGI_ERROR_DEVICE_RESET || DXGI_ERROR_INVALID_CALL)
+	{
+		throw Platform::Exception::CreateException(reason);
+	}
+
+	// All references to the swap chain must be released before a new one can be created.
+	this->dxgiSwapChain = nullptr;
+
+	// Notify the renderers that device resources need to be released.
+	// This ensures all references to the existing swap chain are released so that a new one can be created.
+	auto graphicsDeviceLostEvent = std::shared_ptr<Events::GraphicsDeviceLostEvent>(new Events::GraphicsDeviceLostEvent());
+	this->eventManager->RaiseEvent(graphicsDeviceLostEvent);
+
+	// Create the new device and swap chain.
+	this->CreateD3DDevice();
+	this->CreateD2DDevice();
+	this->CreateWindowSizeDependentResources();
+
+	// Notify the renderers that resources can now be created again.
+	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
+	this->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }

@@ -204,6 +204,8 @@
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
+    <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
+    <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
@@ -230,6 +232,8 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
+    <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
+    <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />

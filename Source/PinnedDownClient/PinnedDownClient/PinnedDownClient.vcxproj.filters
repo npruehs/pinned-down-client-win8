@@ -127,6 +127,12 @@
     <ClCompile Include="Systems\InputSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -179,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="Systems\InputSystem.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceLostEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
