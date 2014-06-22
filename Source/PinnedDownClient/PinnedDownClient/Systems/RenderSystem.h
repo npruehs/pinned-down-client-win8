@@ -8,6 +8,7 @@
 #include "Events\AppWindowSizeChangedEvent.h"
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
+#include "Events\DisplayContentsInvalidatedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
@@ -72,6 +73,7 @@ namespace PinnedDownClient
 			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent);
 			void OnDisplayDpiChanged(Events::DisplayDpiChangedEvent displayDpiChangedEvent);
 			void OnDisplayOrientationChanged(Events::DisplayOrientationChangedEvent displayOrientationChangedEvent);
+			void OnDisplayContentsInvalidated();
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();

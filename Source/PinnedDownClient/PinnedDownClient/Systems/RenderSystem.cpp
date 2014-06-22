@@ -19,6 +19,7 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayDpiChangedEvent::DisplayDpiChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -50,6 +51,10 @@ void RenderSystem::OnEvent(Event & newEvent)
 	{
 		Events::DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<Events::DisplayOrientationChangedEvent&>(newEvent);
 		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
+	}
+	else if (newEvent.GetEventType() == PinnedDownClient::Events::DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
+	{
+		this->OnDisplayContentsInvalidated();
 	}
 }
 
@@ -99,6 +104,51 @@ void RenderSystem::OnDisplayOrientationChanged(PinnedDownClient::Events::Display
 	this->displayOrientation = displayOrientationChangedEvent.orientation;
 
 	this->CreateWindowSizeDependentResources();
+}
+
+void RenderSystem::OnDisplayContentsInvalidated()
+{
+	// The D3D Device is no longer valid if the default adapter change since the device
+	// was created or if the device has been removed.
+
+	// First, get the information for the default adapter from when the device was created.
+	ComPtr<IDXGIAdapter> deviceAdapter;
+	DX::ThrowIfFailed(this->dxgiDevice->GetAdapter(&deviceAdapter));
+
+	ComPtr<IDXGIFactory2> deviceFactory;
+	DX::ThrowIfFailed(deviceAdapter->GetParent(IID_PPV_ARGS(&deviceFactory)));
+
+	ComPtr<IDXGIAdapter1> previousDefaultAdapter;
+	DX::ThrowIfFailed(deviceFactory->EnumAdapters1(0, &previousDefaultAdapter));
+
+	DXGI_ADAPTER_DESC previousDesc;
+	DX::ThrowIfFailed(previousDefaultAdapter->GetDesc(&previousDesc));
+
+	// Next, get the information for the current default adapter.
+	ComPtr<IDXGIFactory2> currentFactory;
+	DX::ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&currentFactory)));
+
+	ComPtr<IDXGIAdapter1> currentDefaultAdapter;
+	DX::ThrowIfFailed(currentFactory->EnumAdapters1(0, &currentDefaultAdapter));
+
+	DXGI_ADAPTER_DESC currentDesc;
+	DX::ThrowIfFailed(currentDefaultAdapter->GetDesc(&currentDesc));
+
+	// If the adapter LUIDs don't match, or if the device reports that it has been removed,
+	// a new D3D device must be created.
+	if (previousDesc.AdapterLuid.LowPart != currentDesc.AdapterLuid.LowPart ||
+		previousDesc.AdapterLuid.HighPart != currentDesc.AdapterLuid.HighPart ||
+		FAILED(this->d3dDevice->GetDeviceRemovedReason()))
+	{
+		// Release references to resources related to the old device.
+		this->dxgiDevice = nullptr;
+		deviceAdapter = nullptr;
+		deviceFactory = nullptr;
+		previousDefaultAdapter = nullptr;
+
+		// Create a new device and swap chain.
+		this->OnDeviceLost();
+	}
 }
 
 void RenderSystem::CreateD3DDevice()
