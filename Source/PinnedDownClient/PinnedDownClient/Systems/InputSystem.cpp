@@ -16,6 +16,8 @@ void InputSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 }
 
 void InputSystem::OnEvent(Event & newEvent)
@@ -30,6 +32,16 @@ void InputSystem::OnEvent(Event & newEvent)
 		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
 		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
 	}
+	else if (newEvent.GetEventType() == DisplayDpiChangedEvent::DisplayDpiChangedEventType)
+	{
+		DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<DisplayDpiChangedEvent&>(newEvent);
+		this->OnDisplayDpiChanged(displayDpiChangedEvent);
+	}
+	else if (newEvent.GetEventType() == DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
+	{
+		DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<DisplayOrientationChangedEvent&>(newEvent);
+		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
+	}
 }
 
 void InputSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
@@ -37,6 +49,14 @@ void InputSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent
 }
 
 void InputSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+{
+}
+
+void InputSystem::OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent)
+{
+}
+
+void InputSystem::OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent)
 {
 }
 

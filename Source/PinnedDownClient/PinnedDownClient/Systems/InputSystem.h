@@ -4,6 +4,8 @@
 #include "Core\IEventListener.h"
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
+#include "Events\DisplayDpiChangedEvent.h"
+#include "Events\DisplayOrientationChangedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -27,7 +29,9 @@ namespace PinnedDownClient
 
 		private:
 			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
-			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChanged);
+			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
+			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
+			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 		};
 	}
 }
