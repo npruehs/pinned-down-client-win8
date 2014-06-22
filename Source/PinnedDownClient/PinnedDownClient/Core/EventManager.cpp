@@ -56,6 +56,27 @@ void EventManager::QueueEvent(EventPtr const & newEvent)
 	this->newEvents.push_back(newEvent);
 }
 
+void EventManager::RaiseEvent(EventPtr const & newEvent)
+{
+	HashedString const & eventType = newEvent->GetEventType();
+	unsigned long eventHash = eventType.getHash();
+
+	// Get listeners for the event.
+	std::map<unsigned long, std::list<EventListenerPtr>>::const_iterator itListeners = this->listeners.find(eventHash);
+
+	if (itListeners != this->listeners.end())
+	{
+		std::list<EventListenerPtr> const & eventListeners = itListeners->second;
+
+		// Notify all listeners.
+		for (std::list<EventListenerPtr>::const_iterator it = eventListeners.begin(); it != eventListeners.end(); it++)
+		{
+			(*it)->OnEvent(*newEvent);
+		}
+	}
+}
+
+
 void EventManager::Tick()
 {
 	while (this->newEvents.size() > 0)
@@ -72,22 +93,7 @@ void EventManager::Tick()
 			EventPtr currentEvent = this->currentEvents.front();
 			this->currentEvents.pop_front();
 
-			HashedString const & eventType = currentEvent->GetEventType();
-			unsigned long eventHash = eventType.getHash();
-
-			// Get listeners for the event.
-			std::map<unsigned long, std::list<EventListenerPtr>>::const_iterator itListeners = this->listeners.find(eventHash);
-
-			if (itListeners != this->listeners.end())
-			{
-				std::list<EventListenerPtr> const & eventListeners = itListeners->second;
-
-				// Notify all listeners.
-				for (std::list<EventListenerPtr>::const_iterator it = eventListeners.begin(); it != eventListeners.end(); it++)
-				{
-					(*it)->OnEvent(*currentEvent);
-				}
-			}
+			this->RaiseEvent(currentEvent);
 		}
 	}
 }
