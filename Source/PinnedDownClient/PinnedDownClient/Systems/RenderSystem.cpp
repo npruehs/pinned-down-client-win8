@@ -17,6 +17,11 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowChanged"));
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppSuspending"));
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowSizeChanged"));
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("DisplayDpiChanged"));
+
+	// Create devices.
+	this->CreateD3DDevice();
+	this->CreateD2DDevice();
 }
 
 void RenderSystem::OnEvent(Event & newEvent)
@@ -35,19 +40,27 @@ void RenderSystem::OnEvent(Event & newEvent)
 		Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<Events::AppWindowSizeChangedEvent&>(newEvent);
 		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
 	}
+	else if (newEvent.GetEventType() == Util::HashedString("DisplayDpiChanged"))
+	{
+		Events::DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<Events::DisplayDpiChangedEvent&>(newEvent);
+		this->OnDisplayDpiChanged(displayDpiChangedEvent);
+	}
 }
 
 void RenderSystem::OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent)
 {
 	this->window = appWindowChangedEvent.appWindow;
+	
+	// Store current window data for future updates.
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	// Create devices.
-	this->CreateD3DDevice();
-	this->CreateD2DDevice();
+	this->logicalWindowWidth = this->window->Bounds.Width;
+	this->logicalWindowHeight = this->window->Bounds.Height;
+	this->logicalDpi = currentDisplayInformation->LogicalDpi;
+	this->displayOrientation = currentDisplayInformation->CurrentOrientation;
 
 	// Set render target.
-	this->CreateSwapChain();
-	this->SetRenderTarget();
+	this->CreateWindowSizeDependentResources();
 }
 
 void RenderSystem::OnAppSuspending()
@@ -61,70 +74,18 @@ void RenderSystem::OnAppSuspending()
 
 void RenderSystem::OnAppWindowSizeChanged(PinnedDownClient::Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent)
 {
-	// Clear the previous window size specific context.
-	this->d2dContext->SetTarget(nullptr);
-	this->d2dTargetBitmap = nullptr;
-	this->d3dContext->Flush();
+	this->logicalWindowWidth = appWindowSizeChangedEvent.width;
+	this->logicalWindowHeight = appWindowSizeChangedEvent.height;
 
-	// Calculate the necessary render target size in pixels (for CoreWindow).
-	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+	this->CreateWindowSizeDependentResources();
+}
 
-	float currentWidth = DX::ConvertDipsToPixels(appWindowSizeChangedEvent.width, currentDisplayInformation->LogicalDpi);
-	float currentHeight = DX::ConvertDipsToPixels(appWindowSizeChangedEvent.height, currentDisplayInformation->LogicalDpi);
+void RenderSystem::OnDisplayDpiChanged(PinnedDownClient::Events::DisplayDpiChangedEvent displayDpiChangedEvent)
+{
+	this->logicalDpi = displayDpiChangedEvent.dpi;
+	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
 
-	// Prevent zero size DirectX content from being created.
-	currentWidth = max(currentWidth, 1);
-	currentHeight = max(currentHeight, 1);
-
-	// The width and height of the swap chain must be based on the window's
-	// natively-oriented width and height. If the window is not in the native
-	// orientation, the dimensions must be reversed.
-	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, currentDisplayInformation->CurrentOrientation);
-
-	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
-	float newWidth = swapDimensions ? currentHeight : currentWidth;
-	float newHeight = swapDimensions ? currentWidth : currentHeight;
-
-	if (this->dxgiSwapChain != nullptr)
-	{
-		// If the swap chain already exists, resize it.
-		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
-			this->swapChainBufferCount,
-			static_cast<UINT>(newWidth),
-			static_cast<UINT>(newHeight),
-			DXGI_FORMAT_B8G8R8A8_UNORM,
-			0
-			);
-
-		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-		{
-			// If the device was removed for any reason, a new device and swap chain will need to be created.
-			this->OnDeviceLost();
-
-			// Everything is set up now. Do not continue execution of this method.
-			// HandleDeviceLost will reenter this method and correctly set up the new device.
-			return;
-		}
-		else
-		{
-			DX::ThrowIfFailed(hr);
-		}
-	}
-	else
-	{
-		// Otherwise, create a new one using the same adapter as the existing Direct3D device.
-		this->CreateSwapChain();
-	}
-
-	// Set the proper orientation for the swap chain.
-	// TODO(np): Always set swap chain rotation?
-	DX::ThrowIfFailed(
-		this->dxgiSwapChain->SetRotation(displayRotation)
-		);
-
-	// Create a Direct2D target bitmap associated with the
-	// swap chain back buffer and set it as the current target.
-	this->SetRenderTarget();
+	this->CreateWindowSizeDependentResources();
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -370,6 +331,74 @@ DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nati
 		break;
 	}
 	return rotation;
+}
+
+void RenderSystem::CreateWindowSizeDependentResources()
+{
+	// Clear the previous window size specific context.
+	this->d2dContext->SetTarget(nullptr);
+	this->d2dTargetBitmap = nullptr;
+	this->d3dContext->Flush();
+
+	// Calculate the necessary render target size in pixels (for CoreWindow).
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+
+	float currentWidth = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
+	float currentHeight = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
+
+	// Prevent zero size DirectX content from being created.
+	currentWidth = max(currentWidth, 1);
+	currentHeight = max(currentHeight, 1);
+
+	// The width and height of the swap chain must be based on the window's
+	// natively-oriented width and height. If the window is not in the native
+	// orientation, the dimensions must be reversed.
+	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, this->displayOrientation);
+
+	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
+	float newWidth = swapDimensions ? currentHeight : currentWidth;
+	float newHeight = swapDimensions ? currentWidth : currentHeight;
+
+	if (this->dxgiSwapChain != nullptr)
+	{
+		// If the swap chain already exists, resize it.
+		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
+			this->swapChainBufferCount,
+			static_cast<UINT>(newWidth),
+			static_cast<UINT>(newHeight),
+			DXGI_FORMAT_B8G8R8A8_UNORM,
+			0
+			);
+
+		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+		{
+			// If the device was removed for any reason, a new device and swap chain will need to be created.
+			this->OnDeviceLost();
+
+			// Everything is set up now. Do not continue execution of this method.
+			// HandleDeviceLost will reenter this method and correctly set up the new device.
+			return;
+		}
+		else
+		{
+			DX::ThrowIfFailed(hr);
+		}
+	}
+	else
+	{
+		// Otherwise, create a new one using the same adapter as the existing Direct3D device.
+		this->CreateSwapChain();
+	}
+
+	// Set the proper orientation for the swap chain.
+	// TODO(np): Always set swap chain rotation?
+	DX::ThrowIfFailed(
+		this->dxgiSwapChain->SetRotation(displayRotation)
+		);
+
+	// Create a Direct2D target bitmap associated with the
+	// swap chain back buffer and set it as the current target.
+	this->SetRenderTarget();
 }
 
 void RenderSystem::OnDeviceLost()

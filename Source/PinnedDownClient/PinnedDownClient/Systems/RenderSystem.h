@@ -5,6 +5,7 @@
 #include "Core\IEventListener.h"
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
+#include "Events\DisplayDpiChangedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
@@ -51,6 +52,11 @@ namespace PinnedDownClient
 			// Anything rendered to this bitmap is rendered to the surface of the swap chain.
 			ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 
+			float logicalWindowWidth;
+			float logicalWindowHeight;
+			float logicalDpi;
+			Windows::Graphics::Display::DisplayOrientations displayOrientation;
+
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateSwapChain();
@@ -62,7 +68,10 @@ namespace PinnedDownClient
 			void OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppSuspending();
 			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChanged);
+			void OnDisplayDpiChanged(Events::DisplayDpiChangedEvent appWindowSizeChanged);
+
 			void OnDeviceLost();
+			void CreateWindowSizeDependentResources();
 		};
 	}
 }
