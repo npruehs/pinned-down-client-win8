@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Core/ISystem.h"
-#include "../Helpers/DirectXHelper.h"
+#include "Helpers\DirectXHelper.h"
 #include "Core\IEventListener.h"
+#include "Core\GameSystem.h"
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppSuspendingEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
@@ -20,13 +20,13 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class RenderSystem : public Core::ISystem, public Core::IEventListener
+		class RenderSystem : public Core::GameSystem, public Core::IEventListener
 		{
 		public:
 			RenderSystem();
 
 			void InitSystem(std::shared_ptr<Core::EventManager> eventManager);
-			void Update(DX::StepTimer const& timer);
+			void Render();
 
 			void OnEvent(Event & event);
 

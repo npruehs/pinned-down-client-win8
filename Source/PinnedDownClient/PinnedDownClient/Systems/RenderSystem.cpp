@@ -15,7 +15,7 @@ RenderSystem::RenderSystem()
 
 void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 {
-	ISystem::InitSystem(eventManager);
+	GameSystem::InitSystem(eventManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
@@ -305,7 +305,7 @@ void RenderSystem::SetRenderTarget()
 	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
-void RenderSystem::Update(DX::StepTimer const& timer)
+void RenderSystem::Render()
 {
 	// Early out if there's no window to render to.
 	if (this->window == nullptr)

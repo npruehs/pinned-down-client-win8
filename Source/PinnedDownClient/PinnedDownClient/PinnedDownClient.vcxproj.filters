@@ -140,9 +140,6 @@
     <ClInclude Include="Core\SystemManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ISystem.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -191,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameSystem.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

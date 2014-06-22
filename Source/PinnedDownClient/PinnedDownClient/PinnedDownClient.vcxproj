@@ -195,7 +195,7 @@
     <ClInclude Include="Core\EventManager.h" />
     <ClInclude Include="Core\GameException.h" />
     <ClInclude Include="Core\IEventListener.h" />
-    <ClInclude Include="Core\ISystem.h" />
+    <ClInclude Include="Core\GameSystem.h" />
     <ClInclude Include="Core\SystemManager.h" />
     <ClInclude Include="Events\AppResumingEvent.h" />
     <ClInclude Include="Events\AppSuspendingEvent.h" />

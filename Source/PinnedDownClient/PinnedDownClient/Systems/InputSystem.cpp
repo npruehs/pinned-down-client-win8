@@ -12,7 +12,7 @@ InputSystem::InputSystem()
 
 void InputSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 {
-	ISystem::InitSystem(eventManager);
+	GameSystem::InitSystem(eventManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
@@ -60,6 +60,3 @@ void InputSystem::OnDisplayOrientationChanged(DisplayOrientationChangedEvent dis
 {
 }
 
-void InputSystem::Update(DX::StepTimer const& timer)
-{
-}

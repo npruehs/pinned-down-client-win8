@@ -243,6 +243,8 @@ bool PinnedDownGame::Render()
         return false;
     }
 
+	systemManager->Render();
+
     //auto context = m_deviceResources->GetD3DDeviceContext();
 
     //// Reset the viewport to target the whole screen.
