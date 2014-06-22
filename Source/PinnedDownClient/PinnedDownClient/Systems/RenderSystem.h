@@ -4,8 +4,10 @@
 #include "../Helpers/DirectXHelper.h"
 #include "Core\IEventListener.h"
 #include "Events\AppWindowChangedEvent.h"
+#include "Events\AppSuspendingEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
 #include "Events\DisplayDpiChangedEvent.h"
+#include "Events\DisplayOrientationChangedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Core;
@@ -67,8 +69,9 @@ namespace PinnedDownClient
 
 			void OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppSuspending();
-			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChanged);
-			void OnDisplayDpiChanged(Events::DisplayDpiChangedEvent appWindowSizeChanged);
+			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent);
+			void OnDisplayDpiChanged(Events::DisplayDpiChangedEvent displayDpiChangedEvent);
+			void OnDisplayOrientationChanged(Events::DisplayOrientationChangedEvent displayOrientationChangedEvent);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
