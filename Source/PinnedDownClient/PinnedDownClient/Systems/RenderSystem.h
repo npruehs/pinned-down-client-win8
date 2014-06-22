@@ -11,8 +11,10 @@
 #include "Events\DisplayContentsInvalidatedEvent.h"
 
 using namespace Microsoft::WRL;
-using namespace PinnedDownClient::Core;
 using namespace Windows::Graphics::Display;
+
+using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
 {
@@ -58,7 +60,7 @@ namespace PinnedDownClient
 			float logicalWindowWidth;
 			float logicalWindowHeight;
 			float logicalDpi;
-			Windows::Graphics::Display::DisplayOrientations displayOrientation;
+			DisplayOrientations displayOrientation;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
@@ -68,11 +70,11 @@ namespace PinnedDownClient
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
 
-			void OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent);
+			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppSuspending();
-			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent);
-			void OnDisplayDpiChanged(Events::DisplayDpiChangedEvent displayDpiChangedEvent);
-			void OnDisplayOrientationChanged(Events::DisplayOrientationChangedEvent displayOrientationChangedEvent);
+			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
+			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
+			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
 
 			void OnDeviceLost();

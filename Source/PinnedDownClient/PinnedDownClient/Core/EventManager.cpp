@@ -3,19 +3,20 @@
 #include "GameException.h"
 
 using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Util;
 
 EventManager::EventManager()
 {
 }
 
-void EventManager::AddListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType)
+void EventManager::AddListener(EventListenerPtr const & listener, HashedString const & eventType)
 {
 	// Get the event type entry in the listeners map.
-	std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::iterator iterator = this->listeners.find(eventType.getHash());
+	std::map<unsigned long, std::list<EventListenerPtr>>::iterator iterator = this->listeners.find(eventType.getHash());
 
 	if (iterator != this->listeners.end())
 	{
-		std::list<std::shared_ptr<IEventListener>> & eventListeners = iterator->second;
+		std::list<EventListenerPtr> & eventListeners = iterator->second;
 
 		// Add listener.
 		eventListeners.push_back(listener);
@@ -23,21 +24,21 @@ void EventManager::AddListener(std::shared_ptr<IEventListener> const & listener,
 	else
 	{
 		// Add new entry to listeners map.
-		std::list<std::shared_ptr<IEventListener>> eventListeners = std::list<std::shared_ptr<IEventListener>>();
+		std::list<EventListenerPtr> eventListeners = std::list<EventListenerPtr>();
 		eventListeners.push_back(listener);
-		this->listeners.insert(std::pair<unsigned long, std::list<std::shared_ptr<IEventListener>>>(eventType.getHash(), eventListeners));
+		this->listeners.insert(std::pair<unsigned long, std::list<EventListenerPtr>>(eventType.getHash(), eventListeners));
 	}
 }
 
-void EventManager::RemoveListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType)
+void EventManager::RemoveListener(EventListenerPtr const & listener, HashedString const & eventType)
 {
 	// Find listener to remove.
-	for (std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::iterator it = this->listeners.begin(); it != this->listeners.end(); it++)
+	for (std::map<unsigned long, std::list<EventListenerPtr>>::iterator it = this->listeners.begin(); it != this->listeners.end(); it++)
 	{
 		unsigned long const eventId = it->first;
-		std::list<std::shared_ptr<IEventListener>> eventListeners = it->second;
+		std::list<EventListenerPtr> eventListeners = it->second;
 
-		for (std::list<std::shared_ptr<IEventListener>>::iterator it2 = eventListeners.begin(); it2 != eventListeners.end(); it2++)
+		for (std::list<EventListenerPtr>::iterator it2 = eventListeners.begin(); it2 != eventListeners.end(); it2++)
 		{
 			if (*it2 == listener)
 			{
@@ -49,7 +50,7 @@ void EventManager::RemoveListener(std::shared_ptr<IEventListener> const & listen
 	}
 }
 
-void EventManager::QueueEvent(std::shared_ptr<Event> const & newEvent)
+void EventManager::QueueEvent(EventPtr const & newEvent)
 {
 	// Queue event.
 	this->newEvents.push_back(newEvent);
@@ -60,7 +61,7 @@ void EventManager::Tick()
 	while (this->newEvents.size() > 0)
 	{
 		// Move events from new event queue to current event queue.
-		std::shared_ptr<Event> newEvent = this->newEvents.front();
+		EventPtr newEvent = this->newEvents.front();
 		this->newEvents.pop_front();
 		this->currentEvents.push_back(newEvent);
 
@@ -68,21 +69,21 @@ void EventManager::Tick()
 		while (this->currentEvents.size() > 0)
 		{
 			// Get next event to process.
-			std::shared_ptr<Event> currentEvent = this->currentEvents.front();
+			EventPtr currentEvent = this->currentEvents.front();
 			this->currentEvents.pop_front();
 
-			PinnedDownClient::Util::HashedString const & eventType = currentEvent->GetEventType();
+			HashedString const & eventType = currentEvent->GetEventType();
 			unsigned long eventHash = eventType.getHash();
 
 			// Get listeners for the event.
-			std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>>::const_iterator itListeners = this->listeners.find(eventHash);
+			std::map<unsigned long, std::list<EventListenerPtr>>::const_iterator itListeners = this->listeners.find(eventHash);
 
 			if (itListeners != this->listeners.end())
 			{
-				std::list<std::shared_ptr<IEventListener>> const & eventListeners = itListeners->second;
+				std::list<EventListenerPtr> const & eventListeners = itListeners->second;
 
 				// Notify all listeners.
-				for (std::list<std::shared_ptr<IEventListener>>::const_iterator it = eventListeners.begin(); it != eventListeners.end(); it++)
+				for (std::list<EventListenerPtr>::const_iterator it = eventListeners.begin(); it != eventListeners.end(); it++)
 				{
 					(*it)->OnEvent(*currentEvent);
 				}

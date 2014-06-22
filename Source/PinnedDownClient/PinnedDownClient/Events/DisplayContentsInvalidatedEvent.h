@@ -2,15 +2,17 @@
 
 #include "Core\Event.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	namespace Events
 	{
 		struct DisplayContentsInvalidatedEvent : public PinnedDownClient::Core::Event
 		{
-			static const PinnedDownClient::Util::HashedString DisplayContentsInvalidatedEventType;
+			static const HashedString DisplayContentsInvalidatedEventType;
 
-			const PinnedDownClient::Util::HashedString & GetEventType() const
+			const HashedString & GetEventType() const
 			{
 				return DisplayContentsInvalidatedEventType;
 			}

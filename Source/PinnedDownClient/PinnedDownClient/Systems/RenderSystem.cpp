@@ -14,12 +14,12 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 {
 	ISystem::InitSystem(eventManager);
 
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::AppWindowChangedEvent::AppWindowChangedEventType);
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::AppSuspendingEvent::AppSuspendingEventType);
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayDpiChangedEvent::DisplayDpiChangedEventType);
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PinnedDownClient::Events::DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -28,37 +28,37 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 
 void RenderSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == PinnedDownClient::Events::AppWindowChangedEvent::AppWindowChangedEventType)
+	if (newEvent.GetEventType() == AppWindowChangedEvent::AppWindowChangedEventType)
 	{
-		Events::AppWindowChangedEvent appWindowChangedEvent = static_cast<Events::AppWindowChangedEvent&>(newEvent);
+		AppWindowChangedEvent appWindowChangedEvent = static_cast<AppWindowChangedEvent&>(newEvent);
 		this->OnAppWindowChanged(appWindowChangedEvent);
 	}
-	else if (newEvent.GetEventType() == PinnedDownClient::Events::AppSuspendingEvent::AppSuspendingEventType)
+	else if (newEvent.GetEventType() == AppSuspendingEvent::AppSuspendingEventType)
 	{
 		this->OnAppSuspending();
 	}
-	else if (newEvent.GetEventType() == PinnedDownClient::Events::AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
+	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
 	{
-		Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<Events::AppWindowSizeChangedEvent&>(newEvent);
+		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
 		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
 	}
-	else if (newEvent.GetEventType() == PinnedDownClient::Events::DisplayDpiChangedEvent::DisplayDpiChangedEventType)
+	else if (newEvent.GetEventType() == DisplayDpiChangedEvent::DisplayDpiChangedEventType)
 	{
-		Events::DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<Events::DisplayDpiChangedEvent&>(newEvent);
+		DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<DisplayDpiChangedEvent&>(newEvent);
 		this->OnDisplayDpiChanged(displayDpiChangedEvent);
 	}
-	else if (newEvent.GetEventType() == PinnedDownClient::Events::DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
+	else if (newEvent.GetEventType() == DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
 	{
-		Events::DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<Events::DisplayOrientationChangedEvent&>(newEvent);
+		DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<DisplayOrientationChangedEvent&>(newEvent);
 		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
 	}
-	else if (newEvent.GetEventType() == PinnedDownClient::Events::DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
+	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
 	{
 		this->OnDisplayContentsInvalidated();
 	}
 }
 
-void RenderSystem::OnAppWindowChanged(PinnedDownClient::Events::AppWindowChangedEvent appWindowChangedEvent)
+void RenderSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
 {
 	this->window = appWindowChangedEvent.appWindow;
 	
@@ -83,7 +83,7 @@ void RenderSystem::OnAppSuspending()
 	dxgiDevice->Trim();
 }
 
-void RenderSystem::OnAppWindowSizeChanged(PinnedDownClient::Events::AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+void RenderSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
 {
 	this->logicalWindowWidth = appWindowSizeChangedEvent.width;
 	this->logicalWindowHeight = appWindowSizeChangedEvent.height;
@@ -91,15 +91,15 @@ void RenderSystem::OnAppWindowSizeChanged(PinnedDownClient::Events::AppWindowSiz
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnDisplayDpiChanged(PinnedDownClient::Events::DisplayDpiChangedEvent displayDpiChangedEvent)
+void RenderSystem::OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent)
 {
-	this->logicalDpi = displayDpiChangedEvent.dpi;
+	this->logicalDpi = displayDpiChangedEvent.logicalDpi;
 	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
 
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnDisplayOrientationChanged(PinnedDownClient::Events::DisplayOrientationChangedEvent displayOrientationChangedEvent)
+void RenderSystem::OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent)
 {
 	this->displayOrientation = displayOrientationChangedEvent.orientation;
 
@@ -351,43 +351,43 @@ DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nati
 	// NativeOrientation can only be Landscape or Portrait even though the DisplayOrientations enum has other values.
 	switch (nativeOrientation)
 	{
-	case Windows::Graphics::Display::DisplayOrientations::Landscape:
+	case DisplayOrientations::Landscape:
 		switch (currentOrientation)
 		{
-		case Windows::Graphics::Display::DisplayOrientations::Landscape:
+		case DisplayOrientations::Landscape:
 			rotation = DXGI_MODE_ROTATION_IDENTITY;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::Portrait:
+		case DisplayOrientations::Portrait:
 			rotation = DXGI_MODE_ROTATION_ROTATE270;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped:
+		case DisplayOrientations::LandscapeFlipped:
 			rotation = DXGI_MODE_ROTATION_ROTATE180;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::PortraitFlipped:
+		case DisplayOrientations::PortraitFlipped:
 			rotation = DXGI_MODE_ROTATION_ROTATE90;
 			break;
 		}
 		break;
 
-	case Windows::Graphics::Display::DisplayOrientations::Portrait:
+	case DisplayOrientations::Portrait:
 		switch (currentOrientation)
 		{
-		case Windows::Graphics::Display::DisplayOrientations::Landscape:
+		case DisplayOrientations::Landscape:
 			rotation = DXGI_MODE_ROTATION_ROTATE90;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::Portrait:
+		case DisplayOrientations::Portrait:
 			rotation = DXGI_MODE_ROTATION_IDENTITY;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped:
+		case DisplayOrientations::LandscapeFlipped:
 			rotation = DXGI_MODE_ROTATION_ROTATE270;
 			break;
 
-		case Windows::Graphics::Display::DisplayOrientations::PortraitFlipped:
+		case DisplayOrientations::PortraitFlipped:
 			rotation = DXGI_MODE_ROTATION_ROTATE180;
 			break;
 		}

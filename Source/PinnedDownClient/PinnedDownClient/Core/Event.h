@@ -2,6 +2,8 @@
 
 #include "Util\HashedString.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	namespace Core
@@ -9,7 +11,7 @@ namespace PinnedDownClient
 		class Event
 		{
 		public:
-			virtual const PinnedDownClient::Util::HashedString & GetEventType() const = 0;
+			virtual const HashedString & GetEventType() const = 0;
 		};
 	}
 }

@@ -2,24 +2,26 @@
 
 #include "Core\Event.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	namespace Events
 	{
 		struct DisplayDpiChangedEvent : public PinnedDownClient::Core::Event
 		{
-			static const PinnedDownClient::Util::HashedString DisplayDpiChangedEventType;
+			static const HashedString DisplayDpiChangedEventType;
 
-			const PinnedDownClient::Util::HashedString & GetEventType() const
+			const HashedString & GetEventType() const
 			{
 				return DisplayDpiChangedEventType;
 			}
 
-			float dpi;
+			float logicalDpi;
 
-			explicit DisplayDpiChangedEvent(float dpi)
+			explicit DisplayDpiChangedEvent(float logicalDpi)
 			{
-				this->dpi = dpi;
+				this->logicalDpi = logicalDpi;
 			}
 		};
 	}

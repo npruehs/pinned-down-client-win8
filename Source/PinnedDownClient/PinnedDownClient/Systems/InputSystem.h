@@ -6,8 +6,10 @@
 #include "Events\AppWindowSizeChangedEvent.h"
 
 using namespace Microsoft::WRL;
-using namespace PinnedDownClient::Core;
 using namespace Windows::Graphics::Display;
+
+using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
 {
@@ -24,8 +26,8 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 		private:
-			void OnAppWindowChanged(Events::AppWindowChangedEvent appWindowChangedEvent);
-			void OnAppWindowSizeChanged(Events::AppWindowSizeChangedEvent appWindowSizeChanged);
+			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
+			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChanged);
 		};
 	}
 }

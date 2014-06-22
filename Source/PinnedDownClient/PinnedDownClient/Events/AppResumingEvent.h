@@ -2,15 +2,17 @@
 
 #include "Core\Event.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	namespace Events
 	{
 		struct AppResumingEvent : public PinnedDownClient::Core::Event
 		{
-			static const PinnedDownClient::Util::HashedString AppResumingEventType;
+			static const HashedString AppResumingEventType;
 
-			const PinnedDownClient::Util::HashedString & GetEventType() const
+			const HashedString & GetEventType() const
 			{
 				return AppResumingEventType;
 			}

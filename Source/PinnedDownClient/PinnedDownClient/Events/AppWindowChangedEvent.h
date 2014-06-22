@@ -2,15 +2,17 @@
 
 #include "Core\Event.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	namespace Events
 	{
 		struct AppWindowChangedEvent : public PinnedDownClient::Core::Event
 		{
-			static const PinnedDownClient::Util::HashedString AppWindowChangedEventType;
+			static const HashedString AppWindowChangedEventType;
 
-			const PinnedDownClient::Util::HashedString & GetEventType() const
+			const HashedString & GetEventType() const
 			{
 				return AppWindowChangedEventType;
 			}

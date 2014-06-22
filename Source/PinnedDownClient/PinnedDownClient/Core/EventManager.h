@@ -9,6 +9,11 @@
 #include "IEventListener.h"
 #include "Util\HashedString.h"
 
+using namespace PinnedDownClient::Util;
+
+typedef std::shared_ptr<PinnedDownClient::Core::IEventListener> EventListenerPtr;
+typedef std::shared_ptr<PinnedDownClient::Core::Event> EventPtr;
+
 namespace PinnedDownClient
 {
 	namespace Core
@@ -18,23 +23,23 @@ namespace PinnedDownClient
 		public:
 			EventManager();
 
-			void AddListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType);
-			void RemoveListener(std::shared_ptr<IEventListener> const & listener, PinnedDownClient::Util::HashedString const & eventType);
-			void QueueEvent(std::shared_ptr<Event> const & newEvent);
+			void AddListener(EventListenerPtr const & listener, HashedString const & eventType);
+			void RemoveListener(EventListenerPtr const & listener, HashedString const & eventType);
+			void QueueEvent(EventPtr const & newEvent);
 			void Tick();
 
 		private:
 			// Set of registered event types.
-			std::set<PinnedDownClient::Util::HashedString> eventTypes;
+			std::set<HashedString> eventTypes;
 
 			// Maps event types to listeners.
-			std::map<unsigned long, std::list<std::shared_ptr<IEventListener>>> listeners;
+			std::map<unsigned long, std::list<EventListenerPtr>> listeners;
 
 			// Events that are currently being processed.
-			std::list<std::shared_ptr<Event>> currentEvents;
+			std::list<EventPtr> currentEvents;
 
 			// New events to be processed soon.
-			std::list<std::shared_ptr<Event>> newEvents;
+			std::list<EventPtr> newEvents;
 		};
 	}
 }
