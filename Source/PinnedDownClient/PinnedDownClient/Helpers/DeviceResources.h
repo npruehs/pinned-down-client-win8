@@ -22,7 +22,6 @@ namespace DX
 	public:
 		DeviceResources();
 		void SetWindow(Windows::UI::Core::CoreWindow^ window);
-		void SetSwapChainPanel(Windows::UI::Xaml::Controls::SwapChainPanel^ panel);
 		void SetLogicalSize(Windows::Foundation::Size logicalSize);
 		void SetCurrentOrientation(Windows::Graphics::Display::DisplayOrientations currentOrientation);
 		void SetDpi(float dpi);
@@ -30,8 +29,6 @@ namespace DX
 		void ValidateDevice();
 		void HandleDeviceLost();
 		void RegisterDeviceNotify(IDeviceNotify* deviceNotify);
-		void Trim();
-		void Present();
 
 		// Device Accessors.
 		Platform::Agile<Windows::UI::Core::CoreWindow> GetWindow()		{ return m_window; }

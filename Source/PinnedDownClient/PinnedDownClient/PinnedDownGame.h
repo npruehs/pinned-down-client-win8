@@ -22,14 +22,16 @@
 // Renders Direct2D and 3D content on the screen.
 namespace PinnedDownClient
 {
-    class PinnedDownClientMain : public DX::IDeviceNotify
+	class PinnedDownGame : public DX::IDeviceNotify
     {
     public:
-        PinnedDownClientMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
-        ~PinnedDownClientMain();
+		PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		~PinnedDownGame();
         void CreateWindowSizeDependentResources();
         void Update();
         bool Render();
+
+		std::shared_ptr<Core::EventManager> GetEventManager() { return std::shared_ptr<Core::EventManager>(this->eventManager); }
 
         // IDeviceNotify
         virtual void OnDeviceLost();

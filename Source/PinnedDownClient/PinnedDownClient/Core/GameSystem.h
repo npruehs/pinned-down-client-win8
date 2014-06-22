@@ -7,7 +7,7 @@ namespace PinnedDownClient
 {
 	namespace Core
 	{
-		class ISystem
+		class GameSystem
 		{
 		public:
 			virtual void InitSystem(std::shared_ptr<Core::EventManager> eventManager)
@@ -15,7 +15,8 @@ namespace PinnedDownClient
 				this->eventManager = eventManager;
 			}
 
-			virtual void Update(DX::StepTimer const& timer) = 0;
+			virtual void Update(DX::StepTimer const& timer) {}
+			virtual void Render() {}
 
 		protected:
 			std::shared_ptr<Core::EventManager> eventManager;

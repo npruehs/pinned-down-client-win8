@@ -1,14 +1,15 @@
-﻿//// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-//// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-//// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//// PARTICULAR PURPOSE.
-////
-//// Copyright (c) Microsoft Corporation. All rights reserved
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "App.h"
 
 #include <ppltasks.h>
+
+#include "Events\AppWindowChangedEvent.h"
+#include "Events\AppSuspendingEvent.h"
+#include "Events\AppResumingEvent.h"
+#include "Events\AppWindowSizeChangedEvent.h"
+#include "Events\DisplayDpiChangedEvent.h"
+#include "Events\DisplayOrientationChangedEvent.h"
+#include "Events\DisplayContentsInvalidatedEvent.h"
 
 using namespace PinnedDownClient;
 
@@ -36,10 +37,10 @@ IFrameworkView^ Direct3DApplicationSource::CreateView()
     return ref new App();
 }
 
-App::App() :
-    m_windowClosed(false),
-    m_windowVisible(true)
+App::App()
 {
+	this->windowClosed = false;
+	this->windowVisible = true;
 }
 
 // The first method called when the IFrameworkView is being created.
@@ -64,8 +65,8 @@ void App::Initialize(CoreApplicationView^ applicationView)
 // Called when the CoreWindow object is created (or re-created).
 void App::SetWindow(CoreWindow^ window)
 {
-    m_coreWindow = window;
-    m_deviceResources->SetWindow(m_coreWindow.Get());
+    this->coreWindow = window;
+	m_deviceResources->SetWindow(this->coreWindow.Get());
 
     window->SizeChanged += 
         ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &App::OnWindowSizeChanged);
@@ -96,28 +97,28 @@ void App::SetWindow(CoreWindow^ window)
 // Initializes scene resources, or loads a previously saved app state.
 void App::Load(Platform::String^ entryPoint)
 {
-    m_main = std::unique_ptr<PinnedDownClientMain>(new PinnedDownClientMain(m_deviceResources));
+	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame(m_deviceResources));
+
+	// Pass window to game.
+	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow.Get()));
+	this->game->GetEventManager()->QueueEvent(appWindowChangedEvent);
 }
 
 // This method is called after the window becomes active.
 void App::Run()
 {
-    while (!m_windowClosed)
+    while (!this->windowClosed)
     {
-        if (m_windowVisible)
+		if (this->windowVisible)
         {
-            m_coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+			this->coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
-            m_main->Update();
-
-            if (m_main->Render())
-            {
-                m_deviceResources->Present();
-            }
+			this->game->Update();
+			this->game->Render();
         }
         else
         {
-            m_coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
+			this->coreWindow->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
         }
     }
 }
@@ -129,12 +130,10 @@ void App::Uninitialize()
 {
 }
 
-// Application lifecycle event handlers.
-
 void App::OnActivated(CoreApplicationView^ applicationView, IActivatedEventArgs^ args)
 {
     // Run() won't start until the CoreWindow is activated.
-    m_coreWindow->Activate();
+	this->coreWindow->Activate();
 }
 
 void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
@@ -147,9 +146,9 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
 
     create_task([this, deferral]()
     {
-        m_deviceResources->Trim();
-
-        // Insert your code here.
+		// Allow subsystems to save their state.
+		auto appSuspendingEvent = std::shared_ptr<Events::AppSuspendingEvent>(new Events::AppSuspendingEvent());
+		this->game->GetEventManager()->QueueEvent(appSuspendingEvent);
 
         deferral->Complete();
     });
@@ -160,46 +159,65 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
     // Restore any data or state that was unloaded on suspend. By default, data
     // and state are persisted when resuming from suspend. Note that this event
     // does not occur if the app was previously terminated.
-
-    // Insert your code here.
+	auto appResumingEvent = std::shared_ptr<Events::AppResumingEvent>(new Events::AppResumingEvent());
+	this->game->GetEventManager()->QueueEvent(appResumingEvent);
 }
-
-// Window event handlers.
 
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
-    m_coreWindow = sender;
-    m_deviceResources->SetWindow(m_coreWindow.Get());
+	this->coreWindow = sender;
+	m_deviceResources->SetWindow(this->coreWindow.Get());
 
-    m_deviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-    m_main->CreateWindowSizeDependentResources();
+	float width = sender->Bounds.Width;
+	float height = sender->Bounds.Height;
+
+	m_deviceResources->SetLogicalSize(Size(width, height));
+	this->game->CreateWindowSizeDependentResources();
+
+	// Notify subsystems.
+	auto appWindowSizeChangedEvent = std::shared_ptr<Events::AppWindowSizeChangedEvent>(new Events::AppWindowSizeChangedEvent(width, height));
+	this->game->GetEventManager()->QueueEvent(appWindowSizeChangedEvent);
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
 {
-    m_windowVisible = args->Visible;
+	this->windowVisible = args->Visible;
 }
 
 void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 {
-    m_windowClosed = true;
+	this->windowClosed = true;
 }
-
-// DisplayInformation event handlers.
 
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
     m_deviceResources->SetDpi(sender->LogicalDpi);
-    m_main->CreateWindowSizeDependentResources();
+	this->game->CreateWindowSizeDependentResources();
+
+	float dpi = sender->LogicalDpi;
+
+	// Notify subsystems.
+	auto displayDpiChangedEvent = std::shared_ptr<Events::DisplayDpiChangedEvent>(new Events::DisplayDpiChangedEvent(dpi));
+	this->game->GetEventManager()->QueueEvent(displayDpiChangedEvent);
 }
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
     m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
-    m_main->CreateWindowSizeDependentResources();
+	this->game->CreateWindowSizeDependentResources();
+
+	Windows::Graphics::Display::DisplayOrientations orientation = sender->CurrentOrientation;
+
+	// Notify subsystems.
+	auto displayOrientationChangedEvent = std::shared_ptr<Events::DisplayOrientationChangedEvent>(new Events::DisplayOrientationChangedEvent(orientation));
+	this->game->GetEventManager()->QueueEvent(displayOrientationChangedEvent);
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
     m_deviceResources->ValidateDevice();
+
+	// Notify subsystems.
+	auto displayContentsInvalidatedEvent = std::shared_ptr<Events::DisplayContentsInvalidatedEvent>(new Events::DisplayContentsInvalidatedEvent());
+	this->game->GetEventManager()->QueueEvent(displayContentsInvalidatedEvent);
 }

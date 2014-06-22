@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "Core\ISystem.h"
+#include "Core\GameSystem.h"
 #include "Core\EventManager.h"
 
 namespace PinnedDownClient
@@ -14,13 +14,14 @@ namespace PinnedDownClient
 		public:
 			SystemManager(std::shared_ptr<EventManager> eventManager);
 
-			void AddSystem(ISystem* system);
+			void AddSystem(GameSystem* system);
 			void InitSystems();
 			void Update(DX::StepTimer const& timer);
+			void Render();
 
 		private:
 			std::shared_ptr<EventManager> eventManager;
-			std::vector<std::shared_ptr<ISystem>> systems;
+			std::vector<std::shared_ptr<GameSystem>> systems;
 		};
 	}
 }

@@ -3,7 +3,9 @@
 #include "Core\Event.h"
 #include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
-#include "Events\AppWindowChangedEvent.h"
+
+#include "Events\GraphicsDeviceLostEvent.h"
+#include "Events\GraphicsDeviceRestoredEvent.h"
 
 using namespace PinnedDownClient::Systems;
 
@@ -11,28 +13,144 @@ RenderSystem::RenderSystem()
 {
 }
 
+void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+{
+	GameSystem::InitSystem(eventManager);
+
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
+
+	// Create devices.
+	this->CreateD3DDevice();
+	this->CreateD2DDevice();
+}
+
 void RenderSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == Util::HashedString("AppWindowChanged"))
+	if (newEvent.GetEventType() == AppWindowChangedEvent::AppWindowChangedEventType)
 	{
-		Events::AppWindowChangedEvent appWindowChangedEvent = static_cast<Events::AppWindowChangedEvent&>(newEvent);
-		this->window = appWindowChangedEvent.appWindow;
-
-		// Create devices.
-		this->CreateD3DDevice();
-		this->CreateD2DDevice();
-
-		// Set render target.
-		this->CreateSwapChain();
-		this->SetRenderTarget();
+		AppWindowChangedEvent appWindowChangedEvent = static_cast<AppWindowChangedEvent&>(newEvent);
+		this->OnAppWindowChanged(appWindowChangedEvent);
+	}
+	else if (newEvent.GetEventType() == AppSuspendingEvent::AppSuspendingEventType)
+	{
+		this->OnAppSuspending();
+	}
+	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
+	{
+		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
+		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
+	}
+	else if (newEvent.GetEventType() == DisplayDpiChangedEvent::DisplayDpiChangedEventType)
+	{
+		DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<DisplayDpiChangedEvent&>(newEvent);
+		this->OnDisplayDpiChanged(displayDpiChangedEvent);
+	}
+	else if (newEvent.GetEventType() == DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
+	{
+		DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<DisplayOrientationChangedEvent&>(newEvent);
+		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
+	}
+	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
+	{
+		this->OnDisplayContentsInvalidated();
 	}
 }
 
-void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+void RenderSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
 {
-	ISystem::InitSystem(eventManager);
+	this->window = appWindowChangedEvent.appWindow;
+	
+	// Store current window data for future updates.
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	eventManager->AddListener(std::shared_ptr<IEventListener>(this), Util::HashedString("AppWindowChanged"));
+	this->logicalWindowWidth = this->window->Bounds.Width;
+	this->logicalWindowHeight = this->window->Bounds.Height;
+	this->logicalDpi = currentDisplayInformation->LogicalDpi;
+	this->displayOrientation = currentDisplayInformation->CurrentOrientation;
+
+	// Set render target.
+	this->CreateWindowSizeDependentResources();
+}
+
+void RenderSystem::OnAppSuspending()
+{
+	// Provides a hint to the driver that the app is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
+	ComPtr<IDXGIDevice3> dxgiDevice;
+	this->d3dDevice.As(&dxgiDevice);
+
+	dxgiDevice->Trim();
+}
+
+void RenderSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+{
+	this->logicalWindowWidth = appWindowSizeChangedEvent.width;
+	this->logicalWindowHeight = appWindowSizeChangedEvent.height;
+
+	this->CreateWindowSizeDependentResources();
+}
+
+void RenderSystem::OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent)
+{
+	this->logicalDpi = displayDpiChangedEvent.logicalDpi;
+
+	this->CreateWindowSizeDependentResources();
+}
+
+void RenderSystem::OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent)
+{
+	this->displayOrientation = displayOrientationChangedEvent.orientation;
+
+	this->CreateWindowSizeDependentResources();
+}
+
+void RenderSystem::OnDisplayContentsInvalidated()
+{
+	// The D3D Device is no longer valid if the default adapter change since the device
+	// was created or if the device has been removed.
+
+	// First, get the information for the default adapter from when the device was created.
+	ComPtr<IDXGIAdapter> deviceAdapter;
+	DX::ThrowIfFailed(this->dxgiDevice->GetAdapter(&deviceAdapter));
+
+	ComPtr<IDXGIFactory2> deviceFactory;
+	DX::ThrowIfFailed(deviceAdapter->GetParent(IID_PPV_ARGS(&deviceFactory)));
+
+	ComPtr<IDXGIAdapter1> previousDefaultAdapter;
+	DX::ThrowIfFailed(deviceFactory->EnumAdapters1(0, &previousDefaultAdapter));
+
+	DXGI_ADAPTER_DESC previousDesc;
+	DX::ThrowIfFailed(previousDefaultAdapter->GetDesc(&previousDesc));
+
+	// Next, get the information for the current default adapter.
+	ComPtr<IDXGIFactory2> currentFactory;
+	DX::ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&currentFactory)));
+
+	ComPtr<IDXGIAdapter1> currentDefaultAdapter;
+	DX::ThrowIfFailed(currentFactory->EnumAdapters1(0, &currentDefaultAdapter));
+
+	DXGI_ADAPTER_DESC currentDesc;
+	DX::ThrowIfFailed(currentDefaultAdapter->GetDesc(&currentDesc));
+
+	// If the adapter LUIDs don't match, or if the device reports that it has been removed,
+	// a new D3D device must be created.
+	if (previousDesc.AdapterLuid.LowPart != currentDesc.AdapterLuid.LowPart ||
+		previousDesc.AdapterLuid.HighPart != currentDesc.AdapterLuid.HighPart ||
+		FAILED(this->d3dDevice->GetDeviceRemovedReason()))
+	{
+		// Release references to resources related to the old device.
+		this->dxgiDevice = nullptr;
+		deviceAdapter = nullptr;
+		deviceFactory = nullptr;
+		previousDefaultAdapter = nullptr;
+
+		// Create a new device and swap chain.
+		this->OnDeviceLost();
+	}
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -56,7 +174,6 @@ void RenderSystem::CreateD3DDevice()
 
 	// Create the DX11 API device object, and get a corresponding context.
 	ComPtr<ID3D11Device> device;
-	ComPtr<ID3D11DeviceContext> d3dContext;
 
 	DX::ThrowIfFailed(
 		D3D11CreateDevice(
@@ -69,7 +186,7 @@ void RenderSystem::CreateD3DDevice()
 		D3D11_SDK_VERSION,
 		&device,
 		&d3dFeatureLevel,
-		&d3dContext)
+		&this->d3dContext)
 		);
 
 	DX::ThrowIfFailed(
@@ -122,7 +239,7 @@ void RenderSystem::CreateSwapChain()
 	swapChainDesc.SampleDesc.Count = 1;								// Don't use multi-sampling.
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 2;									// Use double buffering to enable flip.
+	swapChainDesc.BufferCount = swapChainBufferCount;
 	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;	// All apps must use this swap effect.
 	swapChainDesc.Flags = 0;
@@ -164,7 +281,7 @@ void RenderSystem::SetRenderTarget()
 		this->dxgiSwapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer))
 		);
 
-	// Create ID2D1Bitmap from the back buffer. Anything rendered to this bitmap is rendered to the surface of the swap chain.
+	// Create ID2D1Bitmap from the back buffer.
 	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
 		D2D1::BitmapProperties1(
 		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
@@ -173,21 +290,29 @@ void RenderSystem::SetRenderTarget()
 		-1.0f
 		);
 
-	ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 	DX::ThrowIfFailed(
 		this->d2dContext->CreateBitmapFromDxgiSurface(
 		dxgiBackBuffer.Get(),
 		&bitmapProperties,
-		&d2dTargetBitmap
+		&this->d2dTargetBitmap
 		)
 		);
 
 	// Set the Direct2D render target.
-	this->d2dContext->SetTarget(d2dTargetBitmap.Get());
+	this->d2dContext->SetTarget(this->d2dTargetBitmap.Get());
+
+	// Grayscale text anti-aliasing is recommended for all Windows Store apps.
+	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
-void RenderSystem::Update(DX::StepTimer const& timer)
+void RenderSystem::Render()
 {
+	// Early out if there's no window to render to.
+	if (this->window == nullptr)
+	{
+		return;
+	}
+
 	// Create solid blue brush.
 	ComPtr<ID2D1SolidColorBrush> pBlackBrush;
 	DX::ThrowIfFailed(
@@ -213,7 +338,169 @@ void RenderSystem::Update(DX::StepTimer const& timer)
 		);
 
 	// Present result.
+	// The first argument instructs DXGI to block until VSync, putting the application
+	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
+	// frames that will never be displayed to the screen.
+	HRESULT hr = this->dxgiSwapChain->Present(1, 0);
+
+	// If the device was removed either by a disconnection or a driver upgrade, we
+	// must recreate all device resources.
+	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+	{
+		this->OnDeviceLost();
+	}
+	else
+	{
+		DX::ThrowIfFailed(hr);
+	}
+}
+
+DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nativeOrientation, DisplayOrientations currentOrientation)
+{
+	DXGI_MODE_ROTATION rotation = DXGI_MODE_ROTATION_UNSPECIFIED;
+
+	// NativeOrientation can only be Landscape or Portrait even though the DisplayOrientations enum has other values.
+	switch (nativeOrientation)
+	{
+	case DisplayOrientations::Landscape:
+		switch (currentOrientation)
+		{
+		case DisplayOrientations::Landscape:
+			rotation = DXGI_MODE_ROTATION_IDENTITY;
+			break;
+
+		case DisplayOrientations::Portrait:
+			rotation = DXGI_MODE_ROTATION_ROTATE270;
+			break;
+
+		case DisplayOrientations::LandscapeFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE180;
+			break;
+
+		case DisplayOrientations::PortraitFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE90;
+			break;
+		}
+		break;
+
+	case DisplayOrientations::Portrait:
+		switch (currentOrientation)
+		{
+		case DisplayOrientations::Landscape:
+			rotation = DXGI_MODE_ROTATION_ROTATE90;
+			break;
+
+		case DisplayOrientations::Portrait:
+			rotation = DXGI_MODE_ROTATION_IDENTITY;
+			break;
+
+		case DisplayOrientations::LandscapeFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE270;
+			break;
+
+		case DisplayOrientations::PortraitFlipped:
+			rotation = DXGI_MODE_ROTATION_ROTATE180;
+			break;
+		}
+		break;
+	}
+	return rotation;
+}
+
+void RenderSystem::CreateWindowSizeDependentResources()
+{
+	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
+
+	// Clear the previous window size specific context.
+	this->d2dContext->SetTarget(nullptr);
+	this->d2dTargetBitmap = nullptr;
+	this->d3dContext->Flush();
+
+	// Calculate the necessary render target size in pixels (for CoreWindow).
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+
+	float currentWidth = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
+	float currentHeight = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
+
+	// Prevent zero size DirectX content from being created.
+	currentWidth = max(currentWidth, 1);
+	currentHeight = max(currentHeight, 1);
+
+	// The width and height of the swap chain must be based on the window's
+	// natively-oriented width and height. If the window is not in the native
+	// orientation, the dimensions must be reversed.
+	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, this->displayOrientation);
+
+	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
+	float newWidth = swapDimensions ? currentHeight : currentWidth;
+	float newHeight = swapDimensions ? currentWidth : currentHeight;
+
+	if (this->dxgiSwapChain != nullptr)
+	{
+		// If the swap chain already exists, resize it.
+		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
+			this->swapChainBufferCount,
+			static_cast<UINT>(newWidth),
+			static_cast<UINT>(newHeight),
+			DXGI_FORMAT_B8G8R8A8_UNORM,
+			0
+			);
+
+		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+		{
+			// If the device was removed for any reason, a new device and swap chain will need to be created.
+			this->OnDeviceLost();
+
+			// Everything is set up now. Do not continue execution of this method.
+			// HandleDeviceLost will reenter this method and correctly set up the new device.
+			return;
+		}
+		else
+		{
+			DX::ThrowIfFailed(hr);
+		}
+	}
+	else
+	{
+		// Otherwise, create a new one using the same adapter as the existing Direct3D device.
+		this->CreateSwapChain();
+	}
+
+	// Set the proper orientation for the swap chain.
+	// TODO(np): Always set swap chain rotation?
 	DX::ThrowIfFailed(
-		this->dxgiSwapChain->Present(1, 0)
-	);
+		this->dxgiSwapChain->SetRotation(displayRotation)
+		);
+
+	// Create a Direct2D target bitmap associated with the
+	// swap chain back buffer and set it as the current target.
+	this->SetRenderTarget();
+}
+
+void RenderSystem::OnDeviceLost()
+{
+	// Crash on unnatural lost devices.
+	HRESULT reason = this->d3dDevice->GetDeviceRemovedReason();
+
+	if (reason == DXGI_ERROR_DEVICE_HUNG || reason == DXGI_ERROR_DEVICE_RESET || DXGI_ERROR_INVALID_CALL)
+	{
+		throw Platform::Exception::CreateException(reason);
+	}
+
+	// All references to the swap chain must be released before a new one can be created.
+	this->dxgiSwapChain = nullptr;
+
+	// Notify the renderers that device resources need to be released.
+	// This ensures all references to the existing swap chain are released so that a new one can be created.
+	auto graphicsDeviceLostEvent = std::shared_ptr<Events::GraphicsDeviceLostEvent>(new Events::GraphicsDeviceLostEvent());
+	this->eventManager->RaiseEvent(graphicsDeviceLostEvent);
+
+	// Create the new device and swap chain.
+	this->CreateD3DDevice();
+	this->CreateD2DDevice();
+	this->CreateWindowSizeDependentResources();
+
+	// Notify the renderers that resources can now be created again.
+	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
+	this->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }

@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="PinnedDownClientMain.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Core\SystemManager.cpp">
       <Filter>Core</Filter>
@@ -106,15 +105,39 @@
     <ClCompile Include="Events\AppWindowChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="PinnedDownGame.cpp" />
+    <ClCompile Include="Events\AppSupendingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppResumingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayDpiChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\InputSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Core\SystemManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ISystem.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Systems\RenderSystem.h">
@@ -137,6 +160,37 @@
     </ClInclude>
     <ClInclude Include="Events\AppWindowChangedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="PinnedDownGame.h" />
+    <ClInclude Include="Events\AppSuspendingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppResumingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppWindowSizeChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayDpiChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayOrientationChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\InputSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceLostEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameSystem.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -704,23 +704,6 @@ void DX::DeviceResources::SetWindow(CoreWindow^ window)
 	//CreateWindowSizeDependentResources();
 }
 
-// This method is called when the XAML control is created (or re-created).
-void DX::DeviceResources::SetSwapChainPanel(SwapChainPanel^ panel)
-{
-	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
-
-	m_swapChainPanel = panel;
-	m_logicalSize = Windows::Foundation::Size(static_cast<float>(panel->ActualWidth), static_cast<float>(panel->ActualHeight));
-	m_nativeOrientation = currentDisplayInformation->NativeOrientation;
-	m_currentOrientation = currentDisplayInformation->CurrentOrientation;
-	m_compositionScaleX = panel->CompositionScaleX;
-	m_compositionScaleY = panel->CompositionScaleY;
-	m_dpi = currentDisplayInformation->LogicalDpi;
-	m_d2dContext->SetDpi(m_dpi, m_dpi);
-
-	CreateWindowSizeDependentResources();
-}
-
 // This method is called in the event handler for the SizeChanged event.
 void DX::DeviceResources::SetLogicalSize(Windows::Foundation::Size logicalSize)
 {
@@ -846,44 +829,6 @@ void DX::DeviceResources::HandleDeviceLost()
 void DX::DeviceResources::RegisterDeviceNotify(DX::IDeviceNotify* deviceNotify)
 {
 	m_deviceNotify = deviceNotify;
-}
-
-// Call this method when the app suspends. It provides a hint to the driver that the app 
-// is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
-void DX::DeviceResources::Trim()
-{
-	ComPtr<IDXGIDevice3> dxgiDevice;
-	m_d3dDevice.As(&dxgiDevice);
-
-	dxgiDevice->Trim();
-}
-
-// Present the contents of the swap chain to the screen.
-void DX::DeviceResources::Present()
-{
-	// The first argument instructs DXGI to block until VSync, putting the application
-	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
-	// frames that will never be displayed to the screen.
-	//HRESULT hr = m_swapChain->Present(1, 0);
-
-	//// Discard the contents of the render target.
-	//// This is a valid operation only when the existing contents will be entirely
-	//// overwritten. If dirty or scroll rects are used, this call should be removed.
-	//m_d3dContext->DiscardView(m_d3dRenderTargetView.Get());
-
-	//// Discard the contents of the depth stencil.
-	//m_d3dContext->DiscardView(m_d3dDepthStencilView.Get());
-
-	//// If the device was removed either by a disconnection or a driver upgrade, we 
-	//// must recreate all device resources.
-	//if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-	//{
-	//	HandleDeviceLost();
-	//}
-	//else
-	//{
-	//	DX::ThrowIfFailed(hr);
-	//}
 }
 
 // This method determines the rotation between the display device's native Orientation and the
