@@ -100,7 +100,7 @@ void App::Load(Platform::String^ entryPoint)
 	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame(m_deviceResources));
 
 	// Pass window to game.
-	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow.Get()));
+	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow));
 	this->game->GetEventManager()->QueueEvent(appWindowChangedEvent);
 }
 

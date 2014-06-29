@@ -17,9 +17,9 @@ namespace PinnedDownClient
 				return AppWindowChangedEventType;
 			}
 
-			Windows::UI::Core::CoreWindow^ appWindow;
+			Platform::Agile<Windows::UI::Core::CoreWindow> appWindow;
 
-			explicit AppWindowChangedEvent(Windows::UI::Core::CoreWindow^ appWindow)
+			explicit AppWindowChangedEvent(Platform::Agile<Windows::UI::Core::CoreWindow> appWindow)
 			{
 				this->appWindow = appWindow;
 			}

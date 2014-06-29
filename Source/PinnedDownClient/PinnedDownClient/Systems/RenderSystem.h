@@ -49,7 +49,7 @@ namespace PinnedDownClient
 			ComPtr<IDXGISwapChain1> dxgiSwapChain;
 
 			// Use double buffering to enable flip.
-			float swapChainBufferCount = 2;
+			unsigned int swapChainBufferCount = 2;
 
 			// Set of state and command buffers used to render to a target. Call methods on this context to set pipeline state and generate rendering commands.
 			ComPtr<ID2D1DeviceContext> d2dContext;
