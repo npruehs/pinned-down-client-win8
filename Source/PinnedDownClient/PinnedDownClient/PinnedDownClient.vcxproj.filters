@@ -133,6 +133,12 @@
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\RenderTextSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\RenderTargetChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -191,6 +197,12 @@
     </ClInclude>
     <ClInclude Include="Core\GameSystem.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\RenderTextSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\RenderTargetChangedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
+#include "Events\RenderTargetChangedEvent.h"
 
 using namespace PinnedDownClient::Systems;
 
@@ -303,6 +304,10 @@ void RenderSystem::SetRenderTarget()
 
 	// Grayscale text anti-aliasing is recommended for all Windows Store apps.
 	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+
+	// Notify listeners.
+	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
+	this->eventManager->RaiseEvent(renderTargetChangedEvent);
 }
 
 void RenderSystem::Render()

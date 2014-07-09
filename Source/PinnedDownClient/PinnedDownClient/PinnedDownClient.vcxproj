@@ -206,6 +206,7 @@
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
+    <ClInclude Include="Events\RenderTargetChangedEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
+    <ClInclude Include="Systems\RenderTextSystem.h" />
     <ClInclude Include="Util\HashedString.h" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +236,7 @@
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
+    <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />
@@ -252,6 +255,7 @@
     </ClCompile>
     <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
+    <ClCompile Include="Systems\RenderTextSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
