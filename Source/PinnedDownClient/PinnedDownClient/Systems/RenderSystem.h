@@ -57,6 +57,9 @@ namespace PinnedDownClient
 			// Anything rendered to this bitmap is rendered to the surface of the swap chain.
 			ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 
+			// Drawing state block used for pushing and popping context tranformations.
+			ComPtr<ID2D1DrawingStateBlock> drawingStateBlock;
+
 			// DirectWrite factory used to create text formats and layouts.
 			ComPtr<IDWriteFactory2>	writeFactory;
 

@@ -230,6 +230,11 @@ void RenderSystem::CreateD2DDevice()
 		&this->d2dContext
 		)
 		);
+
+	// Create drawing state block used for pushing and popping context tranformations.
+	DX::ThrowIfFailed(
+		d2dFactory->CreateDrawingStateBlock(&this->drawingStateBlock)
+		);
 }
 
 void RenderSystem::CreateDWriteFactory()
@@ -362,6 +367,9 @@ void RenderSystem::Render()
 		return;
 	}
 
+	// Save drawing state.
+	this->d2dContext->SaveDrawingState(this->drawingStateBlock.Get());
+
 	this->d2dContext->BeginDraw();
 
 	// Draw rectangle.
@@ -416,13 +424,12 @@ void RenderSystem::Render()
 		this->redBrush.Get()
 		);
 
-	// TODO: Reset transform to previous state instead of just setting to origin.
-	screenTranslation = D2D1::Matrix3x2F::Translation(0, 0);
-	this->d2dContext->SetTransform(screenTranslation);
-
 	DX::ThrowIfFailed(
 		this->d2dContext->EndDraw()
 		);
+
+	// Restore drawing state.
+	this->d2dContext->RestoreDrawingState(this->drawingStateBlock.Get());
 
 	// Present result.
 	// The first argument instructs DXGI to block until VSync, putting the application
