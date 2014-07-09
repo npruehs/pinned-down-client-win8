@@ -222,7 +222,6 @@
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
-    <ClInclude Include="Systems\RenderTextSystem.h" />
     <ClInclude Include="Util\HashedString.h" />
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +255,6 @@
     </ClCompile>
     <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
-    <ClCompile Include="Systems\RenderTextSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

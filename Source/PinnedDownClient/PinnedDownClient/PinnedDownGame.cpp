@@ -11,7 +11,6 @@
 
 #include "Core\SystemManager.h"
 #include "Systems\RenderSystem.h"
-#include "Systems\RenderTextSystem.h"
 #include "Systems\InputSystem.h"
 #include "Events\AppWindowChangedEvent.h"
 
@@ -31,7 +30,6 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 
 	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(eventManager));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
-	this->systemManager->AddSystem(new Systems::RenderTextSystem());
 	this->systemManager->AddSystem(new Systems::InputSystem());
 
 	this->systemManager->InitSystems();
