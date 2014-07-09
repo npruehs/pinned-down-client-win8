@@ -26,6 +26,10 @@ namespace PinnedDownClient
 			// Set of state and command buffers used to render to a target. Call methods on this context to set pipeline state and generate rendering commands.
 			ComPtr<ID2D1DeviceContext> d2dContext;
 
+			ComPtr<IDWriteFactory2>			writeFactory;
+			ComPtr<ID2D1SolidColorBrush>    redBrush;
+			ComPtr<IDWriteTextFormat>       textFormat;
+
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
 		};
 	}
