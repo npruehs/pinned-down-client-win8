@@ -57,6 +57,18 @@ namespace PinnedDownClient
 			// Anything rendered to this bitmap is rendered to the surface of the swap chain.
 			ComPtr<ID2D1Bitmap1> d2dTargetBitmap;
 
+			// Drawing state block used for pushing and popping context tranformations.
+			ComPtr<ID2D1DrawingStateBlock> drawingStateBlock;
+
+			// DirectWrite factory used to create text formats and layouts.
+			ComPtr<IDWriteFactory2>	writeFactory;
+
+			// Debug brush for drawing primitives and texts.
+			ComPtr<ID2D1SolidColorBrush> redBrush;
+
+			// Debug format for drawing texts.
+			ComPtr<IDWriteTextFormat> textFormat;
+
 			float logicalWindowWidth;
 			float logicalWindowHeight;
 			float logicalDpi;
@@ -64,8 +76,10 @@ namespace PinnedDownClient
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
+			void CreateDWriteFactory();
 			void CreateSwapChain();
 			void SetRenderTarget();
+			void CreateBrushes();
 
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
