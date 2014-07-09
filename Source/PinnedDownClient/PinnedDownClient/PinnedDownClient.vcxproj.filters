@@ -89,6 +89,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{7761561d-1681-4942-92fd-55153e54e091}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\Rendering">
+      <UniqueIdentifier>{adc9564f-2c48-4edc-927b-4e772b90935a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="Events\RenderTargetChangedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Rendering\TextData.h">
+      <Filter>Systems\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

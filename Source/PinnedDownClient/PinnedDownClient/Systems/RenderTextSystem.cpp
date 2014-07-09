@@ -4,6 +4,7 @@
 #include "Core\EventManager.h"
 #include "Systems\RenderTextSystem.h"
 #include "../Helpers/DirectXHelper.h"
+#include "Systems\Rendering\TextData.h"
 
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Events;
@@ -53,6 +54,11 @@ void RenderTextSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTarg
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
 
 	// Create brush for font rendering.
+	if (this->redBrush != nullptr)
+	{
+		this->redBrush.Reset();
+	}
+
 	DX::ThrowIfFailed(
 		this->d2dContext->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Red),
@@ -68,15 +74,54 @@ void RenderTextSystem::Render()
 		return;
 	}
 
-	// Actually draw the text at the origin.
-	D2D1_RECT_F layoutRect = D2D1::RectF(0.f, 0.f, 100.f, 100.f);
+	// Debug text to draw.
+	Rendering::TextData textData = Rendering::TextData();
+	textData.Text = L"Hello World!\nHow are you?";
+	textData.X = 250;
+	textData.Y = 200;
+	textData.Alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
 
 	this->d2dContext->BeginDraw();
-	this->d2dContext->DrawText(
-		L"Hello World",
-		wcslen(L"Hello World"),
-		textFormat.Get(),
-		layoutRect,
-		redBrush.Get());
+
+	// Set text alignment.
+	DX::ThrowIfFailed(
+		this->textFormat->SetTextAlignment(textData.Alignment)
+		);
+
+	// TODO: Adjust translation via text metrics depending on alignment.
+	D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(textData.X, textData.Y);
+	this->d2dContext->SetTransform(screenTranslation);
+
+	// Create final text layout for drawing.
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
+
+	DX::ThrowIfFailed(
+		this->writeFactory->CreateTextLayout(
+		textData.Text.c_str(),
+		(uint32)textData.Text.length(),
+		this->textFormat.Get(),
+		500.0f, // Max width.
+		500.0f, // Max height.
+		&textLayout)
+		);
+
+	DWRITE_TEXT_METRICS metrics;
+	DX::ThrowIfFailed(
+		textLayout->GetMetrics(&metrics)
+		);
+
+	// Text metrics, such as line height, can be accessed here: metrics.height
+
+	// Draw text.
+	this->d2dContext->DrawTextLayout(
+		D2D1::Point2F(0.f, 0.f),
+		textLayout.Get(),
+		this->redBrush.Get()
+		);
+
+	// TODO: Reset transform to previous state instead of just setting to origin.
+	screenTranslation = D2D1::Matrix3x2F::Translation(0, 0);
+	this->d2dContext->SetTransform(screenTranslation);
+
 	this->d2dContext->EndDraw();
 }
