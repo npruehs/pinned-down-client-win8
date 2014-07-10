@@ -26,6 +26,7 @@ void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
+	eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -62,6 +63,11 @@ void RenderSystem::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
 	{
 		this->OnDisplayContentsInvalidated();
+	}
+	else if (newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType)
+	{
+		PointerMovedEvent pointerMovedEvent = static_cast<PointerMovedEvent&>(newEvent);
+		this->OnPointerMoved(pointerMovedEvent);
 	}
 }
 
@@ -155,6 +161,13 @@ void RenderSystem::OnDisplayContentsInvalidated()
 		// Create a new device and swap chain.
 		this->OnDeviceLost();
 	}
+}
+
+void RenderSystem::OnPointerMoved(PointerMovedEvent pointerMovedEvent)
+{
+	this->pointerId = pointerMovedEvent.pointerId;
+	this->pointerPositionX = pointerMovedEvent.positionX;
+	this->pointerPositionY = pointerMovedEvent.positionY;
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -367,6 +380,9 @@ void RenderSystem::Render()
 		return;
 	}
 
+	// Clear the back buffer and depth stencil view.
+	this->d3dContext->ClearRenderTargetView(this->d3dRenderTargetView.Get(), DirectX::Colors::CornflowerBlue);
+	
 	// Save drawing state.
 	this->d2dContext->SaveDrawingState(this->drawingStateBlock.Get());
 
@@ -383,7 +399,7 @@ void RenderSystem::Render()
 
 	// Debug text to draw.
 	Rendering::TextData textData = Rendering::TextData();
-	textData.Text = L"Hello World!\nHow are you?";
+	textData.Text = L"Pointer Id: " + std::to_wstring(this->pointerId) + L"\nPointer X: " + std::to_wstring(this->pointerPositionX) + L"\nPointer Y: " + std::to_wstring(this->pointerPositionY);
 	textData.X = 250;
 	textData.Y = 200;
 	textData.Alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
@@ -565,6 +581,30 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	DX::ThrowIfFailed(
 		this->dxgiSwapChain->SetRotation(displayRotation)
 		);
+
+	// Create a render target view of the swap chain back buffer.
+	ComPtr<ID3D11Texture2D> backBuffer;
+	DX::ThrowIfFailed(
+		this->dxgiSwapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer))
+		);
+
+	DX::ThrowIfFailed(
+		this->d3dDevice->CreateRenderTargetView(
+		backBuffer.Get(),
+		nullptr,
+		&this->d3dRenderTargetView
+		)
+		);
+
+	// Set the 3D rendering viewport to target the entire window.
+	this->d3dScreenViewport = CD3D11_VIEWPORT(
+		0.0f,
+		0.0f,
+		newWidth,
+		newHeight
+		);
+
+	this->d3dContext->RSSetViewports(1, &this->d3dScreenViewport);
 
 	// Create a Direct2D target bitmap associated with the
 	// swap chain back buffer and set it as the current target.

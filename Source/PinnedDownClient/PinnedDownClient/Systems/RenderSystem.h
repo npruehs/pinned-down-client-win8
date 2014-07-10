@@ -9,6 +9,7 @@
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
+#include "Events\PointerMovedEvent.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -42,6 +43,12 @@ namespace PinnedDownClient
 			// Feature level of the current Direct3D device.
 			D3D_FEATURE_LEVEL d3dFeatureLevel;
 
+			// Render target view of the swap chain back buffer. Cleared every frame.
+			ComPtr<ID3D11RenderTargetView> d3dRenderTargetView;
+
+			// 3D rendering viewport targeting the entire window.
+			D3D11_VIEWPORT d3dScreenViewport;
+
 			// Underlying DirectX Graphics Infrastructure device of the Direct3D device. Used for retrieving the Direct2D device.
 			ComPtr<IDXGIDevice3> dxgiDevice;
 
@@ -74,6 +81,10 @@ namespace PinnedDownClient
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
+			uint32 pointerId;
+			float pointerPositionX;
+			float pointerPositionY;
+
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateDWriteFactory();
@@ -90,6 +101,7 @@ namespace PinnedDownClient
 			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
 			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
+			void OnPointerMoved(PointerMovedEvent pointerMovedEvent);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
