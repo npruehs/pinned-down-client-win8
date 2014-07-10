@@ -10,6 +10,9 @@
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
+#include "Events\PointerPressedEvent.h"
+#include "Events\PointerMovedEvent.h"
+#include "Events\PointerReleasedEvent.h"
 
 using namespace PinnedDownClient;
 
@@ -68,6 +71,7 @@ void App::SetWindow(CoreWindow^ window)
     this->coreWindow = window;
 	m_deviceResources->SetWindow(this->coreWindow.Get());
 
+	// Register for window events.
     window->SizeChanged += 
         ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &App::OnWindowSizeChanged);
 
@@ -77,7 +81,18 @@ void App::SetWindow(CoreWindow^ window)
     window->Closed += 
         ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &App::OnWindowClosed);
 
-    DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+    // Register for input events.
+	window->PointerPressed +=
+		ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &App::OnPointerPressed);
+
+	window->PointerMoved +=
+		ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &App::OnPointerMoved);
+
+	window->PointerReleased +=
+		ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &App::OnPointerReleased);
+
+	// Register for display events.
+	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
     currentDisplayInformation->DpiChanged +=
         ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDpiChanged);
@@ -220,4 +235,31 @@ void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 	// Notify subsystems.
 	auto displayContentsInvalidatedEvent = std::shared_ptr<Events::DisplayContentsInvalidatedEvent>(new Events::DisplayContentsInvalidatedEvent());
 	this->game->GetEventManager()->QueueEvent(displayContentsInvalidatedEvent);
+}
+
+void App::OnPointerPressed(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::PointerEventArgs^ args)
+{	
+	auto point = args->CurrentPoint;
+
+	// Notify subsystems.
+	auto pointerPressedEvent = std::shared_ptr<Events::PointerPressedEvent>(new Events::PointerPressedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	this->game->GetEventManager()->QueueEvent(pointerPressedEvent);
+}
+
+void App::OnPointerMoved(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::PointerEventArgs^ args)
+{
+	auto point = args->CurrentPoint;
+
+	// Notify subsystems.
+	auto pointerMovedEvent = std::shared_ptr<Events::PointerMovedEvent>(new Events::PointerMovedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	this->game->GetEventManager()->QueueEvent(pointerMovedEvent);
+}
+
+void App::OnPointerReleased(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::PointerEventArgs^ args)
+{
+	auto point = args->CurrentPoint;
+
+	// Notify subsystems.
+	auto pointerReleasedEvent = std::shared_ptr<Events::PointerReleasedEvent>(new Events::PointerReleasedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	this->game->GetEventManager()->QueueEvent(pointerReleasedEvent);
 }

@@ -139,6 +139,15 @@
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Events\PointerPressedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PointerReleasedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PointerMovedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -203,6 +212,15 @@
     </ClInclude>
     <ClInclude Include="Systems\Rendering\TextData.h">
       <Filter>Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerPressedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerReleasedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerMovedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -206,6 +206,9 @@
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
+    <ClInclude Include="Events\PointerMovedEvent.h" />
+    <ClInclude Include="Events\PointerPressedEvent.h" />
+    <ClInclude Include="Events\PointerReleasedEvent.h" />
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
@@ -236,6 +239,9 @@
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
+    <ClCompile Include="Events\PointerMovedEvent.cpp" />
+    <ClCompile Include="Events\PointerPressedEvent.cpp" />
+    <ClCompile Include="Events\PointerReleasedEvent.cpp" />
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
     <ClCompile Include="Helpers\OverlayManager.cpp" />
