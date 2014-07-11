@@ -21,6 +21,7 @@
 *.app
 Source/PinnedDownClient/Debug/
 Source/PinnedDownClient/PinnedDownClient/Debug/
+Source/PinnedDownClient/PinnedDownClient/Release/
 Source/PinnedDownClient/PinnedDownClient.opensdf
 Source/PinnedDownClient/PinnedDownClient.sdf
 Source/PinnedDownClient/PinnedDownClient.v12.suo

@@ -100,6 +100,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\Bin\$(Configuration)\$(MSBuildProjectName)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\Bin\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
       <AdditionalDependencies>d2d1.lib; d3d11.lib; dxgi.lib; ole32.lib; windowscodecs.lib; dwrite.lib; xaudio2.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;xinput.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>

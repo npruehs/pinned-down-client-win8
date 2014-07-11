@@ -163,7 +163,7 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
     {
 		// Allow subsystems to save their state.
 		auto appSuspendingEvent = std::shared_ptr<Events::AppSuspendingEvent>(new Events::AppSuspendingEvent());
-		this->game->GetEventManager()->QueueEvent(appSuspendingEvent);
+		this->game->GetEventManager()->RaiseEvent(appSuspendingEvent);
 
         deferral->Complete();
     });
@@ -175,7 +175,7 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
     // and state are persisted when resuming from suspend. Note that this event
     // does not occur if the app was previously terminated.
 	auto appResumingEvent = std::shared_ptr<Events::AppResumingEvent>(new Events::AppResumingEvent());
-	this->game->GetEventManager()->QueueEvent(appResumingEvent);
+	this->game->GetEventManager()->RaiseEvent(appResumingEvent);
 }
 
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
