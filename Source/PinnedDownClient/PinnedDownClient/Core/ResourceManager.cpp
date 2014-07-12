@@ -25,6 +25,11 @@ ResourceManager::ResourceManager()
 		);
 }
 
+ResourceManager::~ResourceManager()
+{
+	this->resourceMap.clear();
+}
+
 ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
 {
 	// Lookup resource.

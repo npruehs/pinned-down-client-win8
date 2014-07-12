@@ -17,6 +17,7 @@ namespace PinnedDownClient
 		{
 		public:
 			ResourceManager();
+			~ResourceManager();
 
 			ResHandlePtr GetResource(HashedString resourceName);
 			void UnloadResource(HashedString resourceName);
