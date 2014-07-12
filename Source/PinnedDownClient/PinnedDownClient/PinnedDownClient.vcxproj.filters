@@ -148,6 +148,9 @@
     <ClCompile Include="Events\PointerMovedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ResourceManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -221,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="Events\PointerMovedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ResourceManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryUtils.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

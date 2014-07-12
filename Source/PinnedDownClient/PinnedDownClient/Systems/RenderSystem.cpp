@@ -16,9 +16,9 @@ RenderSystem::RenderSystem()
 {
 }
 
-void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
 {
-	GameSystem::InitSystem(eventManager);
+	GameSystem::InitSystem(eventManager, resourceManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
@@ -355,6 +355,15 @@ void RenderSystem::SetRenderTarget()
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
 	this->eventManager->RaiseEvent(renderTargetChangedEvent);
+
+	// Load resources.
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		L"Assets/Logo.png",
+		150,
+		0,
+		&this->bitmap
+		);
 }
 
 void RenderSystem::CreateBrushes()
@@ -438,6 +447,20 @@ void RenderSystem::Render()
 		D2D1::Point2F(0.f, 0.f),
 		textLayout.Get(),
 		this->redBrush.Get()
+		);
+
+	// Draw bitmap.
+	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
+	 
+	D2D1_SIZE_F size = this->bitmap->GetSize();
+
+	this->d2dContext->DrawBitmap(
+		this->bitmap.Get(),
+		D2D1::RectF(
+		0,
+		0,
+		size.width,
+		size.height)
 		);
 
 	DX::ThrowIfFailed(

@@ -4,6 +4,7 @@
 #include <memory>
 #include "Core\GameSystem.h"
 #include "Core\EventManager.h"
+#include "Core\ResourceManager.h"
 
 namespace PinnedDownClient
 {
@@ -12,7 +13,7 @@ namespace PinnedDownClient
 		class SystemManager
 		{
 		public:
-			SystemManager(std::shared_ptr<EventManager> eventManager);
+			SystemManager(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager);
 
 			void AddSystem(GameSystem* system);
 			void InitSystems();
@@ -21,6 +22,7 @@ namespace PinnedDownClient
 
 		private:
 			std::shared_ptr<EventManager> eventManager;
+			std::shared_ptr<ResourceManager> resourceManager;
 			std::vector<std::shared_ptr<GameSystem>> systems;
 		};
 	}

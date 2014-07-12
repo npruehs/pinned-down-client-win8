@@ -3,9 +3,10 @@
 
 using namespace PinnedDownClient::Core;
 
-SystemManager::SystemManager(std::shared_ptr<EventManager> eventManager)
+SystemManager::SystemManager(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
 {
 	this->eventManager = eventManager;
+	this->resourceManager = resourceManager;
 }
 
 void SystemManager::AddSystem(GameSystem* system)
@@ -17,7 +18,7 @@ void SystemManager::InitSystems()
 {
 	for (unsigned int i = 0; i < systems.size(); i++)
 	{
-		systems[i]->InitSystem(this->eventManager);
+		systems[i]->InitSystem(this->eventManager, this->resourceManager);
 	}
 }
 

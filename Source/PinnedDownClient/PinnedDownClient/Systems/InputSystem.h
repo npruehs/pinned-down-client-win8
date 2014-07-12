@@ -22,7 +22,7 @@ namespace PinnedDownClient
 		public:
 			InputSystem();
 
-			void InitSystem(std::shared_ptr<Core::EventManager> eventManager);
+			void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager);
 
 			void OnEvent(Event & event);
 

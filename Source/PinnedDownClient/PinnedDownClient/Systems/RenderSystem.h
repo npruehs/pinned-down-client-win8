@@ -26,7 +26,7 @@ namespace PinnedDownClient
 		public:
 			RenderSystem();
 
-			void InitSystem(std::shared_ptr<Core::EventManager> eventManager);
+			void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager);
 			void Render();
 
 			void OnEvent(Event & event);
@@ -75,6 +75,9 @@ namespace PinnedDownClient
 
 			// Debug format for drawing texts.
 			ComPtr<IDWriteTextFormat> textFormat;
+
+			// Debug bitmap.
+			ComPtr<ID2D1Bitmap> bitmap;
 
 			float logicalWindowWidth;
 			float logicalWindowHeight;

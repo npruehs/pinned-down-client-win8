@@ -199,6 +199,7 @@
     <ClInclude Include="Core\GameException.h" />
     <ClInclude Include="Core\IEventListener.h" />
     <ClInclude Include="Core\GameSystem.h" />
+    <ClInclude Include="Core\ResourceManager.h" />
     <ClInclude Include="Core\SystemManager.h" />
     <ClInclude Include="Events\AppResumingEvent.h" />
     <ClInclude Include="Events\AppSuspendingEvent.h" />
@@ -229,9 +230,11 @@
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Util\HashedString.h" />
+    <ClInclude Include="Util\MemoryUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\EventManager.cpp" />
+    <ClCompile Include="Core\ResourceManager.cpp" />
     <ClCompile Include="Core\SystemManager.cpp" />
     <ClCompile Include="Events\AppResumingEvent.cpp" />
     <ClCompile Include="Events\AppSupendingEvent.cpp" />
