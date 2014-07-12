@@ -8,16 +8,16 @@ namespace PinnedDownClient
 {
 	namespace Core
 	{
-		class GameException : public exception
+		class GameException : public runtime_error
 		{
 		public:
 			GameException(const char *msg)
-				: exception(msg)
+				: runtime_error(msg)
 			{
 			}
 
 			GameException(std::string msg)
-				: exception(msg.c_str())
+				: runtime_error(msg.c_str())
 			{
 			}
 		};

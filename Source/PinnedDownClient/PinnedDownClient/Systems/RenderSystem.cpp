@@ -10,7 +10,10 @@
 
 #include "Rendering\TextData.h"
 
+#include "Core\Resources\BitmapResourceHandle.h"
+
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Core::Resources;
 
 RenderSystem::RenderSystem()
 {
@@ -359,10 +362,10 @@ void RenderSystem::SetRenderTarget()
 	// Load resources.
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
+		"Logo",
 		L"Assets/Logo.png",
 		150,
-		0,
-		&this->bitmap
+		0
 		);
 }
 
@@ -452,10 +455,15 @@ void RenderSystem::Render()
 	// Draw bitmap.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 	 
-	D2D1_SIZE_F size = this->bitmap->GetSize();
+	ResHandlePtr p = this->resourceManager->GetResource("Logo");
+	ResourceHandle & resourceHandle = *p;
+	BitmapResourceHandle & bitmapHandle = static_cast<BitmapResourceHandle&>(resourceHandle);
+	ID2D1Bitmap* bitmap = bitmapHandle.bitmap;
+
+	D2D1_SIZE_F size = bitmap->GetSize();
 
 	this->d2dContext->DrawBitmap(
-		this->bitmap.Get(),
+		bitmap,
 		D2D1::RectF(
 		0,
 		0,

@@ -1,8 +1,14 @@
 #pragma once
 
+#include <list>
+#include <map>
+#include <memory>
 #include "pch.h"
+#include "ResourceHandle.h"
 
 using namespace Microsoft::WRL;
+
+typedef std::shared_ptr<PinnedDownClient::Core::ResourceHandle> ResHandlePtr;
 
 namespace PinnedDownClient
 {
@@ -13,10 +19,15 @@ namespace PinnedDownClient
 		public:
 			ResourceManager();
 
+			ResHandlePtr GetResource(HashedString resourceName);
+
 			// Uses the passed device context to load the image from the specified URI.
-			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, PCWSTR imageUri, UINT destinationWidth, UINT destinationHeight, ID2D1Bitmap **bitmap);
+			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, const char* resourceUri, PCWSTR imageUri, UINT destinationWidth, UINT destinationHeight);
 
 		private:
+			std::list<ResHandlePtr> resourceList;
+			std::map<unsigned long, ResHandlePtr> resourceMap;
+
 			// Windows Imaging Component factory used for loading bitmaps.
 			ComPtr<IWICImagingFactory> wicImagingFactory;
 		};

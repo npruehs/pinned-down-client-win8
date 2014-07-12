@@ -76,9 +76,6 @@ namespace PinnedDownClient
 			// Debug format for drawing texts.
 			ComPtr<IDWriteTextFormat> textFormat;
 
-			// Debug bitmap.
-			ComPtr<ID2D1Bitmap> bitmap;
-
 			float logicalWindowWidth;
 			float logicalWindowHeight;
 			float logicalDpi;

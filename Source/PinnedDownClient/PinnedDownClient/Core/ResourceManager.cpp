@@ -2,8 +2,11 @@
 #include "Core\ResourceManager.h"
 #include "Helpers\DirectXHelper.h"
 #include "Util\MemoryUtils.h"
+#include "Core\GameException.h"
+#include "Core\Resources\BitmapResourceHandle.h"
 
 using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
 
 ResourceManager::ResourceManager()
@@ -20,12 +23,31 @@ ResourceManager::ResourceManager()
 		);
 }
 
+ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
+{
+	// Lookup resource.
+	std::map<unsigned long, ResHandlePtr>::iterator iterator = this->resourceMap.find(resourceName.getHash());
+
+	if (iterator != this->resourceMap.end())
+	{
+		// Return handle.
+		return ResHandlePtr(iterator->second);
+	}
+	else
+	{
+		// Resource not found.
+		std::string errorMsg = "Resource not found: ";
+		errorMsg.append(resourceName.getString());
+		throw GameException(errorMsg);
+	}
+}
+
 void ResourceManager::LoadBitmapFromFile(
 	ID2D1DeviceContext* d2dContext,
+	const char* resourceUri,
 	PCWSTR imageUri,
 	UINT destinationWidth,
-	UINT destinationHeight,
-	ID2D1Bitmap **bitmap
+	UINT destinationHeight
 	)
 {
 	// Create an IWICBitmapDecoder.
@@ -65,14 +87,23 @@ void ResourceManager::LoadBitmapFromFile(
 		);
 
 	// Create a Direct2D bitmap from the WIC bitmap.
+	ID2D1Bitmap *bitmap;
 	DX::ThrowIfFailed(
 		d2dContext->CreateBitmapFromWicBitmap(
 		converter,
 		NULL,
-		bitmap
+		&bitmap
 		)
 		);
 
+	// Add to resource map.
+	HashedString hashedFileName = HashedString(resourceUri);
+	unsigned long hash = hashedFileName.getHash();
+
+	ResHandlePtr handle = ResHandlePtr(new BitmapResourceHandle(resourceUri, bitmap));
+	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(hash, handle));
+
+	// Release resources.
 	SafeRelease(&decoder);
 	SafeRelease(&source);
 	SafeRelease(&converter);
