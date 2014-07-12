@@ -3,7 +3,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include "pch.h"
 #include "ResourceHandle.h"
 
 using namespace Microsoft::WRL;
@@ -38,6 +37,8 @@ namespace PinnedDownClient
 
 			// Windows Imaging Component factory used for loading bitmaps.
 			ComPtr<IWICImagingFactory> wicImagingFactory;
+
+			Platform::Array<byte>^ ReadBytes(Platform::String^ fileName);
 		};
 	}
 }

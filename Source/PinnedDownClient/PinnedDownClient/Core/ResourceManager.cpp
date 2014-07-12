@@ -5,6 +5,8 @@
 #include "Core\GameException.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 
+using namespace Windows::ApplicationModel;
+
 using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
@@ -105,4 +107,64 @@ void ResourceManager::LoadBitmapFromFile(
 	SafeRelease(&decoder);
 	SafeRelease(&source);
 	SafeRelease(&converter);
+}
+
+Platform::Array<byte>^ ResourceManager::ReadBytes(Platform::String^ fileName)
+{
+	// http://msdn.microsoft.com/de-de/library/windows/apps/jj651549.aspx
+	Windows::Storage::StorageFolder^ m_location = Package::Current->InstalledLocation;
+	Platform::String^ m_locationPath = Platform::String::Concat(m_location->Path, "\\");
+
+	CREATEFILE2_EXTENDED_PARAMETERS extendedParams = { 0 };
+	extendedParams.dwSize = sizeof(CREATEFILE2_EXTENDED_PARAMETERS);
+	extendedParams.dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
+	extendedParams.dwFileFlags = FILE_FLAG_SEQUENTIAL_SCAN;
+	extendedParams.dwSecurityQosFlags = SECURITY_ANONYMOUS;
+	extendedParams.lpSecurityAttributes = nullptr;
+	extendedParams.hTemplateFile = nullptr;
+	
+	Wrappers::FileHandle file(
+		CreateFile2(
+		Platform::String::Concat(m_locationPath, fileName)->Data(),
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		OPEN_EXISTING,
+		&extendedParams
+		)
+		);
+	if (file.Get() == INVALID_HANDLE_VALUE)
+	{
+		throw ref new Platform::FailureException();
+	}
+
+	FILE_STANDARD_INFO fileInfo = { 0 };
+	if (!GetFileInformationByHandleEx(
+		file.Get(),
+		FileStandardInfo,
+		&fileInfo,
+		sizeof(fileInfo)
+		))
+	{
+		throw ref new Platform::FailureException();
+	}
+
+	if (fileInfo.EndOfFile.HighPart != 0)
+	{
+		throw ref new Platform::OutOfMemoryException();
+	}
+
+	Platform::Array<byte>^ fileData = ref new Platform::Array<byte>(fileInfo.EndOfFile.LowPart);
+
+	if (!ReadFile(
+		file.Get(),
+		fileData->Data,
+		fileData->Length,
+		nullptr,
+		nullptr
+		))
+	{
+		throw ref new Platform::FailureException();
+	}
+
+	return fileData;
 }
