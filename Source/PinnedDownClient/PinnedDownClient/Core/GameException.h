@@ -11,15 +11,8 @@ namespace PinnedDownClient
 		class GameException : public runtime_error
 		{
 		public:
-			GameException(const char *msg)
-				: runtime_error(msg)
-			{
-			}
-
-			GameException(std::string msg)
-				: runtime_error(msg.c_str())
-			{
-			}
+			GameException(const char *msg);
+			GameException(std::wstring msg);
 		};
 	}
 }

@@ -233,9 +233,11 @@
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Util\HashedString.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
+    <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\EventManager.cpp" />
+    <ClCompile Include="Core\GameException.cpp" />
     <ClCompile Include="Core\ResourceHandle.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
     <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp" />

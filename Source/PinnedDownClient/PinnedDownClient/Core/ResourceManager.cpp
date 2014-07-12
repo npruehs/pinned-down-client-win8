@@ -38,7 +38,7 @@ ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
 	else
 	{
 		// Resource not found.
-		std::string errorMsg = "Resource not found: ";
+		std::wstring errorMsg = L"Resource not found: ";
 		errorMsg.append(resourceName.getString());
 		throw GameException(errorMsg);
 	}
@@ -46,7 +46,7 @@ ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
 
 void ResourceManager::LoadBitmapFromFile(
 	ID2D1DeviceContext* d2dContext,
-	const char* resourceUri,
+	std::wstring resourceUri,
 	PCWSTR imageUri
 	)
 {

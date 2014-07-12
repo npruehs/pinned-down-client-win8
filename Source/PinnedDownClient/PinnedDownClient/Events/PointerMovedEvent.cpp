@@ -1,4 +1,4 @@
 #include "pch.h"
 #include "Events\PointerMovedEvent.h"
 
-const HashedString PinnedDownClient::Events::PointerMovedEvent::PointerMovedEventType = HashedString("PointerMoved");
+const HashedString PinnedDownClient::Events::PointerMovedEvent::PointerMovedEventType = HashedString(L"PointerMoved");

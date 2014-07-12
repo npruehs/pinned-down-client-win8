@@ -14,7 +14,7 @@ namespace PinnedDownClient
 		{
 		public:
 			ResourceHandle();
-			ResourceHandle(char const* const resourceName);
+			ResourceHandle(std::wstring resourceName);
 			~ResourceHandle();
 
 			std::shared_ptr<HashedString> GetResourceName();

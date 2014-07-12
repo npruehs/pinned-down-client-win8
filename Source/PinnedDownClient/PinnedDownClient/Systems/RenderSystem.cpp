@@ -380,25 +380,25 @@ void RenderSystem::LoadResources()
 {
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		"Logo",
+		L"Logo",
 		L"Assets/Logo.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		"SmallLogo",
+		L"SmallLogo",
 		L"Assets/SmallLogo.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		"SplashScreen",
+		L"SplashScreen",
 		L"Assets/SplashScreen.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		"StoreLogo",
+		L"StoreLogo",
 		L"Assets/StoreLogo.png"
 		);
 }
@@ -474,13 +474,13 @@ void RenderSystem::Render()
 	// Draw bitmaps.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
 
-	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("Logo");
+	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Logo");
 	this->DrawBitmap(logoBitmap);
-	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("SmallLogo");
+	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"SmallLogo");
 	this->DrawBitmap(smallLogoBitmap);
-	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("SplashScreen");
+	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"SplashScreen");
 	this->DrawBitmap(splashScreenBitmap);
-	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("StoreLogo");
+	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"StoreLogo");
 	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(

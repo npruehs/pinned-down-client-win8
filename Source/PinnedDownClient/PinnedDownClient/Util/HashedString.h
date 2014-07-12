@@ -10,7 +10,7 @@ namespace PinnedDownClient
 		class HashedString
 		{
 		public:
-			HashedString(char const* const string)
+			HashedString(wchar_t const* const string)
 			{
 				this->hash = this->HashString(string);
 				this->string = string;
@@ -21,7 +21,7 @@ namespace PinnedDownClient
 				return this->hash;
 			}
 
-			char const* const getString() const
+			wchar_t const* const getString() const
 			{
 				return this->string;
 			}
@@ -36,9 +36,9 @@ namespace PinnedDownClient
 
 		private:
 			unsigned long hash;
-			char const* string;
+			wchar_t const* string;
 
-			unsigned long HashedString::HashString(char const* string)
+			unsigned long HashedString::HashString(wchar_t const* string)
 			{
 				// Largest prime number smaller than 2^16.
 				unsigned long base = 65521L;
@@ -61,7 +61,7 @@ namespace PinnedDownClient
 #define DO16(buf)   { DO8(buf, 0); DO8(buf, 8); }
 
 				// Compute hash.
-				for (size_t length = strlen(string); length > 0;)
+				for (size_t length = wcslen(string); length > 0;)
 				{
 					unsigned long k = length < max ? length : max;
 					length -= k;
