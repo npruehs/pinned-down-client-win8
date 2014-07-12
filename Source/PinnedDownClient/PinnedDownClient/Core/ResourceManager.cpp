@@ -44,9 +44,22 @@ ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
 	}
 }
 
+void ResourceManager::UnloadResource(HashedString resourceName)
+{
+	// Find resource to unload.
+	for (std::map<unsigned long, ResHandlePtr>::iterator iterator = this->resourceMap.begin(); iterator != this->resourceMap.end(); iterator++)
+	{
+		if (iterator->first == resourceName.getHash())
+		{
+			// Remove resource.
+			resourceMap.erase(iterator);
+			return;
+		}
+	}
+}
+
 void ResourceManager::LoadBitmapFromFile(
 	ID2D1DeviceContext* d2dContext,
-	std::wstring resourceUri,
 	PCWSTR imageUri
 	)
 {
@@ -97,7 +110,7 @@ void ResourceManager::LoadBitmapFromFile(
 		);
 
 	// Add to resource map.
-	ResHandlePtr handle = ResHandlePtr(new BitmapResourceHandle(resourceUri, bitmap));
+	ResHandlePtr handle = ResHandlePtr(new BitmapResourceHandle(imageUri, bitmap));
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 
 	// Release resources.

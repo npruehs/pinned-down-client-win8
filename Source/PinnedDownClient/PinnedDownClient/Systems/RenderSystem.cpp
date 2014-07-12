@@ -380,27 +380,31 @@ void RenderSystem::LoadResources()
 {
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		L"Logo",
 		L"Assets/Logo.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		L"SmallLogo",
 		L"Assets/SmallLogo.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		L"SplashScreen",
 		L"Assets/SplashScreen.png"
 		);
 
 	this->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
-		L"StoreLogo",
 		L"Assets/StoreLogo.png"
 		);
+}
+
+void RenderSystem::UnloadResources()
+{
+	this->resourceManager->UnloadResource(L"Assets/Logo.png");
+	this->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
+	this->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
+	this->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
 }
 
 void RenderSystem::Render()
@@ -474,13 +478,13 @@ void RenderSystem::Render()
 	// Draw bitmaps.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
 
-	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Logo");
+	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
 	this->DrawBitmap(logoBitmap);
-	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"SmallLogo");
+	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
 	this->DrawBitmap(smallLogoBitmap);
-	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"SplashScreen");
+	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
 	this->DrawBitmap(splashScreenBitmap);
-	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"StoreLogo");
+	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
 	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(
@@ -568,6 +572,7 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
 	this->d3dContext->Flush();
+	this->UnloadResources();
 
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();

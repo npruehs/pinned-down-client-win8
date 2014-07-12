@@ -19,6 +19,7 @@ namespace PinnedDownClient
 			ResourceManager();
 
 			ResHandlePtr GetResource(HashedString resourceName);
+			void UnloadResource(HashedString resourceName);
 
 			template <class T> T& GetResource(HashedString resourceName)
 			{
@@ -29,10 +30,9 @@ namespace PinnedDownClient
 			}
 
 			// Uses the passed device context to load the image from the specified URI.
-			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, std::wstring resourceUri, PCWSTR imageUri);
+			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, PCWSTR imageUri);
 
 		private:
-			std::list<ResHandlePtr> resourceList;
 			std::map<unsigned long, ResHandlePtr> resourceMap;
 
 			// Windows Imaging Component factory used for loading bitmaps.

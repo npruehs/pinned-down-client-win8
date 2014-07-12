@@ -14,7 +14,5 @@ BitmapResourceHandle::BitmapResourceHandle(std::wstring resourceName, ID2D1Bitma
 
 BitmapResourceHandle::~BitmapResourceHandle()
 {
-	ResourceHandle::~ResourceHandle();
-
 	SafeRelease(&this->bitmap);
 }

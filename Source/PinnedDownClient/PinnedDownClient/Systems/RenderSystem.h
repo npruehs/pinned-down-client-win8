@@ -94,6 +94,7 @@ namespace PinnedDownClient
 			void SetRenderTarget();
 			void CreateBrushes();
 			void LoadResources();
+			void UnloadResources();
 
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
