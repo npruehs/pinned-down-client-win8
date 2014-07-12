@@ -21,6 +21,14 @@ namespace PinnedDownClient
 
 			ResHandlePtr GetResource(HashedString resourceName);
 
+			template <class T> T& GetResource(HashedString resourceName)
+			{
+				ResHandlePtr p = this->GetResource(resourceName);
+				ResourceHandle & resourceHandle = *p;
+				T & handle = static_cast<T&>(resourceHandle);
+				return handle;
+			}
+
 			// Uses the passed device context to load the image from the specified URI.
 			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, const char* resourceUri, PCWSTR imageUri, UINT destinationWidth, UINT destinationHeight);
 

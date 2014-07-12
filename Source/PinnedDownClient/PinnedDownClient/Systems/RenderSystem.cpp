@@ -455,15 +455,12 @@ void RenderSystem::Render()
 	// Draw bitmap.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 	 
-	ResHandlePtr p = this->resourceManager->GetResource("Logo");
-	ResourceHandle & resourceHandle = *p;
-	BitmapResourceHandle & bitmapHandle = static_cast<BitmapResourceHandle&>(resourceHandle);
-	ID2D1Bitmap* bitmap = bitmapHandle.bitmap;
+	BitmapResourceHandle & bitmapHandle = this->resourceManager->GetResource<BitmapResourceHandle>("Logo");
 
-	D2D1_SIZE_F size = bitmap->GetSize();
+	D2D1_SIZE_F size = bitmapHandle.bitmap->GetSize();
 
 	this->d2dContext->DrawBitmap(
-		bitmap,
+		bitmapHandle.bitmap,
 		D2D1::RectF(
 		0,
 		0,
