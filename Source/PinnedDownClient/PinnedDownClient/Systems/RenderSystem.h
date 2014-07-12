@@ -10,11 +10,13 @@
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\PointerMovedEvent.h"
+#include "Core\Resources\BitmapResourceHandle.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
 
 using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
@@ -26,7 +28,7 @@ namespace PinnedDownClient
 		public:
 			RenderSystem();
 
-			void InitSystem(std::shared_ptr<Core::EventManager> eventManager);
+			void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager);
 			void Render();
 
 			void OnEvent(Event & event);
@@ -91,6 +93,8 @@ namespace PinnedDownClient
 			void CreateSwapChain();
 			void SetRenderTarget();
 			void CreateBrushes();
+			void LoadResources();
+			void UnloadResources();
 
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
@@ -105,6 +109,8 @@ namespace PinnedDownClient
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
+
+			void DrawBitmap(BitmapResourceHandle & bitmapHandle);
 		};
 	}
 }

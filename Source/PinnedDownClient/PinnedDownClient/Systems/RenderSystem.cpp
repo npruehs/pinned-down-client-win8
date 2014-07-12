@@ -11,14 +11,15 @@
 #include "Rendering\TextData.h"
 
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Core::Resources;
 
 RenderSystem::RenderSystem()
 {
 }
 
-void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+void RenderSystem::InitSystem(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
 {
-	GameSystem::InitSystem(eventManager);
+	GameSystem::InitSystem(eventManager, resourceManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
@@ -355,6 +356,9 @@ void RenderSystem::SetRenderTarget()
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
 	this->eventManager->RaiseEvent(renderTargetChangedEvent);
+
+	// Load resources.
+	this->LoadResources();
 }
 
 void RenderSystem::CreateBrushes()
@@ -370,6 +374,37 @@ void RenderSystem::CreateBrushes()
 		D2D1::ColorF(D2D1::ColorF::Red),
 		&this->redBrush)
 		);
+}
+
+void RenderSystem::LoadResources()
+{
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		L"Assets/Logo.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		L"Assets/SmallLogo.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		L"Assets/SplashScreen.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		L"Assets/StoreLogo.png"
+		);
+}
+
+void RenderSystem::UnloadResources()
+{
+	this->resourceManager->UnloadResource(L"Assets/Logo.png");
+	this->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
+	this->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
+	this->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
 }
 
 void RenderSystem::Render()
@@ -439,6 +474,18 @@ void RenderSystem::Render()
 		textLayout.Get(),
 		this->redBrush.Get()
 		);
+
+	// Draw bitmaps.
+	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
+
+	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
+	this->DrawBitmap(logoBitmap);
+	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
+	this->DrawBitmap(smallLogoBitmap);
+	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
+	this->DrawBitmap(splashScreenBitmap);
+	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
+	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(
 		this->d2dContext->EndDraw()
@@ -525,6 +572,7 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
 	this->d3dContext->Flush();
+	this->UnloadResources();
 
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
@@ -637,4 +685,18 @@ void RenderSystem::OnDeviceLost()
 	// Notify the renderers that resources can now be created again.
 	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
 	this->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
+}
+
+void RenderSystem::DrawBitmap(BitmapResourceHandle & bitmapHandle)
+{
+	D2D1_SIZE_F size = bitmapHandle.bitmap->GetSize();
+
+	this->d2dContext->DrawBitmap(
+		bitmapHandle.bitmap,
+		D2D1::RectF(
+		0,
+		0,
+		size.width,
+		size.height)
+		);
 }

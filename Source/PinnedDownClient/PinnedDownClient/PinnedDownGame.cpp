@@ -26,9 +26,11 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
 
+	this->resourceManager = std::shared_ptr<Core::ResourceManager>(new Core::ResourceManager());
+
 	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
 
-	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(eventManager));
+	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
 	this->systemManager->AddSystem(new Systems::InputSystem());
 

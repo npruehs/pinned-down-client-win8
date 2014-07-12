@@ -1,7 +1,6 @@
 
 #include "pch.h"
 #include "Core\Event.h"
-#include "Core\EventManager.h"
 #include "Systems\InputSystem.h"
 
 using namespace PinnedDownClient::Systems;
@@ -10,9 +9,9 @@ InputSystem::InputSystem()
 {
 }
 
-void InputSystem::InitSystem(std::shared_ptr<EventManager> eventManager)
+void InputSystem::InitSystem(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
 {
-	GameSystem::InitSystem(eventManager);
+	GameSystem::InitSystem(eventManager, resourceManager);
 
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);

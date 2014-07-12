@@ -2,6 +2,7 @@
 
 #include "../Helpers/StepTimer.h"
 #include "Core\EventManager.h"
+#include "Core\ResourceManager.h"
 
 namespace PinnedDownClient
 {
@@ -10,9 +11,10 @@ namespace PinnedDownClient
 		class GameSystem
 		{
 		public:
-			virtual void InitSystem(std::shared_ptr<Core::EventManager> eventManager)
+			virtual void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager)
 			{
 				this->eventManager = eventManager;
+				this->resourceManager = resourceManager;
 			}
 
 			virtual void Update(DX::StepTimer const& timer) {}
@@ -20,6 +22,7 @@ namespace PinnedDownClient
 
 		protected:
 			std::shared_ptr<Core::EventManager> eventManager;
+			std::shared_ptr<Core::ResourceManager> resourceManager;
 		};
 	}
 }

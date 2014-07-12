@@ -92,6 +92,9 @@
     <Filter Include="Systems\Rendering">
       <UniqueIdentifier>{adc9564f-2c48-4edc-927b-4e772b90935a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Resources">
+      <UniqueIdentifier>{9a4a6d05-5a94-48ee-9860-8182db7a13f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -148,6 +151,16 @@
     <ClCompile Include="Events\PointerMovedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ResourceManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ResourceHandle.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp">
+      <Filter>Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -222,6 +235,19 @@
     <ClInclude Include="Events\PointerMovedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ResourceManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ResourceHandle.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resources\BitmapResourceHandle.h">
+      <Filter>Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
