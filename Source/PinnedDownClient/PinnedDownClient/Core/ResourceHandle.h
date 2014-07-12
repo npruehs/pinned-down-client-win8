@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Util\HashedString.h"
+#include <memory>
 
 using namespace Microsoft::WRL;
 using namespace PinnedDownClient::Util;
@@ -16,8 +17,10 @@ namespace PinnedDownClient
 			ResourceHandle(char const* const resourceName);
 			~ResourceHandle();
 
+			std::shared_ptr<HashedString> GetResourceName();
+
 		private:
-			HashedString* resourceName;
+			std::shared_ptr<HashedString> resourceName;
 		};
 	}
 }

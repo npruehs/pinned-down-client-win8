@@ -97,11 +97,8 @@ void ResourceManager::LoadBitmapFromFile(
 		);
 
 	// Add to resource map.
-	HashedString hashedFileName = HashedString(resourceUri);
-	unsigned long hash = hashedFileName.getHash();
-
 	ResHandlePtr handle = ResHandlePtr(new BitmapResourceHandle(resourceUri, bitmap));
-	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(hash, handle));
+	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 
 	// Release resources.
 	SafeRelease(&decoder);

@@ -7,9 +7,8 @@ using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
 
 BitmapResourceHandle::BitmapResourceHandle(char const* const resourceName, ID2D1Bitmap *bitmap)
+	: ResourceHandle(resourceName)
 {
-	ResourceHandle::ResourceHandle(resourceName);
-
 	this->bitmap = bitmap;
 }
 

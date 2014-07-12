@@ -11,10 +11,14 @@ ResourceHandle::ResourceHandle()
 
 ResourceHandle::ResourceHandle(char const* const resourceName)
 {
-	this->resourceName = new HashedString(resourceName);
+	this->resourceName = std::make_shared<HashedString>(resourceName);
+}
+
+std::shared_ptr<HashedString> ResourceHandle::GetResourceName()
+{
+	return std::shared_ptr<HashedString>(this->resourceName);
 }
 
 ResourceHandle::~ResourceHandle()
 {
-	delete this->resourceName;
 }
