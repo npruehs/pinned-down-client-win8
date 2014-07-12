@@ -45,9 +45,7 @@ ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
 void ResourceManager::LoadBitmapFromFile(
 	ID2D1DeviceContext* d2dContext,
 	const char* resourceUri,
-	PCWSTR imageUri,
-	UINT destinationWidth,
-	UINT destinationHeight
+	PCWSTR imageUri
 	)
 {
 	// Create an IWICBitmapDecoder.

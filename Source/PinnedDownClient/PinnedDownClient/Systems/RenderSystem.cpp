@@ -10,8 +10,6 @@
 
 #include "Rendering\TextData.h"
 
-#include "Core\Resources\BitmapResourceHandle.h"
-
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Core::Resources;
 
@@ -360,13 +358,7 @@ void RenderSystem::SetRenderTarget()
 	this->eventManager->RaiseEvent(renderTargetChangedEvent);
 
 	// Load resources.
-	this->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		"Logo",
-		L"Assets/Logo.png",
-		150,
-		0
-		);
+	this->LoadResources();
 }
 
 void RenderSystem::CreateBrushes()
@@ -381,6 +373,33 @@ void RenderSystem::CreateBrushes()
 		this->d2dContext->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Red),
 		&this->redBrush)
+		);
+}
+
+void RenderSystem::LoadResources()
+{
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		"Logo",
+		L"Assets/Logo.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		"SmallLogo",
+		L"Assets/SmallLogo.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		"SplashScreen",
+		L"Assets/SplashScreen.png"
+		);
+
+	this->resourceManager->LoadBitmapFromFile(
+		this->d2dContext.Get(),
+		"StoreLogo",
+		L"Assets/StoreLogo.png"
 		);
 }
 
@@ -452,21 +471,17 @@ void RenderSystem::Render()
 		this->redBrush.Get()
 		);
 
-	// Draw bitmap.
-	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
-	 
-	BitmapResourceHandle & bitmapHandle = this->resourceManager->GetResource<BitmapResourceHandle>("Logo");
+	// Draw bitmaps.
+	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
 
-	D2D1_SIZE_F size = bitmapHandle.bitmap->GetSize();
-
-	this->d2dContext->DrawBitmap(
-		bitmapHandle.bitmap,
-		D2D1::RectF(
-		0,
-		0,
-		size.width,
-		size.height)
-		);
+	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("Logo");
+	this->DrawBitmap(logoBitmap);
+	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("SmallLogo");
+	this->DrawBitmap(smallLogoBitmap);
+	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("SplashScreen");
+	this->DrawBitmap(splashScreenBitmap);
+	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>("StoreLogo");
+	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(
 		this->d2dContext->EndDraw()
@@ -665,4 +680,18 @@ void RenderSystem::OnDeviceLost()
 	// Notify the renderers that resources can now be created again.
 	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
 	this->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
+}
+
+void RenderSystem::DrawBitmap(BitmapResourceHandle & bitmapHandle)
+{
+	D2D1_SIZE_F size = bitmapHandle.bitmap->GetSize();
+
+	this->d2dContext->DrawBitmap(
+		bitmapHandle.bitmap,
+		D2D1::RectF(
+		0,
+		0,
+		size.width,
+		size.height)
+		);
 }

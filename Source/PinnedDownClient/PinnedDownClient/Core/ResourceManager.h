@@ -30,7 +30,7 @@ namespace PinnedDownClient
 			}
 
 			// Uses the passed device context to load the image from the specified URI.
-			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, const char* resourceUri, PCWSTR imageUri, UINT destinationWidth, UINT destinationHeight);
+			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, const char* resourceUri, PCWSTR imageUri);
 
 		private:
 			std::list<ResHandlePtr> resourceList;
