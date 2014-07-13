@@ -12,6 +12,7 @@
 #include "Core\SystemManager.h"
 #include "Systems\RenderSystem.h"
 #include "Systems\InputSystem.h"
+#include "Systems\LuaScriptSystem.h"
 #include "Events\AppWindowChangedEvent.h"
 
 using namespace PinnedDownClient;
@@ -33,6 +34,7 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
 	this->systemManager->AddSystem(new Systems::InputSystem());
+	this->systemManager->AddSystem(new Systems::LuaScriptSystem());
 
 	this->systemManager->InitSystems();
 
