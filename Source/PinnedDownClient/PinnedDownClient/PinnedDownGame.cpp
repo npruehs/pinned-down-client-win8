@@ -31,6 +31,8 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 
 	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
 
+	this->entityManager = std::shared_ptr<Core::EntityManager>(new Core::EntityManager(this->eventManager));
+
 	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
 	this->systemManager->AddSystem(new Systems::InputSystem());
@@ -189,9 +191,11 @@ void PinnedDownGame::Update()
     m_timer.Tick([&]()
     {
         // Note to developer: Replace these with your app's content update functions.
-		eventManager->Tick();
-		systemManager->Update(m_timer);
-		
+		this->systemManager->Update(m_timer);
+		this->eventManager->Tick();
+		this->entityManager->CleanUpEntities();
+		this->eventManager->Tick();
+
 		//m_overlayManager->Update(m_timer);
   //      m_inputManager->Update(m_timer);
 

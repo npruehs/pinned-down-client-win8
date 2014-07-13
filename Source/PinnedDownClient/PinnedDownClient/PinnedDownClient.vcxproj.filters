@@ -271,6 +271,9 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Core\EntityManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -437,6 +440,12 @@
     </ClInclude>
     <ClInclude Include="Util\StringUtils.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EntityManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EntityComponent.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

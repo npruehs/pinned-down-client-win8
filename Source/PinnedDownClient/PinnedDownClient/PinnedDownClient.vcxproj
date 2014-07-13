@@ -194,6 +194,8 @@
     <Image Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\EntityComponent.h" />
+    <ClInclude Include="Core\EntityManager.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\EventManager.h" />
     <ClInclude Include="Core\GameException.h" />
@@ -262,6 +264,7 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\GameException.cpp" />
     <ClCompile Include="Core\ResourceHandle.cpp" />
