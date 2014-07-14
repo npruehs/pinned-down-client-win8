@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Core\EntityManager.h"
+#include "Events\EntityCreatedEvent.h"
+#include "Events\EntityRemovedEvent.h"
 
 using namespace PinnedDownClient::Core;
 
@@ -10,12 +12,22 @@ EntityManager::EntityManager(std::shared_ptr<EventManager> eventManager)
 
 int EntityManager::CreateEntity()
 {
-	return ++this->nextEntityId;
+	int entityId = ++this->nextEntityId;
+
+	// Raise event.
+	auto entityCreatedEvent = std::shared_ptr<Events::EntityCreatedEvent>(new Events::EntityCreatedEvent(entityId));
+	this->eventManager->QueueEvent(entityCreatedEvent);
+
+	return entityId;
 }
 
 void EntityManager::RemoveEntity(int entityId)
 {
 	this->removedEntities.insert(entityId);
+
+	// Raise event.
+	auto entityRemovedEvent = std::shared_ptr<Events::EntityRemovedEvent>(new Events::EntityRemovedEvent(entityId));
+	this->eventManager->QueueEvent(entityRemovedEvent);
 }
 
 void EntityManager::AddComponent(int entityId, ComponentPtr const & component)
