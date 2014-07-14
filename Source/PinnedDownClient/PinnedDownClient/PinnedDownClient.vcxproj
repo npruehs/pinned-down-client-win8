@@ -199,6 +199,7 @@
     <ClInclude Include="Core\EntityManager.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\EventManager.h" />
+    <ClInclude Include="Core\FileLogger.h" />
     <ClInclude Include="Core\GameException.h" />
     <ClInclude Include="Core\IEventListener.h" />
     <ClInclude Include="Core\GameSystem.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Util\HashedString.h" />
+    <ClInclude Include="Util\Logger.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
@@ -270,6 +272,7 @@
     <ClCompile Include="Components\PositionComponent.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
+    <ClCompile Include="Core\FileLogger.cpp" />
     <ClCompile Include="Core\GameException.cpp" />
     <ClCompile Include="Core\ResourceHandle.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />

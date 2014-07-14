@@ -11,6 +11,7 @@
 #include "Core\EventManager.h"
 #include "Core\ResourceManager.h"
 #include "Core\EntityManager.h"
+#include "Core\FileLogger.h"
 
 #include "Helpers\StepTimer.h"
 #include "Helpers\DeviceResources.h"
@@ -51,6 +52,7 @@ namespace PinnedDownClient
 		std::shared_ptr<Core::SystemManager> systemManager;
 		std::shared_ptr<Core::ResourceManager> resourceManager;
 		std::shared_ptr<Core::EntityManager> entityManager;
+		std::shared_ptr<Core::FileLogger> logger;
 
 		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
         std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;

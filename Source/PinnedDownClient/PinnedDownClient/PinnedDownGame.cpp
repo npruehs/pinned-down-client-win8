@@ -14,6 +14,7 @@
 #include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Events\AppWindowChangedEvent.h"
+#include "Core\FileLogger.h"
 
 using namespace PinnedDownClient;
 using namespace Windows::Foundation;
@@ -26,6 +27,8 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 {
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
+
+	this->logger = std::shared_ptr<Core::FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
 
 	this->resourceManager = std::shared_ptr<Core::ResourceManager>(new Core::ResourceManager());
 
@@ -195,6 +198,8 @@ void PinnedDownGame::Update()
 		this->eventManager->Tick();
 		this->entityManager->CleanUpEntities();
 		this->eventManager->Tick();
+
+		this->logger->Flush();
 
 		//m_overlayManager->Update(m_timer);
   //      m_inputManager->Update(m_timer);
