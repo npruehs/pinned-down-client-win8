@@ -194,6 +194,9 @@
     <Image Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\PositionComponent.h" />
+    <ClInclude Include="Core\EntityComponent.h" />
+    <ClInclude Include="Core\EntityManager.h" />
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\EventManager.h" />
     <ClInclude Include="Core\GameException.h" />
@@ -210,6 +213,8 @@
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
+    <ClInclude Include="Events\EntityCreatedEvent.h" />
+    <ClInclude Include="Events\EntityRemovedEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
     <ClInclude Include="Events\PointerMovedEvent.h" />
@@ -262,6 +267,8 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\PositionComponent.cpp" />
+    <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\GameException.cpp" />
     <ClCompile Include="Core\ResourceHandle.cpp" />
@@ -275,6 +282,8 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
+    <ClCompile Include="Events\EntityCreatedEvent.cpp" />
+    <ClCompile Include="Events\EntityRemovedEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />

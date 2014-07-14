@@ -110,7 +110,7 @@ namespace PinnedDownClient
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
 
-			void DrawBitmap(BitmapResourceHandle & bitmapHandle);
+			void DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle);
 		};
 	}
 }
