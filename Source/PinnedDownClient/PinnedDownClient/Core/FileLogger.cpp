@@ -21,7 +21,15 @@ FileLogger::~FileLogger()
 
 void FileLogger::WriteLog(LogLevel logLevel, const wchar_t* const message)
 {
-	this->logBuffer += message;
+	// Get current time.
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	
+	// Format string.
+	wchar_t buffer[256];
+	swprintf(buffer, 256, L"[%02d-%02d-%d %02d:%02d:%02d] ", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+
+	this->logBuffer += std::wstring(buffer) + message;
 }
 
 void FileLogger::Flush()
