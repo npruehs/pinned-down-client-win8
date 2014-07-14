@@ -24,17 +24,10 @@ namespace PinnedDownClient
 			void AddComponent(int entityId, ComponentPtr const & component);
 			ComponentPtr GetComponent(int entityId, HashedString componentType);
 
-			template <class T> T& GetComponent(int entityId, HashedString componentType)
+			template <class T> std::shared_ptr<T> GetComponent(int entityId, HashedString componentType)
 			{
 				ComponentPtr p = this->GetComponent(entityId, componentType);
-
-				if (p != nullptr) {
-					EntityComponent & entityComponent = *p;
-					T & reference = static_cast<T&>(entityComponent);
-					return reference;
-				}
-
-				return nullptr;
+				return std::static_pointer_cast<T>(p);
 			}
 
 			void CleanUpEntities();

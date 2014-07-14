@@ -22,12 +22,10 @@ namespace PinnedDownClient
 			ResHandlePtr GetResource(HashedString resourceName);
 			void UnloadResource(HashedString resourceName);
 
-			template <class T> T& GetResource(HashedString resourceName)
+			template <class T> std::shared_ptr<T> GetResource(HashedString resourceName)
 			{
 				ResHandlePtr p = this->GetResource(resourceName);
-				ResourceHandle & resourceHandle = *p;
-				T & handle = static_cast<T&>(resourceHandle);
-				return handle;
+				return std::static_pointer_cast<T>(p);
 			}
 
 			// Uses the passed device context to load the image from the specified URI.

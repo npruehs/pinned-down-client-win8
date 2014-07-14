@@ -478,13 +478,13 @@ void RenderSystem::Render()
 	// Draw bitmaps.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
 
-	BitmapResourceHandle & logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
+	std::shared_ptr<BitmapResourceHandle> logoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
 	this->DrawBitmap(logoBitmap);
-	BitmapResourceHandle & smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
+	std::shared_ptr<BitmapResourceHandle> smallLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
 	this->DrawBitmap(smallLogoBitmap);
-	BitmapResourceHandle & splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
+	std::shared_ptr<BitmapResourceHandle> splashScreenBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
 	this->DrawBitmap(splashScreenBitmap);
-	BitmapResourceHandle & storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
+	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
 	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(
@@ -687,12 +687,12 @@ void RenderSystem::OnDeviceLost()
 	this->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }
 
-void RenderSystem::DrawBitmap(BitmapResourceHandle & bitmapHandle)
+void RenderSystem::DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle)
 {
-	D2D1_SIZE_F size = bitmapHandle.bitmap->GetSize();
+	D2D1_SIZE_F size = bitmapHandle->bitmap->GetSize();
 
 	this->d2dContext->DrawBitmap(
-		bitmapHandle.bitmap,
+		bitmapHandle->bitmap,
 		D2D1::RectF(
 		0,
 		0,
