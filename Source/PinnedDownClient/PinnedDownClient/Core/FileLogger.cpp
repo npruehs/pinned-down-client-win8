@@ -22,14 +22,24 @@ FileLogger::~FileLogger()
 void FileLogger::WriteLog(LogLevel logLevel, const wchar_t* const message)
 {
 	// Get current time.
-	SYSTEMTIME st;
-	GetSystemTime(&st);
-	
-	// Format string.
-	wchar_t buffer[256];
-	swprintf(buffer, 256, L"[%02d-%02d-%d %02d:%02d:%02d] ", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+	SYSTEMTIME systemTime;
+	GetSystemTime(&systemTime);
 
-	this->logBuffer += std::wstring(buffer) + message;
+	// Format string.
+	wchar_t systemTimeBuffer[256];
+	swprintf
+		(systemTimeBuffer,
+		 256,
+		 L"[%02d-%02d-%d %02d:%02d:%02d.%03d] ",
+		 systemTime.wYear,
+		 systemTime.wMonth,
+		 systemTime.wDay,
+		 systemTime.wHour,
+		 systemTime.wMinute,
+		 systemTime.wSecond,
+		 systemTime.wMilliseconds);
+
+	this->logBuffer += std::wstring(systemTimeBuffer) + this->LogLevelToString(logLevel) + L" - " + message;
 }
 
 void FileLogger::Flush()
@@ -39,4 +49,25 @@ void FileLogger::Flush()
 	}
 
 	this->logBuffer.clear();
+}
+
+std::wstring FileLogger::LogLevelToString(PinnedDownClient::Util::LogLevel logLevel)
+{
+	switch (logLevel)
+	{
+	case LogLevel::Debug:
+		return L"DEBUG";
+	case LogLevel::Error:
+		return L"ERROR";
+	case LogLevel::Fatal:
+		return L"FATAL";
+	case LogLevel::Info:
+		return L"INFO";
+	case LogLevel::Trace:
+		return L"TRACE";
+	case LogLevel::Warn:
+		return L"WARN";
+	default:
+		return L"LOG";
+	}
 }

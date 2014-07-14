@@ -29,12 +29,16 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
     m_deviceResources->RegisterDeviceNotify(this);
 
 	this->logger = std::shared_ptr<Core::FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
+	this->logger->Info(L"Logger initialized.");
 
 	this->resourceManager = std::shared_ptr<Core::ResourceManager>(new Core::ResourceManager());
+	this->logger->Info(L"Resource manager initialized.");
 
 	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
+	this->logger->Info(L"Event manager initialized.");
 
 	this->entityManager = std::shared_ptr<Core::EntityManager>(new Core::EntityManager(this->eventManager));
+	this->logger->Info(L"Entity manager initialized.");
 
 	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
@@ -42,6 +46,7 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 	this->systemManager->AddSystem(new Systems::LuaScriptSystem());
 
 	this->systemManager->InitSystems();
+	this->logger->Info(L"System manager initialized.");
 
     // Note to developer: Replace this with your app's content initialization.
     //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));

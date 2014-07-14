@@ -23,6 +23,8 @@ namespace PinnedDownClient
 		private:
 			StorageFile^ logFile;
 			std::wstring logBuffer;
+
+			std::wstring LogLevelToString(PinnedDownClient::Util::LogLevel logLevel);
 		};
 	}
 }
