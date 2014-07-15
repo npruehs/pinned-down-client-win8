@@ -6,23 +6,23 @@
 
 namespace PinnedDownClient
 {
+	class PinnedDownGame;
+
 	namespace Core
 	{
 		class GameSystem
 		{
 		public:
-			virtual void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager)
+			virtual void InitSystem(PinnedDownClient::PinnedDownGame* game)
 			{
-				this->eventManager = eventManager;
-				this->resourceManager = resourceManager;
+				this->game = game;
 			}
 
 			virtual void Update(DX::StepTimer const& timer) {}
 			virtual void Render() {}
 
 		protected:
-			std::shared_ptr<Core::EventManager> eventManager;
-			std::shared_ptr<Core::ResourceManager> resourceManager;
+			PinnedDownClient::PinnedDownGame* game;
 		};
 	}
 }

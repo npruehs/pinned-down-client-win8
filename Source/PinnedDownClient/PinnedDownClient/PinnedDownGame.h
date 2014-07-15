@@ -35,6 +35,10 @@ namespace PinnedDownClient
         bool Render();
 
 		std::shared_ptr<Core::EventManager> GetEventManager() { return std::shared_ptr<Core::EventManager>(this->eventManager); }
+		std::shared_ptr<Core::SystemManager> GetSystemManager() { return std::shared_ptr<Core::SystemManager>(this->systemManager); }
+		std::shared_ptr<Core::ResourceManager> GetResourceManager() { return std::shared_ptr<Core::ResourceManager>(this->resourceManager); }
+		std::shared_ptr<Core::EntityManager> GetEntityManager() { return std::shared_ptr<Core::EntityManager>(this->entityManager); }
+		std::shared_ptr<Core::FileLogger> GetLogger() { return std::shared_ptr<Core::FileLogger>(this->logger); }
 
         // IDeviceNotify
         virtual void OnDeviceLost();

@@ -11,12 +11,14 @@ typedef std::map<int, ComponentPtr> ComponentMap;
 
 namespace PinnedDownClient
 {
+	class PinnedDownGame;
+
 	namespace Core
 	{
 		class EntityManager
 		{
 		public:
-			EntityManager(std::shared_ptr<EventManager> eventManager);
+			EntityManager(PinnedDownClient::PinnedDownGame* game);
 
 			int CreateEntity();
 			void RemoveEntity(int entityId);
@@ -33,7 +35,7 @@ namespace PinnedDownClient
 			void CleanUpEntities();
 
 		private:
-			std::shared_ptr<EventManager> eventManager;
+			PinnedDownClient::PinnedDownGame* game;
 
 			// Maps that are mapping entity ids to specific components.
 			std::map<unsigned long, ComponentMap> componentMaps;

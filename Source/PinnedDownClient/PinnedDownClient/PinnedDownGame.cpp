@@ -37,10 +37,10 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
 	this->logger->Info(L"Event manager initialized.");
 
-	this->entityManager = std::shared_ptr<Core::EntityManager>(new Core::EntityManager(this->eventManager));
+	this->entityManager = std::shared_ptr<Core::EntityManager>(new Core::EntityManager(this));
 	this->logger->Info(L"Entity manager initialized.");
 
-	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
+	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this));
 	this->systemManager->AddSystem(new Systems::RenderSystem());
 	this->systemManager->AddSystem(new Systems::InputSystem());
 	this->systemManager->AddSystem(new Systems::LuaScriptSystem());

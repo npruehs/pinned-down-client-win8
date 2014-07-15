@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PinnedDownGame.h"
 #include "Helpers\DirectXHelper.h"
 #include "Core\IEventListener.h"
 #include "Core\GameSystem.h"
@@ -28,7 +29,7 @@ namespace PinnedDownClient
 		public:
 			RenderSystem();
 
-			void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager);
+			void InitSystem(PinnedDownClient::PinnedDownGame* game);
 			void Render();
 
 			void OnEvent(Event & event);
