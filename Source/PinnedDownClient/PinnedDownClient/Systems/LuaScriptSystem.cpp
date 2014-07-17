@@ -9,9 +9,9 @@ LuaScriptSystem::LuaScriptSystem()
 {
 }
 
-void LuaScriptSystem::InitSystem(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
+void LuaScriptSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
-	GameSystem::InitSystem(eventManager, resourceManager);
+	GameSystem::InitSystem(game);
 
 	this->InitLua();
 }

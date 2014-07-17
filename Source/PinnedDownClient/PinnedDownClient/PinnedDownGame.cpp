@@ -8,14 +8,20 @@
 #include "pch.h"
 #include "PinnedDownGame.h"
 #include "Helpers\DirectXHelper.h"
+#include "Events\AppWindowChangedEvent.h"
 
 #include "Core\SystemManager.h"
+#include "Core\EventManager.h"
+#include "Core\ResourceManager.h"
+#include "Core\EntityManager.h"
+#include "Core\FileLogger.h"
+
 #include "Systems\RenderSystem.h"
 #include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
-#include "Events\AppWindowChangedEvent.h"
 
 using namespace PinnedDownClient;
+using namespace PinnedDownClient::Core;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
 using namespace Concurrency;
@@ -27,18 +33,32 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
     // Register to be notified if the Device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
 
-	this->resourceManager = std::shared_ptr<Core::ResourceManager>(new Core::ResourceManager());
+	this->gameInfrastructure = std::shared_ptr<GameInfrastructure>(new GameInfrastructure());
 
-	this->eventManager = std::shared_ptr<Core::EventManager>(new Core::EventManager());
+	this->gameInfrastructure->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
+	this->gameInfrastructure->logger->Info(L"Logger initialized.");
 
-	this->entityManager = std::shared_ptr<Core::EntityManager>(new Core::EntityManager(this->eventManager));
+	this->gameInfrastructure->resourceManager = std::unique_ptr<ResourceManager>(new Core::ResourceManager());
+	this->gameInfrastructure->logger->Info(L"Resource manager initialized.");
 
-	this->systemManager = std::shared_ptr<Core::SystemManager>(new Core::SystemManager(this->eventManager, this->resourceManager));
-	this->systemManager->AddSystem(new Systems::RenderSystem());
-	this->systemManager->AddSystem(new Systems::InputSystem());
-	this->systemManager->AddSystem(new Systems::LuaScriptSystem());
+	this->gameInfrastructure->eventManager = std::unique_ptr<EventManager>(new EventManager());
+	this->gameInfrastructure->logger->Info(L"Event manager initialized.");
 
-	this->systemManager->InitSystems();
+	EntityManager* entityManager = new EntityManager(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
+	this->gameInfrastructure->entityManager = std::unique_ptr<EntityManager>(entityManager);
+	this->gameInfrastructure->logger->Info(L"Entity manager initialized.");
+
+	SystemManager* systemManager = new SystemManager(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
+	this->gameInfrastructure->systemManager = std::unique_ptr<SystemManager>(systemManager);
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::RenderSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::InputSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
+
+	this->gameInfrastructure->systemManager->InitSystems();
+	this->gameInfrastructure->logger->Info(L"System manager initialized.");
+
+	EventLogger* eventLogger = new Events::EventLogger(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
+	this->eventLogger = std::shared_ptr<Events::EventLogger>();
 
     // Note to developer: Replace this with your app's content initialization.
     //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
@@ -174,7 +194,7 @@ void PinnedDownGame::CreateWindowSizeDependentResources()
     // Note to developer: Replace this with the size-dependent initialization of your app's content.
     
     // Input events are dependent on having the correct CoreWindow.
-    m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
+    //m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
 
     // Only update the virtual controller if it's present.
     if (m_virtualControllerRenderer != nullptr)
@@ -191,11 +211,13 @@ void PinnedDownGame::Update()
     m_timer.Tick([&]()
     {
         // Note to developer: Replace these with your app's content update functions.
-		this->systemManager->Update(m_timer);
-		this->eventManager->Tick();
-		this->entityManager->CleanUpEntities();
-		this->eventManager->Tick();
+		this->gameInfrastructure->systemManager->Update(m_timer);
+		this->gameInfrastructure->eventManager->Tick();
+		this->gameInfrastructure->entityManager->CleanUpEntities();
+		this->gameInfrastructure->eventManager->Tick();
 
+		this->gameInfrastructure->logger->Flush();
+		
 		//m_overlayManager->Update(m_timer);
   //      m_inputManager->Update(m_timer);
 
@@ -251,7 +273,7 @@ bool PinnedDownGame::Render()
         return false;
     }
 
-	systemManager->Render();
+	this->gameInfrastructure->systemManager->Render();
 
     //auto context = m_deviceResources->GetD3DDeviceContext();
 

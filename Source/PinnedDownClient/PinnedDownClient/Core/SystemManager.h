@@ -8,12 +8,14 @@
 
 namespace PinnedDownClient
 {
+	class GameInfrastructure;
+
 	namespace Core
 	{
 		class SystemManager
 		{
 		public:
-			SystemManager(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager);
+			SystemManager(std::shared_ptr<GameInfrastructure> game);
 
 			void AddSystem(GameSystem* system);
 			void InitSystems();
@@ -21,8 +23,7 @@ namespace PinnedDownClient
 			void Render();
 
 		private:
-			std::shared_ptr<EventManager> eventManager;
-			std::shared_ptr<ResourceManager> resourceManager;
+			std::shared_ptr<GameInfrastructure> game;
 			std::vector<std::shared_ptr<GameSystem>> systems;
 		};
 	}

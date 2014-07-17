@@ -286,6 +286,12 @@
     <ClCompile Include="Events\EntityRemovedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Core\FileLogger.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EventLogger.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -466,6 +472,16 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Events\EntityRemovedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Logger.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FileLogger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInfrastructure.h" />
+    <ClInclude Include="Events\EventLogger.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>

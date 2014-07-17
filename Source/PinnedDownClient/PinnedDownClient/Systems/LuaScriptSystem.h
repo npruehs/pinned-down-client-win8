@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PinnedDownGame.h"
 #include "Core\GameSystem.h"
 #include "Core\IEventListener.h"
 
@@ -20,7 +21,7 @@ namespace PinnedDownClient
 		public:
 			LuaScriptSystem();
 
-			void InitSystem(std::shared_ptr<Core::EventManager> eventManager, std::shared_ptr<Core::ResourceManager> resourceManager);
+			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 
 			void OnEvent(Event & event);
 

@@ -1,12 +1,12 @@
 #include "pch.h"
+#include "GameInfrastructure.h"
 #include "Core\SystemManager.h"
 
 using namespace PinnedDownClient::Core;
 
-SystemManager::SystemManager(std::shared_ptr<EventManager> eventManager, std::shared_ptr<ResourceManager> resourceManager)
+SystemManager::SystemManager(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
-	this->eventManager = eventManager;
-	this->resourceManager = resourceManager;
+	this->game = game;
 }
 
 void SystemManager::AddSystem(GameSystem* system)
@@ -18,7 +18,7 @@ void SystemManager::InitSystems()
 {
 	for (unsigned int i = 0; i < systems.size(); i++)
 	{
-		systems[i]->InitSystem(this->eventManager, this->resourceManager);
+		systems[i]->InitSystem(this->game);
 	}
 }
 
