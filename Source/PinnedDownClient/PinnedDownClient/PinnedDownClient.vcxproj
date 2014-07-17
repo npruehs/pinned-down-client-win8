@@ -216,6 +216,7 @@
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
     <ClInclude Include="Events\EntityCreatedEvent.h" />
     <ClInclude Include="Events\EntityRemovedEvent.h" />
+    <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
     <ClInclude Include="Events\PointerMovedEvent.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
     <ClCompile Include="Events\EntityCreatedEvent.cpp" />
     <ClCompile Include="Events\EntityRemovedEvent.cpp" />
+    <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />

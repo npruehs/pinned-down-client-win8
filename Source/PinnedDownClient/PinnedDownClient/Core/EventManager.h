@@ -23,6 +23,9 @@ namespace PinnedDownClient
 		public:
 			EventManager();
 
+			// Adds the passed listener for events of all types.
+			void AddListener(EventListenerPtr const & listener);
+
 			// Adds the passed listener for events of the specified type.
 			void AddListener(EventListenerPtr const & listener, HashedString const & eventType);
 
@@ -44,6 +47,9 @@ namespace PinnedDownClient
 
 			// Maps event types to listeners.
 			std::map<unsigned long, std::list<EventListenerPtr>> listeners;
+			
+			// Listeners for all events.
+			std::list<EventListenerPtr> listenersForAllEvents;
 
 			// Events that are currently being processed.
 			std::list<EventPtr> currentEvents;

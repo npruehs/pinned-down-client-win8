@@ -9,6 +9,11 @@ EventManager::EventManager()
 {
 }
 
+void EventManager::AddListener(EventListenerPtr const & listener)
+{
+	this->listenersForAllEvents.push_back(listener);
+}
+
 void EventManager::AddListener(EventListenerPtr const & listener, HashedString const & eventType)
 {
 	// Get the event type entry in the listeners map.
@@ -74,8 +79,13 @@ void EventManager::RaiseEvent(EventPtr const & newEvent)
 			(*it)->OnEvent(*newEvent);
 		}
 	}
-}
 
+	// Get listeners for all events.
+	for (std::list<EventListenerPtr>::const_iterator it = this->listenersForAllEvents.begin(); it != this->listenersForAllEvents.end(); it++)
+	{
+		(*it)->OnEvent(*newEvent);
+	}
+}
 
 void EventManager::Tick()
 {

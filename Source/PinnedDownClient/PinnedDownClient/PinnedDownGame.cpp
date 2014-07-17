@@ -57,6 +57,9 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");
 
+	EventLogger* eventLogger = new Events::EventLogger(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
+	this->eventLogger = std::shared_ptr<Events::EventLogger>();
+
     // Note to developer: Replace this with your app's content initialization.
     //m_debugTextRenderer = std::shared_ptr<SampleDebugTextRenderer>(new SampleDebugTextRenderer(m_deviceResources));
 
@@ -191,7 +194,7 @@ void PinnedDownGame::CreateWindowSizeDependentResources()
     // Note to developer: Replace this with the size-dependent initialization of your app's content.
     
     // Input events are dependent on having the correct CoreWindow.
-    m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
+    //m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
 
     // Only update the virtual controller if it's present.
     if (m_virtualControllerRenderer != nullptr)

@@ -14,6 +14,7 @@
 #include "Helpers\InputManager.h"
 #include "Helpers\SoundPlayer.h"
 #include "Helpers\OverlayManager.h"
+#include "Events\EventLogger.h"
 
 #include "Content\SampleDebugTextRenderer.h"
 #include "Content\SampleVirtualControllerRenderer.h"
@@ -45,6 +46,8 @@ namespace PinnedDownClient
 
         // Note to developer: Replace these with your own content rendering.
 		std::shared_ptr<GameInfrastructure> gameInfrastructure;
+
+		std::shared_ptr<Events::EventLogger> eventLogger;
 
 		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
         std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;
