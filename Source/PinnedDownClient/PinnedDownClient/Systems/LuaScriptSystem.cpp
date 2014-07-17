@@ -9,7 +9,7 @@ LuaScriptSystem::LuaScriptSystem()
 {
 }
 
-void LuaScriptSystem::InitSystem(PinnedDownClient::PinnedDownGame* game)
+void LuaScriptSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
 	GameSystem::InitSystem(game);
 

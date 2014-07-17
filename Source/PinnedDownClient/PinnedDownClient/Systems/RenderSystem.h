@@ -29,13 +29,13 @@ namespace PinnedDownClient
 		public:
 			RenderSystem();
 
-			void InitSystem(PinnedDownClient::PinnedDownGame* game);
+			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 			void Render();
 
 			void OnEvent(Event & event);
 
 		private:
-			Platform::Agile<Windows::UI::Core::CoreWindow>	window;
+			Platform::Agile<Windows::UI::Core::CoreWindow> window;
 
 			// Direct3D hardware device for the default adapter.
 			ComPtr<ID3D11Device2> d3dDevice;

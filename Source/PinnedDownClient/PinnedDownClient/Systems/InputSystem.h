@@ -23,7 +23,7 @@ namespace PinnedDownClient
 		public:
 			InputSystem();
 
-			void InitSystem(PinnedDownClient::PinnedDownGame* game);
+			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 
 			void OnEvent(Event & event);
 

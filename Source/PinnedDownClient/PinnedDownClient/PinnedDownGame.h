@@ -7,11 +7,7 @@
 
 #pragma once
 
-#include "Core\SystemManager.h"
-#include "Core\EventManager.h"
-#include "Core\ResourceManager.h"
-#include "Core\EntityManager.h"
-#include "Core\FileLogger.h"
+#include "GameInfrastructure.h"
 
 #include "Helpers\StepTimer.h"
 #include "Helpers\DeviceResources.h"
@@ -34,11 +30,7 @@ namespace PinnedDownClient
         void Update();
         bool Render();
 
-		std::shared_ptr<Core::EventManager> GetEventManager() { return std::shared_ptr<Core::EventManager>(this->eventManager); }
-		std::shared_ptr<Core::SystemManager> GetSystemManager() { return std::shared_ptr<Core::SystemManager>(this->systemManager); }
-		std::shared_ptr<Core::ResourceManager> GetResourceManager() { return std::shared_ptr<Core::ResourceManager>(this->resourceManager); }
-		std::shared_ptr<Core::EntityManager> GetEntityManager() { return std::shared_ptr<Core::EntityManager>(this->entityManager); }
-		std::shared_ptr<Core::FileLogger> GetLogger() { return std::shared_ptr<Core::FileLogger>(this->logger); }
+		std::shared_ptr<GameInfrastructure> GetInfrastructure() { return std::shared_ptr<GameInfrastructure>(this->gameInfrastructure); }
 
         // IDeviceNotify
         virtual void OnDeviceLost();
@@ -52,11 +44,7 @@ namespace PinnedDownClient
         std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
         // Note to developer: Replace these with your own content rendering.
-		std::shared_ptr<Core::EventManager> eventManager;
-		std::shared_ptr<Core::SystemManager> systemManager;
-		std::shared_ptr<Core::ResourceManager> resourceManager;
-		std::shared_ptr<Core::EntityManager> entityManager;
-		std::shared_ptr<Core::FileLogger> logger;
+		std::shared_ptr<GameInfrastructure> gameInfrastructure;
 
 		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
         std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;

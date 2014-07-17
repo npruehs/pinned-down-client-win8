@@ -477,6 +477,7 @@
     <ClInclude Include="Core\FileLogger.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GameInfrastructure.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

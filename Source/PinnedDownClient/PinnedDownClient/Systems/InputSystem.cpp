@@ -9,14 +9,14 @@ InputSystem::InputSystem()
 {
 }
 
-void InputSystem::InitSystem(PinnedDownClient::PinnedDownGame* game)
+void InputSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 }
 
 void InputSystem::OnEvent(Event & newEvent)

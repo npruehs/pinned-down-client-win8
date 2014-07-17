@@ -17,17 +17,17 @@ RenderSystem::RenderSystem()
 {
 }
 
-void RenderSystem::InitSystem(PinnedDownClient::PinnedDownGame* game)
+void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
-	this->game->GetEventManager()->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -355,7 +355,7 @@ void RenderSystem::SetRenderTarget()
 
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
-	this->game->GetEventManager()->RaiseEvent(renderTargetChangedEvent);
+	this->game->eventManager->RaiseEvent(renderTargetChangedEvent);
 
 	// Load resources.
 	this->LoadResources();
@@ -378,22 +378,22 @@ void RenderSystem::CreateBrushes()
 
 void RenderSystem::LoadResources()
 {
-	this->game->GetResourceManager()->LoadBitmapFromFile(
+	this->game->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
 		L"Assets/Logo.png"
 		);
 
-	this->game->GetResourceManager()->LoadBitmapFromFile(
+	this->game->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
 		L"Assets/SmallLogo.png"
 		);
 
-	this->game->GetResourceManager()->LoadBitmapFromFile(
+	this->game->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
 		L"Assets/SplashScreen.png"
 		);
 
-	this->game->GetResourceManager()->LoadBitmapFromFile(
+	this->game->resourceManager->LoadBitmapFromFile(
 		this->d2dContext.Get(),
 		L"Assets/StoreLogo.png"
 		);
@@ -401,10 +401,10 @@ void RenderSystem::LoadResources()
 
 void RenderSystem::UnloadResources()
 {
-	this->game->GetResourceManager()->UnloadResource(L"Assets/Logo.png");
-	this->game->GetResourceManager()->UnloadResource(L"Assets/SmallLogo.png");
-	this->game->GetResourceManager()->UnloadResource(L"Assets/SplashScreen.png");
-	this->game->GetResourceManager()->UnloadResource(L"Assets/StoreLogo.png");
+	this->game->resourceManager->UnloadResource(L"Assets/Logo.png");
+	this->game->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
+	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
+	this->game->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
 }
 
 void RenderSystem::Render()
@@ -478,13 +478,13 @@ void RenderSystem::Render()
 	// Draw bitmaps.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
 
-	std::shared_ptr<BitmapResourceHandle> logoBitmap = this->game->GetResourceManager()->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
+	std::shared_ptr<BitmapResourceHandle> logoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
 	this->DrawBitmap(logoBitmap);
-	std::shared_ptr<BitmapResourceHandle> smallLogoBitmap = this->game->GetResourceManager()->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
+	std::shared_ptr<BitmapResourceHandle> smallLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
 	this->DrawBitmap(smallLogoBitmap);
-	std::shared_ptr<BitmapResourceHandle> splashScreenBitmap = this->game->GetResourceManager()->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
+	std::shared_ptr<BitmapResourceHandle> splashScreenBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
 	this->DrawBitmap(splashScreenBitmap);
-	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->game->GetResourceManager()->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
+	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
 	this->DrawBitmap(storeLogoBitmap);
 
 	DX::ThrowIfFailed(
@@ -675,7 +675,7 @@ void RenderSystem::OnDeviceLost()
 	// Notify the renderers that device resources need to be released.
 	// This ensures all references to the existing swap chain are released so that a new one can be created.
 	auto graphicsDeviceLostEvent = std::shared_ptr<Events::GraphicsDeviceLostEvent>(new Events::GraphicsDeviceLostEvent());
-	this->game->GetEventManager()->RaiseEvent(graphicsDeviceLostEvent);
+	this->game->eventManager->RaiseEvent(graphicsDeviceLostEvent);
 
 	// Create the new device and swap chain.
 	this->CreateD3DDevice();
@@ -684,7 +684,7 @@ void RenderSystem::OnDeviceLost()
 
 	// Notify the renderers that resources can now be created again.
 	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
-	this->game->GetEventManager()->RaiseEvent(graphicsDeviceRestoredEvent);
+	this->game->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }
 
 void RenderSystem::DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle)

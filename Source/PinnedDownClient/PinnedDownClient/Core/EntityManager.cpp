@@ -7,7 +7,7 @@
 using namespace PinnedDownClient;
 using namespace PinnedDownClient::Core;
 
-EntityManager::EntityManager(PinnedDownGame* game)
+EntityManager::EntityManager(std::shared_ptr<GameInfrastructure> game)
 {
 	this->game = game;
 }
@@ -18,7 +18,7 @@ int EntityManager::CreateEntity()
 
 	// Raise event.
 	auto entityCreatedEvent = std::shared_ptr<Events::EntityCreatedEvent>(new Events::EntityCreatedEvent(entityId));
-	this->game->GetEventManager()->QueueEvent(entityCreatedEvent);
+	this->game->eventManager->QueueEvent(entityCreatedEvent);
 
 	return entityId;
 }
@@ -29,7 +29,7 @@ void EntityManager::RemoveEntity(int entityId)
 
 	// Raise event.
 	auto entityRemovedEvent = std::shared_ptr<Events::EntityRemovedEvent>(new Events::EntityRemovedEvent(entityId));
-	this->game->GetEventManager()->QueueEvent(entityRemovedEvent);
+	this->game->eventManager->QueueEvent(entityRemovedEvent);
 }
 
 void EntityManager::AddComponent(int entityId, ComponentPtr const & component)

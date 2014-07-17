@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "PinnedDownGame.h"
+#include "GameInfrastructure.h"
 #include "Core\SystemManager.h"
 
 using namespace PinnedDownClient::Core;
 
-SystemManager::SystemManager(PinnedDownClient::PinnedDownGame* game)
+SystemManager::SystemManager(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
 {
 	this->game = game;
 }

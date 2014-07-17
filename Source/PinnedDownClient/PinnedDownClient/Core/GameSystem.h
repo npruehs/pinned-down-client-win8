@@ -1,19 +1,17 @@
 #pragma once
 
 #include "../Helpers/StepTimer.h"
-#include "Core\EventManager.h"
-#include "Core\ResourceManager.h"
 
 namespace PinnedDownClient
 {
-	class PinnedDownGame;
+	class GameInfrastructure;
 
 	namespace Core
 	{
 		class GameSystem
 		{
 		public:
-			virtual void InitSystem(PinnedDownClient::PinnedDownGame* game)
+			virtual void InitSystem(std::shared_ptr<GameInfrastructure> game)
 			{
 				this->game = game;
 			}
@@ -22,7 +20,7 @@ namespace PinnedDownClient
 			virtual void Render() {}
 
 		protected:
-			PinnedDownClient::PinnedDownGame* game;
+			std::shared_ptr<GameInfrastructure> game;
 		};
 	}
 }

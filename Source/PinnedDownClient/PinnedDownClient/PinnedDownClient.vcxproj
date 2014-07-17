@@ -222,6 +222,7 @@
     <ClInclude Include="Events\PointerPressedEvent.h" />
     <ClInclude Include="Events\PointerReleasedEvent.h" />
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
+    <ClInclude Include="GameInfrastructure.h" />
     <ClInclude Include="Helpers\InputManager.h" />
     <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
