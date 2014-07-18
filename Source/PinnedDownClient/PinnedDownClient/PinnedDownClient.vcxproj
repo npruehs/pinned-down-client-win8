@@ -254,6 +254,9 @@
     <ClInclude Include="Lua\lundump.h" />
     <ClInclude Include="Lua\lvm.h" />
     <ClInclude Include="Lua\lzio.h" />
+    <ClInclude Include="Math\MathUtils.h" />
+    <ClInclude Include="Math\RectF.h" />
+    <ClInclude Include="Math\Vector2F.h" />
     <ClInclude Include="PinnedDownGame.h" />
     <ClInclude Include="Helpers\DirectXHelper.h" />
     <ClInclude Include="Helpers\StepTimer.h" />

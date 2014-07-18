@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include <string>
+#include "Math\Vector2F.h"
 
 namespace PinnedDownClient
 {
@@ -11,10 +12,9 @@ namespace PinnedDownClient
 		{
 			struct TextData
 			{
-				std::wstring Text;
-				float X;
-				float Y;
-				DWRITE_TEXT_ALIGNMENT Alignment;
+				std::wstring text;
+				PinnedDownClient::Math::Vector2F position;
+				DWRITE_TEXT_ALIGNMENT alignment;
 			};
 		}
 	}

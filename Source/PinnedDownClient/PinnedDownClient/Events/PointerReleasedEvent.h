@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Core\Event.h"
+#include "Math\Vector2F.h"
 
+using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
@@ -18,14 +20,12 @@ namespace PinnedDownClient
 			}
 
 			uint32 pointerId;
-			float positionX;
-			float positionY;
+			Vector2F position;
 
 			explicit PointerReleasedEvent(uint32 pointerId, float positionX, float positionY)
 			{
 				this->pointerId = pointerId;
-				this->positionX = positionX;
-				this->positionY = positionY;
+				this->position = Vector2F(positionX, positionY);
 			}
 		};
 	}

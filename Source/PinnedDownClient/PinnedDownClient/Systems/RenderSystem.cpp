@@ -3,6 +3,7 @@
 #include "Core\Event.h"
 #include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
+#include "Math\Vector2F.h"
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
@@ -11,6 +12,7 @@
 #include "Rendering\TextData.h"
 
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
 
 RenderSystem::RenderSystem()
@@ -79,8 +81,7 @@ void RenderSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEven
 	// Store current window data for future updates.
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	this->logicalWindowWidth = this->window->Bounds.Width;
-	this->logicalWindowHeight = this->window->Bounds.Height;
+	this->logicalWindowSize = Vector2F(this->window->Bounds.Width, this->window->Bounds.Height);
 	this->logicalDpi = currentDisplayInformation->LogicalDpi;
 	this->displayOrientation = currentDisplayInformation->CurrentOrientation;
 
@@ -99,8 +100,7 @@ void RenderSystem::OnAppSuspending()
 
 void RenderSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
 {
-	this->logicalWindowWidth = appWindowSizeChangedEvent.width;
-	this->logicalWindowHeight = appWindowSizeChangedEvent.height;
+	this->logicalWindowSize = appWindowSizeChangedEvent.size;
 
 	this->CreateWindowSizeDependentResources();
 }
@@ -167,8 +167,7 @@ void RenderSystem::OnDisplayContentsInvalidated()
 void RenderSystem::OnPointerMoved(PointerMovedEvent pointerMovedEvent)
 {
 	this->pointerId = pointerMovedEvent.pointerId;
-	this->pointerPositionX = pointerMovedEvent.positionX;
-	this->pointerPositionY = pointerMovedEvent.positionY;
+	this->pointerPosition = pointerMovedEvent.position;
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -434,18 +433,19 @@ void RenderSystem::Render()
 
 	// Debug text to draw.
 	Rendering::TextData textData = Rendering::TextData();
-	textData.Text = L"Pointer Id: " + std::to_wstring(this->pointerId) + L"\nPointer X: " + std::to_wstring(this->pointerPositionX) + L"\nPointer Y: " + std::to_wstring(this->pointerPositionY);
-	textData.X = 250;
-	textData.Y = 200;
-	textData.Alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
+	textData.text = L"Pointer Id: " + std::to_wstring(this->pointerId) + L"\nPointer Position: " + this->pointerPosition.ToString();
+	textData.position = Vector2F(250, 200);
+	textData.alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
 
 	// Set text alignment.
 	DX::ThrowIfFailed(
-		this->textFormat->SetTextAlignment(textData.Alignment)
+		this->textFormat->SetTextAlignment(textData.alignment)
 		);
 
 	// TODO: Adjust translation via text metrics depending on alignment.
-	D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(textData.X, textData.Y);
+
+	
+	D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(textData.position.x, textData.position.y);
 	this->d2dContext->SetTransform(screenTranslation);
 
 	// Create final text layout for drawing.
@@ -453,8 +453,8 @@ void RenderSystem::Render()
 
 	DX::ThrowIfFailed(
 		this->writeFactory->CreateTextLayout(
-		textData.Text.c_str(),
-		(uint32)textData.Text.length(),
+		textData.text.c_str(),
+		(uint32)textData.text.length(),
 		this->textFormat.Get(),
 		500.0f, // Max width.
 		500.0f, // Max height.
@@ -577,8 +577,8 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	float currentWidth = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
-	float currentHeight = DX::ConvertDipsToPixels(this->logicalWindowWidth, this->logicalDpi);
+	float currentWidth = DX::ConvertDipsToPixels(this->logicalWindowSize.x, this->logicalDpi);
+	float currentHeight = DX::ConvertDipsToPixels(this->logicalWindowSize.y, this->logicalDpi);
 
 	// Prevent zero size DirectX content from being created.
 	currentWidth = max(currentWidth, 1);

@@ -12,11 +12,13 @@
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\PointerMovedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
+#include "Math\Vector2F.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
 
 using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Events;
 
@@ -79,14 +81,12 @@ namespace PinnedDownClient
 			// Debug format for drawing texts.
 			ComPtr<IDWriteTextFormat> textFormat;
 
-			float logicalWindowWidth;
-			float logicalWindowHeight;
+			Vector2F logicalWindowSize;
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
 			uint32 pointerId;
-			float pointerPositionX;
-			float pointerPositionY;
+			Vector2F pointerPosition;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
