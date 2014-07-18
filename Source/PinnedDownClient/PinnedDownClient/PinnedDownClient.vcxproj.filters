@@ -490,6 +490,9 @@
     <ClInclude Include="Math\Vector2F.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Math\RectF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
