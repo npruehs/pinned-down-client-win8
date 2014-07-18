@@ -2,6 +2,7 @@
 
 #include <string>
 #include "Vector2F.h"
+#include "MathUtils.h"
 
 namespace PinnedDownClient
 {
@@ -118,6 +119,17 @@ namespace PinnedDownClient
 			{
 				return (this->GetRight() > other.GetLeft() && this->GetLeft() < other.GetRight())
 					&& (this->GetBottom() > other.GetTop() && this->GetTop() < other.GetBottom());
+			}
+
+			RectF Union(RectF& other) const
+			{
+				float left = Min(this->GetLeft(), other.GetLeft());
+				float top = Min(this->GetTop(), other.GetTop());
+
+				float right = Max(this->GetRight(), other.GetRight());
+				float bottom = Max(this->GetBottom(), other.GetBottom());
+
+				return RectF(Vector2F(top, left), Vector2F(right - left, bottom - top));
 			}
 
 			// ToString.
