@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Core\Event.h"
+#include "Math\Vector2F.h"
 
+using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
@@ -17,13 +19,11 @@ namespace PinnedDownClient
 				return AppWindowSizeChangedEventType;
 			}
 
-			float width;
-			float height;
+			Vector2F size;
 
 			explicit AppWindowSizeChangedEvent(float width, float height)
 			{
-				this->width = width;
-				this->height = height;
+				this->size = Vector2F(width, height);
 			}
 		};
 	}

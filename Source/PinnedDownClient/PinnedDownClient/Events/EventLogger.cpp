@@ -45,7 +45,7 @@ void EventLogger::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
 	{
 		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
-		this->game->logger->Info(L"App window size changed: " + std::to_wstring(appWindowSizeChangedEvent.width) + L"x" + std::to_wstring(appWindowSizeChangedEvent.height));
+		this->game->logger->Info(L"App window size changed: " + appWindowSizeChangedEvent.size.ToString());
 	}
 	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
 	{
@@ -82,7 +82,7 @@ void EventLogger::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
 	{
 		PointerPressedEvent pointerPressedEvent = static_cast<PointerPressedEvent&>(newEvent);
-		this->game->logger->Info(L"Pointer pressed: (" + std::to_wstring(pointerPressedEvent.positionX) + L", " + std::to_wstring(pointerPressedEvent.positionY) + L")");
+		this->game->logger->Info(L"Pointer pressed: " + pointerPressedEvent.position.ToString());
 	}
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{

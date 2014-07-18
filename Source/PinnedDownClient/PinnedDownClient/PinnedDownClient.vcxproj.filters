@@ -101,6 +101,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{4c769de7-7dad-45a6-9460-dbb631cf485d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{2d4a34af-95ad-4827-8023-1ccaa3aac219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -483,6 +486,9 @@
     <ClInclude Include="GameInfrastructure.h" />
     <ClInclude Include="Events\EventLogger.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2F.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

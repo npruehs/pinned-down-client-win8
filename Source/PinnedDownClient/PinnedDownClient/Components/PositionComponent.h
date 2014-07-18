@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core\EntityComponent.h"
+#include "Math\Vector2F.h"
 
 using namespace PinnedDownClient::Util;
 
@@ -18,8 +19,7 @@ namespace PinnedDownClient
 				return PositionComponentType;
 			}
 
-			int x;
-			int y;
+			PinnedDownClient::Math::Vector2F position;
 		};
 	}
 }
