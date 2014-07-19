@@ -275,6 +275,8 @@ void RenderSystem::CreateDWriteFactory()
 
 void RenderSystem::CreateSwapChain()
 {
+	this->windowScale = Vector2F(1.0f, 1.0f);
+
 	// Allocate swap chain descriptor.
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
 	swapChainDesc.Width = 0;										// Use automatic sizing.
@@ -302,13 +304,26 @@ void RenderSystem::CreateSwapChain()
 		);
 
 	// Get the swap chain for this window from the DXGI factory.
+	ComPtr<IDXGISwapChain1> swapChain;
 	DX::ThrowIfFailed(
 		dxgiFactory->CreateSwapChainForCoreWindow(
 		this->d3dDevice.Get(),
 		reinterpret_cast<IUnknown*>(this->window.Get()),
 		&swapChainDesc,
 		nullptr, // Allow on all displays.
-		&this->dxgiSwapChain
+		&swapChain
+		)
+		);
+
+	DX::ThrowIfFailed(
+		swapChain.As(&this->dxgiSwapChain)
+		);
+
+	// Change the region of the swap chain that will be presented to the screen.
+	DX::ThrowIfFailed(
+		this->dxgiSwapChain->SetSourceSize(
+		static_cast<UINT>(this->logicalWindowSize.x * this->windowScale.x + 0.5f),
+		static_cast<UINT>(this->logicalWindowSize.y * this->windowScale.y + 0.5f)
 		)
 		);
 
@@ -648,8 +663,8 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d3dScreenViewport = CD3D11_VIEWPORT(
 		0.0f,
 		0.0f,
-		newWidth,
-		newHeight
+		newWidth * this->windowScale.x + 0.5f,
+		newHeight * this->windowScale.y + 0.5f
 		);
 
 	this->d3dContext->RSSetViewports(1, &this->d3dScreenViewport);

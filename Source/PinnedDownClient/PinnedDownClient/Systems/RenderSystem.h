@@ -56,7 +56,7 @@ namespace PinnedDownClient
 			ComPtr<IDXGIDevice3> dxgiDevice;
 
 			// Swap chain presenting our results.
-			ComPtr<IDXGISwapChain1> dxgiSwapChain;
+			ComPtr<IDXGISwapChain2> dxgiSwapChain;
 
 			// Use double buffering to enable flip.
 			unsigned int swapChainBufferCount = 2;
@@ -80,6 +80,7 @@ namespace PinnedDownClient
 			ComPtr<IDWriteTextFormat> textFormat;
 
 			Vector2F logicalWindowSize;
+			Vector2F windowScale;
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
