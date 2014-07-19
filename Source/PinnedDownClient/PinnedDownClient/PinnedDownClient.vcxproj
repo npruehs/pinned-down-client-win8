@@ -205,6 +205,7 @@
     <ClInclude Include="Core\GameSystem.h" />
     <ClInclude Include="Core\ResourceHandle.h" />
     <ClInclude Include="Core\ResourceManager.h" />
+    <ClInclude Include="Core\Resources\AudioResourceHandle.h" />
     <ClInclude Include="Core\Resources\BitmapResourceHandle.h" />
     <ClInclude Include="Core\SystemManager.h" />
     <ClInclude Include="Events\AppResumingEvent.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="Core\GameException.cpp" />
     <ClCompile Include="Core\ResourceHandle.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
+    <ClCompile Include="Core\Resources\AudioResourceHandle.cpp" />
     <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp" />
     <ClCompile Include="Core\SystemManager.cpp" />
     <ClCompile Include="Events\AppResumingEvent.cpp" />

@@ -49,6 +49,8 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void InitXAudio();
+			void LoadResources();
+			void UnloadResources();
 
 			void PlaySound(_In_ const std::wstring& filename);
 			void PlayMusic(_In_ const std::wstring& filename);
@@ -57,7 +59,6 @@ namespace PinnedDownClient
 				_In_ const LPCWSTR url,
 				_In_ IXAudio2* engine,
 				_In_ IXAudio2MasteringVoice* masteringVoice,
-				_In_ std::vector<BYTE>& resultData,
 				_In_ IXAudio2SourceVoice** sourceVoice
 				);
 

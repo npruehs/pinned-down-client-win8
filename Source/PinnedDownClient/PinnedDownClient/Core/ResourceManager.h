@@ -31,6 +31,9 @@ namespace PinnedDownClient
 			// Uses the passed device context to load the image from the specified URI.
 			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, PCWSTR imageUri);
 
+			void LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri);
+
+
 		private:
 			std::map<unsigned long, ResHandlePtr> resourceMap;
 

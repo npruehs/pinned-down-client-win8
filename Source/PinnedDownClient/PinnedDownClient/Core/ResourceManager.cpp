@@ -4,6 +4,11 @@
 #include "Util\MemoryUtils.h"
 #include "Core\GameException.h"
 #include "Core\Resources\BitmapResourceHandle.h"
+#include "Core\Resources\AudioResourceHandle.h"
+
+#include <mfidl.h>
+#include <mfapi.h>
+#include <mfreadwrite.h>
 
 using namespace Windows::ApplicationModel;
 
@@ -122,6 +127,90 @@ void ResourceManager::LoadBitmapFromFile(
 	SafeRelease(&decoder);
 	SafeRelease(&source);
 	SafeRelease(&converter);
+}
+
+void ResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri)
+{
+	// Create a Media Foundation object and process the media file.
+	Microsoft::WRL::ComPtr<IMFSourceReader> reader;
+
+	// Initialize Microsoft Media Foundation.
+	DX::ThrowIfFailed(MFStartup(MF_VERSION));
+
+	// Create the source reader on the specified url. This will file be loaded entirely into memory,
+	// so the low latency attribute is not required here; if you are attempting to stream
+	// sound effects from disk, the low latency attribute should be set.
+	DX::ThrowIfFailed(MFCreateSourceReaderFromURL(audioUri, nullptr, &reader));
+
+	// Set the decoded output format as PCM.
+	// XAudio2 on Windows can process PCM and ADPCM-encoded buffers.
+	// When using MF, this sample always decodes into PCM.
+	// Note the inbox ADPCM decoder supports sample rates only up to 44.1KHz. 
+	Microsoft::WRL::ComPtr<IMFMediaType> mediaType;
+	DX::ThrowIfFailed(MFCreateMediaType(&mediaType));
+	DX::ThrowIfFailed(mediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio));
+	DX::ThrowIfFailed(mediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM));
+	DX::ThrowIfFailed(reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, mediaType.Get()));
+
+	// Get the complete WAVEFORMAT from the Media Type.
+	Microsoft::WRL::ComPtr<IMFMediaType> outputMediaType;
+	DX::ThrowIfFailed(reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, outputMediaType.GetAddressOf()));
+
+	uint32 formatByteCount = 0;
+	WAVEFORMATEX* waveFormat;
+	DX::ThrowIfFailed(MFCreateWaveFormatExFromMFMediaType(outputMediaType.Get(), &waveFormat, &formatByteCount));
+
+	// Buffer the sound data in-memory.
+	std::vector<BYTE>* resultData = new std::vector<BYTE>();
+
+	for (;;)
+	{
+		DWORD flags = 0;
+		Microsoft::WRL::ComPtr<IMFSample> sample;
+		DX::ThrowIfFailed(
+			reader->ReadSample(
+			MF_SOURCE_READER_FIRST_AUDIO_STREAM,
+			0,
+			nullptr,
+			&flags,
+			nullptr,
+			&sample
+			)
+			);
+
+		if (flags & MF_SOURCE_READERF_ENDOFSTREAM)
+		{
+			// End of stream.
+			break;
+		}
+
+		Microsoft::WRL::ComPtr<IMFMediaBuffer> mediaBuffer;
+		DX::ThrowIfFailed(
+			sample->ConvertToContiguousBuffer(&mediaBuffer)
+			);
+
+		// Serialize access to the buffer by calling the IMFMediaBuffer::Lock method.
+		uint8* audioData = nullptr;
+		DWORD sampleBufferLength = 0;
+		DX::ThrowIfFailed(mediaBuffer->Lock(&audioData, nullptr, &sampleBufferLength));
+
+		// Append the new buffer to the running total.
+		size_t lastBufferSize = resultData->size();
+		resultData->resize(lastBufferSize + sampleBufferLength);
+		std::copy(audioData, audioData + sampleBufferLength, resultData->begin() + lastBufferSize);
+
+		// Release the lock on the buffer.
+		DX::ThrowIfFailed(mediaBuffer->Unlock());
+	}
+
+	if (resultData->size() > XAUDIO2_MAX_BUFFER_BYTES)
+	{
+		DX::ThrowIfFailed(E_FAIL);
+	}
+
+	// Add to resource map.
+	ResHandlePtr handle = ResHandlePtr(new AudioResourceHandle(audioUri, waveFormat, resultData));
+	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 }
 
 Platform::Array<byte>^ ResourceManager::ReadBytes(Platform::String^ fileName)
