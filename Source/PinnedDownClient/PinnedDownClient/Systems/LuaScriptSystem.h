@@ -23,9 +23,9 @@ namespace PinnedDownClient
 
 			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 
+		private:
 			void OnEvent(Event & event);
 
-		private:
 			void InitLua();
 		};
 	}

@@ -25,9 +25,9 @@ namespace PinnedDownClient
 
 			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 
+		private:
 			void OnEvent(Event & event);
 
-		private:
 			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
 			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);

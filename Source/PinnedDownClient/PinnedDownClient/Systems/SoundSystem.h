@@ -21,23 +21,25 @@ namespace PinnedDownClient
 			~SoundSystem();
 
 			void InitSystem(std::shared_ptr<GameInfrastructure> game);
-			void PlaySound(_In_ const std::wstring& filename);
 
 		private:
 			// Instance of the XAudio2 engine for playing sounds.
-			Microsoft::WRL::ComPtr<IXAudio2> soundAudioEngine;
-			Microsoft::WRL::ComPtr<IXAudio2> musicAudioEngine;
+			ComPtr<IXAudio2> soundAudioEngine;
+			ComPtr<IXAudio2> musicAudioEngine;
 
 			// Encapsulates an audio device. Ultimate destination for all audio that passes through an audio graph.
 			IXAudio2MasteringVoice* soundMasteringVoice;
 			IXAudio2MasteringVoice* musicMasteringVoice;
 
+			// Source voice for passing audio through the audio graph.
 			IXAudio2SourceVoice* soundSourceVoice;
 			IXAudio2SourceVoice* musicSourceVoice;
 
+			// Audio data buffer.
 			std::vector<BYTE> soundData;
 			std::vector<BYTE> musicData;
 
+			// Whether audio is currently playing, or not.
 			bool soundPlaying;
 			bool musicPlaying;
 
@@ -47,6 +49,9 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void InitXAudio();
+
+			void PlaySound(_In_ const std::wstring& filename);
+			void PlayMusic(_In_ const std::wstring& filename);
 
 			void StartVoice(
 				_In_ const LPCWSTR url,

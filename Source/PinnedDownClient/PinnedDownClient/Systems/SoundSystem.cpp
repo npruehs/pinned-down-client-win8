@@ -1,15 +1,17 @@
 
 #include "pch.h"
-#include "Core\Event.h"
-#include "Systems\SoundSystem.h"
-#include "Helpers\DirectXHelper.h"
-
 
 #include <mfidl.h>
 #include <mfapi.h>
 #include <mfreadwrite.h>
 
+#include "Core\Event.h"
+#include "Systems\SoundSystem.h"
+#include "Helpers\DirectXHelper.h"
+#include "Events\PointerPressedEvent.h"
+
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Events;
 
 // Sample rate used for mastering voices the your game. Depends on factors such as asset sample rates and performance considerations.
 #define SOUND_SYSTEM_SAMPLE_RATE 44100
@@ -22,55 +24,18 @@ void SoundSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructur
 {
 	GameSystem::InitSystem(game);
 
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
-	//this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerPressedEvent::PointerPressedEventType);
 
 	// Create devices.
 	this->InitXAudio();
-
-	this->PlaySound(L"assets/chord.wav");
 }
 
 void SoundSystem::OnEvent(Event & newEvent)
 {
-	/*if (newEvent.GetEventType() == AppWindowChangedEvent::AppWindowChangedEventType)
+	if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
 	{
-		AppWindowChangedEvent appWindowChangedEvent = static_cast<AppWindowChangedEvent&>(newEvent);
-		this->OnAppWindowChanged(appWindowChangedEvent);
+		this->PlaySound(L"assets/chord.wav");
 	}
-	else if (newEvent.GetEventType() == AppSuspendingEvent::AppSuspendingEventType)
-	{
-		this->OnAppSuspending();
-	}
-	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
-	{
-		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
-		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayDpiChangedEvent::DisplayDpiChangedEventType)
-	{
-		DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<DisplayDpiChangedEvent&>(newEvent);
-		this->OnDisplayDpiChanged(displayDpiChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
-	{
-		DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<DisplayOrientationChangedEvent&>(newEvent);
-		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
-	{
-		this->OnDisplayContentsInvalidated();
-	}
-	else if (newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType)
-	{
-		PointerMovedEvent pointerMovedEvent = static_cast<PointerMovedEvent&>(newEvent);
-		this->OnPointerMoved(pointerMovedEvent);
-	}*/
 }
 
 void SoundSystem::InitXAudio()
@@ -173,6 +138,33 @@ void SoundSystem::PlaySound(_In_ const std::wstring& file)
 		);
 
 	this->soundPlaying = true;
+}
+
+void SoundSystem::PlayMusic(_In_ const std::wstring& file)
+{
+	std::lock_guard<std::mutex> lock(this->criticalSection);
+
+	// Validate parameters.
+	if ((file.size() < 1))
+	{
+		DX::ThrowIfFailed(E_INVALIDARG);
+	}
+
+	if (this->musicPlaying)
+	{
+		this->musicSourceVoice->Stop();
+		this->musicData.clear();
+	}
+
+	this->StartVoice(
+		file.c_str(),
+		this->musicAudioEngine.Get(),
+		this->musicMasteringVoice,
+		this->musicData,
+		&this->musicSourceVoice
+		);
+
+	this->musicPlaying = true;
 }
 
 void SoundSystem::StartVoice(
@@ -292,7 +284,7 @@ void SoundSystem::StartVoice(
 void SoundSystem::OnStreamEnd()
 {
 }
-void SoundSystem::OnBufferStart(void* /*bufferContext*/)
+void SoundSystem::OnBufferStart(void* bufferContext)
 {
 }
 
@@ -310,15 +302,15 @@ void SoundSystem::OnBufferEnd(void* bufferContext)
 	}
 }
 
-void SoundSystem::OnLoopEnd(void* /*bufferContext*/)
+void SoundSystem::OnLoopEnd(void* bufferContext)
 {
 }
 
-void SoundSystem::OnVoiceError(void* /*bufferContext*/, HRESULT /*error*/)
+void SoundSystem::OnVoiceError(void* bufferContext, HRESULT error)
 {
 }
 
-void SoundSystem::OnVoiceProcessingPassStart(UINT32 /*bytesRequired*/)
+void SoundSystem::OnVoiceProcessingPassStart(UINT32 bytesRequired)
 {
 }
 
