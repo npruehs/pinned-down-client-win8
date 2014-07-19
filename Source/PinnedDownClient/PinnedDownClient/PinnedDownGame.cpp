@@ -19,6 +19,7 @@
 #include "Systems\RenderSystem.h"
 #include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
+#include "Systems\SoundSystem.h"
 
 using namespace PinnedDownClient;
 using namespace PinnedDownClient::Core;
@@ -53,6 +54,7 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::RenderSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::InputSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");

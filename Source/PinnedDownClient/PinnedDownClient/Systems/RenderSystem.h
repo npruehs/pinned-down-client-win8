@@ -34,8 +34,6 @@ namespace PinnedDownClient
 			void InitSystem(std::shared_ptr<GameInfrastructure> game);
 			void Render();
 
-			void OnEvent(Event & event);
-
 		private:
 			Platform::Agile<Windows::UI::Core::CoreWindow> window;
 
@@ -96,6 +94,8 @@ namespace PinnedDownClient
 			void CreateBrushes();
 			void LoadResources();
 			void UnloadResources();
+
+			void OnEvent(Event & event);
 
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);

@@ -21,3 +21,4 @@
 #include <concrt.h>
 #include <ppl.h>
 #include <unordered_map>
+#include <xaudio2.h>
