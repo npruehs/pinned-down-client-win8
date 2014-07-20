@@ -18,5 +18,6 @@ namespace PinnedDownClient
 		std::unique_ptr<Core::ResourceManager> resourceManager;
 		std::unique_ptr<Core::EntityManager> entityManager;
 		std::unique_ptr<Core::FileLogger> logger;
+		std::unique_ptr<Util::StepTimer> timer;
 	};
 }

@@ -21,13 +21,16 @@ namespace PinnedDownClient
 			DebugInfoSystem();
 
 			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void Update(StepTimer const& timer);
 
 		private:
 			Vector2F pointerPosition;
 
 			int pointerPositionTextEntity;
+			int fpsTextEntity;
 
 			void CreateEntities();
+			int CreateTextEntity(Vector2F screenPosition);
 
 			void OnEvent(Event & event);
 
