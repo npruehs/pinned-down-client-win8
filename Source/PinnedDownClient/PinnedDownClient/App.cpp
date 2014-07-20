@@ -180,8 +180,6 @@ void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ ar
 	float width = sender->Bounds.Width;
 	float height = sender->Bounds.Height;
 
-	this->game->CreateWindowSizeDependentResources();
-
 	// Notify subsystems.
 	auto appWindowSizeChangedEvent = std::shared_ptr<Events::AppWindowSizeChangedEvent>(new Events::AppWindowSizeChangedEvent(width, height));
 	this->game->GetInfrastructure()->eventManager->QueueEvent(appWindowSizeChangedEvent);
@@ -199,8 +197,6 @@ void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
-	this->game->CreateWindowSizeDependentResources();
-
 	float dpi = sender->LogicalDpi;
 
 	// Notify subsystems.
@@ -210,8 +206,6 @@ void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
-	this->game->CreateWindowSizeDependentResources();
-
 	Windows::Graphics::Display::DisplayOrientations orientation = sender->CurrentOrientation;
 
 	// Notify subsystems.

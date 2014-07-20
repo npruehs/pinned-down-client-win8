@@ -225,8 +225,6 @@
     <ClInclude Include="Events\PointerReleasedEvent.h" />
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
     <ClInclude Include="GameInfrastructure.h" />
-    <ClInclude Include="Helpers\InputManager.h" />
-    <ClInclude Include="Helpers\SoundPlayer.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Lua\lapi.h" />
     <ClInclude Include="Lua\lauxlib.h" />
@@ -297,8 +295,6 @@
     <ClCompile Include="Events\PointerPressedEvent.cpp" />
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
-    <ClCompile Include="Helpers\InputManager.cpp" />
-    <ClCompile Include="Helpers\SoundPlayer.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Lua\lapi.c">
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
