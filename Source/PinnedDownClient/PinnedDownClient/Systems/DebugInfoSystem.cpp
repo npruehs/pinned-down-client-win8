@@ -9,6 +9,8 @@
 #include "Components\TextComponent.h"
 #include "Events\EntityInitializedEvent.h"
 
+using namespace Windows::ApplicationModel;
+
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Components;
 
@@ -29,6 +31,12 @@ void DebugInfoSystem::CreateEntities()
 {
 	this->pointerPositionTextEntity = this->CreateTextEntity(Vector2F(20.0f, 20.0f));
 	this->fpsTextEntity = this->CreateTextEntity(Vector2F(20.0f, 40.0f));
+	this->versionTextEntity = this->CreateTextEntity(Vector2F(20.0f, 60.0f));
+
+	// Show version number.
+	auto version = Package::Current->Id->Version;
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
+	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision);
 }
 
 int DebugInfoSystem::CreateTextEntity(Vector2F screenPosition)

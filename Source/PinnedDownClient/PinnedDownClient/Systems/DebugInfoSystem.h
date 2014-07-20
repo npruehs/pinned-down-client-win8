@@ -28,6 +28,7 @@ namespace PinnedDownClient
 
 			int pointerPositionTextEntity;
 			int fpsTextEntity;
+			int versionTextEntity;
 
 			void CreateEntities();
 			int CreateTextEntity(Vector2F screenPosition);
