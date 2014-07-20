@@ -59,7 +59,9 @@ namespace PinnedDownClient
 				_In_ const LPCWSTR url,
 				_In_ IXAudio2* engine,
 				_In_ IXAudio2MasteringVoice* masteringVoice,
-				_In_ IXAudio2SourceVoice** sourceVoice
+				_In_ IXAudio2SourceVoice** sourceVoice,
+				float volume = 1.0f,
+				bool loop = false
 				);
 
 			STDMETHOD_(void, OnVoiceProcessingPassStart) (THIS_ UINT32 bytesRequired);

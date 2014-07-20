@@ -175,7 +175,9 @@ void SoundSystem::StartVoice(
 	_In_ const LPCWSTR url,
 	_In_ IXAudio2* engine,
 	_In_ IXAudio2MasteringVoice* masteringVoice,
-	_In_ IXAudio2SourceVoice** sourceVoice
+	_In_ IXAudio2SourceVoice** sourceVoice,
+	float volume,
+	bool loop
 	)
 {
 	// Check arguments.
@@ -206,9 +208,11 @@ void SoundSystem::StartVoice(
 	playBuffer.AudioBytes = static_cast<UINT32>(audioBuffer.size());	// Buffer containing audio data.
 	playBuffer.pAudioData = &audioBuffer[0];							// Size of the audio buffer in bytes.
 	playBuffer.pContext = *sourceVoice;
+	playBuffer.LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
 
 	// Submit the buffer and start the voice.
 	ThrowIfFailed((*sourceVoice)->SubmitSourceBuffer(&playBuffer));
+	(*sourceVoice)->SetVolume(volume);
 	(*sourceVoice)->Start();
 }
 
