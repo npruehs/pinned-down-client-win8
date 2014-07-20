@@ -8,6 +8,7 @@
 #include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\SoundSystem.h"
+#include "Systems\DebugInfoSystem.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -21,6 +22,8 @@ PinnedDownGame::PinnedDownGame()
 {
 	// Setup game infrastructure.
 	this->gameInfrastructure = std::shared_ptr<GameInfrastructure>(new GameInfrastructure());
+
+	this->gameInfrastructure->timer = std::make_unique<Util::StepTimer>();
 
 	this->gameInfrastructure->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
 	this->gameInfrastructure->logger->Info(L"Logger initialized.");
@@ -41,6 +44,7 @@ PinnedDownGame::PinnedDownGame()
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::InputSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");
@@ -57,10 +61,10 @@ PinnedDownGame::~PinnedDownGame()
 void PinnedDownGame::Update()
 {
     // Step timer.
-	timer.Update();
+	this->gameInfrastructure->timer->Update();
 
     // Update game infrastructure.
-	this->gameInfrastructure->systemManager->Update(timer);
+	this->gameInfrastructure->systemManager->Update(*this->gameInfrastructure->timer);
 	this->gameInfrastructure->eventManager->Tick();
 	this->gameInfrastructure->entityManager->CleanUpEntities();
 	this->gameInfrastructure->eventManager->Tick();
@@ -70,7 +74,7 @@ void PinnedDownGame::Update()
 bool PinnedDownGame::Render()
 {
     // Don't try to render anything before the first Update.
-	if (timer.GetFrameCount() == 0)
+	if (this->gameInfrastructure->timer->GetFrameCount() == 0)
     {
         return false;
     }

@@ -98,7 +98,7 @@ namespace PinnedDownClient
 			// ToString.
 			std::wstring ToString()
 			{
-				return L"(" + std::to_wstring(this->x) + L"/" + std::to_wstring(this->y) + L")";
+				return L"(" + std::to_wstring(this->x) + L" / " + std::to_wstring(this->y) + L")";
 			}
 		};
 	}

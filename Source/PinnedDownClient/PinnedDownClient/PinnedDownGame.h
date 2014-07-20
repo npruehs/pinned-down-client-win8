@@ -28,8 +28,5 @@ namespace PinnedDownClient
 
 		// Logger tracking all game events.
 		std::shared_ptr<Events::EventLogger> eventLogger;
-
-        // Rendering loop timer.
-        Util::StepTimer timer;
     };
 }

@@ -9,14 +9,14 @@ namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class PositionComponent : public PinnedDownClient::Core::EntityComponent
+		class ScreenPositionComponent : public PinnedDownClient::Core::EntityComponent
 		{
 		public:
-			static const HashedString PositionComponentType;
+			static const HashedString ScreenPositionComponentType;
 
 			const HashedString & GetComponentType() const
 			{
-				return PositionComponentType;
+				return ScreenPositionComponentType;
 			}
 
 			PinnedDownClient::Math::Vector2F position;

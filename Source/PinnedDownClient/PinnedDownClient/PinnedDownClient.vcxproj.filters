@@ -226,9 +226,6 @@
     <ClCompile Include="Core\EntityManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Components\PositionComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Events\EntityCreatedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
@@ -246,6 +243,27 @@
     </ClCompile>
     <ClCompile Include="Core\Resources\AudioResourceHandle.cpp">
       <Filter>Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\DebugInfoSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ScreenPositionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TextComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TextAlignmentComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\FontComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityInitializedEvent.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,9 +438,6 @@
     <ClInclude Include="Core\EntityComponent.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Components\PositionComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Events\EntityCreatedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -459,6 +474,27 @@
     </ClInclude>
     <ClInclude Include="Util\StepTimer.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\DebugInfoSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ScreenPositionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TextComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TextAlignmentComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\FontComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityInitializedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

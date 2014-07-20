@@ -6,15 +6,20 @@
 #include "Math\Vector2F.h"
 #include "Util\DirectXUtils.h"
 
+#include "Components\ColorComponent.h"
+#include "Components\FontComponent.h"
+#include "Components\ScreenPositionComponent.h"
+#include "Components\TextAlignmentComponent.h"
+#include "Components\TextComponent.h"
+
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
-#include "Rendering\TextData.h"
-
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Components;
 
 RenderSystem::RenderSystem()
 {
@@ -30,7 +35,7 @@ void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -68,10 +73,10 @@ void RenderSystem::OnEvent(Event & newEvent)
 	{
 		this->OnDisplayContentsInvalidated();
 	}
-	else if (newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType)
+	else if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
 	{
-		PointerMovedEvent pointerMovedEvent = static_cast<PointerMovedEvent&>(newEvent);
-		this->OnPointerMoved(pointerMovedEvent);
+		auto entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
+		this->OnEntityInitialized(entityInitializedEvent.entityId);
 	}
 }
 
@@ -165,10 +170,29 @@ void RenderSystem::OnDisplayContentsInvalidated()
 	}
 }
 
-void RenderSystem::OnPointerMoved(PointerMovedEvent pointerMovedEvent)
+void RenderSystem::OnEntityInitialized(int entityId)
 {
-	this->pointerId = pointerMovedEvent.pointerId;
-	this->pointerPosition = pointerMovedEvent.position;
+	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entityId, ColorComponent::ColorComponentType);
+	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
+	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
+	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
+
+	if (colorComponent != nullptr
+		&& fontComponent != nullptr
+		&& screenPositionComponent != nullptr
+		&& textComponent != nullptr
+		&& textAlignmentComponent != nullptr)
+	{
+		Rendering::TextData textData = Rendering::TextData();
+		textData.colorComponent = colorComponent;
+		textData.fontComponent = fontComponent;
+		textData.screenPositionComponent = screenPositionComponent;
+		textData.textAlignmentComponent = textAlignmentComponent;
+		textData.textComponent = textComponent;
+
+		this->texts.push_back(textData);
+	}
 }
 
 void RenderSystem::CreateD3DDevice()
@@ -258,19 +282,6 @@ void RenderSystem::CreateDWriteFactory()
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory2),
 		&this->writeFactory)
-		);
-
-	// Create text format for the default font and size.
-	ThrowIfFailed(
-		writeFactory->CreateTextFormat(
-		L"Arial",
-		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		12.0f,
-		L"en-US",
-		&this->textFormat)
 		);
 }
 
@@ -365,30 +376,12 @@ void RenderSystem::SetRenderTarget()
 	// Grayscale text anti-aliasing is recommended for all Windows Store apps.
 	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 
-	// Create DirectWrite brushes.
-	this->CreateBrushes();
-
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
 	this->game->eventManager->RaiseEvent(renderTargetChangedEvent);
 
 	// Load resources.
 	this->LoadResources();
-}
-
-void RenderSystem::CreateBrushes()
-{
-	// Create brush for font rendering.
-	if (this->redBrush != nullptr)
-	{
-		this->redBrush.Reset();
-	}
-
-	ThrowIfFailed(
-		this->d2dContext->CreateSolidColorBrush(
-		D2D1::ColorF(D2D1::ColorF::Red),
-		&this->redBrush)
-		);
 }
 
 void RenderSystem::LoadResources()
@@ -438,58 +431,74 @@ void RenderSystem::Render()
 
 	this->d2dContext->BeginDraw();
 
-	// Draw rectangle.
-	this->d2dContext->DrawRectangle(
-		D2D1::RectF(
-		100.0f,
-		100.0f,
-		200.0f,
-		200.0f),
-		this->redBrush.Get());
+	// Draw texts.
+	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); iterator++)
+	{
+		Rendering::TextData textData = *iterator;
 
-	// Debug text to draw.
-	Rendering::TextData textData = Rendering::TextData();
-	textData.text = L"Pointer Id: " + std::to_wstring(this->pointerId) + L"\nPointer Position: " + this->pointerPosition.ToString();
-	textData.position = Vector2F(250, 200);
-	textData.alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
+		// Create text format.
+		ComPtr<IDWriteTextFormat> textFormat;
 
-	// Set text alignment.
-	ThrowIfFailed(
-		this->textFormat->SetTextAlignment(textData.alignment)
-		);
+		ThrowIfFailed(
+			this->writeFactory->CreateTextFormat(
+			textData.fontComponent->fontFamilyName.c_str(),
+			NULL,
+			textData.fontComponent->fontWeight,
+			textData.fontComponent->fontStyle,
+			textData.fontComponent->fontStretch,
+			textData.fontComponent->fontSize,
+			L"en-US",
+			&textFormat)
+			);
 
-	// TODO: Adjust translation via text metrics depending on alignment.
+		// Set text alignment.
+		ThrowIfFailed(
+			textFormat->SetTextAlignment(textData.textAlignmentComponent->alignment)
+			);
 
-	
-	D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(textData.position.x, textData.position.y);
-	this->d2dContext->SetTransform(screenTranslation);
+		// TODO: Adjust translation via text metrics depending on alignment.
+		float x = textData.screenPositionComponent->position.x;
+		float y = textData.screenPositionComponent->position.y;
 
-	// Create final text layout for drawing.
-	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
+		D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(x, y);
+		this->d2dContext->SetTransform(screenTranslation);
 
-	ThrowIfFailed(
-		this->writeFactory->CreateTextLayout(
-		textData.text.c_str(),
-		(uint32)textData.text.length(),
-		this->textFormat.Get(),
-		500.0f, // Max width.
-		500.0f, // Max height.
-		&textLayout)
-		);
+		// Create final text layout for drawing.
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
 
-	DWRITE_TEXT_METRICS metrics;
-	ThrowIfFailed(
-		textLayout->GetMetrics(&metrics)
-		);
+		ThrowIfFailed(
+			this->writeFactory->CreateTextLayout(
+			textData.textComponent->text.c_str(),
+			(uint32)textData.textComponent->text.length(),
+			textFormat.Get(),
+			500.0f, // Max width.
+			500.0f, // Max height.
+			&textLayout)
+			);
 
-	// Text metrics, such as line height, can be accessed here: metrics.height
+		DWRITE_TEXT_METRICS metrics;
+		ThrowIfFailed(
+			textLayout->GetMetrics(&metrics)
+			);
 
-	// Draw text.
-	this->d2dContext->DrawTextLayout(
-		D2D1::Point2F(0.f, 0.f),
-		textLayout.Get(),
-		this->redBrush.Get()
-		);
+		// Text metrics, such as line height, can be accessed here: metrics.height
+
+		// Create brush for font rendering.
+		ComPtr<ID2D1SolidColorBrush> textBrush;
+
+		ThrowIfFailed(
+			this->d2dContext->CreateSolidColorBrush(
+			textData.colorComponent->color,
+			&textBrush)
+			);
+
+		// Draw text.
+		this->d2dContext->DrawTextLayout(
+			D2D1::Point2F(0.f, 0.f),
+			textLayout.Get(),
+			textBrush.Get()
+			);
+	}
 
 	// Draw bitmaps.
 	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
