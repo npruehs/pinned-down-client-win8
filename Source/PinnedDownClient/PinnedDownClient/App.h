@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "pch.h"
-#include "Helpers\DeviceResources.h"
 #include "PinnedDownGame.h"
 
 namespace PinnedDownClient
@@ -41,7 +40,6 @@ namespace PinnedDownClient
 		void OnPointerReleased(_In_ Windows::UI::Core::CoreWindow^ sender,_In_ Windows::UI::Core::PointerEventArgs^ args);
 
     private:
-        std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<PinnedDownGame> game;
         bool windowClosed;
         bool windowVisible;

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../Helpers/StepTimer.h"
+#include "Util\StepTimer.h"
+
+using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
 {
@@ -16,7 +18,7 @@ namespace PinnedDownClient
 				this->game = game;
 			}
 
-			virtual void Update(DX::StepTimer const& timer) {}
+			virtual void Update(StepTimer const& timer) {}
 			virtual void Render() {}
 
 		protected:
