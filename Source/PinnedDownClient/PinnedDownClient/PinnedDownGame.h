@@ -10,22 +10,18 @@
 #include "GameInfrastructure.h"
 
 #include "Helpers\StepTimer.h"
-#include "Helpers\DeviceResources.h"
 #include "Helpers\InputManager.h"
 #include "Helpers\SoundPlayer.h"
-#include "Helpers\OverlayManager.h"
 #include "Events\EventLogger.h"
 
-#include "Content\SampleDebugTextRenderer.h"
-#include "Content\SampleVirtualControllerRenderer.h"
 
 // Renders Direct2D and 3D content on the screen.
 namespace PinnedDownClient
 {
-	class PinnedDownGame : public DX::IDeviceNotify
+	class PinnedDownGame
     {
     public:
-		PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		PinnedDownGame();
 		~PinnedDownGame();
         void CreateWindowSizeDependentResources();
         void Update();
@@ -33,38 +29,20 @@ namespace PinnedDownClient
 
 		std::shared_ptr<GameInfrastructure> GetInfrastructure() { return std::shared_ptr<GameInfrastructure>(this->gameInfrastructure); }
 
-        // IDeviceNotify
-        virtual void OnDeviceLost();
-        virtual void OnDeviceRestored();
-
     private:
         void InitializeTouchRegions();
         void ProcessInput(std::vector<PlayerInputData>* playerActions);
-
-        // Cached pointer to device resources.
-        std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
         // Note to developer: Replace these with your own content rendering.
 		std::shared_ptr<GameInfrastructure> gameInfrastructure;
 
 		std::shared_ptr<Events::EventLogger> eventLogger;
 
-		std::shared_ptr<SampleDebugTextRenderer>         m_debugTextRenderer;
-        std::shared_ptr<SampleVirtualControllerRenderer> m_virtualControllerRenderer;
-
         // Input, sound, overlay managers
         std::unique_ptr<InputManager>      m_inputManager;
         std::unique_ptr<SoundPlayer>       m_soundPlayer;
-        std::shared_ptr<OverlayManager>    m_overlayManager;
 
         // Rendering loop timer.
         DX::StepTimer m_timer;
-
-        // Tracks which players are connected (0...3).
-        unsigned int m_playersConnected;
-
-        // Tracks the touch region ID, allowing you to enable/disable touch regions.
-        // Note to developer: Expand this array if you add more touch regions, e.g. for a menu.
-        unsigned int m_touchRegionIDs[3];
     };
 }

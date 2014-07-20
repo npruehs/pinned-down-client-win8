@@ -59,17 +59,12 @@ void App::Initialize(CoreApplicationView^ applicationView)
 
     CoreApplication::Resuming +=
         ref new EventHandler<Platform::Object^>(this, &App::OnResuming);
-
-    // At this point we have access to the device. 
-    // We can create the device-dependent resources.
-    m_deviceResources = std::make_shared<DX::DeviceResources>();
 }
 
 // Called when the CoreWindow object is created (or re-created).
 void App::SetWindow(CoreWindow^ window)
 {
     this->coreWindow = window;
-	m_deviceResources->SetWindow(this->coreWindow.Get());
 
 	// Register for window events.
     window->SizeChanged += 
@@ -112,7 +107,7 @@ void App::SetWindow(CoreWindow^ window)
 // Initializes scene resources, or loads a previously saved app state.
 void App::Load(Platform::String^ entryPoint)
 {
-	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame(m_deviceResources));
+	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame());
 
 	// Pass window to game.
 	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow));
@@ -181,12 +176,10 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
 	this->coreWindow = sender;
-	m_deviceResources->SetWindow(this->coreWindow.Get());
 
 	float width = sender->Bounds.Width;
 	float height = sender->Bounds.Height;
 
-	m_deviceResources->SetLogicalSize(Size(width, height));
 	this->game->CreateWindowSizeDependentResources();
 
 	// Notify subsystems.
@@ -206,7 +199,6 @@ void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
-    m_deviceResources->SetDpi(sender->LogicalDpi);
 	this->game->CreateWindowSizeDependentResources();
 
 	float dpi = sender->LogicalDpi;
@@ -218,7 +210,6 @@ void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
-    m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
 	this->game->CreateWindowSizeDependentResources();
 
 	Windows::Graphics::Display::DisplayOrientations orientation = sender->CurrentOrientation;
@@ -230,8 +221,6 @@ void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
-    m_deviceResources->ValidateDevice();
-
 	// Notify subsystems.
 	auto displayContentsInvalidatedEvent = std::shared_ptr<Events::DisplayContentsInvalidatedEvent>(new Events::DisplayContentsInvalidatedEvent());
 	this->game->GetInfrastructure()->eventManager->QueueEvent(displayContentsInvalidatedEvent);

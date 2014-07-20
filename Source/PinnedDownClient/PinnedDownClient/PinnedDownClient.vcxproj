@@ -226,10 +226,8 @@
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
     <ClInclude Include="GameInfrastructure.h" />
     <ClInclude Include="Helpers\InputManager.h" />
-    <ClInclude Include="Helpers\OverlayManager.h" />
     <ClInclude Include="Helpers\SoundPlayer.h" />
     <ClInclude Include="App.h" />
-    <ClInclude Include="Helpers\DeviceResources.h" />
     <ClInclude Include="Lua\lapi.h" />
     <ClInclude Include="Lua\lauxlib.h" />
     <ClInclude Include="Lua\lcode.h" />
@@ -261,9 +259,6 @@
     <ClInclude Include="PinnedDownGame.h" />
     <ClInclude Include="Helpers\DirectXHelper.h" />
     <ClInclude Include="Helpers\StepTimer.h" />
-    <ClInclude Include="Content\SampleDebugTextRenderer.h" />
-    <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
-    <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
@@ -303,10 +298,8 @@
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="Helpers\InputManager.cpp" />
-    <ClCompile Include="Helpers\OverlayManager.cpp" />
     <ClCompile Include="Helpers\SoundPlayer.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Helpers\DeviceResources.cpp" />
     <ClCompile Include="Lua\lapi.c">
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -512,8 +505,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PinnedDownGame.cpp" />
-    <ClCompile Include="Content\SampleDebugTextRenderer.cpp" />
-    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

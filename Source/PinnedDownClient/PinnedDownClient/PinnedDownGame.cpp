@@ -28,12 +28,8 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
-    m_deviceResources(deviceResources)
+PinnedDownGame::PinnedDownGame()
 {
-    // Register to be notified if the Device is lost or recreated.
-    m_deviceResources->RegisterDeviceNotify(this);
-
 	this->gameInfrastructure = std::shared_ptr<GameInfrastructure>(new GameInfrastructure());
 
 	this->gameInfrastructure->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
@@ -102,92 +98,8 @@ PinnedDownGame::PinnedDownGame(const std::shared_ptr<DX::DeviceResources>& devic
     */
 }
 
-void PinnedDownGame::InitializeTouchRegions()
-{
-    // Here we set up the touch control regions.
-    Windows::Foundation::Size logicalSize = m_deviceResources->GetLogicalSize();
-    XMFLOAT2 screenTopLeft = XMFLOAT2(0, 0);
-    XMFLOAT2 screenTopRight = XMFLOAT2(logicalSize.Width, 0);
-    XMFLOAT2 screenBottomLeft = XMFLOAT2(0, logicalSize.Height);
-    XMFLOAT2 screenBottomRight = XMFLOAT2(logicalSize.Width, logicalSize.Height);
-    float width = screenTopRight.x - screenTopLeft.x;
-    float height = screenBottomLeft.y - screenTopLeft.y;
-
-    // Clear previous touch regions.
-    m_virtualControllerRenderer->ClearTouchControlRegions();
-    m_inputManager->ClearTouchRegions();
-
-    // The following scoped code region sets up the analog stick.
-    {
-        const float stickRegionPercent = 0.75f;
-        float stickRegionWidth = (width * stickRegionPercent);
-        XMFLOAT2 touchRegionBoundary = XMFLOAT2(screenTopLeft.x + stickRegionWidth, screenBottomRight.y);
-
-        TouchControlRegion touchControlRegionStick(
-            screenTopLeft,
-            touchRegionBoundary,
-            TOUCH_CONTROL_REGION_ANALOG_STICK,
-            PLAYER_ACTION_TYPES::INPUT_MOVE,
-            PLAYER_ID::PLAYER_ID_ONE
-            );
-
-        DWORD errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionStick, m_touchRegionIDs[0]);
-
-        if (!errorCode)
-        {
-            m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionStick);
-        }
-    }
-
-    // The following scoped code region sets up the buttons.
-    {
-        const float buttonRegionPercent = 0.2f;
-        const float buttonWidthHeight   = 80.f;
-        const float buttonDesiredOffset = 300.f;
-
-        // Control the max location to prevent overlap
-        float buttonWidthOffset = (width * buttonRegionPercent) - buttonWidthHeight;
-        buttonWidthOffset = buttonWidthOffset < buttonDesiredOffset ? buttonWidthOffset : buttonDesiredOffset;
-
-        // Set up button A
-        XMFLOAT2 location1 = { width - (buttonWidthOffset + 1.f * buttonWidthHeight), height - buttonDesiredOffset };
-        TouchControlRegion touchControlRegionButtonA(
-            XMFLOAT2(location1.x, location1.y),
-            XMFLOAT2(location1.x + buttonWidthHeight, location1.y + buttonWidthHeight),
-            TOUCH_CONTROL_REGION_TYPES::TOUCH_CONTROL_REGION_BUTTON,
-            PLAYER_ACTION_TYPES::INPUT_FIRE_DOWN,
-            PLAYER_ID::PLAYER_ID_ONE
-            );
-
-        DWORD errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionButtonA, m_touchRegionIDs[1]);
-        if (!errorCode)
-        {
-            m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionButtonA);
-        }
-
-        // Set up button B
-        XMFLOAT2 location2 = { width - buttonWidthOffset, height - buttonDesiredOffset - (1.f * buttonWidthHeight) };
-        TouchControlRegion touchControlRegionButtonB(
-            XMFLOAT2(location2.x, location2.y),
-            XMFLOAT2(location2.x + buttonWidthHeight, location2.y + buttonWidthHeight),
-            TOUCH_CONTROL_REGION_TYPES::TOUCH_CONTROL_REGION_BUTTON,
-            PLAYER_ACTION_TYPES::INPUT_JUMP_DOWN,
-            PLAYER_ID::PLAYER_ID_ONE
-            );
-
-        errorCode = m_inputManager->SetDefinedTouchRegion(&touchControlRegionButtonB, m_touchRegionIDs[2]);
-        if (!errorCode)
-        {
-            m_virtualControllerRenderer->AddTouchControlRegion(touchControlRegionButtonB);
-        }
-    }
-}
-
-
 PinnedDownGame::~PinnedDownGame()
 {
-    // Deregister device notification
-    m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
@@ -199,11 +111,11 @@ void PinnedDownGame::CreateWindowSizeDependentResources()
     //m_inputManager->Initialize(CoreWindow::GetForCurrentThread());
 
     // Only update the virtual controller if it's present.
-    if (m_virtualControllerRenderer != nullptr)
-    {
-        // Touch regions are dependent on window size and shape.
-        InitializeTouchRegions();
-    }
+    //if (m_virtualControllerRenderer != nullptr)
+    //{
+    //    // Touch regions are dependent on window size and shape.
+    //    InitializeTouchRegions();
+    //}
 }
 
 // Updates the application state once per frame.
@@ -239,8 +151,7 @@ void PinnedDownGame::Update()
 // Process all input from the user before updating game state
 void PinnedDownGame::ProcessInput(std::vector<PlayerInputData>* playerActions)
 {
-    m_playersConnected = m_inputManager->GetPlayersConnected();
-
+   
     *playerActions = m_inputManager->GetPlayersActions();
 
     for (unsigned int j = 0; j < playerActions->size(); j++)
@@ -296,17 +207,4 @@ bool PinnedDownGame::Render()
     //m_overlayManager->Render();
 
     return true;
-}
-
-// Notifies renderers that device resources need to be released.
-void PinnedDownGame::OnDeviceLost()
-{
-    m_overlayManager->ReleaseDeviceDependentResources();
-}
-
-// Notifies renderers that device resources may now be recreated.
-void PinnedDownGame::OnDeviceRestored()
-{
-    m_overlayManager->CreateDeviceDependentResources();
-    CreateWindowSizeDependentResources();
 }

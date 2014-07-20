@@ -8,9 +8,6 @@
       <UniqueIdentifier>d299dedd-ebba-4c47-9fe9-3e37389692dc</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <Filter Include="Content">
-      <UniqueIdentifier>dbd29068-6e18-46b4-8d85-8919663bcd25</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helpers">
       <UniqueIdentifier>a4832c97-b232-422e-8ea2-059f315a5b30</UniqueIdentifier>
     </Filter>
@@ -20,16 +17,7 @@
     <ClInclude Include="Helpers\StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\DeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClCompile Include="Helpers\DeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClInclude Include="Helpers\InputManager.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\OverlayManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\SoundPlayer.h">
@@ -38,26 +26,8 @@
     <ClCompile Include="Helpers\InputManager.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\OverlayManager.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="Helpers\SoundPlayer.cpp">
       <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClInclude Include="Content\SampleVirtualControllerRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\SampleDebugTextRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\ShaderStructures.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="Content\SampleDebugTextRenderer.cpp">
-      <Filter>Content</Filter>
     </ClCompile>
     <Media Include="Assets\chord.wav">
       <Filter>Assets</Filter>

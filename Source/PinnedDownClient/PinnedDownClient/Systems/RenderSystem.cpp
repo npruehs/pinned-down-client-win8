@@ -602,7 +602,7 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	// The width and height of the swap chain must be based on the window's
 	// natively-oriented width and height. If the window is not in the native
 	// orientation, the dimensions must be reversed.
-	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, this->displayOrientation);
+	DXGI_MODE_ROTATION displayRotation = this->ComputeDisplayRotation(currentDisplayInformation->NativeOrientation, this->displayOrientation);
 
 	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
 	float newWidth = swapDimensions ? currentHeight : currentWidth;
