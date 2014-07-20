@@ -22,7 +22,7 @@ void SystemManager::InitSystems()
 	}
 }
 
-void SystemManager::Update(DX::StepTimer const& timer)
+void SystemManager::Update(StepTimer const& timer)
 {
 	for (unsigned int i = 0; i < systems.size(); i++)
 	{

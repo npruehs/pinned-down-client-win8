@@ -1,7 +1,6 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Helpers\DirectXHelper.h"
 #include "Core\IEventListener.h"
 #include "Core\GameSystem.h"
 #include "Events\AppWindowChangedEvent.h"

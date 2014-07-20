@@ -11,12 +11,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>a4832c97-b232-422e-8ea2-059f315a5b30</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="Helpers\DirectXHelper.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\StepTimer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\InputManager.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -478,6 +472,10 @@
     <ClInclude Include="Core\Resources\AudioResourceHandle.h">
       <Filter>Core\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Util\DirectXUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

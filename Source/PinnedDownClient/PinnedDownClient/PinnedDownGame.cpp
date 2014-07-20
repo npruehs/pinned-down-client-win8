@@ -7,7 +7,6 @@
 
 #include "pch.h"
 #include "PinnedDownGame.h"
-#include "Helpers\DirectXHelper.h"
 #include "Events\AppWindowChangedEvent.h"
 
 #include "Core\SystemManager.h"
@@ -122,30 +121,29 @@ void PinnedDownGame::CreateWindowSizeDependentResources()
 void PinnedDownGame::Update()
 {
     // Update scene objects.
-    m_timer.Tick([&]()
-    {
-        // Note to developer: Replace these with your app's content update functions.
-		this->gameInfrastructure->systemManager->Update(m_timer);
-		this->gameInfrastructure->eventManager->Tick();
-		this->gameInfrastructure->entityManager->CleanUpEntities();
-		this->gameInfrastructure->eventManager->Tick();
+	timer.Update();
 
-		this->gameInfrastructure->logger->Flush();
+    // Note to developer: Replace these with your app's content update functions.
+	this->gameInfrastructure->systemManager->Update(timer);
+	this->gameInfrastructure->eventManager->Tick();
+	this->gameInfrastructure->entityManager->CleanUpEntities();
+	this->gameInfrastructure->eventManager->Tick();
+
+	this->gameInfrastructure->logger->Flush();
 		
-		//m_overlayManager->Update(m_timer);
-  //      m_inputManager->Update(m_timer);
+	//m_overlayManager->Update(m_timer);
+//      m_inputManager->Update(m_timer);
 
-  //      std::vector<PlayerInputData> playerActions;
-  //      ProcessInput(&playerActions);
+//      std::vector<PlayerInputData> playerActions;
+//      ProcessInput(&playerActions);
 
-  //      m_debugTextRenderer->Update(&playerActions, m_playersConnected);
+//      m_debugTextRenderer->Update(&playerActions, m_playersConnected);
 
-  //      // Only update the virtual controller if it's present.
-  //      if (m_virtualControllerRenderer != nullptr)
-  //      {
-  //          m_virtualControllerRenderer->Update(&playerActions);
-  //      }
-    });
+//      // Only update the virtual controller if it's present.
+//      if (m_virtualControllerRenderer != nullptr)
+//      {
+//          m_virtualControllerRenderer->Update(&playerActions);
+//      }
 }
 
 // Process all input from the user before updating game state
@@ -181,7 +179,7 @@ void PinnedDownGame::ProcessInput(std::vector<PlayerInputData>* playerActions)
 bool PinnedDownGame::Render()
 {
     // Don't try to render anything before the first Update.
-    if (m_timer.GetFrameCount() == 0)
+	if (timer.GetFrameCount() == 0)
     {
         return false;
     }

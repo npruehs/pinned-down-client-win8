@@ -7,13 +7,14 @@
 
 #include "Core\Event.h"
 #include "Systems\SoundSystem.h"
-#include "Helpers\DirectXHelper.h"
+#include "Util\DirectXUtils.h"
 #include "Events\PointerPressedEvent.h"
 #include "Core\Resources\AudioResourceHandle.h"
 
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Util;
 
 // Sample rate used for mastering voices the your game. Depends on factors such as asset sample rates and performance considerations.
 #define SOUND_SYSTEM_SAMPLE_RATE 44100
@@ -90,11 +91,11 @@ void SoundSystem::OnEvent(Event & newEvent)
 void SoundSystem::InitXAudio()
 {
 	// Create instances of the XAudio2 engine.
-	DX::ThrowIfFailed(XAudio2Create(&this->soundAudioEngine, 0, XAUDIO2_DEFAULT_PROCESSOR));
-	DX::ThrowIfFailed(XAudio2Create(&this->musicAudioEngine, 0, XAUDIO2_DEFAULT_PROCESSOR));
+	ThrowIfFailed(XAudio2Create(&this->soundAudioEngine, 0, XAUDIO2_DEFAULT_PROCESSOR));
+	ThrowIfFailed(XAudio2Create(&this->musicAudioEngine, 0, XAUDIO2_DEFAULT_PROCESSOR));
 
 	// Create mastering voices.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->soundAudioEngine->CreateMasteringVoice(
 		&this->soundMasteringVoice,	// Pointer to the new IXAudio2MasteringVoice object.
 		XAUDIO2_DEFAULT_CHANNELS,   // Number of channels the mastering voice expects in its input audio.
@@ -107,7 +108,7 @@ void SoundSystem::InitXAudio()
 
 	// Categorize game background music properly in order to meet Windows Store certification requirements.
 	// Allows Windows to properly select the background audio the user chooses to play when the user runs multiple background audio apps.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->musicAudioEngine->CreateMasteringVoice(
 		&this->musicMasteringVoice,	// Pointer to the new IXAudio2MasteringVoice object.
 		XAUDIO2_DEFAULT_CHANNELS,   // Number of channels the mastering voice expects in its input audio.
@@ -180,14 +181,14 @@ void SoundSystem::StartVoice(
 	// Check arguments.
 	if (sourceVoice == nullptr)
 	{
-		DX::ThrowIfFailed(E_INVALIDARG);
+		ThrowIfFailed(E_INVALIDARG);
 	}
 
 	// Get audio resource.
 	std::shared_ptr<AudioResourceHandle> audioResource = this->game->resourceManager->GetResource<AudioResourceHandle>(url);
 
 	// Create the source voice and start it.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		engine->CreateSourceVoice(
 		sourceVoice,
 		audioResource->waveFormat,
@@ -207,7 +208,7 @@ void SoundSystem::StartVoice(
 	playBuffer.pContext = *sourceVoice;
 
 	// Submit the buffer and start the voice.
-	DX::ThrowIfFailed((*sourceVoice)->SubmitSourceBuffer(&playBuffer));
+	ThrowIfFailed((*sourceVoice)->SubmitSourceBuffer(&playBuffer));
 	(*sourceVoice)->Start();
 }
 

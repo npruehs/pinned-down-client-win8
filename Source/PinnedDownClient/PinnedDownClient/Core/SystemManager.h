@@ -6,6 +6,8 @@
 #include "Core\EventManager.h"
 #include "Core\ResourceManager.h"
 
+using namespace PinnedDownClient::Util;
+
 namespace PinnedDownClient
 {
 	class GameInfrastructure;
@@ -19,7 +21,7 @@ namespace PinnedDownClient
 
 			void AddSystem(GameSystem* system);
 			void InitSystems();
-			void Update(DX::StepTimer const& timer);
+			void Update(StepTimer const& timer);
 			void Render();
 
 		private:

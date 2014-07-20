@@ -257,17 +257,17 @@
     <ClInclude Include="Math\RectF.h" />
     <ClInclude Include="Math\Vector2F.h" />
     <ClInclude Include="PinnedDownGame.h" />
-    <ClInclude Include="Helpers\DirectXHelper.h" />
-    <ClInclude Include="Helpers\StepTimer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
+    <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\HashedString.h" />
     <ClInclude Include="Util\Logger.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
+    <ClInclude Include="Util\StepTimer.h" />
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>

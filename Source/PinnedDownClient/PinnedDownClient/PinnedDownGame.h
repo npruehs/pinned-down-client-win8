@@ -9,7 +9,7 @@
 
 #include "GameInfrastructure.h"
 
-#include "Helpers\StepTimer.h"
+#include "Util\StepTimer.h"
 #include "Helpers\InputManager.h"
 #include "Helpers\SoundPlayer.h"
 #include "Events\EventLogger.h"
@@ -43,6 +43,6 @@ namespace PinnedDownClient
         std::unique_ptr<SoundPlayer>       m_soundPlayer;
 
         // Rendering loop timer.
-        DX::StepTimer m_timer;
+        Util::StepTimer timer;
     };
 }

@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 #include <Xinput.h>
-#include "../Helpers/StepTimer.h"
+#include "Util\StepTimer.h"
 
 #include <DirectXMath.h>
 #include <interlockedapi.h>
@@ -24,6 +24,8 @@ using namespace Windows::Foundation::Collections;
 using namespace Windows::Devices::Input;
 
 using namespace DirectX;
+
+using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
 {
@@ -320,7 +322,7 @@ namespace PinnedDownClient
 
         void InputManager::Initialize(Windows::UI::Core::CoreWindow^ coreWindow);
 
-        void InputManager::Update(DX::StepTimer const& timer);
+        void InputManager::Update(StepTimer const& timer);
 
         // ** IMPORTANT **
         // Call this method on the game input update loop to get a vector collection of a specified player's actions.

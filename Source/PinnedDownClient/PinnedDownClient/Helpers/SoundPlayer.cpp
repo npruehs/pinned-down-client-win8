@@ -7,10 +7,11 @@
 
 #include "pch.h"
 #include "SoundPlayer.h"
-#include "DirectXHelper.h"
+#include "Util\DirectXUtils.h"
 
 using namespace Windows::Foundation;
 using namespace PinnedDownClient;
+using namespace PinnedDownClient::Util;
 
 // Here, we fix the sample rate at 44100. The sample rate used for mastering
 // voices in your game will depend on factors such as asset sample rates and
@@ -29,7 +30,7 @@ SoundPlayer::SoundPlayer() :
     HRESULT hr = S_OK;
     UINT32 flags = 0;
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         XAudio2Create(&m_effectAudioEngine, flags)
         );
 
@@ -43,7 +44,7 @@ SoundPlayer::SoundPlayer() :
 
     // This class can play game sound effects. Note that these are categorised
     // as AudioCategory_GameEffects.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_effectAudioEngine->CreateMasteringVoice(
             &m_effectMasteringVoice,    // Pointer to the new IXAudio2MasteringVoice object.
             XAUDIO2_DEFAULT_CHANNELS,   // Number of channels the mastering voice expects in its input audio.
@@ -55,7 +56,7 @@ SoundPlayer::SoundPlayer() :
             );
     
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         XAudio2Create(&m_musicAudioEngine, flags)
         );
 
@@ -71,7 +72,7 @@ SoundPlayer::SoundPlayer() :
     // in order to meet Windows Store certification requirements. This
     // allows Windows to properly select the background audio the user chooses
     // to play when the user runs multiple background audio apps.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_musicAudioEngine->CreateMasteringVoice(
             &m_musicMasteringVoice,     // Pointer to the new IXAudio2MasteringVoice object.
             XAUDIO2_DEFAULT_CHANNELS,   // Number of channels the mastering voice expects in its input audio.
@@ -214,7 +215,7 @@ HRESULT SoundPlayer::StartVoice(
     // Create a Media Foundation object and read/process the media file.
     Microsoft::WRL::ComPtr<IMFSourceReader> reader;
     {
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             MFStartup(MF_VERSION)
             );
 
@@ -222,7 +223,7 @@ HRESULT SoundPlayer::StartVoice(
         // so the low latency attribute is not required here; if you are attempting to stream
         // sound effects from disk, the low latency attribute should be set.
         // If the file does not exist, this will exhibit HRESULT 0x80070002: File not found.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             MFCreateSourceReaderFromURL(url, nullptr, &reader) 
             );
 
@@ -231,36 +232,36 @@ HRESULT SoundPlayer::StartVoice(
         // When using MF, this sample always decodes into PCM.
         // NOTE: The inbox ADPCM decoder supports sample rates only up to 44.1KHz. 
         Microsoft::WRL::ComPtr<IMFMediaType> mediaType;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             MFCreateMediaType(&mediaType)
             );
 
-        DX::ThrowIfFailed(
+       ThrowIfFailed(
             mediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio)
             );
 
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             mediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM)
             );
 
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, mediaType.Get())
             );
 
         // Get the complete WAVEFORMAT from the Media Type
         Microsoft::WRL::ComPtr<IMFMediaType> outputMediaType;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, outputMediaType.GetAddressOf())
             );
 
         uint32 formatByteCount = 0;
         WAVEFORMATEX* waveFormat;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             MFCreateWaveFormatExFromMFMediaType(outputMediaType.Get(), &waveFormat, &formatByteCount)
             );
 
         // Create the source voice and start it
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             engine->CreateSourceVoice(
             sourceVoice,
             waveFormat,
@@ -278,7 +279,7 @@ HRESULT SoundPlayer::StartVoice(
     {
         DWORD flags = 0;
         Microsoft::WRL::ComPtr<IMFSample> sample;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             reader->ReadSample(
             MF_SOURCE_READER_FIRST_AUDIO_STREAM,
             0,
@@ -296,14 +297,14 @@ HRESULT SoundPlayer::StartVoice(
         }
 
         Microsoft::WRL::ComPtr<IMFMediaBuffer> mediaBuffer;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             sample->ConvertToContiguousBuffer(&mediaBuffer)
             );
 
         // Serialize access to the buffer by calling the IMFMediaBuffer::Lock method.
         uint8* audioData = nullptr;
         DWORD sampleBufferLength = 0;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             mediaBuffer->Lock(&audioData, nullptr, &sampleBufferLength)
             );
 
@@ -313,7 +314,7 @@ HRESULT SoundPlayer::StartVoice(
         CopyMemory(&resultData[lastBufferSize], audioData, sampleBufferLength);
 
         // Release the lock on the buffer.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             mediaBuffer->Unlock()
             );
     }
@@ -333,7 +334,7 @@ HRESULT SoundPlayer::StartVoice(
         playBuffer.pContext = *sourceVoice;
         
         // Submit the buffer and start the voice.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             (*sourceVoice)->SubmitSourceBuffer(&playBuffer)
             );
 

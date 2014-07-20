@@ -4,6 +4,7 @@
 #include "Core\EventManager.h"
 #include "Systems\RenderSystem.h"
 #include "Math\Vector2F.h"
+#include "Util\DirectXUtils.h"
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
@@ -126,26 +127,26 @@ void RenderSystem::OnDisplayContentsInvalidated()
 
 	// First, get the information for the default adapter from when the device was created.
 	ComPtr<IDXGIAdapter> deviceAdapter;
-	DX::ThrowIfFailed(this->dxgiDevice->GetAdapter(&deviceAdapter));
+	ThrowIfFailed(this->dxgiDevice->GetAdapter(&deviceAdapter));
 
 	ComPtr<IDXGIFactory2> deviceFactory;
-	DX::ThrowIfFailed(deviceAdapter->GetParent(IID_PPV_ARGS(&deviceFactory)));
+	ThrowIfFailed(deviceAdapter->GetParent(IID_PPV_ARGS(&deviceFactory)));
 
 	ComPtr<IDXGIAdapter1> previousDefaultAdapter;
-	DX::ThrowIfFailed(deviceFactory->EnumAdapters1(0, &previousDefaultAdapter));
+	ThrowIfFailed(deviceFactory->EnumAdapters1(0, &previousDefaultAdapter));
 
 	DXGI_ADAPTER_DESC previousDesc;
-	DX::ThrowIfFailed(previousDefaultAdapter->GetDesc(&previousDesc));
+	ThrowIfFailed(previousDefaultAdapter->GetDesc(&previousDesc));
 
 	// Next, get the information for the current default adapter.
 	ComPtr<IDXGIFactory2> currentFactory;
-	DX::ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&currentFactory)));
+	ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&currentFactory)));
 
 	ComPtr<IDXGIAdapter1> currentDefaultAdapter;
-	DX::ThrowIfFailed(currentFactory->EnumAdapters1(0, &currentDefaultAdapter));
+	ThrowIfFailed(currentFactory->EnumAdapters1(0, &currentDefaultAdapter));
 
 	DXGI_ADAPTER_DESC currentDesc;
-	DX::ThrowIfFailed(currentDefaultAdapter->GetDesc(&currentDesc));
+	ThrowIfFailed(currentDefaultAdapter->GetDesc(&currentDesc));
 
 	// If the adapter LUIDs don't match, or if the device reports that it has been removed,
 	// a new D3D device must be created.
@@ -192,7 +193,7 @@ void RenderSystem::CreateD3DDevice()
 	// Create the DX11 API device object, and get a corresponding context.
 	ComPtr<ID3D11Device> device;
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		D3D11CreateDevice(
 		nullptr, // Use default adapter.
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -206,7 +207,7 @@ void RenderSystem::CreateD3DDevice()
 		&this->d3dContext)
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		device.As(&this->d3dDevice)
 		);
 }
@@ -218,7 +219,7 @@ void RenderSystem::CreateD2DDevice()
 	ZeroMemory(&options, sizeof(D2D1_FACTORY_OPTIONS));
 
 	ComPtr<ID2D1Factory2> d2dFactory;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		D2D1CreateFactory(
 		D2D1_FACTORY_TYPE_SINGLE_THREADED,
 		__uuidof(ID2D1Factory1),
@@ -227,17 +228,17 @@ void RenderSystem::CreateD2DDevice()
 		);
 
 	// Obtain the underlying DXGI device of the Direct3D device.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->d3dDevice.As(&this->dxgiDevice)
 		);
 
 	// Obtain the Direct2D device and device context for 2D rendering.
 	ComPtr<ID2D1Device>	d2dDevice;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		d2dFactory->CreateDevice(this->dxgiDevice.Get(), &d2dDevice)
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		d2dDevice->CreateDeviceContext(
 		D2D1_DEVICE_CONTEXT_OPTIONS_NONE,
 		&this->d2dContext
@@ -245,14 +246,14 @@ void RenderSystem::CreateD2DDevice()
 		);
 
 	// Create drawing state block used for pushing and popping context tranformations.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		d2dFactory->CreateDrawingStateBlock(&this->drawingStateBlock)
 		);
 }
 
 void RenderSystem::CreateDWriteFactory()
 {
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory2),
@@ -260,7 +261,7 @@ void RenderSystem::CreateDWriteFactory()
 		);
 
 	// Create text format for the default font and size.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		writeFactory->CreateTextFormat(
 		L"Arial",
 		NULL,
@@ -293,19 +294,19 @@ void RenderSystem::CreateSwapChain()
 
 	// Identify the physical adapter (GPU or card) this device runs on.
 	ComPtr<IDXGIAdapter> dxgiAdapter;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->dxgiDevice->GetAdapter(&dxgiAdapter)
 		);
 
 	// Get the factory object that created the DXGI device to ensure the swap chain is created on the same adapter.
 	ComPtr<IDXGIFactory2> dxgiFactory;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory))
 		);
 
 	// Get the swap chain for this window from the DXGI factory.
 	ComPtr<IDXGISwapChain1> swapChain;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dxgiFactory->CreateSwapChainForCoreWindow(
 		this->d3dDevice.Get(),
 		reinterpret_cast<IUnknown*>(this->window.Get()),
@@ -315,12 +316,12 @@ void RenderSystem::CreateSwapChain()
 		)
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		swapChain.As(&this->dxgiSwapChain)
 		);
 
 	// Change the region of the swap chain that will be presented to the screen.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->dxgiSwapChain->SetSourceSize(
 		static_cast<UINT>(this->logicalWindowSize.x * this->windowScale.x + 0.5f),
 		static_cast<UINT>(this->logicalWindowSize.y * this->windowScale.y + 0.5f)
@@ -328,7 +329,7 @@ void RenderSystem::CreateSwapChain()
 		);
 
 	// Ensure that DXGI doesn't queue more than one frame at a time to minimize power consumption.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dxgiDevice->SetMaximumFrameLatency(1)
 		);
 }
@@ -337,7 +338,7 @@ void RenderSystem::SetRenderTarget()
 {
 	// Get a D2D surface from the DXGI back buffer to use as the D2D render target.
 	ComPtr<IDXGISurface> dxgiBackBuffer;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->dxgiSwapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer))
 		);
 
@@ -350,7 +351,7 @@ void RenderSystem::SetRenderTarget()
 		-1.0f
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->d2dContext->CreateBitmapFromDxgiSurface(
 		dxgiBackBuffer.Get(),
 		&bitmapProperties,
@@ -383,7 +384,7 @@ void RenderSystem::CreateBrushes()
 		this->redBrush.Reset();
 	}
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->d2dContext->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Red),
 		&this->redBrush)
@@ -453,7 +454,7 @@ void RenderSystem::Render()
 	textData.alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
 
 	// Set text alignment.
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->textFormat->SetTextAlignment(textData.alignment)
 		);
 
@@ -466,7 +467,7 @@ void RenderSystem::Render()
 	// Create final text layout for drawing.
 	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->writeFactory->CreateTextLayout(
 		textData.text.c_str(),
 		(uint32)textData.text.length(),
@@ -477,7 +478,7 @@ void RenderSystem::Render()
 		);
 
 	DWRITE_TEXT_METRICS metrics;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		textLayout->GetMetrics(&metrics)
 		);
 
@@ -502,7 +503,7 @@ void RenderSystem::Render()
 	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
 	this->DrawBitmap(storeLogoBitmap);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->d2dContext->EndDraw()
 		);
 
@@ -523,7 +524,7 @@ void RenderSystem::Render()
 	}
 	else
 	{
-		DX::ThrowIfFailed(hr);
+		ThrowIfFailed(hr);
 	}
 }
 
@@ -592,8 +593,8 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	float currentWidth = DX::ConvertDipsToPixels(this->logicalWindowSize.x, this->logicalDpi);
-	float currentHeight = DX::ConvertDipsToPixels(this->logicalWindowSize.y, this->logicalDpi);
+	float currentWidth = ConvertDipsToPixels(this->logicalWindowSize.x, this->logicalDpi);
+	float currentHeight = ConvertDipsToPixels(this->logicalWindowSize.y, this->logicalDpi);
 
 	// Prevent zero size DirectX content from being created.
 	currentWidth = max(currentWidth, 1);
@@ -630,7 +631,7 @@ void RenderSystem::CreateWindowSizeDependentResources()
 		}
 		else
 		{
-			DX::ThrowIfFailed(hr);
+			ThrowIfFailed(hr);
 		}
 	}
 	else
@@ -641,17 +642,17 @@ void RenderSystem::CreateWindowSizeDependentResources()
 
 	// Set the proper orientation for the swap chain.
 	// TODO(np): Always set swap chain rotation?
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->dxgiSwapChain->SetRotation(displayRotation)
 		);
 
 	// Create a render target view of the swap chain back buffer.
 	ComPtr<ID3D11Texture2D> backBuffer;
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->dxgiSwapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer))
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		this->d3dDevice->CreateRenderTargetView(
 		backBuffer.Get(),
 		nullptr,

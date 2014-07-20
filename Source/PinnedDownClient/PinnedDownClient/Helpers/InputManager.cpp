@@ -115,7 +115,7 @@ void InputManager::Initialize(
 #pragma region InputProcessingMethods
 
 // Updates the internal countdown between checking for new XInput controllers.
-void InputManager::Update(DX::StepTimer const& timer)
+void InputManager::Update(StepTimer const& timer)
 {
     m_timerSeconds = timer.GetElapsedSeconds();
 }
