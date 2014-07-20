@@ -194,7 +194,11 @@
     <Image Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\PositionComponent.h" />
+    <ClInclude Include="Components\ColorComponent.h" />
+    <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\ScreenPositionComponent.h" />
+    <ClInclude Include="Components\TextComponent.h" />
+    <ClInclude Include="Components\TextAlignmentComponent.h" />
     <ClInclude Include="Core\EntityComponent.h" />
     <ClInclude Include="Core\EntityManager.h" />
     <ClInclude Include="Core\Event.h" />
@@ -216,6 +220,7 @@
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
     <ClInclude Include="Events\EntityCreatedEvent.h" />
+    <ClInclude Include="Events\EntityInitializedEvent.h" />
     <ClInclude Include="Events\EntityRemovedEvent.h" />
     <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
@@ -256,6 +261,7 @@
     <ClInclude Include="Math\Vector2F.h" />
     <ClInclude Include="PinnedDownGame.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\Rendering\TextData.h" />
@@ -269,7 +275,11 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Components\PositionComponent.cpp" />
+    <ClCompile Include="Components\ColorComponent.cpp" />
+    <ClCompile Include="Components\FontComponent.cpp" />
+    <ClCompile Include="Components\ScreenPositionComponent.cpp" />
+    <ClCompile Include="Components\TextComponent.cpp" />
+    <ClCompile Include="Components\TextAlignmentComponent.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\FileLogger.cpp" />
@@ -287,6 +297,7 @@
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
     <ClCompile Include="Events\EntityCreatedEvent.cpp" />
+    <ClCompile Include="Events\EntityInitializedEvent.cpp" />
     <ClCompile Include="Events\EntityRemovedEvent.cpp" />
     <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
@@ -509,6 +520,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />

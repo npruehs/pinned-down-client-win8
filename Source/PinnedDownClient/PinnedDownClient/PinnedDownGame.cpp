@@ -8,6 +8,7 @@
 #include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\SoundSystem.h"
+#include "Systems\DebugInfoSystem.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -41,6 +42,7 @@ PinnedDownGame::PinnedDownGame()
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::InputSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");

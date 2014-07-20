@@ -9,9 +9,10 @@
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
-#include "Events\PointerMovedEvent.h"
+#include "Events\EntityInitializedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
+#include "Rendering\TextData.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -72,26 +73,18 @@ namespace PinnedDownClient
 			// DirectWrite factory used to create text formats and layouts.
 			ComPtr<IDWriteFactory2>	writeFactory;
 
-			// Debug brush for drawing primitives and texts.
-			ComPtr<ID2D1SolidColorBrush> redBrush;
-
-			// Debug format for drawing texts.
-			ComPtr<IDWriteTextFormat> textFormat;
-
 			Vector2F logicalWindowSize;
 			Vector2F windowScale;
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
-			uint32 pointerId;
-			Vector2F pointerPosition;
+			std::list<Rendering::TextData> texts;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateDWriteFactory();
 			void CreateSwapChain();
 			void SetRenderTarget();
-			void CreateBrushes();
 			void LoadResources();
 			void UnloadResources();
 
@@ -106,7 +99,7 @@ namespace PinnedDownClient
 			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
 			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
-			void OnPointerMoved(PointerMovedEvent pointerMovedEvent);
+			void OnEntityInitialized(int entityId);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
