@@ -20,6 +20,7 @@ namespace PinnedDownClient
 		{
 			struct TextData
 			{
+				int entityId;
 				std::shared_ptr<ColorComponent> colorComponent;
 				std::shared_ptr<FontComponent> fontComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;

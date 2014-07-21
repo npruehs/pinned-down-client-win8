@@ -68,6 +68,11 @@ void UILayoutSystem::OnEvent(Event & newEvent)
 		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
 		this->OnEntityInitialized(entityInitializedEvent);
 	}
+	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
+	{
+		EntityRemovedEvent entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
+		this->OnEntityRemoved(entityRemovedEvent);
+	}
 }
 
 void UILayoutSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
@@ -101,6 +106,21 @@ void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitialize
 		anchor.screenPositionComponent = screenPositionComponent;
 
 		this->anchors.push_back(anchor);
+	}
+}
+
+void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
+{
+	// Remove anchor.
+	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); ++iterator)
+	{
+		Anchor& anchor = *iterator;
+
+		if (anchor.entityId == entityRemovedEvent.entityId)
+		{
+			this->anchors.erase(iterator);
+			return;
+		}
 	}
 }
 

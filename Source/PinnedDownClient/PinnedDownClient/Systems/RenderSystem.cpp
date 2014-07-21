@@ -36,6 +36,7 @@ void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -77,6 +78,11 @@ void RenderSystem::OnEvent(Event & newEvent)
 	{
 		auto entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
 		this->OnEntityInitialized(entityInitializedEvent.entityId);
+	}
+	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
+	{
+		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
+		this->OnEntityInitialized(entityRemovedEvent.entityId);
 	}
 }
 
@@ -185,6 +191,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		&& textAlignmentComponent != nullptr)
 	{
 		Rendering::TextData textData = Rendering::TextData();
+		textData.entityId = entityId;
 		textData.colorComponent = colorComponent;
 		textData.fontComponent = fontComponent;
 		textData.screenPositionComponent = screenPositionComponent;
@@ -192,6 +199,20 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		textData.textComponent = textComponent;
 
 		this->texts.push_back(textData);
+	}
+}
+
+void RenderSystem::OnEntityRemoved(int entityId)
+{
+	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); ++iterator)
+	{
+		Rendering::TextData& text = *iterator;
+
+		if (text.entityId == entityId)
+		{
+			this->texts.erase(iterator);
+			return;
+		}
 	}
 }
 

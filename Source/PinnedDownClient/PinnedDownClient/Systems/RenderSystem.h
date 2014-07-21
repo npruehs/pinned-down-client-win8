@@ -10,6 +10,7 @@
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\EntityInitializedEvent.h"
+#include "Events\EntityRemovedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
 #include "Rendering\TextData.h"
@@ -100,6 +101,7 @@ namespace PinnedDownClient
 			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
 			void OnEntityInitialized(int entityId);
+			void OnEntityRemoved(int entityId);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();

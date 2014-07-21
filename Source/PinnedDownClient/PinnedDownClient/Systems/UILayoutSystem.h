@@ -7,6 +7,7 @@
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
 #include "Events\EntityInitializedEvent.h"
+#include "Events\EntityRemovedEvent.h"
 
 #include "Systems\UI\Anchor.h"
 #include "Systems\UI\Panel.h"
@@ -39,6 +40,7 @@ namespace PinnedDownClient
 			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
 			void OnEntityInitialized(EntityInitializedEvent entityInitializedEvent);
+			void OnEntityRemoved(EntityRemovedEvent entityRemovedEvent);
 		};
 	}
 }
