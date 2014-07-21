@@ -265,6 +265,15 @@
     <ClCompile Include="Events\EntityInitializedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Components\UIPanelComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\BoundsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\UILayoutSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -495,6 +504,15 @@
     </ClInclude>
     <ClInclude Include="Events\EntityInitializedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\UIPanelComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\BoundsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UILayoutSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -194,8 +194,10 @@
     <Image Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\ColorComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\UIPanelComponent.h" />
     <ClInclude Include="Components\ScreenPositionComponent.h" />
     <ClInclude Include="Components\TextComponent.h" />
     <ClInclude Include="Components\TextAlignmentComponent.h" />
@@ -267,6 +269,7 @@
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
+    <ClInclude Include="Systems\UILayoutSystem.h" />
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\HashedString.h" />
     <ClInclude Include="Util\Logger.h" />
@@ -275,11 +278,13 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\BoundsComponent.cpp" />
     <ClCompile Include="Components\ColorComponent.cpp" />
     <ClCompile Include="Components\FontComponent.cpp" />
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\TextComponent.cpp" />
     <ClCompile Include="Components\TextAlignmentComponent.cpp" />
+    <ClCompile Include="Components\UIPanelComponent.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\FileLogger.cpp" />
@@ -525,6 +530,7 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
+    <ClCompile Include="Systems\UILayoutSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
