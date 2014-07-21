@@ -15,6 +15,7 @@ namespace PinnedDownClient
 
 			// Constructors.
 			Vector2F()
+				: Vector2F(0.0f, 0.0f)
 			{
 			}
 
