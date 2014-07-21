@@ -286,6 +286,9 @@
     <ClCompile Include="Systems\UI\UIFactory.cpp">
       <Filter>Systems\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Components\SpriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -539,6 +542,12 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UI\UIFactory.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Sprite.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
+#include "Components\SpriteComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 
@@ -183,6 +184,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
 	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
+	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
 
 	if (colorComponent != nullptr
 		&& fontComponent != nullptr
@@ -190,6 +192,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		&& textComponent != nullptr
 		&& textAlignmentComponent != nullptr)
 	{
+		// Add label.
 		Rendering::TextData textData = Rendering::TextData();
 		textData.entityId = entityId;
 		textData.colorComponent = colorComponent;
@@ -200,10 +203,23 @@ void RenderSystem::OnEntityInitialized(int entityId)
 
 		this->texts.push_back(textData);
 	}
+
+	if (screenPositionComponent != nullptr
+		&& spriteComponent != nullptr)
+	{
+		// Add sprite.
+		UI::Sprite sprite = UI::Sprite();
+		sprite.entityId = entityId;
+		sprite.screenPositionComponent = screenPositionComponent;
+		sprite.spriteComponent = spriteComponent;
+
+		this->sprites.push_back(sprite);
+	}
 }
 
 void RenderSystem::OnEntityRemoved(int entityId)
 {
+	// Remove labels.
 	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); ++iterator)
 	{
 		Rendering::TextData& text = *iterator;
@@ -211,6 +227,18 @@ void RenderSystem::OnEntityRemoved(int entityId)
 		if (text.entityId == entityId)
 		{
 			this->texts.erase(iterator);
+			return;
+		}
+	}
+
+	// Remove sprites.
+	for (std::list<UI::Sprite>::iterator iterator = this->sprites.begin(); iterator != this->sprites.end(); ++iterator)
+	{
+		UI::Sprite& sprite = *iterator;
+
+		if (sprite.entityId == entityId)
+		{
+			this->sprites.erase(iterator);
 			return;
 		}
 	}
@@ -400,40 +428,6 @@ void RenderSystem::SetRenderTarget()
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
 	this->game->eventManager->RaiseEvent(renderTargetChangedEvent);
-
-	// Load resources.
-	this->LoadResources();
-}
-
-void RenderSystem::LoadResources()
-{
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/Logo.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/SmallLogo.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/SplashScreen.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/StoreLogo.png"
-		);
-}
-
-void RenderSystem::UnloadResources()
-{
-	this->game->resourceManager->UnloadResource(L"Assets/Logo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
-	this->game->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
 }
 
 void RenderSystem::Render()
@@ -455,7 +449,7 @@ void RenderSystem::Render()
 	// Draw texts.
 	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); iterator++)
 	{
-		Rendering::TextData textData = *iterator;
+		Rendering::TextData& textData = *iterator;
 
 		// Create text format.
 		ComPtr<IDWriteTextFormat> textFormat;
@@ -521,17 +515,21 @@ void RenderSystem::Render()
 			);
 	}
 
-	// Draw bitmaps.
-	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
+	// Draw sprites.
+	for (std::list<UI::Sprite>::iterator iterator = this->sprites.begin(); iterator != this->sprites.end(); iterator++)
+	{
+		UI::Sprite& sprite = *iterator;
 
-	std::shared_ptr<BitmapResourceHandle> logoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
-	this->DrawBitmap(logoBitmap);
-	std::shared_ptr<BitmapResourceHandle> smallLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
-	this->DrawBitmap(smallLogoBitmap);
-	std::shared_ptr<BitmapResourceHandle> splashScreenBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
-	this->DrawBitmap(splashScreenBitmap);
-	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
-	this->DrawBitmap(storeLogoBitmap);
+		// Translate context.
+		float x = sprite.screenPositionComponent->position.x;
+		float y = sprite.screenPositionComponent->position.y;
+
+		D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(x, y);
+		this->d2dContext->SetTransform(screenTranslation);
+
+		// Draw sprite.
+		this->DrawBitmap(sprite.spriteComponent->sprite);
+	}
 
 	ThrowIfFailed(
 		this->d2dContext->EndDraw()
@@ -618,7 +616,6 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
 	this->d3dContext->Flush();
-	this->UnloadResources();
 
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();

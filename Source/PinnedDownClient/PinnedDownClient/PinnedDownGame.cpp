@@ -10,6 +10,7 @@
 #include "Systems\SoundSystem.h"
 #include "Systems\DebugInfoSystem.h"
 #include "Systems\UILayoutSystem.h"
+#include "Systems\UILoadingSystem.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -47,6 +48,7 @@ PinnedDownGame::PinnedDownGame()
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILayoutSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILoadingSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");

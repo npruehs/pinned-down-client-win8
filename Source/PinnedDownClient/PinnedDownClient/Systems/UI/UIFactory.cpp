@@ -5,6 +5,7 @@
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
+#include "Components\SpriteComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 #include "Components\UIPanelComponent.h"
@@ -64,6 +65,23 @@ int UIFactory::CreatePanel()
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+
+	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
+	this->game->eventManager->QueueEvent(entityInitializedEvent);
+
+	return entityId;
+}
+
+int UIFactory::CreateSprite(std::wstring spriteName)
+{
+	int entityId = this->game->entityManager->CreateEntity();
+
+	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
+	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+
+	auto spriteComponent = std::make_shared<SpriteComponent>();
+	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName.c_str());
+	this->game->entityManager->AddComponent(entityId, spriteComponent);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);

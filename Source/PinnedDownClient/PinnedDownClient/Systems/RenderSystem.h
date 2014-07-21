@@ -14,6 +14,7 @@
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
 #include "Rendering\TextData.h"
+#include "UI\Sprite.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -22,6 +23,7 @@ using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Systems::UI;
 
 namespace PinnedDownClient
 {
@@ -80,14 +82,13 @@ namespace PinnedDownClient
 			DisplayOrientations displayOrientation;
 
 			std::list<Rendering::TextData> texts;
+			std::list<UI::Sprite> sprites;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateDWriteFactory();
 			void CreateSwapChain();
 			void SetRenderTarget();
-			void LoadResources();
-			void UnloadResources();
 
 			void OnEvent(Event & event);
 
