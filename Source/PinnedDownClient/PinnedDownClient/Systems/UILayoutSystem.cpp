@@ -19,6 +19,8 @@ void UILayoutSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastruc
 {
 	GameSystem::InitSystem(game);
 
+	this->uiFactory = std::make_shared<UIFactory>(game);
+
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
@@ -29,24 +31,12 @@ void UILayoutSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastruc
 void UILayoutSystem::CreateRootPanel()
 {
 	// Create panel entity.
-	int rootPanelEntity = this->game->entityManager->CreateEntity();
+	int entityId = this->uiFactory->CreatePanel();
 
-	auto panelComponent = std::make_shared<UIPanelComponent>();
-	this->game->entityManager->AddComponent(rootPanelEntity, panelComponent);
-
-	auto boundsComponent = std::make_shared<BoundsComponent>();
-	this->game->entityManager->AddComponent(rootPanelEntity, boundsComponent);
-
-	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	this->game->entityManager->AddComponent(rootPanelEntity, screenPositionComponent);
-
-	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(rootPanelEntity));
-	this->game->eventManager->QueueEvent(entityInitializedEvent);
-
-	// Add panel.
+	// Set root panel.
 	Panel panel = Panel();
-	panel.entityId = rootPanelEntity;
-	panel.boundsComponent = boundsComponent;
+	panel.entityId = entityId;
+	panel.boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);;
 
 	this->rootPanel = panel;
 }

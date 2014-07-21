@@ -20,6 +20,7 @@ namespace PinnedDownClient
 				UIFactory(std::shared_ptr<GameInfrastructure> game);
 
 				int CreateLabel(VerticalAnchor top, HorizontalAnchor left);
+				int CreatePanel();
 
 			private:
 				std::shared_ptr<GameInfrastructure> game;

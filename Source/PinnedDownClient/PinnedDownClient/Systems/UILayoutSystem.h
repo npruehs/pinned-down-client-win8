@@ -11,6 +11,7 @@
 
 #include "Systems\UI\Anchor.h"
 #include "Systems\UI\Panel.h"
+#include "Systems\UI\UIFactory.h"
 
 using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Events;
@@ -31,6 +32,7 @@ namespace PinnedDownClient
 		private:
 			void OnEvent(Event & event);
 
+			std::shared_ptr<UIFactory> uiFactory;
 			Panel rootPanel;
 			std::list<Anchor> anchors;
 

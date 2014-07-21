@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "UIFactory.h"
 
+#include "Components\BoundsComponent.h"
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
+#include "Components\UIPanelComponent.h"
 
 #include "Events\EntityInitializedEvent.h"
 
@@ -43,6 +45,25 @@ int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left)
 	anchorComponent->left = left;
 	anchorComponent->top = top;
 	this->game->entityManager->AddComponent(entityId, anchorComponent);
+
+	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
+	this->game->eventManager->QueueEvent(entityInitializedEvent);
+
+	return entityId;
+}
+
+int UIFactory::CreatePanel()
+{
+	int entityId = this->game->entityManager->CreateEntity();
+
+	auto panelComponent = std::make_shared<UIPanelComponent>();
+	this->game->entityManager->AddComponent(entityId, panelComponent);
+
+	auto boundsComponent = std::make_shared<BoundsComponent>();
+	this->game->entityManager->AddComponent(entityId, boundsComponent);
+
+	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
+	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
