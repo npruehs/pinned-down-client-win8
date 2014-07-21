@@ -7,6 +7,7 @@
 #include "Components\ScreenPositionComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
+
 #include "Events\EntityInitializedEvent.h"
 
 using namespace Windows::ApplicationModel;
@@ -29,9 +30,15 @@ void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastru
 
 void DebugInfoSystem::CreateEntities()
 {
-	this->pointerPositionTextEntity = this->CreateTextEntity(Vector2F(20.0f, 20.0f));
-	this->fpsTextEntity = this->CreateTextEntity(Vector2F(20.0f, 40.0f));
-	this->versionTextEntity = this->CreateTextEntity(Vector2F(20.0f, 60.0f));
+	this->pointerPositionTextEntity = this->CreateTextEntity(
+		VerticalAnchor(VerticalAnchorType::Bottom, -80.0f),
+		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
+	this->fpsTextEntity = this->CreateTextEntity(
+		VerticalAnchor(VerticalAnchorType::Bottom, -60.0f),
+		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
+	this->versionTextEntity = this->CreateTextEntity(
+		VerticalAnchor(VerticalAnchorType::Bottom, -40.0f),
+		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
 
 	// Show version number.
 	auto version = Package::Current->Id->Version;
@@ -39,7 +46,7 @@ void DebugInfoSystem::CreateEntities()
 	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision);
 }
 
-int DebugInfoSystem::CreateTextEntity(Vector2F screenPosition)
+int DebugInfoSystem::CreateTextEntity(VerticalAnchor top, HorizontalAnchor left)
 {
 	int entityId = this->game->entityManager->CreateEntity();
 
@@ -51,7 +58,6 @@ int DebugInfoSystem::CreateTextEntity(Vector2F screenPosition)
 	this->game->entityManager->AddComponent(entityId, fontComponent);
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	screenPositionComponent->position = screenPosition;
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
 
 	auto textComponent = std::make_shared<TextComponent>();
@@ -59,6 +65,11 @@ int DebugInfoSystem::CreateTextEntity(Vector2F screenPosition)
 
 	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();
 	this->game->entityManager->AddComponent(entityId, textAlignmentComponent);
+
+	auto anchorComponent = std::make_shared<UIAnchorComponent>();
+	anchorComponent->left = left;
+	anchorComponent->top = top;
+	this->game->entityManager->AddComponent(entityId, anchorComponent);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);

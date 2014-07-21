@@ -197,6 +197,7 @@
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\ColorComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\UIAnchorComponent.h" />
     <ClInclude Include="Components\UIPanelComponent.h" />
     <ClInclude Include="Components\ScreenPositionComponent.h" />
     <ClInclude Include="Components\TextComponent.h" />
@@ -270,6 +271,8 @@
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
+    <ClInclude Include="Systems\UI\Anchor.h" />
+    <ClInclude Include="Systems\UI\Panel.h" />
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\HashedString.h" />
     <ClInclude Include="Util\Logger.h" />
@@ -284,6 +287,7 @@
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\TextComponent.cpp" />
     <ClCompile Include="Components\TextAlignmentComponent.cpp" />
+    <ClCompile Include="Components\UIAnchorComponent.cpp" />
     <ClCompile Include="Components\UIPanelComponent.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />

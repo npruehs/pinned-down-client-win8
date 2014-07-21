@@ -5,11 +5,14 @@
 #include "Core\IEventListener.h"
 #include "Math\Vector2F.h"
 
+#include "Components\UIAnchorComponent.h"
+
 #include "Events\PointerMovedEvent.h"
 
 using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Components;
 
 namespace PinnedDownClient
 {
@@ -31,7 +34,7 @@ namespace PinnedDownClient
 			int versionTextEntity;
 
 			void CreateEntities();
-			int CreateTextEntity(Vector2F screenPosition);
+			int CreateTextEntity(VerticalAnchor top, HorizontalAnchor left);
 
 			void OnEvent(Event & event);
 
