@@ -280,6 +280,12 @@
     <ClCompile Include="Components\UIAnchorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\UILoadingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\UI\UIFactory.cpp">
+      <Filter>Systems\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -527,6 +533,12 @@
       <Filter>Systems\UI</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UI\Panel.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UILoadingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\UIFactory.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
   </ItemGroup>

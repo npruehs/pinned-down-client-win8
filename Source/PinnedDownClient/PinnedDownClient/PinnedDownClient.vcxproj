@@ -271,8 +271,10 @@
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
+    <ClInclude Include="Systems\UILoadingSystem.h" />
     <ClInclude Include="Systems\UI\Anchor.h" />
     <ClInclude Include="Systems\UI\Panel.h" />
+    <ClInclude Include="Systems\UI\UIFactory.h" />
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\HashedString.h" />
     <ClInclude Include="Util\Logger.h" />
@@ -535,6 +537,8 @@
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
     <ClCompile Include="Systems\UILayoutSystem.cpp" />
+    <ClCompile Include="Systems\UILoadingSystem.cpp" />
+    <ClCompile Include="Systems\UI\UIFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

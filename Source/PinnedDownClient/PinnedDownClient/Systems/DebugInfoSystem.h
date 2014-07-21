@@ -9,10 +9,13 @@
 
 #include "Events\PointerMovedEvent.h"
 
+#include "Systems\UI\UIFactory.h"
+
 using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Systems::UI;
 
 namespace PinnedDownClient
 {
@@ -28,13 +31,13 @@ namespace PinnedDownClient
 
 		private:
 			Vector2F pointerPosition;
+			std::shared_ptr<UIFactory> uiFactory;
 
 			int pointerPositionTextEntity;
 			int fpsTextEntity;
 			int versionTextEntity;
 
 			void CreateEntities();
-			int CreateTextEntity(VerticalAnchor top, HorizontalAnchor left);
 
 			void OnEvent(Event & event);
 

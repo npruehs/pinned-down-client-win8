@@ -13,6 +13,7 @@
 using namespace Windows::ApplicationModel;
 
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Components;
 
 DebugInfoSystem::DebugInfoSystem()
@@ -23,6 +24,8 @@ void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastru
 {
 	GameSystem::InitSystem(game);
 
+	this->uiFactory = std::make_shared<UIFactory>(this->game);
+
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
 
 	this->CreateEntities();
@@ -30,13 +33,13 @@ void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastru
 
 void DebugInfoSystem::CreateEntities()
 {
-	this->pointerPositionTextEntity = this->CreateTextEntity(
+	this->pointerPositionTextEntity = this->uiFactory->CreateLabel(
 		VerticalAnchor(VerticalAnchorType::Bottom, -80.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
-	this->fpsTextEntity = this->CreateTextEntity(
+	this->fpsTextEntity = this->uiFactory->CreateLabel(
 		VerticalAnchor(VerticalAnchorType::Bottom, -60.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
-	this->versionTextEntity = this->CreateTextEntity(
+	this->versionTextEntity = this->uiFactory->CreateLabel(
 		VerticalAnchor(VerticalAnchorType::Bottom, -40.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
 
@@ -44,37 +47,6 @@ void DebugInfoSystem::CreateEntities()
 	auto version = Package::Current->Id->Version;
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
 	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision);
-}
-
-int DebugInfoSystem::CreateTextEntity(VerticalAnchor top, HorizontalAnchor left)
-{
-	int entityId = this->game->entityManager->CreateEntity();
-
-	auto colorComponent = std::make_shared<ColorComponent>();
-	colorComponent->color = D2D1::ColorF(D2D1::ColorF::White);
-	this->game->entityManager->AddComponent(entityId, colorComponent);
-
-	auto fontComponent = std::make_shared<FontComponent>();
-	this->game->entityManager->AddComponent(entityId, fontComponent);
-
-	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
-
-	auto textComponent = std::make_shared<TextComponent>();
-	this->game->entityManager->AddComponent(entityId, textComponent);
-
-	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();
-	this->game->entityManager->AddComponent(entityId, textAlignmentComponent);
-
-	auto anchorComponent = std::make_shared<UIAnchorComponent>();
-	anchorComponent->left = left;
-	anchorComponent->top = top;
-	this->game->entityManager->AddComponent(entityId, anchorComponent);
-
-	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
-	this->game->eventManager->QueueEvent(entityInitializedEvent);
-
-	return entityId;
 }
 
 void DebugInfoSystem::Update(StepTimer const& timer)
