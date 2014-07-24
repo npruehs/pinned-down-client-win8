@@ -195,16 +195,16 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		&& textAlignmentComponent != nullptr)
 	{
 		// Add label.
-		std::shared_ptr<Rendering::TextData> textData = std::make_shared<Rendering::TextData>();
-		textData->entityId = entityId;
-		textData->boundsComponent = boundsComponent;
-		textData->colorComponent = colorComponent;
-		textData->fontComponent = fontComponent;
-		textData->screenPositionComponent = screenPositionComponent;
-		textData->textAlignmentComponent = textAlignmentComponent;
-		textData->textComponent = textComponent;
+		std::shared_ptr<UI::Label> label = std::make_shared<UI::Label>();
+		label->entityId = entityId;
+		label->boundsComponent = boundsComponent;
+		label->colorComponent = colorComponent;
+		label->fontComponent = fontComponent;
+		label->screenPositionComponent = screenPositionComponent;
+		label->textAlignmentComponent = textAlignmentComponent;
+		label->textComponent = textComponent;
 
-		this->renderables.push_back(textData);
+		this->renderables.push_back(label);
 	}
 
 	if (screenPositionComponent != nullptr
@@ -451,17 +451,17 @@ void RenderSystem::Render()
 
 		// Render item.
 		std::shared_ptr<UI::Sprite> sprite = std::dynamic_pointer_cast<UI::Sprite>(*iterator);
-		std::shared_ptr<Rendering::TextData> text = std::dynamic_pointer_cast<Rendering::TextData>(*iterator);
+		std::shared_ptr<UI::Label> label = std::dynamic_pointer_cast<UI::Label>(*iterator);
 		
 		if (sprite != nullptr)
 		{
 			// Draw sprite.
 			this->DrawSprite(sprite);
 		}
-		else if (text != nullptr)
+		else if (label != nullptr)
 		{
 			// Draw text.
-			this->DrawText(text);
+			this->DrawLabel(label);
 		}
 	}
 
@@ -678,26 +678,26 @@ void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
 		);
 }
 
-void RenderSystem::DrawText(std::shared_ptr<Rendering::TextData> text)
+void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 {
 	// Create text format.
 	ComPtr<IDWriteTextFormat> textFormat;
 
 	ThrowIfFailed(
 		this->writeFactory->CreateTextFormat(
-		text->fontComponent->fontFamilyName.c_str(),
+		label->fontComponent->fontFamilyName.c_str(),
 		NULL,
-		text->fontComponent->fontWeight,
-		text->fontComponent->fontStyle,
-		text->fontComponent->fontStretch,
-		text->fontComponent->fontSize,
+		label->fontComponent->fontWeight,
+		label->fontComponent->fontStyle,
+		label->fontComponent->fontStretch,
+		label->fontComponent->fontSize,
 		L"en-US",
 		&textFormat)
 		);
 
 	// Set text alignment.
 	ThrowIfFailed(
-		textFormat->SetTextAlignment(text->textAlignmentComponent->alignment)
+		textFormat->SetTextAlignment(label->textAlignmentComponent->alignment)
 		);
 
 	// Create final text layout for drawing.
@@ -705,8 +705,8 @@ void RenderSystem::DrawText(std::shared_ptr<Rendering::TextData> text)
 
 	ThrowIfFailed(
 		this->writeFactory->CreateTextLayout(
-		text->textComponent->text.c_str(),
-		(uint32)text->textComponent->text.length(),
+		label->textComponent->text.c_str(),
+		(uint32)label->textComponent->text.length(),
 		textFormat.Get(),
 		500.0f, // Max width.
 		500.0f, // Max height.
@@ -719,14 +719,14 @@ void RenderSystem::DrawText(std::shared_ptr<Rendering::TextData> text)
 		);
 
 	// Update text bounds.
-	text->boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
+	label->boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
 
 	// Create brush for font rendering.
 	ComPtr<ID2D1SolidColorBrush> textBrush;
 
 	ThrowIfFailed(
 		this->d2dContext->CreateSolidColorBrush(
-		text->colorComponent->color,
+		label->colorComponent->color,
 		&textBrush)
 		);
 

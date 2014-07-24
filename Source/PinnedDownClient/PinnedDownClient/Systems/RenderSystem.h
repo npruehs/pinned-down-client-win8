@@ -13,9 +13,9 @@
 #include "Events\EntityRemovedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
-#include "Rendering\TextData.h"
 #include "Rendering\IRenderable.h"
 #include "UI\Sprite.h"
+#include "UI\Label.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -108,7 +108,7 @@ namespace PinnedDownClient
 			void CreateWindowSizeDependentResources();
 
 			void DrawSprite(std::shared_ptr<UI::Sprite> sprite);
-			void DrawText(std::shared_ptr<Rendering::TextData> text);
+			void DrawLabel(std::shared_ptr<UI::Label> label);
 		};
 	}
 }

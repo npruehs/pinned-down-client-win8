@@ -351,9 +351,6 @@
     <ClInclude Include="Events\RenderTargetChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Rendering\TextData.h">
-      <Filter>Systems\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Events\PointerPressedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -552,6 +549,9 @@
     </ClInclude>
     <ClInclude Include="Systems\Rendering\IRenderable.h">
       <Filter>Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Label.h">
+      <Filter>Systems\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

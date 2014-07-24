@@ -18,9 +18,9 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		namespace Rendering
+		namespace UI
 		{
-			class TextData : public IRenderable
+			class Label : public IRenderable
 			{
 			public:
 				int entityId;

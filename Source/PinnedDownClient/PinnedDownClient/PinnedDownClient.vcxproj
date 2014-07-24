@@ -271,12 +271,12 @@
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
-    <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
     <ClInclude Include="Systems\UILoadingSystem.h" />
     <ClInclude Include="Systems\UI\Anchor.h" />
+    <ClInclude Include="Systems\UI\Label.h" />
     <ClInclude Include="Systems\UI\Panel.h" />
     <ClInclude Include="Systems\UI\Sprite.h" />
     <ClInclude Include="Systems\UI\UIFactory.h" />
