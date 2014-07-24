@@ -84,15 +84,18 @@ void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitialize
 {
 	auto entityId = entityInitializedEvent.entityId;
 	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entityId, UIAnchorComponent::UIAnchorComponentType);
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
 
 	if (anchorComponent != nullptr
+		&& boundsComponent != nullptr
 		&& screenPositionComponent != nullptr)
 	{
 		// Add anchor.
 		Anchor anchor = Anchor();
 		anchor.entityId = entityId;
 		anchor.anchorComponent = anchorComponent;
+		anchor.boundsComponent = boundsComponent;
 		anchor.screenPositionComponent = screenPositionComponent;
 
 		this->anchors.push_back(anchor);
@@ -149,12 +152,20 @@ void UILayoutSystem::Update(StepTimer const& timer)
 		// Consider bounds.
 		if (left.type == HorizontalAnchorType::Right)
 		{
-			x += targetBounds->bounds.x;
+			x += targetBounds->bounds.x - anchor.boundsComponent->bounds.x;
+		}
+		else if (left.type == HorizontalAnchorType::HorizontalCenter)
+		{
+			x += (targetBounds->bounds.x - anchor.boundsComponent->bounds.x) / 2;
 		}
 
 		if (top.type == VerticalAnchorType::Bottom)
 		{
-			y += targetBounds->bounds.y;
+			y += targetBounds->bounds.y - anchor.boundsComponent->bounds.y;
+		}
+		else if (top.type == VerticalAnchorType::VerticalCenter)
+		{
+			y += (targetBounds->bounds.y - anchor.boundsComponent->bounds.y) / 2;
 		}
 
 		// Add relative offset.

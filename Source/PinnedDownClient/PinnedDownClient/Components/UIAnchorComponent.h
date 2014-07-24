@@ -12,12 +12,14 @@ namespace PinnedDownClient
 		enum HorizontalAnchorType
 		{
 			Left,
+			HorizontalCenter,
 			Right
 		};
 
 		enum VerticalAnchorType
 		{
 			Top,
+			VerticalCenter,
 			Bottom
 		};
 

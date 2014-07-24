@@ -557,4 +557,12 @@
   <ItemGroup>
     <None Include="PinnedDownClient_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Window.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Button.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

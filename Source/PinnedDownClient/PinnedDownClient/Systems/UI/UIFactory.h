@@ -25,6 +25,7 @@ namespace PinnedDownClient
 				int CreatePanel();
 				int CreateSprite(std::wstring spriteName);
 				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left);
+				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
 
 			private:
 				std::shared_ptr<GameInfrastructure> game;

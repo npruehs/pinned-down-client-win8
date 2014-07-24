@@ -4,6 +4,7 @@
 #include <string>
 #include "Math\Vector2F.h"
 
+#include "Components\BoundsComponent.h"
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
@@ -21,6 +22,7 @@ namespace PinnedDownClient
 			struct TextData
 			{
 				int entityId;
+				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ColorComponent> colorComponent;
 				std::shared_ptr<FontComponent> fontComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;

@@ -179,6 +179,7 @@ void RenderSystem::OnDisplayContentsInvalidated()
 
 void RenderSystem::OnEntityInitialized(int entityId)
 {
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
 	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entityId, ColorComponent::ColorComponentType);
 	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
@@ -186,7 +187,8 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
 	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
 
-	if (colorComponent != nullptr
+	if (boundsComponent != nullptr
+		&& colorComponent != nullptr
 		&& fontComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& textComponent != nullptr
@@ -195,6 +197,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		// Add label.
 		Rendering::TextData textData = Rendering::TextData();
 		textData.entityId = entityId;
+		textData.boundsComponent = boundsComponent;
 		textData.colorComponent = colorComponent;
 		textData.fontComponent = fontComponent;
 		textData.screenPositionComponent = screenPositionComponent;
@@ -496,7 +499,8 @@ void RenderSystem::Render()
 			textLayout->GetMetrics(&metrics)
 			);
 
-		// Text metrics, such as line height, can be accessed here: metrics.height
+		// Update text bounds.
+		textData.boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
 
 		// Create brush for font rendering.
 		ComPtr<ID2D1SolidColorBrush> textBrush;

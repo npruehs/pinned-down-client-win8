@@ -41,35 +41,24 @@ void UILoadingSystem::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d
 {
 	this->game->resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
-		L"Assets/Logo.png"
+		L"Assets/Window.png"
 		);
-
 	this->game->resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
-		L"Assets/SmallLogo.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		d2dContext.Get(),
-		L"Assets/SplashScreen.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		d2dContext.Get(),
-		L"Assets/StoreLogo.png"
+		L"Assets/Button.png"
 		);
 }
 
 void UILoadingSystem::UnloadResources()
 {
-	this->game->resourceManager->UnloadResource(L"Assets/Logo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
-	this->game->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
+	this->game->resourceManager->UnloadResource(L"Assets/Window.png");
+	this->game->resourceManager->UnloadResource(L"Assets/Button.png");
 }
 
 void UILoadingSystem::LoadUI()
 {
-	int sprite = this->uiFactory->CreateSprite(L"Assets/Logo.png", VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::Left, 50.0f));
-	int label = this->uiFactory->CreateLabel(VerticalAnchor(), HorizontalAnchor(), sprite, L"Anchored Text");
+	int window = this->uiFactory->CreateSprite(L"Assets/Window.png", VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f));
+	int button = this->uiFactory->CreateSprite(L"Assets/Button.png", VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
+
+	int longLabel = this->uiFactory->CreateLabel(VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0, L"This is a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery very very long text!");
 }

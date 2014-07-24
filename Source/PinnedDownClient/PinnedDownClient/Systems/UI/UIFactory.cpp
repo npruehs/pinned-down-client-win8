@@ -12,9 +12,13 @@
 
 #include "Events\EntityInitializedEvent.h"
 
+#include "Math\Vector2F.h"
+
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Systems::UI;
+
 
 UIFactory::UIFactory(std::shared_ptr<GameInfrastructure> game)
 {
@@ -34,6 +38,9 @@ int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchor
 int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text)
 {
 	int entityId = this->game->entityManager->CreateEntity();
+
+	auto boundsComponent = std::make_shared<BoundsComponent>();
+	this->game->entityManager->AddComponent(entityId, boundsComponent);
 
 	auto colorComponent = std::make_shared<ColorComponent>();
 	colorComponent->color = D2D1::ColorF(D2D1::ColorF::White);
@@ -96,13 +103,18 @@ int UIFactory::CreateSprite(std::wstring spriteName)
 
 int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left)
 {
+	return this->CreateSprite(spriteName, top, left, 0);
+}
+
+int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget)
+{
 	int entityId = this->game->entityManager->CreateEntity();
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
 
 	this->AddSprite(entityId, spriteName);
-	this->AddAnchor(entityId, top, left);
+	this->AddAnchor(entityId, top, left, anchorTarget);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
@@ -128,5 +140,11 @@ void UIFactory::AddSprite(int entityId, std::wstring spriteName)
 {
 	auto spriteComponent = std::make_shared<SpriteComponent>();
 	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName.c_str());
+	
+	auto boundsComponent = std::make_shared<BoundsComponent>();
+	auto bitmapSize = spriteComponent->sprite->bitmap->GetPixelSize();
+	boundsComponent->bounds = Vector2F(static_cast<float>(bitmapSize.width), static_cast<float>(bitmapSize.height));
+	this->game->entityManager->AddComponent(entityId, boundsComponent);
+
 	this->game->entityManager->AddComponent(entityId, spriteComponent);
 }

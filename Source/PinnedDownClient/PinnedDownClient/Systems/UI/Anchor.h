@@ -2,6 +2,7 @@
 
 #include "pch.h"
 
+#include "Components\BoundsComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\UIAnchorComponent.h"
 
@@ -17,6 +18,7 @@ namespace PinnedDownClient
 			{
 				int entityId;
 				std::shared_ptr<UIAnchorComponent> anchorComponent;
+				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;
 			};
 		}
