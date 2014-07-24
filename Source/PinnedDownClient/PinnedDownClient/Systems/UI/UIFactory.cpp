@@ -79,6 +79,9 @@ int UIFactory::CreatePanel()
 	auto depthComponent = std::make_shared<DepthComponent>();
 	this->game->entityManager->AddComponent(entityId, depthComponent);
 
+	auto anchorComponent = std::make_shared<UIAnchorComponent>();
+	this->game->entityManager->AddComponent(entityId, anchorComponent);
+
 	return entityId;
 }
 
