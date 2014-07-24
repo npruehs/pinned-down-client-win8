@@ -19,22 +19,17 @@ namespace PinnedDownClient
 			public:
 				UIFactory(std::shared_ptr<GameInfrastructure> game);
 
-				int CreateLabel(VerticalAnchor top, HorizontalAnchor left);
-				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
-				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text);
-				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text, int depth);
+				int CreateLabel(std::wstring text);
 				int CreatePanel();
 				int CreateSprite(std::wstring spriteName);
-				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left);
-				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
-				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget, int depth);
 
+				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
+				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
+				void SetDepth(int entityId, int depth);
+
+				void FinishUIWidget(int entityId);
 			private:
 				std::shared_ptr<GameInfrastructure> game;
-
-				void AddAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
-				void AddAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
-				void AddSprite(int entityId, std::wstring spriteName);
 			};
 		}
 	}

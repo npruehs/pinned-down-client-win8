@@ -65,7 +65,7 @@ namespace PinnedDownClient
 				return UIAnchorComponentType;
 			}
 
-			int target;
+			int target = 0;
 			HorizontalAnchor left;
 			HorizontalAnchor right;
 			VerticalAnchor top;

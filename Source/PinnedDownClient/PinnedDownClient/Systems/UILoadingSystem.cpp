@@ -57,8 +57,17 @@ void UILoadingSystem::UnloadResources()
 
 void UILoadingSystem::LoadUI()
 {
-	int window = this->uiFactory->CreateSprite(L"Assets/Window.png", VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0, 1);
-	int button = this->uiFactory->CreateSprite(L"Assets/Button.png", VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window, 2);
+	int window = this->uiFactory->CreateSprite(L"Assets/Window.png");
+	this->uiFactory->SetAnchor(window, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetDepth(window, 1);
+	this->uiFactory->FinishUIWidget(window);
 
-	int longLabel = this->uiFactory->CreateLabel(VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0, L"This is a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery very very long text!");
+	int button = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->uiFactory->SetAnchor(button, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
+	this->uiFactory->SetDepth(button, 2);
+	this->uiFactory->FinishUIWidget(button);
+
+	int longLabel = this->uiFactory->CreateLabel(L"This is a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery very very long text!");
+	this->uiFactory->SetAnchor(longLabel, VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->FinishUIWidget(longLabel);
 }

@@ -33,15 +33,23 @@ void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastru
 
 void DebugInfoSystem::CreateEntities()
 {
-	this->pointerPositionTextEntity = this->uiFactory->CreateLabel(
+	this->pointerPositionTextEntity = this->uiFactory->CreateLabel(L"");
+	this->uiFactory->SetAnchor(this->pointerPositionTextEntity,
 		VerticalAnchor(VerticalAnchorType::Bottom, -80.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
-	this->fpsTextEntity = this->uiFactory->CreateLabel(
+	this->uiFactory->FinishUIWidget(this->pointerPositionTextEntity);
+
+	this->fpsTextEntity = this->uiFactory->CreateLabel(L"");
+	this->uiFactory->SetAnchor(this->fpsTextEntity,
 		VerticalAnchor(VerticalAnchorType::Bottom, -60.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
-	this->versionTextEntity = this->uiFactory->CreateLabel(
+	this->uiFactory->FinishUIWidget(this->fpsTextEntity);
+
+	this->versionTextEntity = this->uiFactory->CreateLabel(L"");
+	this->uiFactory->SetAnchor(this->versionTextEntity, 
 		VerticalAnchor(VerticalAnchorType::Bottom, -40.0f),
 		HorizontalAnchor(HorizontalAnchorType::Left, 20.0f));
+	this->uiFactory->FinishUIWidget(this->versionTextEntity);
 
 	// Show version number.
 	auto version = Package::Current->Id->Version;

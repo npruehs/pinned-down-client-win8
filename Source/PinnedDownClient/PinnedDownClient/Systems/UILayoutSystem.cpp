@@ -32,6 +32,7 @@ void UILayoutSystem::CreateRootPanel()
 {
 	// Create panel entity.
 	int entityId = this->uiFactory->CreatePanel();
+	this->uiFactory->FinishUIWidget(entityId);
 
 	// Set root panel.
 	Panel panel = Panel();

@@ -18,7 +18,7 @@ namespace PinnedDownClient
 				return DepthComponentType;
 			}
 
-			int depth;
+			int depth = 0;
 		};
 	}
 }
