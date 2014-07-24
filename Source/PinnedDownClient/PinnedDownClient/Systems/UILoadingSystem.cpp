@@ -70,5 +70,6 @@ void UILoadingSystem::UnloadResources()
 
 void UILoadingSystem::LoadUI()
 {
-	this->uiFactory->CreateSprite(L"Assets/Logo.png");
+	int sprite = this->uiFactory->CreateSprite(L"Assets/Logo.png", VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::Left, 50.0f));
+	int label = this->uiFactory->CreateLabel(VerticalAnchor(), HorizontalAnchor(), sprite, L"Anchored Text");
 }

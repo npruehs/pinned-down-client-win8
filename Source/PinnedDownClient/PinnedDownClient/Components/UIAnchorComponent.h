@@ -26,7 +26,7 @@ namespace PinnedDownClient
 			HorizontalAnchorType type;
 			float offset;
 
-			HorizontalAnchor::HorizontalAnchor()
+			HorizontalAnchor::HorizontalAnchor() : HorizontalAnchor::HorizontalAnchor(HorizontalAnchorType::Left, 0.0f)
 			{
 			}
 
@@ -42,7 +42,7 @@ namespace PinnedDownClient
 			VerticalAnchorType type;
 			float offset;
 
-			VerticalAnchor::VerticalAnchor()
+			VerticalAnchor::VerticalAnchor() : VerticalAnchor::VerticalAnchor(VerticalAnchorType::Top, 0.0f)
 			{
 			}
 
@@ -63,6 +63,7 @@ namespace PinnedDownClient
 				return UIAnchorComponentType;
 			}
 
+			int target;
 			HorizontalAnchor left;
 			HorizontalAnchor right;
 			VerticalAnchor top;

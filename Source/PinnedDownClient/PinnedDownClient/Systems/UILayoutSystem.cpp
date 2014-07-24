@@ -36,8 +36,8 @@ void UILayoutSystem::CreateRootPanel()
 	// Set root panel.
 	Panel panel = Panel();
 	panel.entityId = entityId;
-	panel.boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);;
-
+	panel.boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
+	panel.screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
 	this->rootPanel = panel;
 }
 
@@ -116,9 +116,6 @@ void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
 
 void UILayoutSystem::Update(StepTimer const& timer)
 {
-	auto x = 0.0f;
-	auto y = 0.0f;
-
 	// Update anchors.
 	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); iterator++)
 	{
@@ -127,19 +124,44 @@ void UILayoutSystem::Update(StepTimer const& timer)
 		HorizontalAnchor& left = anchor.anchorComponent->left;
 		VerticalAnchor& top = anchor.anchorComponent->top;
 
-		x = left.offset;
-		y = top.offset;
+		auto x = 0.0f;
+		auto y = 0.0f;
 
+		// Check for anchor target.
+		std::shared_ptr<ScreenPositionComponent> targetPosition;
+		std::shared_ptr<BoundsComponent> targetBounds;
+
+		if (anchor.anchorComponent->target != 0)
+		{
+			targetPosition = this->game->entityManager->GetComponent<ScreenPositionComponent>(anchor.anchorComponent->target, ScreenPositionComponent::ScreenPositionComponentType);
+			targetBounds = this->game->entityManager->GetComponent<BoundsComponent>(anchor.anchorComponent->target, BoundsComponent::BoundsComponentType);
+		}
+		else
+		{
+			targetPosition = this->rootPanel.screenPositionComponent;
+			targetBounds = this->rootPanel.boundsComponent;
+		}
+
+		// Consider position.
+		x += targetPosition->position.x;
+		y += targetPosition->position.y;
+
+		// Consider bounds.
 		if (left.type == HorizontalAnchorType::Right)
 		{
-			x += this->rootPanel.boundsComponent->bounds.x;
+			x += targetBounds->bounds.x;
 		}
 
 		if (top.type == VerticalAnchorType::Bottom)
 		{
-			y += this->rootPanel.boundsComponent->bounds.y;
+			y += targetBounds->bounds.y;
 		}
 
+		// Add relative offset.
+		x += left.offset;
+		y += top.offset;
+
+		// Update screen position.
 		anchor.screenPositionComponent->position = Vector2F(x, y);
 	}
 }

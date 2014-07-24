@@ -21,8 +21,17 @@ UIFactory::UIFactory(std::shared_ptr<GameInfrastructure> game)
 	this->game = game;
 }
 
-
 int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left)
+{
+	return this->CreateLabel(top, left, 0);
+}
+
+int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget)
+{
+	return this->CreateLabel(top, left, anchorTarget, std::wstring());
+}
+
+int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text)
 {
 	int entityId = this->game->entityManager->CreateEntity();
 
@@ -37,15 +46,13 @@ int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left)
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
 
 	auto textComponent = std::make_shared<TextComponent>();
+	textComponent->text = text;
 	this->game->entityManager->AddComponent(entityId, textComponent);
 
 	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();
 	this->game->entityManager->AddComponent(entityId, textAlignmentComponent);
 
-	auto anchorComponent = std::make_shared<UIAnchorComponent>();
-	anchorComponent->left = left;
-	anchorComponent->top = top;
-	this->game->entityManager->AddComponent(entityId, anchorComponent);
+	this->AddAnchor(entityId, top, left, anchorTarget);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
@@ -79,12 +86,47 @@ int UIFactory::CreateSprite(std::wstring spriteName)
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
 
-	auto spriteComponent = std::make_shared<SpriteComponent>();
-	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName.c_str());
-	this->game->entityManager->AddComponent(entityId, spriteComponent);
+	this->AddSprite(entityId, spriteName);
 
 	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
 
 	return entityId;
+}
+
+int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left)
+{
+	int entityId = this->game->entityManager->CreateEntity();
+
+	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
+	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+
+	this->AddSprite(entityId, spriteName);
+	this->AddAnchor(entityId, top, left);
+
+	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
+	this->game->eventManager->QueueEvent(entityInitializedEvent);
+
+	return entityId;
+}
+
+void UIFactory::AddAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left)
+{
+	this->AddAnchor(entityId, top, left, 0);
+}
+
+void UIFactory::AddAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget)
+{
+	auto anchorComponent = std::make_shared<UIAnchorComponent>();
+	anchorComponent->left = left;
+	anchorComponent->top = top;
+	anchorComponent->target = anchorTarget;
+	this->game->entityManager->AddComponent(entityId, anchorComponent);
+}
+
+void UIFactory::AddSprite(int entityId, std::wstring spriteName)
+{
+	auto spriteComponent = std::make_shared<SpriteComponent>();
+	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName.c_str());
+	this->game->entityManager->AddComponent(entityId, spriteComponent);
 }
