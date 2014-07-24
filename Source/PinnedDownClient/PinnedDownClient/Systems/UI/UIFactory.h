@@ -22,10 +22,12 @@ namespace PinnedDownClient
 				int CreateLabel(VerticalAnchor top, HorizontalAnchor left);
 				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
 				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text);
+				int CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text, int depth);
 				int CreatePanel();
 				int CreateSprite(std::wstring spriteName);
 				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left);
 				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
+				int CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget, int depth);
 
 			private:
 				std::shared_ptr<GameInfrastructure> game;

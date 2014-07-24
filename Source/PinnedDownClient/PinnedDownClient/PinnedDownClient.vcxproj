@@ -198,6 +198,7 @@
   <ItemGroup>
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\ColorComponent.h" />
+    <ClInclude Include="Components\DepthComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
     <ClInclude Include="Components\SpriteComponent.h" />
     <ClInclude Include="Components\UIAnchorComponent.h" />
@@ -290,6 +291,7 @@
   <ItemGroup>
     <ClCompile Include="Components\BoundsComponent.cpp" />
     <ClCompile Include="Components\ColorComponent.cpp" />
+    <ClCompile Include="Components\DepthComponent.cpp" />
     <ClCompile Include="Components\FontComponent.cpp" />
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\SpriteComponent.cpp" />

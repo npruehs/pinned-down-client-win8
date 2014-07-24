@@ -289,6 +289,9 @@
     <ClCompile Include="Components\SpriteComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Components\DepthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -552,6 +555,9 @@
     </ClInclude>
     <ClInclude Include="Systems\UI\Label.h">
       <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\DepthComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

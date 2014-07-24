@@ -24,7 +24,6 @@ namespace PinnedDownClient
 			{
 			public:
 				int entityId;
-				int depth;
 				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ColorComponent> colorComponent;
 				std::shared_ptr<FontComponent> fontComponent;
@@ -32,7 +31,6 @@ namespace PinnedDownClient
 				std::shared_ptr<TextAlignmentComponent> textAlignmentComponent;
 
 				int GetEntityId() { return this->entityId; }
-				int GetDepth() { return this->depth; }
 			};
 		}
 	}

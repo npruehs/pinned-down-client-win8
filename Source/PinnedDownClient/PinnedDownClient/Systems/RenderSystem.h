@@ -109,6 +109,8 @@ namespace PinnedDownClient
 
 			void DrawSprite(std::shared_ptr<UI::Sprite> sprite);
 			void DrawLabel(std::shared_ptr<UI::Label> label);
+
+			static bool SortByDepth(const std::shared_ptr<Rendering::IRenderable>& first, const std::shared_ptr<Rendering::IRenderable>& second);
 		};
 	}
 }

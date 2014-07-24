@@ -19,11 +19,9 @@ namespace PinnedDownClient
 			{
 			public:
 				int entityId;
-				int depth;
 				std::shared_ptr<SpriteComponent> spriteComponent;
 
 				int GetEntityId() { return this->entityId; }
-				int GetDepth() { return this->depth; }
 			};
 		}
 	}

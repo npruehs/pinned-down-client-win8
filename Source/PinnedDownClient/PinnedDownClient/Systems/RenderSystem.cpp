@@ -181,6 +181,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 {
 	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
 	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entityId, ColorComponent::ColorComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityId, DepthComponent::DepthComponentType);
 	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
@@ -189,6 +190,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 
 	if (boundsComponent != nullptr
 		&& colorComponent != nullptr
+		&& depthComponent != nullptr
 		&& fontComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& textComponent != nullptr
@@ -199,24 +201,29 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		label->entityId = entityId;
 		label->boundsComponent = boundsComponent;
 		label->colorComponent = colorComponent;
+		label->depthComponent = depthComponent;
 		label->fontComponent = fontComponent;
 		label->screenPositionComponent = screenPositionComponent;
 		label->textAlignmentComponent = textAlignmentComponent;
 		label->textComponent = textComponent;
 
 		this->renderables.push_back(label);
+		this->renderables.sort(&RenderSystem::SortByDepth);
 	}
 
-	if (screenPositionComponent != nullptr
+	if (depthComponent != nullptr
+		&& screenPositionComponent != nullptr
 		&& spriteComponent != nullptr)
 	{
 		// Add sprite.
 		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
 		sprite->entityId = entityId;
+		sprite->depthComponent = depthComponent;
 		sprite->screenPositionComponent = screenPositionComponent;
 		sprite->spriteComponent = spriteComponent;
 
 		this->renderables.push_back(sprite);
+		this->renderables.sort(&RenderSystem::SortByDepth);
 	}
 }
 
@@ -736,4 +743,10 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		textLayout.Get(),
 		textBrush.Get()
 		);
+}
+
+
+bool RenderSystem::SortByDepth(const std::shared_ptr<Rendering::IRenderable>& first, const std::shared_ptr<Rendering::IRenderable>& second)
+{
+	return first->depthComponent->depth < second->depthComponent->depth;
 }

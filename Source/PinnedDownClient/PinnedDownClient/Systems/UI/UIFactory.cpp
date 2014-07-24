@@ -3,6 +3,7 @@
 
 #include "Components\BoundsComponent.h"
 #include "Components\ColorComponent.h"
+#include "Components\DepthComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\SpriteComponent.h"
@@ -37,6 +38,11 @@ int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchor
 
 int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text)
 {
+	return this->CreateLabel(top, left, anchorTarget, text, 0);
+}
+
+int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchorTarget, std::wstring text, int depth)
+{
 	int entityId = this->game->entityManager->CreateEntity();
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();
@@ -45,6 +51,10 @@ int UIFactory::CreateLabel(VerticalAnchor top, HorizontalAnchor left, int anchor
 	auto colorComponent = std::make_shared<ColorComponent>();
 	colorComponent->color = D2D1::ColorF(D2D1::ColorF::White);
 	this->game->entityManager->AddComponent(entityId, colorComponent);
+
+	auto depthComponent = std::make_shared<DepthComponent>();
+	depthComponent->depth = depth;
+	this->game->entityManager->AddComponent(entityId, depthComponent);
 
 	auto fontComponent = std::make_shared<FontComponent>();
 	this->game->entityManager->AddComponent(entityId, fontComponent);
@@ -108,10 +118,19 @@ int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, Horizon
 
 int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget)
 {
+	return this->CreateSprite(spriteName, top, left, anchorTarget, 0);
+}
+
+int UIFactory::CreateSprite(std::wstring spriteName, VerticalAnchor top, HorizontalAnchor left, int anchorTarget, int depth)
+{
 	int entityId = this->game->entityManager->CreateEntity();
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+
+	auto depthComponent = std::make_shared<DepthComponent>();
+	depthComponent->depth = depth;
+	this->game->entityManager->AddComponent(entityId, depthComponent);
 
 	this->AddSprite(entityId, spriteName);
 	this->AddAnchor(entityId, top, left, anchorTarget);
