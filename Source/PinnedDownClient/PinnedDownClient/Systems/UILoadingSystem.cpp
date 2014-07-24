@@ -60,6 +60,7 @@ void UILoadingSystem::LoadUI()
 	// First panel.
 	int panel = this->uiFactory->CreatePanel();
 	this->uiFactory->SetDepth(panel, -100);
+	this->uiFactory->SetVisible(panel, false);
 	this->uiFactory->FinishUIWidget(panel);
 
 	int window = this->uiFactory->CreateSprite(L"Assets/Window.png");

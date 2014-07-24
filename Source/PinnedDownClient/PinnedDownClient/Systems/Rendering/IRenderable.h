@@ -20,8 +20,10 @@ namespace PinnedDownClient
 
 				std::shared_ptr<DepthComponent> depthComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;
-				std::shared_ptr<DepthComponent> panelDepthComponent;
 				std::shared_ptr<VisibilityComponent> visibilityComponent;
+
+				std::shared_ptr<DepthComponent> panelDepthComponent;
+				std::shared_ptr<VisibilityComponent> panelVisibilityComponent;
 			};
 		}
 	}

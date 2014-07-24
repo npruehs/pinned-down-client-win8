@@ -216,6 +216,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		if (widgetComponent->panel != 0)
 		{
 			label->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+			label->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
 		}
 
 		this->renderables.push_back(label);
@@ -239,6 +240,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		if (widgetComponent->panel != 0)
 		{
 			sprite->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+			sprite->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
 		}
 
 		this->renderables.push_back(sprite);
@@ -469,7 +471,7 @@ void RenderSystem::Render()
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
 		// Visibility check.
-		if (!renderable->visibilityComponent->visible)
+		if (!renderable->visibilityComponent->visible || (renderable->panelVisibilityComponent != nullptr && !renderable->panelVisibilityComponent->visible))
 		{
 			continue;
 		}

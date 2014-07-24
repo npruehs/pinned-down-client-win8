@@ -86,6 +86,9 @@ int UIFactory::CreatePanel()
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
 	this->game->entityManager->AddComponent(entityId, anchorComponent);
 
+	auto visibilityComponent = std::make_shared<VisibilityComponent>();
+	this->game->entityManager->AddComponent(entityId, visibilityComponent);
+
 	return entityId;
 }
 
@@ -145,6 +148,12 @@ void UIFactory::SetPanel(int entityId, int panelId)
 {
 	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
 	widgetComponent->panel = panelId;
+}
+
+void UIFactory::SetVisible(int entityId, bool visible)
+{
+	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
+	visibilityComponent->visible = visible;
 }
 
 void UIFactory::FinishUIWidget(int entityId)
