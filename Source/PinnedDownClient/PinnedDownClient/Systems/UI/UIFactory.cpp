@@ -11,6 +11,7 @@
 #include "Components\TextComponent.h"
 #include "Components\UIPanelComponent.h"
 #include "Components\UIWidgetComponent.h"
+#include "Components\VisibilityComponent.h"
 
 #include "Events\EntityInitializedEvent.h"
 
@@ -59,6 +60,9 @@ int UIFactory::CreateLabel(std::wstring text)
 
 	auto widgetComponent = std::make_shared<UIWidgetComponent>();
 	this->game->entityManager->AddComponent(entityId, widgetComponent);
+
+	auto visibilityComponent = std::make_shared<VisibilityComponent>();
+	this->game->entityManager->AddComponent(entityId, visibilityComponent);
 
 	return entityId;
 }
@@ -109,6 +113,9 @@ int UIFactory::CreateSprite(std::wstring spriteName)
 
 	auto widgetComponent = std::make_shared<UIWidgetComponent>();
 	this->game->entityManager->AddComponent(entityId, widgetComponent);
+
+	auto visibilityComponent = std::make_shared<VisibilityComponent>();
+	this->game->entityManager->AddComponent(entityId, visibilityComponent);
 
 	return entityId;
 }

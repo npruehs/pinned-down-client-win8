@@ -13,6 +13,7 @@
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 #include "Components\UIWidgetComponent.h"
+#include "Components\VisibilityComponent.h"
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
@@ -189,6 +190,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
 	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
 	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
+	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
 
 	if (boundsComponent != nullptr
 		&& colorComponent != nullptr
@@ -196,7 +198,8 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		&& fontComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& textComponent != nullptr
-		&& textAlignmentComponent != nullptr)
+		&& textAlignmentComponent != nullptr
+		&& visibilityComponent != nullptr)
 	{
 		// Add label.
 		std::shared_ptr<UI::Label> label = std::make_shared<UI::Label>();
@@ -208,7 +211,8 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		label->screenPositionComponent = screenPositionComponent;
 		label->textAlignmentComponent = textAlignmentComponent;
 		label->textComponent = textComponent;
-		
+		label->visibilityComponent = visibilityComponent;
+
 		if (widgetComponent->panel != 0)
 		{
 			label->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
@@ -221,7 +225,8 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	if (depthComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& spriteComponent != nullptr
-		&& widgetComponent != nullptr)
+		&& widgetComponent != nullptr
+		&& visibilityComponent != nullptr)
 	{
 		// Add sprite.
 		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
@@ -229,6 +234,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		sprite->depthComponent = depthComponent;
 		sprite->screenPositionComponent = screenPositionComponent;
 		sprite->spriteComponent = spriteComponent;
+		sprite->visibilityComponent = visibilityComponent;
 
 		if (widgetComponent->panel != 0)
 		{
@@ -461,6 +467,12 @@ void RenderSystem::Render()
 	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); iterator++)
 	{
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
+
+		// Visibility check.
+		if (!renderable->visibilityComponent->visible)
+		{
+			continue;
+		}
 
 		// Translate context.
 		float x = renderable->screenPositionComponent->position.x;
