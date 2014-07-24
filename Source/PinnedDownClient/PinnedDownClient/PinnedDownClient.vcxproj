@@ -270,6 +270,7 @@
     <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
+    <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\Rendering\TextData.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />

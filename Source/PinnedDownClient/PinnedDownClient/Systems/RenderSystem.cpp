@@ -195,53 +195,41 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		&& textAlignmentComponent != nullptr)
 	{
 		// Add label.
-		Rendering::TextData textData = Rendering::TextData();
-		textData.entityId = entityId;
-		textData.boundsComponent = boundsComponent;
-		textData.colorComponent = colorComponent;
-		textData.fontComponent = fontComponent;
-		textData.screenPositionComponent = screenPositionComponent;
-		textData.textAlignmentComponent = textAlignmentComponent;
-		textData.textComponent = textComponent;
+		std::shared_ptr<Rendering::TextData> textData = std::make_shared<Rendering::TextData>();
+		textData->entityId = entityId;
+		textData->boundsComponent = boundsComponent;
+		textData->colorComponent = colorComponent;
+		textData->fontComponent = fontComponent;
+		textData->screenPositionComponent = screenPositionComponent;
+		textData->textAlignmentComponent = textAlignmentComponent;
+		textData->textComponent = textComponent;
 
-		this->texts.push_back(textData);
+		this->renderables.push_back(textData);
 	}
 
 	if (screenPositionComponent != nullptr
 		&& spriteComponent != nullptr)
 	{
 		// Add sprite.
-		UI::Sprite sprite = UI::Sprite();
-		sprite.entityId = entityId;
-		sprite.screenPositionComponent = screenPositionComponent;
-		sprite.spriteComponent = spriteComponent;
+		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
+		sprite->entityId = entityId;
+		sprite->screenPositionComponent = screenPositionComponent;
+		sprite->spriteComponent = spriteComponent;
 
-		this->sprites.push_back(sprite);
+		this->renderables.push_back(sprite);
 	}
 }
 
 void RenderSystem::OnEntityRemoved(int entityId)
 {
-	// Remove labels.
-	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); ++iterator)
+	// Remove renderable.
+	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
 	{
-		Rendering::TextData& text = *iterator;
+		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
-		if (text.entityId == entityId)
+		if (renderable->GetEntityId() == entityId)
 		{
-			this->texts.erase(iterator);
-			return;
-		}
-	}
-
-	// Remove sprites.
-	for (std::list<UI::Sprite>::iterator iterator = this->sprites.begin(); iterator != this->sprites.end(); ++iterator)
-	{
-		UI::Sprite& sprite = *iterator;
-
-		if (sprite.entityId == entityId)
-		{
-			this->sprites.erase(iterator);
+			this->renderables.erase(iterator);
 			return;
 		}
 	}
@@ -449,90 +437,32 @@ void RenderSystem::Render()
 
 	this->d2dContext->BeginDraw();
 
-	// Draw texts.
-	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); iterator++)
+	// Draw renderables.
+	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); iterator++)
 	{
-		Rendering::TextData& textData = *iterator;
-
-		// Create text format.
-		ComPtr<IDWriteTextFormat> textFormat;
-
-		ThrowIfFailed(
-			this->writeFactory->CreateTextFormat(
-			textData.fontComponent->fontFamilyName.c_str(),
-			NULL,
-			textData.fontComponent->fontWeight,
-			textData.fontComponent->fontStyle,
-			textData.fontComponent->fontStretch,
-			textData.fontComponent->fontSize,
-			L"en-US",
-			&textFormat)
-			);
-
-		// Set text alignment.
-		ThrowIfFailed(
-			textFormat->SetTextAlignment(textData.textAlignmentComponent->alignment)
-			);
-
-		// TODO: Adjust translation via text metrics depending on alignment.
-		float x = textData.screenPositionComponent->position.x;
-		float y = textData.screenPositionComponent->position.y;
-
-		D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(x, y);
-		this->d2dContext->SetTransform(screenTranslation);
-
-		// Create final text layout for drawing.
-		Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
-
-		ThrowIfFailed(
-			this->writeFactory->CreateTextLayout(
-			textData.textComponent->text.c_str(),
-			(uint32)textData.textComponent->text.length(),
-			textFormat.Get(),
-			500.0f, // Max width.
-			500.0f, // Max height.
-			&textLayout)
-			);
-
-		DWRITE_TEXT_METRICS metrics;
-		ThrowIfFailed(
-			textLayout->GetMetrics(&metrics)
-			);
-
-		// Update text bounds.
-		textData.boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
-
-		// Create brush for font rendering.
-		ComPtr<ID2D1SolidColorBrush> textBrush;
-
-		ThrowIfFailed(
-			this->d2dContext->CreateSolidColorBrush(
-			textData.colorComponent->color,
-			&textBrush)
-			);
-
-		// Draw text.
-		this->d2dContext->DrawTextLayout(
-			D2D1::Point2F(0.f, 0.f),
-			textLayout.Get(),
-			textBrush.Get()
-			);
-	}
-
-	// Draw sprites.
-	for (std::list<UI::Sprite>::iterator iterator = this->sprites.begin(); iterator != this->sprites.end(); iterator++)
-	{
-		UI::Sprite& sprite = *iterator;
+		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
 		// Translate context.
-		float x = sprite.screenPositionComponent->position.x;
-		float y = sprite.screenPositionComponent->position.y;
+		float x = renderable->screenPositionComponent->position.x;
+		float y = renderable->screenPositionComponent->position.y;
 
 		D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(x, y);
 		this->d2dContext->SetTransform(screenTranslation);
 
-		// Draw sprite.
-		this->DrawBitmap(sprite.spriteComponent->sprite);
+		// Render item.
+		std::shared_ptr<UI::Sprite> sprite = std::dynamic_pointer_cast<UI::Sprite>(*iterator);
+		std::shared_ptr<Rendering::TextData> text = std::dynamic_pointer_cast<Rendering::TextData>(*iterator);
+		
+		if (sprite != nullptr)
+		{
+			// Draw sprite.
+			this->DrawSprite(sprite);
+		}
+		else if (text != nullptr)
+		{
+			// Draw text.
+			this->DrawText(text);
+		}
 	}
 
 	ThrowIfFailed(
@@ -734,16 +664,76 @@ void RenderSystem::OnDeviceLost()
 	this->game->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }
 
-void RenderSystem::DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle)
+void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
 {
-	D2D1_SIZE_F size = bitmapHandle->bitmap->GetSize();
+	D2D1_SIZE_F size = sprite->spriteComponent->sprite->bitmap->GetSize();
 
 	this->d2dContext->DrawBitmap(
-		bitmapHandle->bitmap,
+		sprite->spriteComponent->sprite->bitmap,
 		D2D1::RectF(
 		0,
 		0,
 		size.width,
 		size.height)
+		);
+}
+
+void RenderSystem::DrawText(std::shared_ptr<Rendering::TextData> text)
+{
+	// Create text format.
+	ComPtr<IDWriteTextFormat> textFormat;
+
+	ThrowIfFailed(
+		this->writeFactory->CreateTextFormat(
+		text->fontComponent->fontFamilyName.c_str(),
+		NULL,
+		text->fontComponent->fontWeight,
+		text->fontComponent->fontStyle,
+		text->fontComponent->fontStretch,
+		text->fontComponent->fontSize,
+		L"en-US",
+		&textFormat)
+		);
+
+	// Set text alignment.
+	ThrowIfFailed(
+		textFormat->SetTextAlignment(text->textAlignmentComponent->alignment)
+		);
+
+	// Create final text layout for drawing.
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
+
+	ThrowIfFailed(
+		this->writeFactory->CreateTextLayout(
+		text->textComponent->text.c_str(),
+		(uint32)text->textComponent->text.length(),
+		textFormat.Get(),
+		500.0f, // Max width.
+		500.0f, // Max height.
+		&textLayout)
+		);
+
+	DWRITE_TEXT_METRICS metrics;
+	ThrowIfFailed(
+		textLayout->GetMetrics(&metrics)
+		);
+
+	// Update text bounds.
+	text->boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
+
+	// Create brush for font rendering.
+	ComPtr<ID2D1SolidColorBrush> textBrush;
+
+	ThrowIfFailed(
+		this->d2dContext->CreateSolidColorBrush(
+		text->colorComponent->color,
+		&textBrush)
+		);
+
+	// Draw text.
+	this->d2dContext->DrawTextLayout(
+		D2D1::Point2F(0.f, 0.f),
+		textLayout.Get(),
+		textBrush.Get()
 		);
 }

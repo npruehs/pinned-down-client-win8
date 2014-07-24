@@ -14,6 +14,7 @@
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
 #include "Rendering\TextData.h"
+#include "Rendering\IRenderable.h"
 #include "UI\Sprite.h"
 
 using namespace Microsoft::WRL;
@@ -81,8 +82,7 @@ namespace PinnedDownClient
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
-			std::list<Rendering::TextData> texts;
-			std::list<UI::Sprite> sprites;
+			std::list<std::shared_ptr<Rendering::IRenderable>> renderables;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
@@ -107,7 +107,8 @@ namespace PinnedDownClient
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
 
-			void DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle);
+			void DrawSprite(std::shared_ptr<UI::Sprite> sprite);
+			void DrawText(std::shared_ptr<Rendering::TextData> text);
 		};
 	}
 }

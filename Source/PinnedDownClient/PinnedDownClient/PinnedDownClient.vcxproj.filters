@@ -550,6 +550,9 @@
     <ClInclude Include="Systems\UI\Sprite.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Systems\Rendering\IRenderable.h">
+      <Filter>Systems\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

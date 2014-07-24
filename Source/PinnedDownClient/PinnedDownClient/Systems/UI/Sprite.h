@@ -4,8 +4,10 @@
 
 #include "Components\ScreenPositionComponent.h"
 #include "Components\SpriteComponent.h"
+#include "Systems\Rendering\IRenderable.h"
 
 using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Systems::Rendering;
 
 namespace PinnedDownClient
 {
@@ -13,11 +15,15 @@ namespace PinnedDownClient
 	{
 		namespace UI
 		{
-			struct Sprite
+			class Sprite : public IRenderable
 			{
+			public:
 				int entityId;
-				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;
+				int depth;
 				std::shared_ptr<SpriteComponent> spriteComponent;
+
+				int GetEntityId() { return this->entityId; }
+				int GetDepth() { return this->depth; }
 			};
 		}
 	}
