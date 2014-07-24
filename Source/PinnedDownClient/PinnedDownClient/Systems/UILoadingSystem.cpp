@@ -57,16 +57,40 @@ void UILoadingSystem::UnloadResources()
 
 void UILoadingSystem::LoadUI()
 {
+	// First panel.
+	int panel = this->uiFactory->CreatePanel();
+	this->uiFactory->SetDepth(panel, -100);
+	this->uiFactory->FinishUIWidget(panel);
+
 	int window = this->uiFactory->CreateSprite(L"Assets/Window.png");
 	this->uiFactory->SetAnchor(window, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetDepth(window, 1);
+	this->uiFactory->SetPanel(window, panel);
 	this->uiFactory->FinishUIWidget(window);
 
 	int button = this->uiFactory->CreateSprite(L"Assets/Button.png");
 	this->uiFactory->SetAnchor(button, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
 	this->uiFactory->SetDepth(button, 2);
+	this->uiFactory->SetPanel(button, panel);
 	this->uiFactory->FinishUIWidget(button);
 
+	// Second panel.
+	panel = this->uiFactory->CreatePanel();
+	this->uiFactory->FinishUIWidget(panel);
+
+	window = this->uiFactory->CreateSprite(L"Assets/Window.png");
+	this->uiFactory->SetAnchor(window, VerticalAnchor(VerticalAnchorType::VerticalCenter, -100.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, -100.0f), 0);
+	this->uiFactory->SetDepth(window, 1);
+	this->uiFactory->SetPanel(window, panel);
+	this->uiFactory->FinishUIWidget(window);
+
+	button = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->uiFactory->SetAnchor(button, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
+	this->uiFactory->SetDepth(button, 2);
+	this->uiFactory->SetPanel(button, panel);
+	this->uiFactory->FinishUIWidget(button);
+
+	// Long label.
 	int longLabel = this->uiFactory->CreateLabel(L"This is a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery very very long text!");
 	this->uiFactory->SetAnchor(longLabel, VerticalAnchor(), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(longLabel);

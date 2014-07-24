@@ -292,6 +292,9 @@
     <ClCompile Include="Components\DepthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Components\UIWidgetComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -557,6 +560,9 @@
       <Filter>Systems\UI</Filter>
     </ClInclude>
     <ClInclude Include="Components\DepthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\UIWidgetComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

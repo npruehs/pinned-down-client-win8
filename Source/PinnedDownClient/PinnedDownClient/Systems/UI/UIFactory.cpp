@@ -10,6 +10,7 @@
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 #include "Components\UIPanelComponent.h"
+#include "Components\UIWidgetComponent.h"
 
 #include "Events\EntityInitializedEvent.h"
 
@@ -56,6 +57,9 @@ int UIFactory::CreateLabel(std::wstring text)
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
 	this->game->entityManager->AddComponent(entityId, anchorComponent);
 
+	auto widgetComponent = std::make_shared<UIWidgetComponent>();
+	this->game->entityManager->AddComponent(entityId, widgetComponent);
+
 	return entityId;
 }
 
@@ -71,6 +75,9 @@ int UIFactory::CreatePanel()
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+
+	auto depthComponent = std::make_shared<DepthComponent>();
+	this->game->entityManager->AddComponent(entityId, depthComponent);
 
 	return entityId;
 }
@@ -97,6 +104,9 @@ int UIFactory::CreateSprite(std::wstring spriteName)
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
 	this->game->entityManager->AddComponent(entityId, anchorComponent);
 
+	auto widgetComponent = std::make_shared<UIWidgetComponent>();
+	this->game->entityManager->AddComponent(entityId, widgetComponent);
+
 	return entityId;
 }
 
@@ -119,6 +129,12 @@ void UIFactory::SetDepth(int entityId, int depth)
 {
 	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityId, DepthComponent::DepthComponentType);
 	depthComponent->depth = depth;
+}
+
+void UIFactory::SetPanel(int entityId, int panelId)
+{
+	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
+	widgetComponent->panel = panelId;
 }
 
 void UIFactory::FinishUIWidget(int entityId)

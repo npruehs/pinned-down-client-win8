@@ -206,6 +206,7 @@
     <ClInclude Include="Components\ScreenPositionComponent.h" />
     <ClInclude Include="Components\TextComponent.h" />
     <ClInclude Include="Components\TextAlignmentComponent.h" />
+    <ClInclude Include="Components\UIWidgetComponent.h" />
     <ClInclude Include="Core\EntityComponent.h" />
     <ClInclude Include="Core\EntityManager.h" />
     <ClInclude Include="Core\Event.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="Components\TextAlignmentComponent.cpp" />
     <ClCompile Include="Components\UIAnchorComponent.cpp" />
     <ClCompile Include="Components\UIPanelComponent.cpp" />
+    <ClCompile Include="Components\UIWidgetComponent.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\FileLogger.cpp" />

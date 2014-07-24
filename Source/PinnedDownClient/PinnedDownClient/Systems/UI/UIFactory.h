@@ -26,6 +26,7 @@ namespace PinnedDownClient
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
 				void SetDepth(int entityId, int depth);
+				void SetPanel(int entityId, int panelId);
 
 				void FinishUIWidget(int entityId);
 			private:

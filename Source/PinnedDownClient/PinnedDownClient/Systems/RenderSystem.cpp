@@ -12,6 +12,7 @@
 #include "Components\SpriteComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
+#include "Components\UIWidgetComponent.h"
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
@@ -187,6 +188,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
 	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
 	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
+	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
 
 	if (boundsComponent != nullptr
 		&& colorComponent != nullptr
@@ -206,6 +208,11 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		label->screenPositionComponent = screenPositionComponent;
 		label->textAlignmentComponent = textAlignmentComponent;
 		label->textComponent = textComponent;
+		
+		if (widgetComponent->panel != 0)
+		{
+			label->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+		}
 
 		this->renderables.push_back(label);
 		this->renderables.sort(&RenderSystem::SortByDepth);
@@ -213,7 +220,8 @@ void RenderSystem::OnEntityInitialized(int entityId)
 
 	if (depthComponent != nullptr
 		&& screenPositionComponent != nullptr
-		&& spriteComponent != nullptr)
+		&& spriteComponent != nullptr
+		&& widgetComponent != nullptr)
 	{
 		// Add sprite.
 		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
@@ -221,6 +229,11 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		sprite->depthComponent = depthComponent;
 		sprite->screenPositionComponent = screenPositionComponent;
 		sprite->spriteComponent = spriteComponent;
+
+		if (widgetComponent->panel != 0)
+		{
+			sprite->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+		}
 
 		this->renderables.push_back(sprite);
 		this->renderables.sort(&RenderSystem::SortByDepth);
@@ -748,5 +761,20 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 
 bool RenderSystem::SortByDepth(const std::shared_ptr<Rendering::IRenderable>& first, const std::shared_ptr<Rendering::IRenderable>& second)
 {
-	return first->depthComponent->depth < second->depthComponent->depth;
+	// Get widget depths.
+	int firstDepth = first->depthComponent->depth;
+	int secondDepth = second->depthComponent->depth;
+
+	// Add panel depths.
+	if (first->panelDepthComponent != nullptr)
+	{
+		firstDepth += first->panelDepthComponent->depth;
+	}
+
+	if (second->panelDepthComponent != nullptr)
+	{
+		secondDepth += second->panelDepthComponent->depth;
+	}
+
+	return firstDepth < secondDepth;
 }
