@@ -7,6 +7,7 @@
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\SpriteComponent.h"
+#include "Components\TappableComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 #include "Components\UIPanelComponent.h"
@@ -154,6 +155,12 @@ void UIFactory::SetVisible(int entityId, bool visible)
 {
 	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
 	visibilityComponent->visible = visible;
+}
+
+void UIFactory::SetTappable(int entityId)
+{
+	auto tappableComponent = std::make_shared<TappableComponent>();
+	this->game->entityManager->AddComponent(entityId, tappableComponent);
 }
 
 void UIFactory::FinishUIWidget(int entityId)

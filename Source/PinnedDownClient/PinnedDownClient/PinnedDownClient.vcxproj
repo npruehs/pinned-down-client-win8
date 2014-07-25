@@ -201,6 +201,7 @@
     <ClInclude Include="Components\DepthComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
     <ClInclude Include="Components\SpriteComponent.h" />
+    <ClInclude Include="Components\TappableComponent.h" />
     <ClInclude Include="Components\UIAnchorComponent.h" />
     <ClInclude Include="Components\UIPanelComponent.h" />
     <ClInclude Include="Components\ScreenPositionComponent.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Events\EntityCreatedEvent.h" />
     <ClInclude Include="Events\EntityInitializedEvent.h" />
     <ClInclude Include="Events\EntityRemovedEvent.h" />
+    <ClInclude Include="Events\EntityTappedEvent.h" />
     <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
@@ -276,9 +278,11 @@
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
+    <ClInclude Include="Systems\UIInteractionSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
     <ClInclude Include="Systems\UILoadingSystem.h" />
     <ClInclude Include="Systems\UI\Anchor.h" />
+    <ClInclude Include="Systems\UI\Button.h" />
     <ClInclude Include="Systems\UI\Label.h" />
     <ClInclude Include="Systems\UI\Panel.h" />
     <ClInclude Include="Systems\UI\Sprite.h" />
@@ -297,6 +301,7 @@
     <ClCompile Include="Components\FontComponent.cpp" />
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\SpriteComponent.cpp" />
+    <ClCompile Include="Components\TappableComponent.cpp" />
     <ClCompile Include="Components\TextComponent.cpp" />
     <ClCompile Include="Components\TextAlignmentComponent.cpp" />
     <ClCompile Include="Components\UIAnchorComponent.cpp" />
@@ -322,6 +327,7 @@
     <ClCompile Include="Events\EntityCreatedEvent.cpp" />
     <ClCompile Include="Events\EntityInitializedEvent.cpp" />
     <ClCompile Include="Events\EntityRemovedEvent.cpp" />
+    <ClCompile Include="Events\EntityTappedEvent.cpp" />
     <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
@@ -548,6 +554,7 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
+    <ClCompile Include="Systems\UIInteractionSystem.cpp" />
     <ClCompile Include="Systems\UILayoutSystem.cpp" />
     <ClCompile Include="Systems\UILoadingSystem.cpp" />
     <ClCompile Include="Systems\UI\UIFactory.cpp" />

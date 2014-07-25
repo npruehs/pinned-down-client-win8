@@ -73,6 +73,7 @@ void UILoadingSystem::LoadUI()
 	this->uiFactory->SetAnchor(button, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
 	this->uiFactory->SetDepth(button, 2);
 	this->uiFactory->SetPanel(button, panel);
+	this->uiFactory->SetTappable(button);
 	this->uiFactory->FinishUIWidget(button);
 
 	// Second panel.
@@ -89,6 +90,7 @@ void UILoadingSystem::LoadUI()
 	this->uiFactory->SetAnchor(button, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), window);
 	this->uiFactory->SetDepth(button, 2);
 	this->uiFactory->SetPanel(button, panel);
+	this->uiFactory->SetTappable(button);
 	this->uiFactory->FinishUIWidget(button);
 
 	// Long label.

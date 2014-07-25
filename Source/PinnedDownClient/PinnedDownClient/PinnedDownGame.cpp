@@ -9,6 +9,7 @@
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\SoundSystem.h"
 #include "Systems\DebugInfoSystem.h"
+#include "Systems\UIInteractionSystem.h"
 #include "Systems\UILayoutSystem.h"
 #include "Systems\UILoadingSystem.h"
 
@@ -49,6 +50,7 @@ PinnedDownGame::PinnedDownGame()
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILayoutSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILoadingSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::UIInteractionSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");
