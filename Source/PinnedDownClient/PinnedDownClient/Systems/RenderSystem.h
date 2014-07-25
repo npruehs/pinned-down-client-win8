@@ -10,9 +10,12 @@
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\EntityInitializedEvent.h"
+#include "Events\EntityRemovedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
-#include "Rendering\TextData.h"
+#include "Rendering\IRenderable.h"
+#include "UI\Sprite.h"
+#include "UI\Label.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
@@ -21,6 +24,7 @@ using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Systems::UI;
 
 namespace PinnedDownClient
 {
@@ -78,15 +82,13 @@ namespace PinnedDownClient
 			float logicalDpi;
 			DisplayOrientations displayOrientation;
 
-			std::list<Rendering::TextData> texts;
+			std::list<std::shared_ptr<Rendering::IRenderable>> renderables;
 
 			void CreateD3DDevice();
 			void CreateD2DDevice();
 			void CreateDWriteFactory();
 			void CreateSwapChain();
 			void SetRenderTarget();
-			void LoadResources();
-			void UnloadResources();
 
 			void OnEvent(Event & event);
 
@@ -100,11 +102,15 @@ namespace PinnedDownClient
 			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
 			void OnEntityInitialized(int entityId);
+			void OnEntityRemoved(int entityId);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
 
-			void DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle);
+			void DrawSprite(std::shared_ptr<UI::Sprite> sprite);
+			void DrawLabel(std::shared_ptr<UI::Label> label);
+
+			static bool SortByDepth(const std::shared_ptr<Rendering::IRenderable>& first, const std::shared_ptr<Rendering::IRenderable>& second);
 		};
 	}
 }

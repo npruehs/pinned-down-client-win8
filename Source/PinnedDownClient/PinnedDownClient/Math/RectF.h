@@ -17,6 +17,7 @@ namespace PinnedDownClient
 
 			// Constructors.
 			RectF()
+				: RectF(0.0f, 0.0f, 0.0f, 0.0f)
 			{
 			}
 

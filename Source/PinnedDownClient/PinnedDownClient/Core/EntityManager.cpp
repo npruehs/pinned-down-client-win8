@@ -10,6 +10,7 @@ using namespace PinnedDownClient::Core;
 EntityManager::EntityManager(std::shared_ptr<GameInfrastructure> game)
 {
 	this->game = game;
+	this->nextEntityId = 0;
 }
 
 int EntityManager::CreateEntity()

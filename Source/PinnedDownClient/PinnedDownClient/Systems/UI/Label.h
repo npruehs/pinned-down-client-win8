@@ -3,7 +3,9 @@
 #include "pch.h"
 #include <string>
 #include "Math\Vector2F.h"
+#include "Systems\Rendering\IRenderable.h"
 
+#include "Components\BoundsComponent.h"
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
@@ -16,15 +18,19 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		namespace Rendering
+		namespace UI
 		{
-			struct TextData
+			class Label : public IRenderable
 			{
+			public:
+				int entityId;
+				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ColorComponent> colorComponent;
 				std::shared_ptr<FontComponent> fontComponent;
-				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;
 				std::shared_ptr<TextComponent> textComponent;
 				std::shared_ptr<TextAlignmentComponent> textAlignmentComponent;
+
+				int GetEntityId() { return this->entityId; }
 			};
 		}
 	}

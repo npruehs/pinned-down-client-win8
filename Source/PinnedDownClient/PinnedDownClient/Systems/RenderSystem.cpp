@@ -9,8 +9,11 @@
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
 #include "Components\ScreenPositionComponent.h"
+#include "Components\SpriteComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
+#include "Components\UIWidgetComponent.h"
+#include "Components\VisibilityComponent.h"
 
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
@@ -36,6 +39,7 @@ void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();
@@ -77,6 +81,11 @@ void RenderSystem::OnEvent(Event & newEvent)
 	{
 		auto entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
 		this->OnEntityInitialized(entityInitializedEvent.entityId);
+	}
+	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
+	{
+		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
+		this->OnEntityInitialized(entityRemovedEvent.entityId);
 	}
 }
 
@@ -172,26 +181,85 @@ void RenderSystem::OnDisplayContentsInvalidated()
 
 void RenderSystem::OnEntityInitialized(int entityId)
 {
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
 	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entityId, ColorComponent::ColorComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityId, DepthComponent::DepthComponentType);
 	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
 	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
+	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
+	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
+	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
 
-	if (colorComponent != nullptr
+	if (boundsComponent != nullptr
+		&& colorComponent != nullptr
+		&& depthComponent != nullptr
 		&& fontComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& textComponent != nullptr
-		&& textAlignmentComponent != nullptr)
+		&& textAlignmentComponent != nullptr
+		&& visibilityComponent != nullptr)
 	{
-		Rendering::TextData textData = Rendering::TextData();
-		textData.colorComponent = colorComponent;
-		textData.fontComponent = fontComponent;
-		textData.screenPositionComponent = screenPositionComponent;
-		textData.textAlignmentComponent = textAlignmentComponent;
-		textData.textComponent = textComponent;
+		// Add label.
+		std::shared_ptr<UI::Label> label = std::make_shared<UI::Label>();
+		label->entityId = entityId;
+		label->boundsComponent = boundsComponent;
+		label->colorComponent = colorComponent;
+		label->depthComponent = depthComponent;
+		label->fontComponent = fontComponent;
+		label->screenPositionComponent = screenPositionComponent;
+		label->textAlignmentComponent = textAlignmentComponent;
+		label->textComponent = textComponent;
+		label->visibilityComponent = visibilityComponent;
 
-		this->texts.push_back(textData);
+		if (widgetComponent->panel != 0)
+		{
+			label->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+			label->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
+		}
+
+		this->renderables.push_back(label);
+		this->renderables.sort(&RenderSystem::SortByDepth);
+	}
+
+	if (depthComponent != nullptr
+		&& screenPositionComponent != nullptr
+		&& spriteComponent != nullptr
+		&& widgetComponent != nullptr
+		&& visibilityComponent != nullptr)
+	{
+		// Add sprite.
+		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
+		sprite->entityId = entityId;
+		sprite->depthComponent = depthComponent;
+		sprite->screenPositionComponent = screenPositionComponent;
+		sprite->spriteComponent = spriteComponent;
+		sprite->visibilityComponent = visibilityComponent;
+
+		if (widgetComponent->panel != 0)
+		{
+			sprite->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
+			sprite->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
+		}
+
+		this->renderables.push_back(sprite);
+		this->renderables.sort(&RenderSystem::SortByDepth);
+	}
+}
+
+void RenderSystem::OnEntityRemoved(int entityId)
+{
+	// Remove renderable.
+	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
+	{
+		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
+
+		if (renderable->GetEntityId() == entityId)
+		{
+			this->renderables.erase(iterator);
+			return;
+		}
 	}
 }
 
@@ -379,40 +447,6 @@ void RenderSystem::SetRenderTarget()
 	// Notify listeners.
 	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
 	this->game->eventManager->RaiseEvent(renderTargetChangedEvent);
-
-	// Load resources.
-	this->LoadResources();
-}
-
-void RenderSystem::LoadResources()
-{
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/Logo.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/SmallLogo.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/SplashScreen.png"
-		);
-
-	this->game->resourceManager->LoadBitmapFromFile(
-		this->d2dContext.Get(),
-		L"Assets/StoreLogo.png"
-		);
-}
-
-void RenderSystem::UnloadResources()
-{
-	this->game->resourceManager->UnloadResource(L"Assets/Logo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SmallLogo.png");
-	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
-	this->game->resourceManager->UnloadResource(L"Assets/StoreLogo.png");
 }
 
 void RenderSystem::Render()
@@ -431,86 +465,39 @@ void RenderSystem::Render()
 
 	this->d2dContext->BeginDraw();
 
-	// Draw texts.
-	for (std::list<Rendering::TextData>::iterator iterator = this->texts.begin(); iterator != this->texts.end(); iterator++)
+	// Draw renderables.
+	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); iterator++)
 	{
-		Rendering::TextData textData = *iterator;
+		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
-		// Create text format.
-		ComPtr<IDWriteTextFormat> textFormat;
+		// Visibility check.
+		if (!renderable->visibilityComponent->visible || (renderable->panelVisibilityComponent != nullptr && !renderable->panelVisibilityComponent->visible))
+		{
+			continue;
+		}
 
-		ThrowIfFailed(
-			this->writeFactory->CreateTextFormat(
-			textData.fontComponent->fontFamilyName.c_str(),
-			NULL,
-			textData.fontComponent->fontWeight,
-			textData.fontComponent->fontStyle,
-			textData.fontComponent->fontStretch,
-			textData.fontComponent->fontSize,
-			L"en-US",
-			&textFormat)
-			);
-
-		// Set text alignment.
-		ThrowIfFailed(
-			textFormat->SetTextAlignment(textData.textAlignmentComponent->alignment)
-			);
-
-		// TODO: Adjust translation via text metrics depending on alignment.
-		float x = textData.screenPositionComponent->position.x;
-		float y = textData.screenPositionComponent->position.y;
+		// Translate context.
+		float x = renderable->screenPositionComponent->position.x;
+		float y = renderable->screenPositionComponent->position.y;
 
 		D2D1::Matrix3x2F screenTranslation = D2D1::Matrix3x2F::Translation(x, y);
 		this->d2dContext->SetTransform(screenTranslation);
 
-		// Create final text layout for drawing.
-		Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
-
-		ThrowIfFailed(
-			this->writeFactory->CreateTextLayout(
-			textData.textComponent->text.c_str(),
-			(uint32)textData.textComponent->text.length(),
-			textFormat.Get(),
-			500.0f, // Max width.
-			500.0f, // Max height.
-			&textLayout)
-			);
-
-		DWRITE_TEXT_METRICS metrics;
-		ThrowIfFailed(
-			textLayout->GetMetrics(&metrics)
-			);
-
-		// Text metrics, such as line height, can be accessed here: metrics.height
-
-		// Create brush for font rendering.
-		ComPtr<ID2D1SolidColorBrush> textBrush;
-
-		ThrowIfFailed(
-			this->d2dContext->CreateSolidColorBrush(
-			textData.colorComponent->color,
-			&textBrush)
-			);
-
-		// Draw text.
-		this->d2dContext->DrawTextLayout(
-			D2D1::Point2F(0.f, 0.f),
-			textLayout.Get(),
-			textBrush.Get()
-			);
+		// Render item.
+		std::shared_ptr<UI::Sprite> sprite = std::dynamic_pointer_cast<UI::Sprite>(*iterator);
+		std::shared_ptr<UI::Label> label = std::dynamic_pointer_cast<UI::Label>(*iterator);
+		
+		if (sprite != nullptr)
+		{
+			// Draw sprite.
+			this->DrawSprite(sprite);
+		}
+		else if (label != nullptr)
+		{
+			// Draw text.
+			this->DrawLabel(label);
+		}
 	}
-
-	// Draw bitmaps.
-	this->d2dContext->SetTransform(D2D1::Matrix3x2F::Translation(400, 400));
-
-	std::shared_ptr<BitmapResourceHandle> logoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/Logo.png");
-	this->DrawBitmap(logoBitmap);
-	std::shared_ptr<BitmapResourceHandle> smallLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SmallLogo.png");
-	this->DrawBitmap(smallLogoBitmap);
-	std::shared_ptr<BitmapResourceHandle> splashScreenBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/SplashScreen.png");
-	this->DrawBitmap(splashScreenBitmap);
-	std::shared_ptr<BitmapResourceHandle> storeLogoBitmap = this->game->resourceManager->GetResource<BitmapResourceHandle>(L"Assets/StoreLogo.png");
-	this->DrawBitmap(storeLogoBitmap);
 
 	ThrowIfFailed(
 		this->d2dContext->EndDraw()
@@ -594,10 +581,10 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
 
 	// Clear the previous window size specific context.
+	this->d3dRenderTargetView = nullptr;
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
 	this->d3dContext->Flush();
-	this->UnloadResources();
 
 	// Calculate the necessary render target size in pixels (for CoreWindow).
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
@@ -620,12 +607,12 @@ void RenderSystem::CreateWindowSizeDependentResources()
 
 	if (this->dxgiSwapChain != nullptr)
 	{
-		// If the swap chain already exists, resize it.
+		// If the swap chain already exists, resize it, preserving all other settings.
 		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
-			this->swapChainBufferCount,
+			0,
 			static_cast<UINT>(newWidth),
 			static_cast<UINT>(newHeight),
-			DXGI_FORMAT_B8G8R8A8_UNORM,
+			DXGI_FORMAT_UNKNOWN,
 			0
 			);
 
@@ -712,16 +699,97 @@ void RenderSystem::OnDeviceLost()
 	this->game->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }
 
-void RenderSystem::DrawBitmap(std::shared_ptr<BitmapResourceHandle> bitmapHandle)
+void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
 {
-	D2D1_SIZE_F size = bitmapHandle->bitmap->GetSize();
+	D2D1_SIZE_F size = sprite->spriteComponent->sprite->bitmap->GetSize();
 
 	this->d2dContext->DrawBitmap(
-		bitmapHandle->bitmap,
+		sprite->spriteComponent->sprite->bitmap,
 		D2D1::RectF(
 		0,
 		0,
 		size.width,
 		size.height)
 		);
+}
+
+void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
+{
+	// Create text format.
+	ComPtr<IDWriteTextFormat> textFormat;
+
+	ThrowIfFailed(
+		this->writeFactory->CreateTextFormat(
+		label->fontComponent->fontFamilyName.c_str(),
+		NULL,
+		label->fontComponent->fontWeight,
+		label->fontComponent->fontStyle,
+		label->fontComponent->fontStretch,
+		label->fontComponent->fontSize,
+		L"en-US",
+		&textFormat)
+		);
+
+	// Set text alignment.
+	ThrowIfFailed(
+		textFormat->SetTextAlignment(label->textAlignmentComponent->alignment)
+		);
+
+	// Create final text layout for drawing.
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
+
+	ThrowIfFailed(
+		this->writeFactory->CreateTextLayout(
+		label->textComponent->text.c_str(),
+		(uint32)label->textComponent->text.length(),
+		textFormat.Get(),
+		500.0f, // Max width.
+		500.0f, // Max height.
+		&textLayout)
+		);
+
+	DWRITE_TEXT_METRICS metrics;
+	ThrowIfFailed(
+		textLayout->GetMetrics(&metrics)
+		);
+
+	// Update text bounds.
+	label->boundsComponent->bounds = Vector2F(metrics.width, metrics.height);
+
+	// Create brush for font rendering.
+	ComPtr<ID2D1SolidColorBrush> textBrush;
+
+	ThrowIfFailed(
+		this->d2dContext->CreateSolidColorBrush(
+		label->colorComponent->color,
+		&textBrush)
+		);
+
+	// Draw text.
+	this->d2dContext->DrawTextLayout(
+		D2D1::Point2F(0.f, 0.f),
+		textLayout.Get(),
+		textBrush.Get()
+		);
+}
+
+
+bool RenderSystem::SortByDepth(const std::shared_ptr<Rendering::IRenderable>& first, const std::shared_ptr<Rendering::IRenderable>& second)
+{
+	// Get widget depths.
+	int firstDepth = first->depthComponent->depth;
+	int secondDepth = second->depthComponent->depth;
+
+	// Add panel depths.
+	if (first->panelDepthComponent != nullptr)
+	{
+		firstDepth += first->panelDepthComponent->depth;
+	}
+
+	if (second->panelDepthComponent != nullptr)
+	{
+		secondDepth += second->panelDepthComponent->depth;
+	}
+
+	return firstDepth < secondDepth;
 }

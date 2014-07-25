@@ -14,7 +14,7 @@ namespace PinnedDownClient
 
 		float Min(float f, float g)
 		{
-			return (f < g) ? f : g);
+			return (f < g) ? f : g;
 		}
 	}
 }
