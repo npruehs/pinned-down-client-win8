@@ -24,6 +24,7 @@ void UILayoutSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastruc
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
 
 	this->CreateRootPanel();
 }
