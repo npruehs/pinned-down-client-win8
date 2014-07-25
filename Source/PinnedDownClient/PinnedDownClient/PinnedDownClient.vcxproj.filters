@@ -88,9 +88,6 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\InputSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
@@ -353,9 +350,6 @@
     </ClInclude>
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h">
       <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\InputSystem.h">
-      <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h">
       <Filter>Events</Filter>

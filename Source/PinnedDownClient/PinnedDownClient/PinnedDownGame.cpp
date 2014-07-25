@@ -5,7 +5,6 @@
 #include "GameInfrastructure.h"
 
 #include "Systems\RenderSystem.h"
-#include "Systems\InputSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\SoundSystem.h"
 #include "Systems\DebugInfoSystem.h"
@@ -44,7 +43,6 @@ PinnedDownGame::PinnedDownGame()
 	SystemManager* systemManager = new SystemManager(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
 	this->gameInfrastructure->systemManager = std::unique_ptr<SystemManager>(systemManager);
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::RenderSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::InputSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
