@@ -581,6 +581,7 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
 
 	// Clear the previous window size specific context.
+	this->d3dRenderTargetView = nullptr;
 	this->d2dContext->SetTarget(nullptr);
 	this->d2dTargetBitmap = nullptr;
 	this->d3dContext->Flush();
@@ -606,12 +607,12 @@ void RenderSystem::CreateWindowSizeDependentResources()
 
 	if (this->dxgiSwapChain != nullptr)
 	{
-		// If the swap chain already exists, resize it.
+		// If the swap chain already exists, resize it, preserving all other settings.
 		HRESULT hr = this->dxgiSwapChain->ResizeBuffers(
-			this->swapChainBufferCount,
+			0,
 			static_cast<UINT>(newWidth),
 			static_cast<UINT>(newHeight),
-			DXGI_FORMAT_B8G8R8A8_UNORM,
+			DXGI_FORMAT_UNKNOWN,
 			0
 			);
 
