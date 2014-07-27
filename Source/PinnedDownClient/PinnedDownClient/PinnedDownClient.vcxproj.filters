@@ -304,6 +304,9 @@
     <ClCompile Include="Events\EntityTappedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\NetworkSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -585,6 +588,9 @@
     </ClInclude>
     <ClInclude Include="Events\EntityTappedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\NetworkSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

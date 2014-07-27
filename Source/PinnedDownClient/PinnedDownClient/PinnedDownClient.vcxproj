@@ -274,6 +274,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
+    <ClInclude Include="Systems\NetworkSystem.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
@@ -550,6 +551,7 @@
     </ClCompile>
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
+    <ClCompile Include="Systems\NetworkSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
     <ClCompile Include="Systems\UIInteractionSystem.cpp" />

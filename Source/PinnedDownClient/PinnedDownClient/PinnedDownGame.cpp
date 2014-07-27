@@ -11,6 +11,7 @@
 #include "Systems\UIInteractionSystem.h"
 #include "Systems\UILayoutSystem.h"
 #include "Systems\UILoadingSystem.h"
+#include "Systems\NetworkSystem.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -49,6 +50,7 @@ PinnedDownGame::PinnedDownGame()
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILayoutSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILoadingSystem());
 	this->gameInfrastructure->systemManager->AddSystem(new Systems::UIInteractionSystem());
+	this->gameInfrastructure->systemManager->AddSystem(new Systems::NetworkSystem());
 
 	this->gameInfrastructure->systemManager->InitSystems();
 	this->gameInfrastructure->logger->Info(L"System manager initialized.");
