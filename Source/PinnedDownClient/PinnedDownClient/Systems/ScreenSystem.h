@@ -36,8 +36,9 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
+			void OnLoginSuccess();
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
-
+			
 			void SetScreen(Screen* newScreen);
 			void RefreshScreen();
 		};

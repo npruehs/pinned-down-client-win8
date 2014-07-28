@@ -1,8 +1,13 @@
 
 #include "pch.h"
+
 #include "Core\Event.h"
+
+#include "Events\LoginSuccessEvent.h"
 #include "Events\ScreenChangedEvent.h"
+
 #include "Systems\ScreenSystem.h"
+#include "Systems\Screens\GameScreen.h"
 #include "Systems\Screens\LoginScreen.h"
 
 using namespace PinnedDownClient::Events;
@@ -22,6 +27,7 @@ void ScreenSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), RenderTargetChangedEvent::RenderTargetChangedEventType);
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), LoginSuccessEvent::LoginSuccessEventType);
 }
 
 void ScreenSystem::Update(StepTimer const& timer)
@@ -36,9 +42,20 @@ void ScreenSystem::OnEvent(Event & newEvent)
 {
 	if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
-		RenderTargetChangedEvent renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
+		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
 	}
+	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
+	{
+		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
+		this->OnLoginSuccess();
+	}
+}
+
+void ScreenSystem::OnLoginSuccess()
+{
+	// Switch to game screen.
+	this->SetScreen(new GameScreen());
 }
 
 void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent)
@@ -55,6 +72,7 @@ void ScreenSystem::SetScreen(Screen* newScreen)
 	{
 		this->currentScreen->UnloadUI();
 		this->currentScreen->UnloadResources();
+		this->currentScreen->DeInitScreen();
 	}
 
 	this->currentScreen = std::shared_ptr<Screen>(newScreen);
