@@ -32,6 +32,8 @@ namespace PinnedDownClient
 			std::shared_ptr<Screen> currentScreen;
 			ComPtr<ID2D1DeviceContext> d2dContext;
 
+			void Update(StepTimer const& timer);
+
 			void OnEvent(Event & event);
 
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);

@@ -24,10 +24,13 @@ namespace PinnedDownClient
 				void LoadUI();
 				void UnloadUI();
 
+				void Update();
+
 				ScreenName GetScreenName();
 
 			private:
 				int statusLabel;
+				bool connecting;
 
 				void OnEvent(Event & event);
 

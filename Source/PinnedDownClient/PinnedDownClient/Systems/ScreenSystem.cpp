@@ -24,6 +24,14 @@ void ScreenSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
+void ScreenSystem::Update(StepTimer const& timer)
+{
+	if (this->currentScreen != nullptr)
+	{
+		this->currentScreen->Update();
+	}
+}
+
 void ScreenSystem::OnEvent(Event & newEvent)
 {
 	if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)

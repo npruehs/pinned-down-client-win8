@@ -32,6 +32,8 @@ namespace PinnedDownClient
 				virtual void LoadUI() { }
 				virtual void UnloadUI() { }
 
+				virtual void Update() { }
+
 				virtual ScreenName GetScreenName() = 0;
 
 			protected:
