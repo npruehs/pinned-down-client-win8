@@ -277,10 +277,13 @@
     <ClInclude Include="Systems\NetworkSystem.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
+    <ClInclude Include="Systems\ScreenSystem.h" />
+    <ClInclude Include="Systems\Screens\GameScreen.h" />
+    <ClInclude Include="Systems\Screens\IScreen.h" />
+    <ClInclude Include="Systems\Screens\Screen.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
     <ClInclude Include="Systems\UIInteractionSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
-    <ClInclude Include="Systems\UILoadingSystem.h" />
     <ClInclude Include="Systems\UI\Anchor.h" />
     <ClInclude Include="Systems\UI\Button.h" />
     <ClInclude Include="Systems\UI\Label.h" />
@@ -553,10 +556,11 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
+    <ClCompile Include="Systems\Screens\GameScreen.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
     <ClCompile Include="Systems\UIInteractionSystem.cpp" />
     <ClCompile Include="Systems\UILayoutSystem.cpp" />
-    <ClCompile Include="Systems\UILoadingSystem.cpp" />
+    <ClCompile Include="Systems\ScreenSystem.cpp" />
     <ClCompile Include="Systems\UI\UIFactory.cpp" />
   </ItemGroup>
   <ItemGroup>

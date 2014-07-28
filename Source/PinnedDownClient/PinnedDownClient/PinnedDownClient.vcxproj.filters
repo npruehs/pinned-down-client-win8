@@ -53,6 +53,9 @@
     <Filter Include="Systems\UI">
       <UniqueIdentifier>{6c50566c-a386-4c61-bed0-81f24d966541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\Screens">
+      <UniqueIdentifier>{381c7d6b-2462-440a-bc5e-b9f2e23e2413}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -277,9 +280,6 @@
     <ClCompile Include="Components\UIAnchorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\UILoadingSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\UI\UIFactory.cpp">
       <Filter>Systems\UI</Filter>
     </ClCompile>
@@ -306,6 +306,12 @@
     </ClCompile>
     <ClCompile Include="Systems\NetworkSystem.cpp">
       <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ScreenSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Screens\GameScreen.cpp">
+      <Filter>Systems\Screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,9 +556,6 @@
     <ClInclude Include="Systems\UI\Panel.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\UILoadingSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\UI\UIFactory.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
@@ -591,6 +594,18 @@
     </ClInclude>
     <ClInclude Include="Systems\NetworkSystem.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\IScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\Screen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ScreenSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\GameScreen.h">
+      <Filter>Systems\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
