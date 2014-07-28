@@ -14,6 +14,8 @@
 #include "Events\EntityRemovedEvent.h"
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
+#include "Events\LoginErrorEvent.h"
+#include "Events\LoginSuccessEvent.h"
 #include "Events\PointerPressedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
@@ -87,5 +89,14 @@ void EventLogger::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		this->game->logger->Info(L"Render target changed.");
+	}
+	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
+	{
+		LoginErrorEvent loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
+		this->game->logger->Error(L"Login error: " + loginErrorEvent.errorMessage);
+	}
+	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
+	{
+		this->game->logger->Error(L"Login success.");
 	}
 }

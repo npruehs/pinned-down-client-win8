@@ -316,6 +316,15 @@
     <ClCompile Include="Systems\Screens\LoginScreen.cpp">
       <Filter>Systems\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Events\ScreenChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LoginErrorEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LoginSuccessEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -612,6 +621,15 @@
     </ClInclude>
     <ClInclude Include="Systems\Screens\ScreenName.h">
       <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ScreenChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LoginErrorEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LoginSuccessEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

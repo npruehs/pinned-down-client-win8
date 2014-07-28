@@ -18,11 +18,13 @@ namespace PinnedDownClient
 			class Screen
 			{
 			public:
-				void InitScreen(std::shared_ptr<GameInfrastructure> game)
+				virtual void InitScreen(std::shared_ptr<GameInfrastructure> game)
 				{
 					this->game = game;
 					this->uiFactory = std::make_shared<UIFactory>(game);
 				}
+
+				virtual void DeInitScreen() { }
 
 				virtual void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext) { }
 				virtual void UnloadResources() { }

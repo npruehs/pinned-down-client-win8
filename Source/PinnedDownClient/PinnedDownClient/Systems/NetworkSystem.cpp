@@ -1,8 +1,13 @@
 #include "pch.h"
 
 #include "Core\Event.h"
-#include "Systems\NetworkSystem.h"
+
+#include "Events\LoginErrorEvent.h"
+#include "Events\LoginSuccessEvent.h"
+#include "Events\ScreenChangedEvent.h"
 #include "Events\PointerPressedEvent.h"
+
+#include "Systems\NetworkSystem.h"
 
 
 using namespace concurrency;
@@ -18,6 +23,10 @@ using namespace Windows::Networking::Sockets;
 using namespace Windows::Storage::Streams;
 
 
+#define PINNED_DOWN_SERVER_HOST "localhost"
+#define PINNED_DOWN_SERVER_PORT "27015"
+
+
 NetworkSystem::NetworkSystem()
 {
 }
@@ -26,17 +35,43 @@ void NetworkSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastruct
 {
 	GameSystem::InitSystem(game);
 
+	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), ScreenChangedEvent::ScreenChangedEventType);
 	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerPressedEvent::PointerPressedEventType);
+}
 
-	this->InitSocket();
+void NetworkSystem::OnEvent(Event & newEvent)
+{
+	if (newEvent.GetEventType() == ScreenChangedEvent::ScreenChangedEventType)
+	{
+		auto screenChangedEvent = static_cast<ScreenChangedEvent&>(newEvent);
+		this->OnScreenChanged(screenChangedEvent);
+	}
+	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
+	{
+		auto pointerPressedEvent = static_cast<PointerPressedEvent&>(newEvent);
+		this->OnPointerPressed(pointerPressedEvent);
+	}
+}
+
+void NetworkSystem::OnPointerPressed(PointerPressedEvent& pointerPressedEvent)
+{
+	this->SendPacket();
+}
+
+void NetworkSystem::OnScreenChanged(ScreenChangedEvent& screenChangedEvent)
+{
+	if (screenChangedEvent.newScreen == ScreenName::Login)
+	{
+		this->InitSocket();
+	}
 }
 
 void NetworkSystem::InitSocket()
 {
 	this->clientSocket = ref new StreamSocket();
-	this->serverHost = ref new HostName("localhost");
+	this->serverHost = ref new HostName(PINNED_DOWN_SERVER_HOST);
 
-	auto storeTask = create_task(this->clientSocket->ConnectAsync(serverHost, "27015"));
+	auto storeTask = create_task(this->clientSocket->ConnectAsync(serverHost, PINNED_DOWN_SERVER_PORT));
 
 	storeTask.then([this](void)
 	{
@@ -50,53 +85,71 @@ void NetworkSystem::InitSocket()
 		this->dataReader = ref new DataReader(this->clientSocket->InputStream);
 		dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
 		dataReader->ByteOrder = ByteOrder::LittleEndian;
+
+		// Notify listeners.
+		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
+		this->game->eventManager->QueueEvent(loginSuccessEvent);
+	}).then([this](task<void> t)
+	{
+		try
+		{
+			// Check for errors.
+			t.get();
+		}
+		catch (Platform::Exception^ e)
+		{
+			// Notify listeners.
+			auto errorMessage = e->Message->Data();
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(errorMessage);
+			this->game->eventManager->QueueEvent(loginErrorEvent);
+		}
 	});
-
-
 }
 
-void NetworkSystem::OnEvent(Event & newEvent)
+void NetworkSystem::SendPacket()
 {
-	if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
+	if (!this->connected)
 	{
-		// Get the UTF-8 string length.
-		unsigned int len = this->dataWriter->MeasureString("test");
-
-		dataWriter->WriteUInt32(len);
-		dataWriter->WriteString("test");
-
-		// Call StoreAsync method to store the data to the backing stream.
-		auto storeTask = create_task(dataWriter->StoreAsync());
-
-		storeTask.then([this](unsigned int bytesStored)
-		{
-			return this->dataWriter->FlushAsync();
-		}).then([this, len](bool flushOp)
-		{
-			// Once we have written the contents successfully we load the stream.
-			return this->dataReader->LoadAsync(len + 4);
-		}).then([this](unsigned int bytesLoaded)
-		{
-			try
-			{
-				Platform::String^ readFromStream = "";
-
-				// Keep reading until we consume the complete stream.
-				while (this->dataReader->UnconsumedBufferLength > 0)
-				{
-					unsigned int bufferLength = this->dataReader->UnconsumedBufferLength;
-
-					unsigned int bytesToRead = this->dataReader->ReadUInt32();
-					bufferLength = this->dataReader->UnconsumedBufferLength;
-					readFromStream += this->dataReader->ReadString(bytesToRead);
-				}
-
-				OutputDebugString(readFromStream->Data());
-			}
-			catch (Platform::Exception^ e)
-			{
-				OutputDebugString(e->Message->Data());
-			}
-		});
+		return;
 	}
+
+	// Get the UTF-8 string length.
+	unsigned int len = this->dataWriter->MeasureString("test");
+
+	dataWriter->WriteUInt32(len);
+	dataWriter->WriteString("test");
+
+	// Call StoreAsync method to store the data to the backing stream.
+	auto storeTask = create_task(dataWriter->StoreAsync());
+
+	storeTask.then([this](unsigned int bytesStored)
+	{
+		return this->dataWriter->FlushAsync();
+	}).then([this, len](bool flushOp)
+	{
+		// Once we have written the contents successfully we load the stream.
+		return this->dataReader->LoadAsync(len + 4);
+	}).then([this](unsigned int bytesLoaded)
+	{
+		try
+		{
+			Platform::String^ readFromStream = "";
+
+			// Keep reading until we consume the complete stream.
+			while (this->dataReader->UnconsumedBufferLength > 0)
+			{
+				unsigned int bufferLength = this->dataReader->UnconsumedBufferLength;
+
+				unsigned int bytesToRead = this->dataReader->ReadUInt32();
+				bufferLength = this->dataReader->UnconsumedBufferLength;
+				readFromStream += this->dataReader->ReadString(bytesToRead);
+			}
+
+			OutputDebugString(readFromStream->Data());
+		}
+		catch (Platform::Exception^ e)
+		{
+			OutputDebugString(e->Message->Data());
+		}
+	});
 }

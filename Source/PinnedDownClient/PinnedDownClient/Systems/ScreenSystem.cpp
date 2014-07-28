@@ -1,6 +1,7 @@
 
 #include "pch.h"
 #include "Core\Event.h"
+#include "Events\ScreenChangedEvent.h"
 #include "Systems\ScreenSystem.h"
 #include "Systems\Screens\LoginScreen.h"
 
@@ -8,6 +9,7 @@ using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Systems::Screens;
+
 
 ScreenSystem::ScreenSystem()
 {
@@ -54,5 +56,9 @@ void ScreenSystem::SetScreen(Screen* newScreen)
 		this->currentScreen->InitScreen(this->game);
 		this->currentScreen->LoadResources(this->d2dContext);
 		this->currentScreen->LoadUI();
+
+		// Notify listeners.
+		auto screenChangedEvent = std::make_shared<ScreenChangedEvent>(this->currentScreen->GetScreenName());
+		this->game->eventManager->QueueEvent(screenChangedEvent);
 	}
 }
