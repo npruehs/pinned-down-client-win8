@@ -5,7 +5,7 @@
 #include "Core\IEventListener.h"
 
 #include "Systems\UI\UIFactory.h"
-#include "Systems\Screens\IScreen.h"
+#include "Systems\Screens\ScreenName.h"
 
 using namespace PinnedDownClient::Systems::UI;
 
@@ -15,7 +15,7 @@ namespace PinnedDownClient
 	{
 		namespace Screens
 		{
-			class Screen : public IScreen
+			class Screen
 			{
 			public:
 				void InitScreen(std::shared_ptr<GameInfrastructure> game)
@@ -29,6 +29,8 @@ namespace PinnedDownClient
 
 				virtual void LoadUI() { }
 				virtual void UnloadUI() { }
+
+				virtual ScreenName GetScreenName() = 0;
 
 			protected:
 				std::shared_ptr<GameInfrastructure> game;

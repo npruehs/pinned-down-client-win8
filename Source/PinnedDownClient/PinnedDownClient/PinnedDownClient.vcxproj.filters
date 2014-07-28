@@ -313,6 +313,9 @@
     <ClCompile Include="Systems\Screens\GameScreen.cpp">
       <Filter>Systems\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\Screens\LoginScreen.cpp">
+      <Filter>Systems\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -595,9 +598,6 @@
     <ClInclude Include="Systems\NetworkSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Screens\IScreen.h">
-      <Filter>Systems\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Screens\Screen.h">
       <Filter>Systems\Screens</Filter>
     </ClInclude>
@@ -605,6 +605,12 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\Screens\GameScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\LoginScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\ScreenName.h">
       <Filter>Systems\Screens</Filter>
     </ClInclude>
   </ItemGroup>

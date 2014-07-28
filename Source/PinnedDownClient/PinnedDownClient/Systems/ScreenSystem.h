@@ -6,7 +6,7 @@
 
 #include "Events\RenderTargetChangedEvent.h"
 
-#include "Systems\Screens\IScreen.h"
+#include "Systems\Screens\Screen.h"
 #include "Systems\UI\UIFactory.h"
 
 using namespace Microsoft::WRL;
@@ -29,14 +29,14 @@ namespace PinnedDownClient
 
 		private:
 			std::shared_ptr<UIFactory> uiFactory;
-			std::shared_ptr<IScreen> currentScreen;
+			std::shared_ptr<Screen> currentScreen;
 			ComPtr<ID2D1DeviceContext> d2dContext;
 
 			void OnEvent(Event & event);
 
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
 
-			void SetScreen(IScreen* newScreen);
+			void SetScreen(Screen* newScreen);
 			void RefreshScreen();
 		};
 	}

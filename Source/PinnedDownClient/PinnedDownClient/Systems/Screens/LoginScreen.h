@@ -10,13 +10,10 @@ namespace PinnedDownClient
 	{
 		namespace Screens
 		{
-			class GameScreen : public Screen
+			class LoginScreen : public Screen
 			{
 			public:
-				GameScreen();
-
-				void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext);
-				void UnloadResources();
+				LoginScreen();
 
 				void LoadUI();
 				void UnloadUI();
@@ -24,13 +21,7 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int panel1;
-				int window1;
-				int button1;
-				int panel2;
-				int window2;
-				int button2;
-				int longLabel;
+				int statusLabel;
 			};
 		}
 	}

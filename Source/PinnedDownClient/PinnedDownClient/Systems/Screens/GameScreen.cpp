@@ -8,6 +8,10 @@ GameScreen::GameScreen()
 {
 }
 
+ScreenName GameScreen::GetScreenName()
+{
+	return ScreenName::Game;
+}
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
 {

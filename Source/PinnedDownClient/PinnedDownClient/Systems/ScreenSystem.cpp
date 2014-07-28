@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "Core\Event.h"
 #include "Systems\ScreenSystem.h"
-#include "Systems\Screens\GameScreen.h"
+#include "Systems\Screens\LoginScreen.h"
 
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
@@ -36,10 +36,10 @@ void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetCh
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
 
 	// Show first screen.
-	this->SetScreen(new GameScreen());
+	this->SetScreen(new LoginScreen());
 }
 
-void ScreenSystem::SetScreen(IScreen* newScreen)
+void ScreenSystem::SetScreen(Screen* newScreen)
 {
 	if (this->currentScreen != nullptr)
 	{
@@ -47,7 +47,7 @@ void ScreenSystem::SetScreen(IScreen* newScreen)
 		this->currentScreen->UnloadResources();
 	}
 
-	this->currentScreen = std::shared_ptr<IScreen>(newScreen);
+	this->currentScreen = std::shared_ptr<Screen>(newScreen);
 
 	if (this->currentScreen != nullptr)
 	{
