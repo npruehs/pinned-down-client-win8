@@ -35,8 +35,8 @@ void NetworkSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastruct
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), ScreenChangedEvent::ScreenChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerPressedEvent::PointerPressedEventType);
+	this->game->eventManager->AddListener(this, ScreenChangedEvent::ScreenChangedEventType);
+	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 }
 
 void NetworkSystem::OnEvent(Event & newEvent)

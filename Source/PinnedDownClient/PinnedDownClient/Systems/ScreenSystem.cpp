@@ -26,8 +26,8 @@ void ScreenSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), RenderTargetChangedEvent::RenderTargetChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), LoginSuccessEvent::LoginSuccessEventType);
+	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
+	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
 void ScreenSystem::Update(StepTimer const& timer)

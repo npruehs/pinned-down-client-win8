@@ -25,9 +25,9 @@ void UIInteractionSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfra
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerReleasedEvent::PointerReleasedEventType);
+	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(this, EntityRemovedEvent::EntityRemovedEventType);
+	this->game->eventManager->AddListener(this, PointerReleasedEvent::PointerReleasedEventType);
 }
 
 void UIInteractionSystem::OnEvent(Event & newEvent)

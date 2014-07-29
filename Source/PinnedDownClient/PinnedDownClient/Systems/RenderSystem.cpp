@@ -32,14 +32,14 @@ void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppSuspendingEvent::AppSuspendingEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayDpiChangedEvent::DisplayDpiChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
+	this->game->eventManager->AddListener(this, AppWindowChangedEvent::AppWindowChangedEventType);
+	this->game->eventManager->AddListener(this, AppSuspendingEvent::AppSuspendingEventType);
+	this->game->eventManager->AddListener(this, AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	this->game->eventManager->AddListener(this, DisplayDpiChangedEvent::DisplayDpiChangedEventType);
+	this->game->eventManager->AddListener(this, DisplayOrientationChangedEvent::DisplayOrientationChangedEventType);
+	this->game->eventManager->AddListener(this, DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType);
+	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(this, EntityRemovedEvent::EntityRemovedEventType);
 
 	// Create devices.
 	this->CreateD3DDevice();

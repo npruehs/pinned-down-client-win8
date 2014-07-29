@@ -34,7 +34,6 @@ namespace PinnedDownClient
 
 				void OnEvent(Event & event);
 
-				void OnLoginSuccess();
 				void OnLoginError(LoginErrorEvent& loginErrorEvent);
 			};
 		}

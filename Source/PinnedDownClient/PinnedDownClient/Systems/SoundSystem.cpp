@@ -72,7 +72,7 @@ void SoundSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructur
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerPressedEvent::PointerPressedEventType);
+	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 
 	// Create devices.
 	this->InitXAudio();

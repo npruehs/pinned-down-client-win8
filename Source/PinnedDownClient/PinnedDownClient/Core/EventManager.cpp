@@ -9,19 +9,19 @@ EventManager::EventManager()
 {
 }
 
-void EventManager::AddListener(EventListenerPtr const & listener)
+void EventManager::AddListener(IEventListener* listener)
 {
 	this->listenersForAllEvents.push_back(listener);
 }
 
-void EventManager::AddListener(EventListenerPtr const & listener, HashedString const & eventType)
+void EventManager::AddListener(IEventListener* listener, HashedString const & eventType)
 {
 	// Get the event type entry in the listeners map.
-	std::map<unsigned long, std::list<EventListenerPtr>>::iterator iterator = this->listeners.find(eventType.getHash());
+	std::map<unsigned long, std::list<IEventListener*>>::iterator iterator = this->listeners.find(eventType.getHash());
 
 	if (iterator != this->listeners.end())
 	{
-		std::list<EventListenerPtr> & eventListeners = iterator->second;
+		std::list<IEventListener*> & eventListeners = iterator->second;
 
 		// Add listener.
 		eventListeners.push_back(listener);
@@ -29,21 +29,22 @@ void EventManager::AddListener(EventListenerPtr const & listener, HashedString c
 	else
 	{
 		// Add new entry to listeners map.
-		std::list<EventListenerPtr> eventListeners = std::list<EventListenerPtr>();
+		std::list<IEventListener*> eventListeners = std::list<IEventListener*>();
 		eventListeners.push_back(listener);
-		this->listeners.insert(std::pair<unsigned long, std::list<EventListenerPtr>>(eventType.getHash(), eventListeners));
+		this->listeners.insert(std::pair<unsigned long, std::list<IEventListener*>>(eventType.getHash(), eventListeners));
 	}
 }
 
-void EventManager::RemoveListener(EventListenerPtr const & listener, HashedString const & eventType)
+void EventManager::RemoveListener(IEventListener* listener, HashedString const & eventType)
 {
 	// Find listener to remove.
-	for (std::map<unsigned long, std::list<EventListenerPtr>>::iterator it = this->listeners.begin(); it != this->listeners.end(); it++)
-	{
-		unsigned long const eventId = it->first;
-		std::list<EventListenerPtr> eventListeners = it->second;
+	std::map<unsigned long, std::list<IEventListener*>>::iterator it = this->listeners.find(eventType.getHash());
 
-		for (std::list<EventListenerPtr>::iterator it2 = eventListeners.begin(); it2 != eventListeners.end(); it2++)
+	if (it != this->listeners.end())
+	{
+		std::list<IEventListener*> eventListeners = it->second;
+
+		for (std::list<IEventListener*>::iterator it2 = eventListeners.begin(); it2 != eventListeners.end(); it2++)
 		{
 			if (*it2 == listener)
 			{
@@ -67,21 +68,21 @@ void EventManager::RaiseEvent(EventPtr const & newEvent)
 	unsigned long eventHash = eventType.getHash();
 
 	// Get listeners for the event.
-	std::map<unsigned long, std::list<EventListenerPtr>>::const_iterator itListeners = this->listeners.find(eventHash);
+	std::map<unsigned long, std::list<IEventListener*>>::iterator itListeners = this->listeners.find(eventHash);
 
 	if (itListeners != this->listeners.end())
 	{
-		std::list<EventListenerPtr> const & eventListeners = itListeners->second;
+		std::list<IEventListener*> & eventListeners = itListeners->second;
 
 		// Notify all listeners.
-		for (std::list<EventListenerPtr>::const_iterator it = eventListeners.begin(); it != eventListeners.end(); it++)
+		for (std::list<IEventListener*>::iterator it = eventListeners.begin(); it != eventListeners.end(); )
 		{
-			(*it)->OnEvent(*newEvent);
+			(*it++)->OnEvent(*newEvent);
 		}
 	}
 
 	// Get listeners for all events.
-	for (std::list<EventListenerPtr>::const_iterator it = this->listenersForAllEvents.begin(); it != this->listenersForAllEvents.end(); it++)
+	for (std::list<IEventListener*>::iterator it = this->listenersForAllEvents.begin(); it != this->listenersForAllEvents.end(); it++)
 	{
 		(*it)->OnEvent(*newEvent);
 	}

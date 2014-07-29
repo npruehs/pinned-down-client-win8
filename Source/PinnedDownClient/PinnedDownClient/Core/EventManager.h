@@ -11,7 +11,6 @@
 
 using namespace PinnedDownClient::Util;
 
-typedef std::shared_ptr<PinnedDownClient::Core::IEventListener> EventListenerPtr;
 typedef std::shared_ptr<PinnedDownClient::Core::Event> EventPtr;
 
 namespace PinnedDownClient
@@ -24,13 +23,13 @@ namespace PinnedDownClient
 			EventManager();
 
 			// Adds the passed listener for events of all types.
-			void AddListener(EventListenerPtr const & listener);
+			void AddListener(IEventListener* listener);
 
 			// Adds the passed listener for events of the specified type.
-			void AddListener(EventListenerPtr const & listener, HashedString const & eventType);
+			void AddListener(IEventListener* listener, HashedString const & eventType);
 
 			// Removes the passed listener for events of the specified type.
-			void RemoveListener(EventListenerPtr const & listener, HashedString const & eventType);
+			void RemoveListener(IEventListener* listener, HashedString const & eventType);
 
 			// Queues the specified event for processing in the next tick.
 			void QueueEvent(EventPtr const & newEvent);
@@ -46,10 +45,10 @@ namespace PinnedDownClient
 			std::set<HashedString> eventTypes;
 
 			// Maps event types to listeners.
-			std::map<unsigned long, std::list<EventListenerPtr>> listeners;
+			std::map<unsigned long, std::list<IEventListener*>> listeners;
 			
 			// Listeners for all events.
-			std::list<EventListenerPtr> listenersForAllEvents;
+			std::list<IEventListener*> listenersForAllEvents;
 
 			// Events that are currently being processed.
 			std::list<EventPtr> currentEvents;

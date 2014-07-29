@@ -26,7 +26,7 @@ EventLogger::EventLogger(std::shared_ptr<GameInfrastructure> game)
 {
 	this->game = game;
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this));
+	this->game->eventManager->AddListener(this);
 }
 
 void EventLogger::OnEvent(Event & newEvent)

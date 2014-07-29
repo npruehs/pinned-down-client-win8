@@ -26,16 +26,14 @@ void LoginScreen::InitScreen(std::shared_ptr<PinnedDownClient::GameInfrastructur
 {
 	Screen::InitScreen(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), LoginSuccessEvent::LoginSuccessEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), LoginErrorEvent::LoginErrorEventType);
+	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
 
 	this->connecting = true;
 }
 
 void LoginScreen::DeInitScreen()
 {
-	this->game->eventManager->RemoveListener(std::shared_ptr<IEventListener>(this), LoginSuccessEvent::LoginSuccessEventType);
-	this->game->eventManager->RemoveListener(std::shared_ptr<IEventListener>(this), LoginErrorEvent::LoginErrorEventType);
+	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
 }
 
 void LoginScreen::Update()
@@ -66,11 +64,7 @@ void LoginScreen::Update()
 
 void LoginScreen::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
-	{
-		this->OnLoginSuccess();
-	}
-	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
+	if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
 	{
 		auto loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
 		this->OnLoginError(loginErrorEvent);
@@ -87,14 +81,6 @@ void LoginScreen::LoadUI()
 void LoginScreen::UnloadUI()
 {
 	this->game->entityManager->RemoveEntity(this->statusLabel);
-}
-
-void LoginScreen::OnLoginSuccess()
-{
-	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->statusLabel, TextComponent::TextComponentType);
-	textComponent->text = L"Connected!";
-
-	this->connecting = false;
 }
 
 void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)

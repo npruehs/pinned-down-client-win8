@@ -26,7 +26,7 @@ void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastru
 
 	this->uiFactory = std::make_shared<UIFactory>(this->game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
+	this->game->eventManager->AddListener(this, PointerMovedEvent::PointerMovedEventType);
 
 	this->CreateEntities();
 }
