@@ -89,6 +89,9 @@ void NetworkSystem::InitSocket()
 		// Notify listeners.
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		this->game->eventManager->QueueEvent(loginSuccessEvent);
+
+		// Start packet queue.
+		this->RecvPacketQueue();
 	}).then([this](task<void> t)
 	{
 		try
@@ -104,6 +107,32 @@ void NetworkSystem::InitSocket()
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
 	});
+}
+
+void NetworkSystem::RecvPacketQueue()
+{
+	if (this->connected)
+	{
+		auto loadTask = create_task(this->dataReader->LoadAsync(4));
+
+		loadTask.then([this](unsigned int bytesLoaded)
+		{
+			try
+			{
+				//unsigned int packetType = this->dataReader->ReadUInt32();
+				unsigned int dataSize = this->dataReader->ReadUInt32();
+
+				OutputDebugString(std::to_wstring(dataSize).c_str());
+
+				// TODO: Convert to while-loop.
+				this->RecvPacketQueue();
+			}
+			catch (Platform::Exception^ e)
+			{
+				OutputDebugString(e->Message->Data());
+			}
+		});
+	}
 }
 
 void NetworkSystem::SendPacket()
