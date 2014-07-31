@@ -16,3 +16,4 @@
 #include <unordered_map>
 #include <xaudio2.h>
 #include <ppltasks.h>
+#include "PinnedDownNet.h"

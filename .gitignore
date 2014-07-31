@@ -27,3 +27,4 @@ Source/PinnedDownClient/PinnedDownClient.sdf
 Source/PinnedDownClient/PinnedDownClient.v12.suo
 Source/PinnedDownClient/ipch/
 Bin/
+*.pri
