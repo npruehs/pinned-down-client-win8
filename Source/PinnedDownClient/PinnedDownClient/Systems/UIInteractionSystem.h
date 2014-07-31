@@ -1,16 +1,16 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\GameSystem.h"
-#include "Core\IEventListener.h"
+#include "GameSystem.h"
+#include "IEventListener.h"
 
 #include "Events\EntityInitializedEvent.h"
-#include "Events\EntityRemovedEvent.h"
+#include "EntityRemovedEvent.h"
 #include "Events\PointerReleasedEvent.h"
 
 #include "Systems\UI\Button.h"
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::UI;
 
@@ -18,12 +18,12 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class UIInteractionSystem : public Core::GameSystem, public Core::IEventListener
+		class UIInteractionSystem : public GameSystem, public IEventListener
 		{
 		public:
 			UIInteractionSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
 			void OnEvent(Event & event);

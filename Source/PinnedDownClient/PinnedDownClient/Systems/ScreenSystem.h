@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\GameSystem.h"
-#include "Core\IEventListener.h"
+#include "GameSystem.h"
+#include "IEventListener.h"
 
 #include "Events\RenderTargetChangedEvent.h"
 
@@ -11,7 +11,7 @@
 
 using namespace Microsoft::WRL;
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::Screens;
 using namespace PinnedDownClient::Systems::UI;
@@ -20,19 +20,19 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class ScreenSystem : public Core::GameSystem, public Core::IEventListener
+		class ScreenSystem : public GameSystem, public IEventListener
 		{
 		public:
 			ScreenSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
 			std::shared_ptr<UIFactory> uiFactory;
 			std::shared_ptr<Screen> currentScreen;
 			ComPtr<ID2D1DeviceContext> d2dContext;
 
-			void Update(StepTimer const& timer);
+			void Update(float dt);
 
 			void OnEvent(Event & event);
 

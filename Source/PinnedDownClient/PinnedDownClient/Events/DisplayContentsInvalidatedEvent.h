@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct DisplayContentsInvalidatedEvent : public PinnedDownClient::Core::Event
+		struct DisplayContentsInvalidatedEvent : public PinnedDownCore::Event
 		{
 			static const HashedString DisplayContentsInvalidatedEventType;
 

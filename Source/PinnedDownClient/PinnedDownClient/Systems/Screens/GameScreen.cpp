@@ -1,7 +1,9 @@
 
 #include "pch.h"
 #include "Systems\Screens\GameScreen.h"
+#include "Core\PinnedDownResourceManager.h"
 
+using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Systems::Screens;
 
 GameScreen::GameScreen()
@@ -15,11 +17,13 @@ ScreenName GameScreen::GetScreenName()
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
 {
-	this->game->resourceManager->LoadBitmapFromFile(
+	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
+
+	resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
 		L"Assets/Window.png"
 		);
-	this->game->resourceManager->LoadBitmapFromFile(
+	resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
 		L"Assets/Button.png"
 		);

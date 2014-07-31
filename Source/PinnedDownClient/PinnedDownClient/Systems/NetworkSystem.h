@@ -1,9 +1,7 @@
 #pragma once
 
-#include "GameInfrastructure.h"
-
-#include "Core\IEventListener.h"
-#include "Core\GameSystem.h"
+#include "IEventListener.h"
+#include "GameSystem.h"
 
 #include "Events\PointerPressedEvent.h"
 #include "Events\ScreenChangedEvent.h"
@@ -14,19 +12,18 @@ using namespace Windows::Storage::Streams;
 
 using namespace Microsoft::WRL;
 
-using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class NetworkSystem : public Core::GameSystem, public Core::IEventListener
+		class NetworkSystem : public GameSystem, public IEventListener
 		{
 		public:
 			NetworkSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
 			StreamSocket^ clientSocket;

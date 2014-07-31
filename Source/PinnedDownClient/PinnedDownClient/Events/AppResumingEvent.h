@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct AppResumingEvent : public PinnedDownClient::Core::Event
+		struct AppResumingEvent : public PinnedDownCore::Event
 		{
 			static const HashedString AppResumingEventType;
 

@@ -2,8 +2,6 @@
 
 #include "Systems\Screens\Screen.h"
 
-using namespace PinnedDownClient::Core;
-
 namespace PinnedDownClient
 {
 	namespace Systems

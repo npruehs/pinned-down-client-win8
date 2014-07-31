@@ -1,7 +1,7 @@
 
 #include "pch.h"
 
-#include "Core\Event.h"
+#include "Event.h"
 
 #include "Events\LoginSuccessEvent.h"
 #include "Events\ScreenChangedEvent.h"
@@ -10,6 +10,7 @@
 #include "Systems\Screens\GameScreen.h"
 #include "Systems\Screens\LoginScreen.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;
@@ -20,7 +21,7 @@ ScreenSystem::ScreenSystem()
 {
 }
 
-void ScreenSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
@@ -30,11 +31,11 @@ void ScreenSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructu
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
-void ScreenSystem::Update(StepTimer const& timer)
+void ScreenSystem::Update(float dt)
 {
 	if (this->currentScreen != nullptr)
 	{
-		this->currentScreen->Update();
+		this->currentScreen->Update(dt);
 	}
 }
 

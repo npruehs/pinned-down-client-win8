@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\GameSystem.h"
-#include "Core\IEventListener.h"
+#include "GameSystem.h"
+#include "IEventListener.h"
 
 extern "C" {
 #include <Lua\lua.h>
@@ -10,18 +10,18 @@ extern "C" {
 #include <Lua\lualib.h>
 }
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class LuaScriptSystem : public Core::GameSystem, public Core::IEventListener
+		class LuaScriptSystem : public GameSystem, public IEventListener
 		{
 		public:
 			LuaScriptSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
 			void OnEvent(Event & event);

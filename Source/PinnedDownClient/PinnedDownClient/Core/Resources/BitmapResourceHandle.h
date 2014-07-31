@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core\ResourceHandle.h"
+#include "ResourceHandle.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
@@ -10,7 +10,7 @@ namespace PinnedDownClient
 	{
 		namespace Resources
 		{
-			class BitmapResourceHandle : public PinnedDownClient::Core::ResourceHandle
+			class BitmapResourceHandle : public ResourceHandle
 			{
 			public:
 				BitmapResourceHandle(std::wstring resourceName, ID2D1Bitmap *bitmap);

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\IEventListener.h"
-#include "Core\GameSystem.h"
+#include "IEventListener.h"
+#include "GameSystem.h"
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppSuspendingEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
@@ -10,7 +10,7 @@
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\EntityInitializedEvent.h"
-#include "Events\EntityRemovedEvent.h"
+#include "EntityRemovedEvent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
 #include "Rendering\IRenderable.h"
@@ -30,12 +30,12 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class RenderSystem : public Core::GameSystem, public Core::IEventListener
+		class RenderSystem : public GameSystem, public IEventListener
 		{
 		public:
 			RenderSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 			void Render();
 
 		private:

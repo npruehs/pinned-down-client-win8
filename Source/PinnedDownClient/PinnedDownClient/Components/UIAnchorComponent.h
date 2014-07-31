@@ -1,9 +1,9 @@
 #pragma once
 
 #include "pch.h"
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
@@ -55,7 +55,7 @@ namespace PinnedDownClient
 			}
 		};
 
-		class UIAnchorComponent : public PinnedDownClient::Core::EntityComponent
+		class UIAnchorComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString UIAnchorComponentType;

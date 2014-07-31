@@ -1,7 +1,7 @@
 
 #include "pch.h"
-#include "Core\Event.h"
-#include "Core\EventManager.h"
+#include "Event.h"
+#include "EventManager.h"
 #include "Systems\RenderSystem.h"
 #include "Math\Vector2F.h"
 #include "Util\DirectXUtils.h"
@@ -19,16 +19,19 @@
 #include "Events\GraphicsDeviceRestoredEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Util;
+
 
 RenderSystem::RenderSystem()
 {
 }
 
-void RenderSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void RenderSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 

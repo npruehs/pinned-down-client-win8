@@ -148,12 +148,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
       <AdditionalDependencies>d2d1.lib; d3d11.lib; dxgi.lib; ole32.lib; windowscodecs.lib; dwrite.lib; xaudio2.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;xinput.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(VCInstallDir)\lib\store;$(VCInstallDir)\lib</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>"..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet";$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -209,19 +209,11 @@
     <ClInclude Include="Components\TextAlignmentComponent.h" />
     <ClInclude Include="Components\UIWidgetComponent.h" />
     <ClInclude Include="Components\VisibilityComponent.h" />
-    <ClInclude Include="Core\EntityComponent.h" />
-    <ClInclude Include="Core\EntityManager.h" />
-    <ClInclude Include="Core\Event.h" />
-    <ClInclude Include="Core\EventManager.h" />
     <ClInclude Include="Core\FileLogger.h" />
     <ClInclude Include="Core\GameException.h" />
-    <ClInclude Include="Core\IEventListener.h" />
-    <ClInclude Include="Core\GameSystem.h" />
-    <ClInclude Include="Core\ResourceHandle.h" />
-    <ClInclude Include="Core\ResourceManager.h" />
+    <ClInclude Include="Core\PinnedDownResourceManager.h" />
     <ClInclude Include="Core\Resources\AudioResourceHandle.h" />
     <ClInclude Include="Core\Resources\BitmapResourceHandle.h" />
-    <ClInclude Include="Core\SystemManager.h" />
     <ClInclude Include="Events\AppResumingEvent.h" />
     <ClInclude Include="Events\AppSuspendingEvent.h" />
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
@@ -229,9 +221,7 @@
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
-    <ClInclude Include="Events\EntityCreatedEvent.h" />
     <ClInclude Include="Events\EntityInitializedEvent.h" />
-    <ClInclude Include="Events\EntityRemovedEvent.h" />
     <ClInclude Include="Events\EntityTappedEvent.h" />
     <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
@@ -243,7 +233,6 @@
     <ClInclude Include="Events\PointerReleasedEvent.h" />
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
     <ClInclude Include="Events\ScreenChangedEvent.h" />
-    <ClInclude Include="GameInfrastructure.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Lua\lapi.h" />
     <ClInclude Include="Lua\lauxlib.h" />
@@ -295,8 +284,6 @@
     <ClInclude Include="Systems\UI\Sprite.h" />
     <ClInclude Include="Systems\UI\UIFactory.h" />
     <ClInclude Include="Util\DirectXUtils.h" />
-    <ClInclude Include="Util\HashedString.h" />
-    <ClInclude Include="Util\Logger.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
     <ClInclude Include="Util\StepTimer.h" />
     <ClInclude Include="Util\StringUtils.h" />
@@ -315,15 +302,11 @@
     <ClCompile Include="Components\UIPanelComponent.cpp" />
     <ClCompile Include="Components\UIWidgetComponent.cpp" />
     <ClCompile Include="Components\VisibilityComponent.cpp" />
-    <ClCompile Include="Core\EntityManager.cpp" />
-    <ClCompile Include="Core\EventManager.cpp" />
     <ClCompile Include="Core\FileLogger.cpp" />
     <ClCompile Include="Core\GameException.cpp" />
-    <ClCompile Include="Core\ResourceHandle.cpp" />
-    <ClCompile Include="Core\ResourceManager.cpp" />
+    <ClCompile Include="Core\PinnedDownResourceManager.cpp" />
     <ClCompile Include="Core\Resources\AudioResourceHandle.cpp" />
     <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp" />
-    <ClCompile Include="Core\SystemManager.cpp" />
     <ClCompile Include="Events\AppResumingEvent.cpp" />
     <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
@@ -331,9 +314,7 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
-    <ClCompile Include="Events\EntityCreatedEvent.cpp" />
     <ClCompile Include="Events\EntityInitializedEvent.cpp" />
-    <ClCompile Include="Events\EntityRemovedEvent.cpp" />
     <ClCompile Include="Events\EntityTappedEvent.cpp" />
     <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
@@ -580,6 +561,14 @@
   <ItemGroup>
     <Media Include="Assets\becky.wma" />
     <Media Include="Assets\chord.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCore.vcxproj">
+      <Project>{51037f52-f903-4bb2-90cd-70b5bde869de}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet\PinnedDownNet.vcxproj">
+      <Project>{2c645185-98f4-4398-9cf2-319cf875e6d1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

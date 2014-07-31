@@ -22,7 +22,7 @@ ScreenName LoginScreen::GetScreenName()
 }
 
 
-void LoginScreen::InitScreen(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void LoginScreen::InitScreen(PinnedDownCore::Game* game)
 {
 	Screen::InitScreen(game);
 
@@ -36,8 +36,10 @@ void LoginScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
 }
 
-void LoginScreen::Update()
+void LoginScreen::Update(float dt)
 {
+	this->totalTime += dt;
+
 	if (!this->connecting)
 	{
 		return;
@@ -45,11 +47,11 @@ void LoginScreen::Update()
 
 	std::wstring text = L"Connecting ";
 
-	if (this->game->timer->GetFrameCount() % 60 < 20)
+	if (this->totalTime - floorf(this->totalTime) < 0.33)
 	{
 		text += L".";
 	}
-	else if (this->game->timer->GetFrameCount() % 60 < 40)
+	else if (this->totalTime - floorf(this->totalTime) < 0.66)
 	{
 		text += L"..";
 	}

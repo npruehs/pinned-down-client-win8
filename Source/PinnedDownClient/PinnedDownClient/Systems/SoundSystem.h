@@ -3,24 +3,23 @@
 #include <thread>
 #include <mutex>
 
-#include "GameInfrastructure.h"
-#include "Core\IEventListener.h"
-#include "Core\GameSystem.h"
+#include "IEventListener.h"
+#include "GameSystem.h"
 
+using namespace PinnedDownCore;
 using namespace Microsoft::WRL;
-using namespace PinnedDownClient::Core;
 
 namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class SoundSystem : public Core::GameSystem, public Core::IEventListener, public IXAudio2VoiceCallback
+		class SoundSystem : public GameSystem, public IEventListener, public IXAudio2VoiceCallback
 		{
 		public:
 			SoundSystem();
 			~SoundSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
+			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
 			// Instance of the XAudio2 engine for playing sounds.

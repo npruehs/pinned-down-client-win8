@@ -1,25 +1,23 @@
 #pragma once
 
-#include "GameInfrastructure.h"
-#include "Core\Event.h"
-#include "Core\IEventListener.h"
-#include "Util\Logger.h"
+#include "Game.h"
+#include "Event.h"
+#include "IEventListener.h"
+#include "Logger.h"
 
-using namespace PinnedDownClient;
-using namespace PinnedDownClient::Core;
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		class EventLogger : public Core::IEventListener
+		class EventLogger : public IEventListener
 		{
 		public:
-			EventLogger(std::shared_ptr<GameInfrastructure> game);
+			EventLogger(std::shared_ptr<PinnedDownCore::Game> game);
 
 		private:
-			std::shared_ptr<GameInfrastructure> game;
+			std::shared_ptr<PinnedDownCore::Game> game;
 
 			void OnEvent(Event & event);
 		};

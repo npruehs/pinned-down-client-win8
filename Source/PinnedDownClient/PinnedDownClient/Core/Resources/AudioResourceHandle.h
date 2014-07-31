@@ -1,9 +1,9 @@
 #pragma once
 
 #include "pch.h"
-#include "Core\ResourceHandle.h"
+#include "ResourceHandle.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
@@ -11,7 +11,7 @@ namespace PinnedDownClient
 	{
 		namespace Resources
 		{
-			class AudioResourceHandle : public PinnedDownClient::Core::ResourceHandle
+			class AudioResourceHandle : public ResourceHandle
 			{
 			public:
 				AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX* waveFormat, std::vector<BYTE>* audioBuffer);

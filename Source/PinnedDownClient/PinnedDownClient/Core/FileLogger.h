@@ -2,8 +2,9 @@
 
 #include <ppltasks.h>
 
-#include "Util\Logger.h"
+#include "Logger.h"
 
+using namespace PinnedDownCore;
 using namespace Windows::Storage;
 using namespace concurrency;
 
@@ -11,20 +12,18 @@ namespace PinnedDownClient
 {
 	namespace Core
 	{
-		class FileLogger : public PinnedDownClient::Util::Logger
+		class FileLogger : public Logger
 		{
 		public:
-			FileLogger(PinnedDownClient::Util::LogLevel logLevel, const wchar_t* const logFileName);
+			FileLogger(LogLevel logLevel, const wchar_t* const logFileName);
 			~FileLogger();
 
-			void WriteLog(PinnedDownClient::Util::LogLevel logLevel, const wchar_t* const message);
+			void WriteLog(LogLevel logLevel, const wchar_t* const message);
 			void Flush();
 
 		private:
 			StorageFile^ logFile;
 			std::wstring logBuffer;
-
-			std::wstring LogLevelToString(PinnedDownClient::Util::LogLevel logLevel);
 		};
 	}
 }

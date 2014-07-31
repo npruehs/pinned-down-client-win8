@@ -1,16 +1,17 @@
 #include "pch.h"
-#include "Core\Event.h"
+#include "Event.h"
 #include "Systems\UIInteractionSystem.h"
 
 #include "Components\BoundsComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\TappableComponent.h"
 
+#include "EntityRemovedEvent.h"
 #include "Events\EntityTappedEvent.h"
 
 #include "Math\RectF.h"
 
-
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Math;
@@ -21,7 +22,7 @@ UIInteractionSystem::UIInteractionSystem()
 {
 }
 
-void UIInteractionSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void UIInteractionSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 

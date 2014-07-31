@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct EntityTappedEvent : public PinnedDownClient::Core::Event
+		struct EntityTappedEvent : public PinnedDownCore::Event
 		{
 			static const HashedString EntityTappedEventType;
 

@@ -1,15 +1,15 @@
 #pragma once
 
 #include "pch.h"
-#include "Core\Event.h"
+#include "Event.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct RenderTargetChangedEvent : public PinnedDownClient::Core::Event
+		struct RenderTargetChangedEvent : public PinnedDownCore::Event
 		{
 			static const HashedString RenderTargetChangedEventType;
 

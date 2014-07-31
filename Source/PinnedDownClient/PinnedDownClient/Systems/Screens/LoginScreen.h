@@ -4,7 +4,6 @@
 
 #include "Systems\Screens\Screen.h"
 
-using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
@@ -18,19 +17,20 @@ namespace PinnedDownClient
 			public:
 				LoginScreen();
 
-				void InitScreen(std::shared_ptr<GameInfrastructure> game);
+				void InitScreen(PinnedDownCore::Game* game);
 				void DeInitScreen();
 
 				void LoadUI();
 				void UnloadUI();
 
-				void Update();
+				void Update(float dt);
 
 				ScreenName GetScreenName();
 
 			private:
 				int statusLabel;
 				bool connecting;
+				float totalTime;
 
 				void OnEvent(Event & event);
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 
-#include "Core\Event.h"
+#include "Game.h"
+#include "Event.h"
 
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"
@@ -12,9 +13,9 @@
 
 using namespace concurrency;
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
-using namespace PinnedDownClient::Util;
 
 using namespace Windows::Networking;
 using namespace Windows::Networking::Sockets;
@@ -31,7 +32,7 @@ NetworkSystem::NetworkSystem()
 {
 }
 
-void NetworkSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void NetworkSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 

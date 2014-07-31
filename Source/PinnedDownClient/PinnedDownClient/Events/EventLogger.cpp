@@ -10,8 +10,8 @@
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
-#include "Events\EntityCreatedEvent.h"
-#include "Events\EntityRemovedEvent.h"
+#include "EntityCreatedEvent.h"
+#include "EntityRemovedEvent.h"
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
 #include "Events\LoginErrorEvent.h"
@@ -19,10 +19,11 @@
 #include "Events\PointerPressedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient;
 using namespace PinnedDownClient::Events;
 
-EventLogger::EventLogger(std::shared_ptr<GameInfrastructure> game)
+EventLogger::EventLogger(std::shared_ptr<PinnedDownCore::Game> game)
 {
 	this->game = game;
 
@@ -97,6 +98,6 @@ void EventLogger::OnEvent(Event & newEvent)
 	}
 	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
 	{
-		this->game->logger->Error(L"Login success.");
+		this->game->logger->Info(L"Login success.");
 	}
 }

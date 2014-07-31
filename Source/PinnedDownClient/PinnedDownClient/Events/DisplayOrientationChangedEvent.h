@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct DisplayOrientationChangedEvent : public PinnedDownClient::Core::Event
+		struct DisplayOrientationChangedEvent : public PinnedDownCore::Event
 		{
 			static const HashedString DisplayOrientationChangedEventType;
 

@@ -1,15 +1,15 @@
 #pragma once
 
 #include "pch.h"
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class TappableComponent : public PinnedDownClient::Core::EntityComponent
+		class TappableComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString TappableComponentType;

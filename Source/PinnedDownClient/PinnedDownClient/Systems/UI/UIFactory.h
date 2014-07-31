@@ -2,10 +2,12 @@
 
 #include "pch.h"
 
+#include "Game.h"
 #include "PinnedDownGame.h"
 
 #include "Components\UIAnchorComponent.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Components;
 
 namespace PinnedDownClient
@@ -17,7 +19,7 @@ namespace PinnedDownClient
 			class UIFactory
 			{
 			public:
-				UIFactory(std::shared_ptr<GameInfrastructure> game);
+				UIFactory(PinnedDownCore::Game* game);
 
 				int CreateLabel(std::wstring text);
 				int CreatePanel();
@@ -32,7 +34,7 @@ namespace PinnedDownClient
 
 				void FinishUIWidget(int entityId);
 			private:
-				std::shared_ptr<GameInfrastructure> game;
+				PinnedDownCore::Game* game;
 			};
 		}
 	}

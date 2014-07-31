@@ -2,7 +2,7 @@
 
 #include "PinnedDownGame.h"
 
-#include "Core\IEventListener.h"
+#include "IEventListener.h"
 
 #include "Systems\UI\UIFactory.h"
 #include "Systems\Screens\ScreenName.h"
@@ -18,7 +18,7 @@ namespace PinnedDownClient
 			class Screen
 			{
 			public:
-				virtual void InitScreen(std::shared_ptr<GameInfrastructure> game)
+				virtual void InitScreen(PinnedDownCore::Game* game)
 				{
 					this->game = game;
 					this->uiFactory = std::make_shared<UIFactory>(game);
@@ -32,12 +32,12 @@ namespace PinnedDownClient
 				virtual void LoadUI() { }
 				virtual void UnloadUI() { }
 
-				virtual void Update() { }
+				virtual void Update(float dt) { }
 
 				virtual ScreenName GetScreenName() = 0;
 
 			protected:
-				std::shared_ptr<GameInfrastructure> game;
+				PinnedDownCore::Game* game;
 				std::shared_ptr<UIFactory> uiFactory;
 			};
 		}
