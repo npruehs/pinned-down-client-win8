@@ -83,10 +83,12 @@ void NetworkSystem::InitSocket()
 		this->dataWriter = ref new DataWriter(this->clientSocket->OutputStream);
 		dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
 		dataWriter->ByteOrder = ByteOrder::LittleEndian;
+		this->clientActionWriter = std::make_shared<ClientActionWriter>(this->dataWriter);
 
 		this->dataReader = ref new DataReader(this->clientSocket->InputStream);
 		dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
 		dataReader->ByteOrder = ByteOrder::LittleEndian;
+		this->serverEventReader = std::make_shared<ServerEventReader>(this->dataReader);
 
 		// Notify listeners.
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
@@ -121,16 +123,10 @@ void NetworkSystem::RecvPacketLoop()
 		{
 			try
 			{
-				int packetTypeCode = this->dataReader->ReadInt32();
-				ServerEventType packetType = (ServerEventType)packetTypeCode;
+				// Read server event.
+				this->serverEventReader->ReadServerEvent();
 
-				switch (packetType)
-				{
-				case ServerEventType::LoginSuccess:
-					OutputDebugString(L"LoginSuccess");
-				}
-				
-				// TODO: Convert to while-loop.
+				// Wait for next packet.
 				this->RecvPacketLoop();
 			}
 			catch (Platform::Exception^ e)
@@ -148,15 +144,6 @@ void NetworkSystem::SendPacket()
 		return;
 	}
 
-	ClientEvent clientEvent = ClientEvent();
-	clientEvent.eventType = ClientEventType::CardSelected;
-	dataWriter->WriteInt32(clientEvent.eventType);
-
-	// Call StoreAsync method to store the data to the backing stream.
-	auto storeTask = create_task(dataWriter->StoreAsync());
-
-	storeTask.then([this](unsigned int bytesStored)
-	{
-		return this->dataWriter->FlushAsync();
-	});
+	ClientAction clientAction = ClientAction(ClientActionType::SelectCard);
+	this->clientActionWriter->WriteClientAction(clientAction);
 }

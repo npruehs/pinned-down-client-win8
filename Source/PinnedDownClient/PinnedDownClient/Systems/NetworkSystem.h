@@ -6,6 +6,9 @@
 #include "Events\PointerPressedEvent.h"
 #include "Events\ScreenChangedEvent.h"
 
+#include "Systems\Network\ServerEventReader.h"
+#include "Systems\Network\ClientActionWriter.h"
+
 using namespace Windows::Networking;
 using namespace Windows::Networking::Sockets;
 using namespace Windows::Storage::Streams;
@@ -13,6 +16,8 @@ using namespace Windows::Storage::Streams;
 using namespace Microsoft::WRL;
 
 using namespace PinnedDownClient::Events;
+
+using namespace PinnedDownClient::Systems::Network;
 
 namespace PinnedDownClient
 {
@@ -30,6 +35,9 @@ namespace PinnedDownClient
 			HostName^ serverHost;
 			DataWriter^ dataWriter;
 			DataReader^ dataReader;
+			std::shared_ptr<ServerEventReader> serverEventReader;
+			std::shared_ptr<ClientActionWriter> clientActionWriter;
+
 			bool connected = false;
 
 			void OnEvent(Event & event);

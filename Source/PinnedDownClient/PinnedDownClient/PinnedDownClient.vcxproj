@@ -267,6 +267,8 @@
     <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\NetworkSystem.h" />
+    <ClInclude Include="Systems\Network\ClientActionWriter.h" />
+    <ClInclude Include="Systems\Network\ServerEventReader.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
     <ClInclude Include="Systems\ScreenSystem.h" />
@@ -543,6 +545,8 @@
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
+    <ClCompile Include="Systems\Network\ClientActionWriter.cpp" />
+    <ClCompile Include="Systems\Network\ServerEventReader.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\Screens\GameScreen.cpp" />
     <ClCompile Include="Systems\Screens\LoginScreen.cpp" />

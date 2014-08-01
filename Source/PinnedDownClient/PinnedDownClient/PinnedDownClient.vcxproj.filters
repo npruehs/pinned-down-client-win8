@@ -56,6 +56,9 @@
     <Filter Include="Systems\Screens">
       <UniqueIdentifier>{381c7d6b-2462-440a-bc5e-b9f2e23e2413}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\Network">
+      <UniqueIdentifier>{2294dee4-db7a-446b-a162-2361fa0973b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -306,6 +309,12 @@
     </ClCompile>
     <ClCompile Include="Core\PinnedDownResourceManager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ServerEventReader.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ClientActionWriter.cpp">
+      <Filter>Systems\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,6 +584,12 @@
     </ClInclude>
     <ClInclude Include="Core\PinnedDownResourceManager.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ServerEventReader.h">
+      <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ClientActionWriter.h">
+      <Filter>Systems\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
