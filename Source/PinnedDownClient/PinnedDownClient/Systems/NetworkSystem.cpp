@@ -10,6 +10,7 @@
 
 #include "Systems\NetworkSystem.h"
 
+#include "PinnedDownNet.h"
 
 using namespace concurrency;
 
@@ -91,8 +92,8 @@ void NetworkSystem::InitSocket()
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		this->game->eventManager->QueueEvent(loginSuccessEvent);
 
-		// Start packet queue.
-		this->RecvPacketQueue();
+		// Start receive loop.
+		this->RecvPacketLoop();
 	}).then([this](task<void> t)
 	{
 		try
@@ -110,7 +111,7 @@ void NetworkSystem::InitSocket()
 	});
 }
 
-void NetworkSystem::RecvPacketQueue()
+void NetworkSystem::RecvPacketLoop()
 {
 	if (this->connected)
 	{
@@ -120,13 +121,17 @@ void NetworkSystem::RecvPacketQueue()
 		{
 			try
 			{
-				//unsigned int packetType = this->dataReader->ReadUInt32();
-				unsigned int dataSize = this->dataReader->ReadUInt32();
+				int packetTypeCode = this->dataReader->ReadInt32();
+				ServerEventType packetType = (ServerEventType)packetTypeCode;
 
-				OutputDebugString(std::to_wstring(dataSize).c_str());
-
+				switch (packetType)
+				{
+				case ServerEventType::LoginSuccess:
+					OutputDebugString(L"LoginSuccess");
+				}
+				
 				// TODO: Convert to while-loop.
-				this->RecvPacketQueue();
+				this->RecvPacketLoop();
 			}
 			catch (Platform::Exception^ e)
 			{
@@ -143,11 +148,9 @@ void NetworkSystem::SendPacket()
 		return;
 	}
 
-	// Get the UTF-8 string length.
-	unsigned int len = this->dataWriter->MeasureString("test");
-
-	dataWriter->WriteUInt32(len);
-	dataWriter->WriteString("test");
+	ClientEvent clientEvent = ClientEvent();
+	clientEvent.eventType = ClientEventType::CardSelected;
+	dataWriter->WriteInt32(clientEvent.eventType);
 
 	// Call StoreAsync method to store the data to the backing stream.
 	auto storeTask = create_task(dataWriter->StoreAsync());
@@ -155,31 +158,5 @@ void NetworkSystem::SendPacket()
 	storeTask.then([this](unsigned int bytesStored)
 	{
 		return this->dataWriter->FlushAsync();
-	}).then([this, len](bool flushOp)
-	{
-		// Once we have written the contents successfully we load the stream.
-		return this->dataReader->LoadAsync(len + 4);
-	}).then([this](unsigned int bytesLoaded)
-	{
-		try
-		{
-			Platform::String^ readFromStream = "";
-
-			// Keep reading until we consume the complete stream.
-			while (this->dataReader->UnconsumedBufferLength > 0)
-			{
-				unsigned int bufferLength = this->dataReader->UnconsumedBufferLength;
-
-				unsigned int bytesToRead = this->dataReader->ReadUInt32();
-				bufferLength = this->dataReader->UnconsumedBufferLength;
-				readFromStream += this->dataReader->ReadString(bytesToRead);
-			}
-
-			OutputDebugString(readFromStream->Data());
-		}
-		catch (Platform::Exception^ e)
-		{
-			OutputDebugString(e->Message->Data());
-		}
 	});
 }

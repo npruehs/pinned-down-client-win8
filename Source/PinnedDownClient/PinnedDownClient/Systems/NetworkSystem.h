@@ -40,8 +40,7 @@ namespace PinnedDownClient
 			void InitSocket();
 			void SendPacket();
 
-			void SendPacketQueue();
-			void RecvPacketQueue();
+			void RecvPacketLoop();
 		};
 	}
 }
