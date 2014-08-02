@@ -10,6 +10,8 @@
 
 #include "Systems\NetworkSystem.h"
 
+#include "Util\StringUtils.h"
+
 #include "PinnedDownNet.h"
 
 using namespace concurrency;
@@ -77,25 +79,39 @@ void NetworkSystem::InitSocket()
 
 	storeTask.then([this](void)
 	{
-		this->connected = true;
+		auto client = PinnedDownClient::Services::PinnedDownMobileService::GetClient();
+		return client.login(azure::mobile::facebook);
+	}).then([this](azure::mobile::user authUser)
+	{
+		if (authUser.is_authenticated())
+		{
+			this->connected = true;
+			this->user = authUser;
 
-		// Create the DataWriter object backed by the socket stream.  When dataWriter is deleted, it will also close the underlying stream.
-		this->dataWriter = ref new DataWriter(this->clientSocket->OutputStream);
-		dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
-		dataWriter->ByteOrder = ByteOrder::LittleEndian;
-		this->clientActionWriter = std::make_shared<ClientActionWriter>(this->dataWriter);
+			// Create the DataWriter object backed by the socket stream.  When dataWriter is deleted, it will also close the underlying stream.
+			this->dataWriter = ref new DataWriter(this->clientSocket->OutputStream);
+			dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
+			dataWriter->ByteOrder = ByteOrder::LittleEndian;
+			this->clientActionWriter = std::make_shared<ClientActionWriter>(this->dataWriter);
 
-		this->dataReader = ref new DataReader(this->clientSocket->InputStream);
-		dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
-		dataReader->ByteOrder = ByteOrder::LittleEndian;
-		this->serverEventReader = std::make_shared<ServerEventReader>(this->dataReader);
+			this->dataReader = ref new DataReader(this->clientSocket->InputStream);
+			dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
+			dataReader->ByteOrder = ByteOrder::LittleEndian;
+			this->serverEventReader = std::make_shared<ServerEventReader>(this->dataReader);
 
-		// Notify listeners.
-		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
-		this->game->eventManager->QueueEvent(loginSuccessEvent);
+			// Notify listeners.
+			auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
+			this->game->eventManager->QueueEvent(loginSuccessEvent);
 
-		// Start receive loop.
-		this->RecvPacketLoop();
+			// Start receive loop.
+			this->RecvPacketLoop();
+		}
+		else
+		{
+			// Notify listeners.
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"You must authenticate yourself in order to play Pinned Down.");
+			this->game->eventManager->QueueEvent(loginErrorEvent);
+		}
 	}).then([this](task<void> t)
 	{
 		try
@@ -106,8 +122,13 @@ void NetworkSystem::InitSocket()
 		catch (Platform::Exception^ e)
 		{
 			// Notify listeners.
-			auto errorMessage = e->Message->Data();
-			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(errorMessage);
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"Unable to connect to server.");
+			this->game->eventManager->QueueEvent(loginErrorEvent);
+		}
+		catch (azure::mobile::mobile_exception e)
+		{
+			// Notify listeners.
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"You must authenticate yourself in order to play Pinned Down.");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
 	});

@@ -59,6 +59,12 @@
     <Filter Include="Systems\Network">
       <UniqueIdentifier>{2294dee4-db7a-446b-a162-2361fa0973b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{6d7876eb-9917-4ff8-89f1-fb5c3f1a368b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\MobileServices">
+      <UniqueIdentifier>{35884276-f72b-41c0-a9ad-2aa7d9c6e303}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -315,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="Systems\Network\ClientActionWriter.cpp">
       <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp">
+      <Filter>Services\MobileServices</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,6 +599,9 @@
     </ClInclude>
     <ClInclude Include="Systems\Network\ClientActionWriter.h">
       <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h">
+      <Filter>Services\MobileServices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,11 @@
 #include "Events\PointerPressedEvent.h"
 #include "Events\ScreenChangedEvent.h"
 
+#include "Services\MobileServices\PinnedDownMobileService.h"
+
 #include "Systems\Network\ServerEventReader.h"
 #include "Systems\Network\ClientActionWriter.h"
+
 
 using namespace Windows::Networking;
 using namespace Windows::Networking::Sockets;
@@ -37,6 +40,7 @@ namespace PinnedDownClient
 			DataReader^ dataReader;
 			std::shared_ptr<ServerEventReader> serverEventReader;
 			std::shared_ptr<ClientActionWriter> clientActionWriter;
+			azure::mobile::user user;
 
 			bool connected = false;
 

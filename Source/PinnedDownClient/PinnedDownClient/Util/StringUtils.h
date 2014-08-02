@@ -10,5 +10,10 @@ namespace PinnedDownClient
 		{
 			return std::string(wstr.begin(), wstr.end());
 		}
+
+		inline std::wstring StringToWString(std::string str)
+		{
+			return std::wstring(str.begin(), str.end());
+		}
 	}
 }
