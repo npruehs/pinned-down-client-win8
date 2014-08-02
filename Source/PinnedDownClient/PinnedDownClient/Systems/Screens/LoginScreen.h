@@ -20,6 +20,9 @@ namespace PinnedDownClient
 				void InitScreen(PinnedDownCore::Game* game);
 				void DeInitScreen();
 
+				void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext);
+				void UnloadResources();
+
 				void LoadUI();
 				void UnloadUI();
 
@@ -28,7 +31,9 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
+				int splashScreen;
 				int statusLabel;
+
 				bool connecting;
 				float totalTime;
 

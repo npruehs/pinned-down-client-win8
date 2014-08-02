@@ -28,6 +28,7 @@ namespace PinnedDownClient
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
 				void SetDepth(int entityId, int depth);
+				void SetFontSize(int entityId, float fontSize);
 				void SetPanel(int entityId, int panelId);
 				void SetTappable(int entityId);
 				void SetVisible(int entityId, bool visible);

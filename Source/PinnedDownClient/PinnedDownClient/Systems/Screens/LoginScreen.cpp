@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include "Core\PinnedDownResourceManager.h"
+
 #include "Components\TextComponent.h"
 
 #include "Events\LoginSuccessEvent.h"
@@ -8,6 +10,7 @@
 #include "Systems\Screens\LoginScreen.h"
 
 
+using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::Screens;
 
@@ -73,11 +76,31 @@ void LoginScreen::OnEvent(Event & newEvent)
 	}
 }
 
+void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
+{
+	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
+
+	resourceManager->LoadBitmapFromFile(
+		d2dContext.Get(),
+		L"Assets/SplashScreen.png"
+		);
+}
+
+void LoginScreen::UnloadResources()
+{
+	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
+}
+
 void LoginScreen::LoadUI()
 {
 	this->statusLabel = this->uiFactory->CreateLabel(L"Connecting...");
-	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetFontSize(this->statusLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
+
+	this->splashScreen = this->uiFactory->CreateSprite(L"Assets/SplashScreen.png");
+	this->uiFactory->SetAnchor(this->splashScreen, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->FinishUIWidget(this->splashScreen);
 }
 
 void LoginScreen::UnloadUI()

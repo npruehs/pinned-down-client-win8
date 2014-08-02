@@ -461,7 +461,7 @@ void RenderSystem::Render()
 	}
 
 	// Clear the back buffer and depth stencil view.
-	this->d3dContext->ClearRenderTargetView(this->d3dRenderTargetView.Get(), DirectX::Colors::CornflowerBlue);
+	this->d3dContext->ClearRenderTargetView(this->d3dRenderTargetView.Get(), DirectX::Colors::Black);
 	
 	// Save drawing state.
 	this->d2dContext->SaveDrawingState(this->drawingStateBlock.Get());
