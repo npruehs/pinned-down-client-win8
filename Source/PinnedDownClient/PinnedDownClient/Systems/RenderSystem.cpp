@@ -88,7 +88,7 @@ void RenderSystem::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
 	{
 		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityInitialized(entityRemovedEvent.entityId);
+		this->OnEntityRemoved(entityRemovedEvent.entityId);
 	}
 }
 
@@ -461,7 +461,7 @@ void RenderSystem::Render()
 	}
 
 	// Clear the back buffer and depth stencil view.
-	this->d3dContext->ClearRenderTargetView(this->d3dRenderTargetView.Get(), DirectX::Colors::CornflowerBlue);
+	this->d3dContext->ClearRenderTargetView(this->d3dRenderTargetView.Get(), DirectX::Colors::Black);
 	
 	// Save drawing state.
 	this->d2dContext->SaveDrawingState(this->drawingStateBlock.Get());

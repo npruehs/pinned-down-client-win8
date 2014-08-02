@@ -60,6 +60,8 @@ void DebugInfoSystem::CreateEntities()
 
 void DebugInfoSystem::Update(float dt)
 {
+	this->timer->Update();
+
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->fpsTextEntity, TextComponent::TextComponentType);
 	textComponent->text = L"\nFPS: " + std::to_wstring(this->timer->GetFramesPerSecond());
 }

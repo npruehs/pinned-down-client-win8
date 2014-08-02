@@ -65,6 +65,9 @@
     <Filter Include="Services\MobileServices">
       <UniqueIdentifier>{35884276-f72b-41c0-a9ad-2aa7d9c6e303}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{d6d407d8-b70e-441a-b177-e1745fb7b07c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -324,6 +327,9 @@
     </ClCompile>
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp">
       <Filter>Services\MobileServices</Filter>
+    </ClCompile>
+    <ClCompile Include="Actions\ConnectToServerAction.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -602,6 +608,9 @@
     </ClInclude>
     <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h">
       <Filter>Services\MobileServices</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\ConnectToServerAction.h">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

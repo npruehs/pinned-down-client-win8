@@ -145,6 +145,12 @@ void UIFactory::SetDepth(int entityId, int depth)
 	depthComponent->depth = depth;
 }
 
+void UIFactory::SetFontSize(int entityId, float fontSize)
+{
+	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
+	fontComponent->fontSize = fontSize;
+}
+
 void UIFactory::SetPanel(int entityId, int panelId)
 {
 	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);

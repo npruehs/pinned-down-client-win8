@@ -5,8 +5,6 @@
 
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"
-#include "Events\ScreenChangedEvent.h"
-#include "Events\PointerPressedEvent.h"
 
 #include "Systems\NetworkSystem.h"
 
@@ -38,16 +36,15 @@ void NetworkSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(this, ScreenChangedEvent::ScreenChangedEventType);
+	this->game->eventManager->AddListener(this, ConnectToServerAction::ConnectToServerActionType);
 	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 }
 
 void NetworkSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == ScreenChangedEvent::ScreenChangedEventType)
+	if (newEvent.GetEventType() == ConnectToServerAction::ConnectToServerActionType)
 	{
-		auto screenChangedEvent = static_cast<ScreenChangedEvent&>(newEvent);
-		this->OnScreenChanged(screenChangedEvent);
+		this->OnConnectToServer();
 	}
 	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
 	{
@@ -61,12 +58,9 @@ void NetworkSystem::OnPointerPressed(PointerPressedEvent& pointerPressedEvent)
 	this->SendPacket();
 }
 
-void NetworkSystem::OnScreenChanged(ScreenChangedEvent& screenChangedEvent)
+void NetworkSystem::OnConnectToServer()
 {
-	if (screenChangedEvent.newScreen == ScreenName::Login)
-	{
-		this->InitSocket();
-	}
+	this->InitSocket();
 }
 
 void NetworkSystem::InitSocket()
