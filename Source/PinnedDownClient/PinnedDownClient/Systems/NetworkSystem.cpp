@@ -28,7 +28,6 @@ using namespace Windows::Storage::Streams;
 
 
 #define PINNED_DOWN_SERVER_HOST "localhost"
-#define PINNED_DOWN_SERVER_PORT "27015"
 //#define REQUIRES_AUTH
 
 NetworkSystem::NetworkSystem()
