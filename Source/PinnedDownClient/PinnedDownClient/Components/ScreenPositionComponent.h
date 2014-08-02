@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 #include "Math\Vector2F.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class ScreenPositionComponent : public PinnedDownClient::Core::EntityComponent
+		class ScreenPositionComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString ScreenPositionComponentType;

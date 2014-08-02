@@ -2,7 +2,8 @@
 #include "PinnedDownGame.h"
 #include "Events\AppWindowChangedEvent.h"
 
-#include "GameInfrastructure.h"
+#include "Core\PinnedDownResourceManager.h"
+#include "Core\FileLogger.h"
 
 #include "Systems\RenderSystem.h"
 #include "Systems\LuaScriptSystem.h"
@@ -10,7 +11,8 @@
 #include "Systems\DebugInfoSystem.h"
 #include "Systems\UIInteractionSystem.h"
 #include "Systems\UILayoutSystem.h"
-#include "Systems\UILoadingSystem.h"
+#include "Systems\NetworkSystem.h"
+#include "Systems\ScreenSystem.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -23,38 +25,30 @@ using namespace PinnedDownClient::Core;
 PinnedDownGame::PinnedDownGame()
 {
 	// Setup game infrastructure.
-	this->gameInfrastructure = std::shared_ptr<GameInfrastructure>(new GameInfrastructure());
+	this->game = std::make_shared<PinnedDownCore::Game>();
+	this->timer = std::make_unique<Util::StepTimer>();
 
-	this->gameInfrastructure->timer = std::make_unique<Util::StepTimer>();
+	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
+	this->game->logger->Info(L"Logger initialized.");
 
-	this->gameInfrastructure->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
-	this->gameInfrastructure->logger->Info(L"Logger initialized.");
+	this->game->resourceManager = std::unique_ptr<ResourceManager>(new Core::PinnedDownResourceManager());
+	this->game->logger->Info(L"Resource manager initialized.");
 
-	this->gameInfrastructure->resourceManager = std::unique_ptr<ResourceManager>(new Core::ResourceManager());
-	this->gameInfrastructure->logger->Info(L"Resource manager initialized.");
+	// Init systems.
+	this->game->systemManager->AddSystem(new Systems::RenderSystem());
+	this->game->systemManager->AddSystem(new Systems::LuaScriptSystem());
+	this->game->systemManager->AddSystem(new Systems::SoundSystem());
+	this->game->systemManager->AddSystem(new Systems::DebugInfoSystem());
+	this->game->systemManager->AddSystem(new Systems::UILayoutSystem());
+	this->game->systemManager->AddSystem(new Systems::UIInteractionSystem());
+	this->game->systemManager->AddSystem(new Systems::NetworkSystem());
+	this->game->systemManager->AddSystem(new Systems::ScreenSystem());
 
-	this->gameInfrastructure->eventManager = std::unique_ptr<EventManager>(new EventManager());
-	this->gameInfrastructure->logger->Info(L"Event manager initialized.");
-
-	EntityManager* entityManager = new EntityManager(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
-	this->gameInfrastructure->entityManager = std::unique_ptr<EntityManager>(entityManager);
-	this->gameInfrastructure->logger->Info(L"Entity manager initialized.");
-
-	SystemManager* systemManager = new SystemManager(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
-	this->gameInfrastructure->systemManager = std::unique_ptr<SystemManager>(systemManager);
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::RenderSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::LuaScriptSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::SoundSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::DebugInfoSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILayoutSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::UILoadingSystem());
-	this->gameInfrastructure->systemManager->AddSystem(new Systems::UIInteractionSystem());
-
-	this->gameInfrastructure->systemManager->InitSystems();
-	this->gameInfrastructure->logger->Info(L"System manager initialized.");
+	this->game->systemManager->InitSystems();
+	this->game->logger->Info(L"Game initialized.");
 
 	// Setup event logger.
-	EventLogger* eventLogger = new Events::EventLogger(std::shared_ptr<GameInfrastructure>(this->gameInfrastructure));
+	EventLogger* eventLogger = new Events::EventLogger(this->game);
 	this->eventLogger = std::shared_ptr<Events::EventLogger>();
 }
 
@@ -65,25 +59,21 @@ PinnedDownGame::~PinnedDownGame()
 void PinnedDownGame::Update()
 {
     // Step timer.
-	this->gameInfrastructure->timer->Update();
+	this->timer->Update();
 
     // Update game infrastructure.
-	this->gameInfrastructure->systemManager->Update(*this->gameInfrastructure->timer);
-	this->gameInfrastructure->eventManager->Tick();
-	this->gameInfrastructure->entityManager->CleanUpEntities();
-	this->gameInfrastructure->eventManager->Tick();
-	this->gameInfrastructure->logger->Flush();
+	this->game->Update((float)this->timer->GetElapsedSeconds());
 }
 
 bool PinnedDownGame::Render()
 {
     // Don't try to render anything before the first Update.
-	if (this->gameInfrastructure->timer->GetFrameCount() == 0)
+	if (this->timer->GetFrameCount() == 0)
     {
         return false;
     }
 
-	this->gameInfrastructure->systemManager->Render();
+	this->game->systemManager->Render();
 
     return true;
 }

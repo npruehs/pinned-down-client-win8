@@ -1,19 +1,19 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\GameSystem.h"
-#include "Core\IEventListener.h"
+#include "GameSystem.h"
+#include "IEventListener.h"
 
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
 #include "Events\EntityInitializedEvent.h"
-#include "Events\EntityRemovedEvent.h"
+#include "EntityRemovedEvent.h"
 
 #include "Systems\UI\Anchor.h"
 #include "Systems\UI\Panel.h"
 #include "Systems\UI\UIFactory.h"
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::UI;
 
@@ -21,13 +21,13 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class UILayoutSystem : public Core::GameSystem, public Core::IEventListener
+		class UILayoutSystem : public GameSystem, public IEventListener
 		{
 		public:
 			UILayoutSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
-			void Update(StepTimer const& timer);
+			void InitSystem(PinnedDownCore::Game* game);
+			void Update(float dt);
 
 		private:
 			void OnEvent(Event & event);

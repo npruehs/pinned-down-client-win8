@@ -1,9 +1,10 @@
 #pragma once
 
 #include "PinnedDownGame.h"
-#include "Core\GameSystem.h"
-#include "Core\IEventListener.h"
+#include "GameSystem.h"
+#include "IEventListener.h"
 #include "Math\Vector2F.h"
+#include "Util\StepTimer.h"
 
 #include "Components\UIAnchorComponent.h"
 
@@ -11,27 +12,29 @@
 
 #include "Systems\UI\UIFactory.h"
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Systems::UI;
+using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class DebugInfoSystem : public Core::GameSystem, public Core::IEventListener
+		class DebugInfoSystem : public GameSystem, public IEventListener
 		{
 		public:
 			DebugInfoSystem();
 
-			void InitSystem(std::shared_ptr<GameInfrastructure> game);
-			void Update(StepTimer const& timer);
+			void InitSystem(PinnedDownCore::Game* game);
+			void Update(float dt);
 
 		private:
 			Vector2F pointerPosition;
 			std::shared_ptr<UIFactory> uiFactory;
+			std::shared_ptr<StepTimer> timer;
 
 			int pointerPositionTextEntity;
 			int fpsTextEntity;

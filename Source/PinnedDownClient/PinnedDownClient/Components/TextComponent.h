@@ -1,15 +1,15 @@
 #pragma once
 
 #include <string>
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class TextComponent : public PinnedDownClient::Core::EntityComponent
+		class TextComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString TextComponentType;

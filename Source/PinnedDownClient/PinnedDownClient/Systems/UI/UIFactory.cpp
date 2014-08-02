@@ -24,7 +24,7 @@ using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Systems::UI;
 
 
-UIFactory::UIFactory(std::shared_ptr<GameInfrastructure> game)
+UIFactory::UIFactory(PinnedDownCore::Game* game)
 {
 	this->game = game;
 }

@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
 #include "Math\Vector2F.h"
 
 using namespace PinnedDownClient::Math;
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct PointerPressedEvent : public PinnedDownClient::Core::Event
+		struct PointerPressedEvent : public PinnedDownCore::Event
 		{
 			static const HashedString PointerPressedEventType;
 

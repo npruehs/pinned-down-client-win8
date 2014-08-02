@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "FileLogger.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Core;
-using namespace PinnedDownClient::Util;
 
 FileLogger::FileLogger(LogLevel logLevel, const wchar_t* const logFileName) : Logger(logLevel)
 {
@@ -49,25 +49,4 @@ void FileLogger::Flush()
 	}
 
 	this->logBuffer.clear();
-}
-
-std::wstring FileLogger::LogLevelToString(PinnedDownClient::Util::LogLevel logLevel)
-{
-	switch (logLevel)
-	{
-	case LogLevel::Debug:
-		return L"DEBUG";
-	case LogLevel::Error:
-		return L"ERROR";
-	case LogLevel::Fatal:
-		return L"FATAL";
-	case LogLevel::Info:
-		return L"INFO";
-	case LogLevel::Trace:
-		return L"TRACE";
-	case LogLevel::Warn:
-		return L"WARN";
-	default:
-		return L"LOG";
-	}
 }

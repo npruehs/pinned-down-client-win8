@@ -1,10 +1,12 @@
 #include "pch.h"
-#include "Core\Event.h"
+#include "Event.h"
 #include "Systems\UILayoutSystem.h"
 
 #include "Components\UIPanelComponent.h"
 #include "Components\BoundsComponent.h"
 #include "Components\ScreenPositionComponent.h"
+
+using namespace PinnedDownCore;
 
 using namespace Windows::ApplicationModel;
 
@@ -15,16 +17,16 @@ UILayoutSystem::UILayoutSystem()
 {
 }
 
-void UILayoutSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void UILayoutSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowChangedEvent::AppWindowChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityInitializedEvent::EntityInitializedEventType);
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), EntityRemovedEvent::EntityRemovedEventType);
+	this->game->eventManager->AddListener(this, AppWindowChangedEvent::AppWindowChangedEventType);
+	this->game->eventManager->AddListener(this, AppWindowSizeChangedEvent::AppWindowSizeChangedEventType);
+	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(this, EntityRemovedEvent::EntityRemovedEventType);
 
 	this->CreateRootPanel();
 }
@@ -119,7 +121,7 @@ void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
 	}
 }
 
-void UILayoutSystem::Update(StepTimer const& timer)
+void UILayoutSystem::Update(float dt)
 {
 	// Update anchors.
 	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); iterator++)

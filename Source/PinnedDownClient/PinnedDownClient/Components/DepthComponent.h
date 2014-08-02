@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class DepthComponent : public PinnedDownClient::Core::EntityComponent
+		class DepthComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString DepthComponentType;

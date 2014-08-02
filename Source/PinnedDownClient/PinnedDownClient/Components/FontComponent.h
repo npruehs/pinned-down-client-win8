@@ -2,15 +2,15 @@
 
 #include "pch.h"
 #include <string>
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class FontComponent : public PinnedDownClient::Core::EntityComponent
+		class FontComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString FontComponentType;

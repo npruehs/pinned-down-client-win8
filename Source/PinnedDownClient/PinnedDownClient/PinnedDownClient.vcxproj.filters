@@ -53,18 +53,18 @@
     <Filter Include="Systems\UI">
       <UniqueIdentifier>{6c50566c-a386-4c61-bed0-81f24d966541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\Screens">
+      <UniqueIdentifier>{381c7d6b-2462-440a-bc5e-b9f2e23e2413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Network">
+      <UniqueIdentifier>{2294dee4-db7a-446b-a162-2361fa0973b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\SystemManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\RenderSystem.cpp">
       <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\EventManager.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Events\AppWindowChangedEvent.cpp">
       <Filter>Events</Filter>
@@ -105,12 +105,6 @@
     </ClCompile>
     <ClCompile Include="Events\PointerMovedEvent.cpp">
       <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ResourceManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ResourceHandle.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp">
       <Filter>Core\Resources</Filter>
@@ -223,15 +217,6 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Core\EntityManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Events\EntityCreatedEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Events\EntityRemovedEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="Core\FileLogger.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -277,9 +262,6 @@
     <ClCompile Include="Components\UIAnchorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\UILoadingSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\UI\UIFactory.cpp">
       <Filter>Systems\UI</Filter>
     </ClCompile>
@@ -304,29 +286,44 @@
     <ClCompile Include="Events\EntityTappedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\NetworkSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ScreenSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Screens\GameScreen.cpp">
+      <Filter>Systems\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Screens\LoginScreen.cpp">
+      <Filter>Systems\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ScreenChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LoginErrorEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LoginSuccessEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PinnedDownResourceManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ServerEventReader.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ClientActionWriter.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\SystemManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Util\HashedString.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Event.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\EventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\GameException.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\IEventListener.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Events\AppWindowChangedEvent.h">
@@ -357,9 +354,6 @@
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GameSystem.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Events\RenderTargetChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -372,14 +366,8 @@
     <ClInclude Include="Events\PointerMovedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ResourceManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Util\MemoryUtils.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ResourceHandle.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\Resources\BitmapResourceHandle.h">
       <Filter>Core\Resources</Filter>
@@ -465,25 +453,9 @@
     <ClInclude Include="Util\StringUtils.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Core\EntityManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\EntityComponent.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\EntityCreatedEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\EntityRemovedEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\Logger.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Core\FileLogger.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameInfrastructure.h" />
     <ClInclude Include="Events\EventLogger.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -547,9 +519,6 @@
     <ClInclude Include="Systems\UI\Panel.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\UILoadingSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\UI\UIFactory.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
@@ -585,6 +554,42 @@
     </ClInclude>
     <ClInclude Include="Events\EntityTappedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\NetworkSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\Screen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ScreenSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\GameScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\LoginScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\ScreenName.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ScreenChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LoginErrorEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LoginSuccessEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PinnedDownResourceManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ServerEventReader.h">
+      <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ClientActionWriter.h">
+      <Filter>Systems\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

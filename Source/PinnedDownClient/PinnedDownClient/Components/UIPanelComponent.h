@@ -1,15 +1,15 @@
 #pragma once
 
 #include "pch.h"
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class UIPanelComponent : public PinnedDownClient::Core::EntityComponent
+		class UIPanelComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString UIPanelComponentType;

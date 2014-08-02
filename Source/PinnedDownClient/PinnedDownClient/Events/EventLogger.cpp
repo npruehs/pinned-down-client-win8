@@ -10,21 +10,24 @@
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
-#include "Events\EntityCreatedEvent.h"
-#include "Events\EntityRemovedEvent.h"
+#include "EntityCreatedEvent.h"
+#include "EntityRemovedEvent.h"
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
+#include "Events\LoginErrorEvent.h"
+#include "Events\LoginSuccessEvent.h"
 #include "Events\PointerPressedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient;
 using namespace PinnedDownClient::Events;
 
-EventLogger::EventLogger(std::shared_ptr<GameInfrastructure> game)
+EventLogger::EventLogger(std::shared_ptr<PinnedDownCore::Game> game)
 {
 	this->game = game;
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this));
+	this->game->eventManager->AddListener(this);
 }
 
 void EventLogger::OnEvent(Event & newEvent)
@@ -87,5 +90,14 @@ void EventLogger::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		this->game->logger->Info(L"Render target changed.");
+	}
+	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
+	{
+		LoginErrorEvent loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
+		this->game->logger->Error(L"Login error: " + loginErrorEvent.errorMessage);
+	}
+	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
+	{
+		this->game->logger->Info(L"Login success.");
 	}
 }

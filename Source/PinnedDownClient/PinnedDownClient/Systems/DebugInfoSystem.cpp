@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Core\Event.h"
+#include "Event.h"
 #include "Systems\DebugInfoSystem.h"
 
 #include "Components\ColorComponent.h"
@@ -20,13 +20,14 @@ DebugInfoSystem::DebugInfoSystem()
 {
 }
 
-void DebugInfoSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void DebugInfoSystem::InitSystem(Game* game)
 {
 	GameSystem::InitSystem(game);
 
 	this->uiFactory = std::make_shared<UIFactory>(this->game);
+	this->timer = std::make_shared<StepTimer>();
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerMovedEvent::PointerMovedEventType);
+	this->game->eventManager->AddListener(this, PointerMovedEvent::PointerMovedEventType);
 
 	this->CreateEntities();
 }
@@ -57,10 +58,10 @@ void DebugInfoSystem::CreateEntities()
 	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision);
 }
 
-void DebugInfoSystem::Update(StepTimer const& timer)
+void DebugInfoSystem::Update(float dt)
 {
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->fpsTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\nFPS: " + std::to_wstring(timer.GetFramesPerSecond());
+	textComponent->text = L"\nFPS: " + std::to_wstring(this->timer->GetFramesPerSecond());
 }
 
 void DebugInfoSystem::OnEvent(Event & newEvent)

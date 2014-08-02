@@ -5,14 +5,17 @@
 #include <mfapi.h>
 #include <mfreadwrite.h>
 
-#include "Core\Event.h"
+#include "Game.h"
+#include "Event.h"
 #include "Systems\SoundSystem.h"
 #include "Util\DirectXUtils.h"
 #include "Events\PointerPressedEvent.h"
+#include "Core\PinnedDownResourceManager.h"
 #include "Core\Resources\AudioResourceHandle.h"
 
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
 
@@ -68,11 +71,11 @@ SoundSystem::~SoundSystem()
 	}
 }
 
-void SoundSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void SoundSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(std::shared_ptr<IEventListener>(this), PointerPressedEvent::PointerPressedEventType);
+	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 
 	// Create devices.
 	this->InitXAudio();
@@ -122,7 +125,9 @@ void SoundSystem::InitXAudio()
 
 void SoundSystem::LoadResources()
 {
-	this->game->resourceManager->LoadAudioFromFile(
+	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
+
+	resourceManager->LoadAudioFromFile(
 		this->soundAudioEngine.Get(),
 		L"Assets/chord.wav"
 		);

@@ -2,17 +2,17 @@
 
 #include "pch.h"
 #include <string>
-#include "Core\EntityComponent.h"
+#include "EntityComponent.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 
 using namespace PinnedDownClient::Core::Resources;
-using namespace PinnedDownClient::Util;
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class SpriteComponent : public PinnedDownClient::Core::EntityComponent
+		class SpriteComponent : public PinnedDownCore::EntityComponent
 		{
 		public:
 			static const HashedString SpriteComponentType;

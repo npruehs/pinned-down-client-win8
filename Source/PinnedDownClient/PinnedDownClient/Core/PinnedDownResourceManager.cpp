@@ -1,8 +1,7 @@
 #include "pch.h"
-#include "Core\ResourceManager.h"
+#include "PinnedDownResourceManager.h"
 #include "Util\DirectXUtils.h"
 #include "Util\MemoryUtils.h"
-#include "Core\GameException.h"
 #include "Core\Resources\BitmapResourceHandle.h"
 #include "Core\Resources\AudioResourceHandle.h"
 
@@ -16,7 +15,7 @@ using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
 
-ResourceManager::ResourceManager()
+PinnedDownResourceManager::PinnedDownResourceManager()
 {
 	// Create WIC imaging factory.
 	ThrowIfFailed(
@@ -30,45 +29,7 @@ ResourceManager::ResourceManager()
 		);
 }
 
-ResourceManager::~ResourceManager()
-{
-	this->resourceMap.clear();
-}
-
-ResHandlePtr ResourceManager::GetResource(HashedString resourceName)
-{
-	// Lookup resource.
-	std::map<unsigned long, ResHandlePtr>::iterator iterator = this->resourceMap.find(resourceName.getHash());
-
-	if (iterator != this->resourceMap.end())
-	{
-		// Return handle.
-		return ResHandlePtr(iterator->second);
-	}
-	else
-	{
-		// Resource not found.
-		std::wstring errorMsg = L"Resource not found: ";
-		errorMsg.append(resourceName.getString());
-		throw GameException(errorMsg);
-	}
-}
-
-void ResourceManager::UnloadResource(HashedString resourceName)
-{
-	// Find resource to unload.
-	for (std::map<unsigned long, ResHandlePtr>::iterator iterator = this->resourceMap.begin(); iterator != this->resourceMap.end(); iterator++)
-	{
-		if (iterator->first == resourceName.getHash())
-		{
-			// Remove resource.
-			resourceMap.erase(iterator);
-			return;
-		}
-	}
-}
-
-void ResourceManager::LoadBitmapFromFile(
+void PinnedDownResourceManager::LoadBitmapFromFile(
 	ID2D1DeviceContext* d2dContext,
 	PCWSTR imageUri
 	)
@@ -129,7 +90,7 @@ void ResourceManager::LoadBitmapFromFile(
 	SafeRelease(&converter);
 }
 
-void ResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri)
+void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri)
 {
 	// Create a Media Foundation object and process the media file.
 	Microsoft::WRL::ComPtr<IMFSourceReader> reader;
@@ -213,7 +174,7 @@ void ResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri)
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 }
 
-Platform::Array<byte>^ ResourceManager::ReadBytes(Platform::String^ fileName)
+Platform::Array<byte>^ PinnedDownResourceManager::ReadBytes(Platform::String^ fileName)
 {
 	// http://msdn.microsoft.com/de-de/library/windows/apps/jj651549.aspx
 	Windows::Storage::StorageFolder^ m_location = Package::Current->InstalledLocation;
@@ -226,7 +187,7 @@ Platform::Array<byte>^ ResourceManager::ReadBytes(Platform::String^ fileName)
 	extendedParams.dwSecurityQosFlags = SECURITY_ANONYMOUS;
 	extendedParams.lpSecurityAttributes = nullptr;
 	extendedParams.hTemplateFile = nullptr;
-	
+
 	Wrappers::FileHandle file(
 		CreateFile2(
 		Platform::String::Concat(m_locationPath, fileName)->Data(),

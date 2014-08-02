@@ -1,6 +1,6 @@
 
 #include "pch.h"
-#include "Core\Event.h"
+#include "Event.h"
 #include "Systems\LuaScriptSystem.h"
 
 using namespace PinnedDownClient::Systems;
@@ -9,7 +9,7 @@ LuaScriptSystem::LuaScriptSystem()
 {
 }
 
-void LuaScriptSystem::InitSystem(std::shared_ptr<PinnedDownClient::GameInfrastructure> game)
+void LuaScriptSystem::InitSystem(Game* game)
 {
 	GameSystem::InitSystem(game);
 
