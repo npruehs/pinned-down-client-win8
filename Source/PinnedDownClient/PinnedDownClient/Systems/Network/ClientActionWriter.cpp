@@ -11,7 +11,7 @@ ClientActionWriter::ClientActionWriter(DataWriter^ dataWriter)
 	this->dataWriter = dataWriter;
 }
 
-ClientAction ClientActionWriter::WriteClientAction(ClientAction action)
+void ClientActionWriter::WriteClientAction(ClientAction action)
 {
 	// Write event type.
 	this->dataWriter->WriteInt32(action.actionType);

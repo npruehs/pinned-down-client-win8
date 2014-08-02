@@ -15,7 +15,7 @@ namespace PinnedDownClient
 			public:
 				ClientActionWriter(DataWriter^ dataWriter);
 
-				ClientAction WriteClientAction(ClientAction action);
+				void WriteClientAction(ClientAction action);
 
 			private:
 				DataWriter^ dataWriter;
