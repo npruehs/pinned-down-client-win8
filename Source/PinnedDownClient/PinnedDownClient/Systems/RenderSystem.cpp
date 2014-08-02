@@ -88,7 +88,7 @@ void RenderSystem::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
 	{
 		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityInitialized(entityRemovedEvent.entityId);
+		this->OnEntityRemoved(entityRemovedEvent.entityId);
 	}
 }
 
