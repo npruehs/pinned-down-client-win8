@@ -29,7 +29,7 @@ using namespace Windows::Storage::Streams;
 
 #define PINNED_DOWN_SERVER_HOST "localhost"
 #define PINNED_DOWN_SERVER_PORT "27015"
-
+#define REQUIRES_AUTH
 
 NetworkSystem::NetworkSystem()
 {
@@ -79,12 +79,14 @@ void NetworkSystem::InitSocket()
 
 	storeTask.then([this](void)
 	{
+#ifdef REQUIRES_AUTH
 		auto client = PinnedDownClient::Services::PinnedDownMobileService::GetClient();
 		return client.login(azure::mobile::facebook);
 	}).then([this](azure::mobile::user authUser)
 	{
 		if (authUser.is_authenticated())
 		{
+#endif
 			this->connected = true;
 			this->user = authUser;
 
@@ -105,6 +107,7 @@ void NetworkSystem::InitSocket()
 
 			// Start receive loop.
 			this->RecvPacketLoop();
+#ifdef REQUIRES_AUTH
 		}
 		else
 		{
@@ -112,6 +115,7 @@ void NetworkSystem::InitSocket()
 			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"You must authenticate yourself in order to play Pinned Down.");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
+#endif
 	}).then([this](task<void> t)
 	{
 		try
