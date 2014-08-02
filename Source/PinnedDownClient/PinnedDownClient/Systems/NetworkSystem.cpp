@@ -29,7 +29,7 @@ using namespace Windows::Storage::Streams;
 
 #define PINNED_DOWN_SERVER_HOST "localhost"
 #define PINNED_DOWN_SERVER_PORT "27015"
-#define REQUIRES_AUTH
+//#define REQUIRES_AUTH
 
 NetworkSystem::NetworkSystem()
 {
@@ -86,10 +86,10 @@ void NetworkSystem::InitSocket()
 	{
 		if (authUser.is_authenticated())
 		{
-#endif
+
 			this->connected = true;
 			this->user = authUser;
-
+#endif
 			// Create the DataWriter object backed by the socket stream.  When dataWriter is deleted, it will also close the underlying stream.
 			this->dataWriter = ref new DataWriter(this->clientSocket->OutputStream);
 			dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
