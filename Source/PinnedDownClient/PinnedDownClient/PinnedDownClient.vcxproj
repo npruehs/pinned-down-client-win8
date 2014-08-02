@@ -208,6 +208,7 @@
     <Image Include="Assets\Window.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actions\ConnectToServerAction.h" />
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\ColorComponent.h" />
     <ClInclude Include="Components\DepthComponent.h" />
@@ -304,6 +305,7 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actions\ConnectToServerAction.cpp" />
     <ClCompile Include="Components\BoundsComponent.cpp" />
     <ClCompile Include="Components\ColorComponent.cpp" />
     <ClCompile Include="Components\DepthComponent.cpp" />

@@ -1,11 +1,10 @@
 #include "pch.h"
 
+#include "Actions\ConnectToServerAction.h"
+
 #include "Core\PinnedDownResourceManager.h"
 
 #include "Components\TextComponent.h"
-
-#include "Events\LoginSuccessEvent.h"
-#include "Events\LoginErrorEvent.h"
 
 #include "Systems\Screens\LoginScreen.h"
 
@@ -29,9 +28,11 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game)
 {
 	Screen::InitScreen(game);
 
+	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
 
-	this->connecting = true;
+	// Start connecting to server.
+	this->DoLogin();
 }
 
 void LoginScreen::DeInitScreen()
@@ -69,7 +70,12 @@ void LoginScreen::Update(float dt)
 
 void LoginScreen::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
+	if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
+	{
+		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
+		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
 	{
 		auto loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
 		this->OnLoginError(loginErrorEvent);
@@ -84,20 +90,27 @@ void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCo
 		d2dContext.Get(),
 		L"Assets/SplashScreen.png"
 		);
+	resourceManager->LoadBitmapFromFile(
+		d2dContext.Get(),
+		L"Assets/Button.png"
+		);
 }
 
 void LoginScreen::UnloadResources()
 {
 	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
+	this->game->resourceManager->UnloadResource(L"Assets/Button.png");
 }
 
 void LoginScreen::LoadUI()
 {
+	// Status label.
 	this->statusLabel = this->uiFactory->CreateLabel(L"Connecting...");
 	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetFontSize(this->statusLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
 
+	// Logo.
 	this->splashScreen = this->uiFactory->CreateSprite(L"Assets/SplashScreen.png");
 	this->uiFactory->SetAnchor(this->splashScreen, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->splashScreen);
@@ -106,6 +119,30 @@ void LoginScreen::LoadUI()
 void LoginScreen::UnloadUI()
 {
 	this->game->entityManager->RemoveEntity(this->statusLabel);
+	this->game->entityManager->RemoveEntity(this->splashScreen);
+	this->game->entityManager->RemoveEntity(this->reconnectButton);
+	this->game->entityManager->RemoveEntity(this->reconnectLabel);
+}
+
+void LoginScreen::DoLogin()
+{
+	// Start connecting.
+	auto connectToServerAction = std::make_shared<ConnectToServerAction>();
+	this->game->eventManager->QueueEvent(connectToServerAction);
+
+	this->connecting = true;
+
+	// Hide reconnect button.
+	this->game->entityManager->RemoveEntity(this->reconnectButton);
+	this->game->entityManager->RemoveEntity(this->reconnectLabel);
+}
+
+void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
+{
+	if (entityTappedEvent.entityId == this->reconnectButton)
+	{
+		this->DoLogin();
+	}
 }
 
 void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
@@ -114,4 +151,15 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	textComponent->text = loginErrorEvent.errorMessage;
 
 	this->connecting = false;
+
+	// Add Reconnect button.
+	this->reconnectButton = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 300.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetTappable(this->reconnectButton);
+	this->uiFactory->FinishUIWidget(this->reconnectButton);
+
+	this->reconnectLabel = this->uiFactory->CreateLabel(L"Reconnect");
+	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
+	this->uiFactory->SetFontSize(this->reconnectLabel, 18.0f);
+	this->uiFactory->FinishUIWidget(this->reconnectLabel);
 }

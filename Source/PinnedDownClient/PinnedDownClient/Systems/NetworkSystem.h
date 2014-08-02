@@ -3,8 +3,8 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
+#include "Actions\ConnectToServerAction.h"
 #include "Events\PointerPressedEvent.h"
-#include "Events\ScreenChangedEvent.h"
 
 #include "Services\MobileServices\PinnedDownMobileService.h"
 
@@ -46,7 +46,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnScreenChanged(ScreenChangedEvent& screenChangedEvent);
+			void OnConnectToServer();
 			void OnPointerPressed(PointerPressedEvent& pointerPressedEvent);
 
 			void InitSocket();

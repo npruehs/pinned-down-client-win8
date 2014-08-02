@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Events\EntityTappedEvent.h"
 #include "Events\LoginErrorEvent.h"
 
 #include "Systems\Screens\Screen.h"
@@ -33,12 +34,17 @@ namespace PinnedDownClient
 			private:
 				int splashScreen;
 				int statusLabel;
+				int reconnectButton;
+				int reconnectLabel;
 
 				bool connecting;
 				float totalTime;
 
 				void OnEvent(Event & event);
 
+				void DoLogin();
+
+				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnLoginError(LoginErrorEvent& loginErrorEvent);
 			};
 		}
