@@ -79,10 +79,10 @@ void NetworkSystem::InitSocket()
 	{
 		if (authUser.is_authenticated())
 		{
-
-			this->connected = true;
 			this->user = authUser;
 #endif
+			this->connected = true;
+
 			// Create the DataWriter object backed by the socket stream.  When dataWriter is deleted, it will also close the underlying stream.
 			this->dataWriter = ref new DataWriter(this->clientSocket->OutputStream);
 			dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
