@@ -138,7 +138,7 @@ void UILayoutSystem::Update(float dt)
 		std::shared_ptr<ScreenPositionComponent> targetPosition;
 		std::shared_ptr<BoundsComponent> targetBounds;
 
-		if (anchor.anchorComponent->target != 0)
+		if (anchor.anchorComponent->target != INVALID_ENTITY_ID)
 		{
 			targetPosition = this->game->entityManager->GetComponent<ScreenPositionComponent>(anchor.anchorComponent->target, ScreenPositionComponent::ScreenPositionComponentType);
 			targetBounds = this->game->entityManager->GetComponent<BoundsComponent>(anchor.anchorComponent->target, BoundsComponent::BoundsComponentType);

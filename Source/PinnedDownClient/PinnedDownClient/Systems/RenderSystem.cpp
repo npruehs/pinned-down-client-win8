@@ -216,7 +216,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		label->textComponent = textComponent;
 		label->visibilityComponent = visibilityComponent;
 
-		if (widgetComponent->panel != 0)
+		if (widgetComponent->panel != INVALID_ENTITY_ID)
 		{
 			label->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
 			label->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
@@ -240,7 +240,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 		sprite->spriteComponent = spriteComponent;
 		sprite->visibilityComponent = visibilityComponent;
 
-		if (widgetComponent->panel != 0)
+		if (widgetComponent->panel != INVALID_ENTITY_ID)
 		{
 			sprite->panelDepthComponent = this->game->entityManager->GetComponent<DepthComponent>(widgetComponent->panel, DepthComponent::DepthComponentType);
 			sprite->panelVisibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(widgetComponent->panel, VisibilityComponent::VisibilityComponentType);
