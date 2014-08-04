@@ -10,13 +10,12 @@
 #include "Systems\SoundSystem.h"
 #include "Util\DirectXUtils.h"
 #include "Events\PointerPressedEvent.h"
-#include "Core\PinnedDownResourceManager.h"
-#include "Core\Resources\AudioResourceHandle.h"
+#include "Resources\PinnedDownResourceManager.h"
+#include "Resources\AudioResourceHandle.h"
 
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Events;
-using namespace PinnedDownClient::Core;
-using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
 // Sample rate used for mastering voices the your game. Depends on factors such as asset sample rates and performance considerations.

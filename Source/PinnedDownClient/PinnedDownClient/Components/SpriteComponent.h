@@ -3,9 +3,9 @@
 #include "pch.h"
 #include <string>
 #include "EntityComponent.h"
-#include "Core\Resources\BitmapResourceHandle.h"
+#include "Resources\BitmapResourceHandle.h"
 
-using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownCore;
 
 namespace PinnedDownClient

@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "FileLogger.h"
 
-using namespace PinnedDownCore;
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Util;
 
 FileLogger::FileLogger(LogLevel logLevel, const wchar_t* const logFileName) : Logger(logLevel)
 {

@@ -2,7 +2,6 @@
 #include "GameException.h"
 #include "Util\StringUtils.h"
 
-using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Util;
 
 GameException::GameException(const char *msg) : runtime_error(msg)

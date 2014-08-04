@@ -8,7 +8,7 @@ using namespace Microsoft::WRL;
 
 namespace PinnedDownClient
 {
-	namespace Core
+	namespace Resources
 	{
 		class PinnedDownResourceManager : public ResourceManager
 		{

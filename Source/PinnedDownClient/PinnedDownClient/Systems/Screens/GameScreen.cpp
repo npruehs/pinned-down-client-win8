@@ -1,9 +1,9 @@
 
 #include "pch.h"
 #include "Systems\Screens\GameScreen.h"
-#include "Core\PinnedDownResourceManager.h"
+#include "Resources\PinnedDownResourceManager.h"
 
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
 
 GameScreen::GameScreen()

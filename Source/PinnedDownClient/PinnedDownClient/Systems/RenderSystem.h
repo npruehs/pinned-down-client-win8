@@ -11,7 +11,7 @@
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
-#include "Core\Resources\BitmapResourceHandle.h"
+#include "Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
 #include "Rendering\IRenderable.h"
 #include "UI\Sprite.h"
@@ -20,9 +20,8 @@
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
 
-using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Math;
-using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::UI;
 

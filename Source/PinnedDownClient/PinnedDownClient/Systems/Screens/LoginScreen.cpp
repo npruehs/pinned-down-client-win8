@@ -2,15 +2,15 @@
 
 #include "Actions\ConnectToServerAction.h"
 
-#include "Core\PinnedDownResourceManager.h"
-
 #include "Components\TextComponent.h"
+
+#include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\Screens\LoginScreen.h"
 
 
-using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
 
 

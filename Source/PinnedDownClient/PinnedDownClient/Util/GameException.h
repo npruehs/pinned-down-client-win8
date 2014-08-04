@@ -6,7 +6,7 @@ using namespace std;
 
 namespace PinnedDownClient
 {
-	namespace Core
+	namespace Util
 	{
 		class GameException : public runtime_error
 		{

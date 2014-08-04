@@ -20,10 +20,10 @@
 #include "Events\RenderTargetChangedEvent.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Systems;
-using namespace PinnedDownClient::Math;
-using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Math;
+using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
 

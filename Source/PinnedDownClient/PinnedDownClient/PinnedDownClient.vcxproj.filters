@@ -23,9 +23,6 @@
     <Image Include="Assets\SplashScreen.png">
       <Filter>Assets</Filter>
     </Image>
-    <Filter Include="Core">
-      <UniqueIdentifier>{ba9eecaf-1b9a-46c4-af87-62b8ac48f6b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{ed8f45ab-a472-4d7b-b562-2017dabbf3d4}</UniqueIdentifier>
     </Filter>
@@ -37,9 +34,6 @@
     </Filter>
     <Filter Include="Systems\Rendering">
       <UniqueIdentifier>{adc9564f-2c48-4edc-927b-4e772b90935a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Resources">
-      <UniqueIdentifier>{9a4a6d05-5a94-48ee-9860-8182db7a13f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Lua">
       <UniqueIdentifier>{258960eb-ab43-42f5-bd13-ac2ccdb3e48d}</UniqueIdentifier>
@@ -67,6 +61,9 @@
     </Filter>
     <Filter Include="Actions">
       <UniqueIdentifier>{d6d407d8-b70e-441a-b177-e1745fb7b07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{17c2a5d2-6a32-4911-b2b4-19ef990963f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +111,6 @@
     </ClCompile>
     <ClCompile Include="Events\PointerMovedEvent.cpp">
       <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Resources\BitmapResourceHandle.cpp">
-      <Filter>Core\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Lua\lapi.c">
       <Filter>Lua</Filter>
@@ -220,23 +214,14 @@
     <ClCompile Include="Lua\lzio.c">
       <Filter>Lua</Filter>
     </ClCompile>
-    <ClCompile Include="Core\GameException.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\LuaScriptSystem.cpp">
       <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\FileLogger.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Events\EventLogger.cpp">
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="Systems\SoundSystem.cpp">
       <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Resources\AudioResourceHandle.cpp">
-      <Filter>Core\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Systems\DebugInfoSystem.cpp">
       <Filter>Systems</Filter>
@@ -316,9 +301,6 @@
     <ClCompile Include="Events\LoginSuccessEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Core\PinnedDownResourceManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Network\ServerEventReader.cpp">
       <Filter>Systems\Network</Filter>
     </ClCompile>
@@ -331,15 +313,27 @@
     <ClCompile Include="Actions\ConnectToServerAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="Util\FileLogger.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\GameException.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\AudioResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\BitmapResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\PinnedDownResourceManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\GameException.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Events\AppWindowChangedEvent.h">
       <Filter>Events</Filter>
@@ -383,9 +377,6 @@
     </ClInclude>
     <ClInclude Include="Util\MemoryUtils.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Resources\BitmapResourceHandle.h">
-      <Filter>Core\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Lua\lapi.h">
       <Filter>Lua</Filter>
@@ -468,9 +459,6 @@
     <ClInclude Include="Util\StringUtils.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Core\FileLogger.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Events\EventLogger.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -485,9 +473,6 @@
     </ClInclude>
     <ClInclude Include="Systems\SoundSystem.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Resources\AudioResourceHandle.h">
-      <Filter>Core\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Util\DirectXUtils.h">
       <Filter>Util</Filter>
@@ -597,9 +582,6 @@
     <ClInclude Include="Events\LoginSuccessEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Core\PinnedDownResourceManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Network\ServerEventReader.h">
       <Filter>Systems\Network</Filter>
     </ClInclude>
@@ -611,6 +593,21 @@
     </ClInclude>
     <ClInclude Include="Actions\ConnectToServerAction.h">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\FileLogger.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\GameException.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\AudioResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\BitmapResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\PinnedDownResourceManager.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

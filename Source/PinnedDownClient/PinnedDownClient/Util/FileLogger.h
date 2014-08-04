@@ -10,7 +10,7 @@ using namespace concurrency;
 
 namespace PinnedDownClient
 {
-	namespace Core
+	namespace Util
 	{
 		class FileLogger : public Logger
 		{

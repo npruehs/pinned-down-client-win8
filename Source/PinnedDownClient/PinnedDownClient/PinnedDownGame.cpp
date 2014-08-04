@@ -2,8 +2,7 @@
 #include "PinnedDownGame.h"
 #include "Events\AppWindowChangedEvent.h"
 
-#include "Core\PinnedDownResourceManager.h"
-#include "Core\FileLogger.h"
+#include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\RenderSystem.h"
 #include "Systems\LuaScriptSystem.h"
@@ -14,12 +13,15 @@
 #include "Systems\NetworkSystem.h"
 #include "Systems\ScreenSystem.h"
 
+#include "Util\FileLogger.h"
+
 using namespace Concurrency;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
 
 using namespace PinnedDownClient;
-using namespace PinnedDownClient::Core;
+using namespace PinnedDownClient::Resources;
+using namespace PinnedDownClient::Util;
 
 // Loads and initializes application assets when the application is loaded.
 PinnedDownGame::PinnedDownGame()
@@ -31,7 +33,7 @@ PinnedDownGame::PinnedDownGame()
 	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
 	this->game->logger->Info(L"Logger initialized.");
 
-	this->game->resourceManager = std::unique_ptr<ResourceManager>(new Core::PinnedDownResourceManager());
+	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager());
 	this->game->logger->Info(L"Resource manager initialized.");
 
 	// Init systems.

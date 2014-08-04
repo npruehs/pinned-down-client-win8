@@ -2,8 +2,8 @@
 #include "PinnedDownResourceManager.h"
 #include "Util\DirectXUtils.h"
 #include "Util\MemoryUtils.h"
-#include "Core\Resources\BitmapResourceHandle.h"
-#include "Core\Resources\AudioResourceHandle.h"
+#include "Resources\BitmapResourceHandle.h"
+#include "Resources\AudioResourceHandle.h"
 
 #include <mfidl.h>
 #include <mfapi.h>
@@ -11,8 +11,7 @@
 
 using namespace Windows::ApplicationModel;
 
-using namespace PinnedDownClient::Core;
-using namespace PinnedDownClient::Core::Resources;
+using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
 PinnedDownResourceManager::PinnedDownResourceManager()
