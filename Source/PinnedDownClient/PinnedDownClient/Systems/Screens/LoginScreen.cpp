@@ -120,8 +120,12 @@ void LoginScreen::UnloadUI()
 {
 	this->game->entityManager->RemoveEntity(this->statusLabel);
 	this->game->entityManager->RemoveEntity(this->splashScreen);
-	this->game->entityManager->RemoveEntity(this->reconnectButton);
-	this->game->entityManager->RemoveEntity(this->reconnectLabel);
+
+	if (this->showReconnectUI)
+	{
+		this->game->entityManager->RemoveEntity(this->reconnectButton);
+		this->game->entityManager->RemoveEntity(this->reconnectLabel);
+	}
 }
 
 void LoginScreen::DoLogin()
@@ -133,8 +137,13 @@ void LoginScreen::DoLogin()
 	this->connecting = true;
 
 	// Hide reconnect button.
-	this->game->entityManager->RemoveEntity(this->reconnectButton);
-	this->game->entityManager->RemoveEntity(this->reconnectLabel);
+	if (this->showReconnectUI)
+	{
+		this->game->entityManager->RemoveEntity(this->reconnectButton);
+		this->game->entityManager->RemoveEntity(this->reconnectLabel);
+
+		this->showReconnectUI = false;
+	}
 }
 
 void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
@@ -162,4 +171,6 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
 	this->uiFactory->SetFontSize(this->reconnectLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->reconnectLabel);
+
+	this->showReconnectUI = true;
 }

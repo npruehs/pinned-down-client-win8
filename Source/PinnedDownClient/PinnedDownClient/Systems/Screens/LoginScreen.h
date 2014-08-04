@@ -38,6 +38,8 @@ namespace PinnedDownClient
 				int reconnectLabel = INVALID_ENTITY_ID;
 
 				bool connecting = false;
+				bool showReconnectUI = false;
+
 				float totalTime = 0.0f;
 
 				void OnEvent(Event & event);
