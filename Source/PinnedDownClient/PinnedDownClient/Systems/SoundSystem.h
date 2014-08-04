@@ -39,8 +39,8 @@ namespace PinnedDownClient
 			std::vector<BYTE> musicData;
 
 			// Whether audio is currently playing, or not.
-			bool soundPlaying;
-			bool musicPlaying;
+			bool soundPlaying = false;
+			bool musicPlaying = false;
 
 			// Critical section to prevent thread contention with callbacks.
 			std::mutex criticalSection;

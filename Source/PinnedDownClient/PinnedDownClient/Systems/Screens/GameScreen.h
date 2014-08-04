@@ -22,13 +22,13 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int panel1;
-				int window1;
-				int button1;
-				int panel2;
-				int window2;
-				int button2;
-				int longLabel;
+				int panel1 = INVALID_ENTITY_ID;
+				int window1 = INVALID_ENTITY_ID;
+				int button1 = INVALID_ENTITY_ID;
+				int panel2 = INVALID_ENTITY_ID;
+				int window2 = INVALID_ENTITY_ID;
+				int button2 = INVALID_ENTITY_ID;
+				int longLabel = INVALID_ENTITY_ID;
 			};
 		}
 	}

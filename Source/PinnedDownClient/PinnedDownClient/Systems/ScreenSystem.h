@@ -39,7 +39,7 @@ namespace PinnedDownClient
 			void OnLoginSuccess();
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
 			
-			void SetScreen(Screen* newScreen);
+			void SetScreen(std::shared_ptr<Screen> newScreen);
 			void RefreshScreen();
 		};
 	}

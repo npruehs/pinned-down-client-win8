@@ -81,7 +81,7 @@ void PinnedDownResourceManager::LoadBitmapFromFile(
 		);
 
 	// Add to resource map.
-	ResHandlePtr handle = ResHandlePtr(new BitmapResourceHandle(imageUri, bitmap));
+	ResHandlePtr handle = std::make_shared<BitmapResourceHandle>(imageUri, bitmap);
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 
 	// Release resources.
@@ -122,7 +122,7 @@ void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audi
 	ThrowIfFailed(MFCreateWaveFormatExFromMFMediaType(outputMediaType.Get(), &waveFormat, &formatByteCount));
 
 	// Buffer the sound data in-memory.
-	std::vector<BYTE>* resultData = new std::vector<BYTE>();
+	std::shared_ptr<std::vector<BYTE>> resultData = std::make_shared<std::vector<BYTE>>();
 
 	for (;;)
 	{
@@ -170,7 +170,7 @@ void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audi
 	}
 
 	// Add to resource map.
-	ResHandlePtr handle = ResHandlePtr(new AudioResourceHandle(audioUri, waveFormat, resultData));
+	ResHandlePtr handle = std::make_shared<AudioResourceHandle>(audioUri, waveFormat, resultData);
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 }
 

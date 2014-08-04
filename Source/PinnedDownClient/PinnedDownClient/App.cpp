@@ -110,7 +110,7 @@ void App::Load(Platform::String^ entryPoint)
 	this->game = std::unique_ptr<PinnedDownGame>(new PinnedDownGame());
 
 	// Pass window to game.
-	auto appWindowChangedEvent = std::shared_ptr<Events::AppWindowChangedEvent>(new Events::AppWindowChangedEvent(this->coreWindow));
+	auto appWindowChangedEvent = std::make_shared<Events::AppWindowChangedEvent>(this->coreWindow);
 	this->game->GetGame()->eventManager->QueueEvent(appWindowChangedEvent);
 }
 
@@ -157,7 +157,7 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
     create_task([this, deferral]()
     {
 		// Allow subsystems to save their state.
-		auto appSuspendingEvent = std::shared_ptr<Events::AppSuspendingEvent>(new Events::AppSuspendingEvent());
+		auto appSuspendingEvent = std::make_shared<Events::AppSuspendingEvent>();
 		this->game->GetGame()->eventManager->RaiseEvent(appSuspendingEvent);
 
         deferral->Complete();
@@ -169,7 +169,7 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
     // Restore any data or state that was unloaded on suspend. By default, data
     // and state are persisted when resuming from suspend. Note that this event
     // does not occur if the app was previously terminated.
-	auto appResumingEvent = std::shared_ptr<Events::AppResumingEvent>(new Events::AppResumingEvent());
+	auto appResumingEvent = std::make_shared<Events::AppResumingEvent>();
 	this->game->GetGame()->eventManager->RaiseEvent(appResumingEvent);
 }
 
@@ -181,7 +181,7 @@ void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ ar
 	float height = sender->Bounds.Height;
 
 	// Notify subsystems.
-	auto appWindowSizeChangedEvent = std::shared_ptr<Events::AppWindowSizeChangedEvent>(new Events::AppWindowSizeChangedEvent(width, height));
+	auto appWindowSizeChangedEvent = std::make_shared<Events::AppWindowSizeChangedEvent>(width, height);
 	this->game->GetGame()->eventManager->QueueEvent(appWindowSizeChangedEvent);
 }
 
@@ -200,7 +200,7 @@ void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 	float dpi = sender->LogicalDpi;
 
 	// Notify subsystems.
-	auto displayDpiChangedEvent = std::shared_ptr<Events::DisplayDpiChangedEvent>(new Events::DisplayDpiChangedEvent(dpi));
+	auto displayDpiChangedEvent = std::make_shared<Events::DisplayDpiChangedEvent>(dpi);
 	this->game->GetGame()->eventManager->QueueEvent(displayDpiChangedEvent);
 }
 
@@ -209,14 +209,14 @@ void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 	Windows::Graphics::Display::DisplayOrientations orientation = sender->CurrentOrientation;
 
 	// Notify subsystems.
-	auto displayOrientationChangedEvent = std::shared_ptr<Events::DisplayOrientationChangedEvent>(new Events::DisplayOrientationChangedEvent(orientation));
+	auto displayOrientationChangedEvent = std::make_shared<Events::DisplayOrientationChangedEvent>(orientation);
 	this->game->GetGame()->eventManager->QueueEvent(displayOrientationChangedEvent);
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
 	// Notify subsystems.
-	auto displayContentsInvalidatedEvent = std::shared_ptr<Events::DisplayContentsInvalidatedEvent>(new Events::DisplayContentsInvalidatedEvent());
+	auto displayContentsInvalidatedEvent = std::make_shared<Events::DisplayContentsInvalidatedEvent>();
 	this->game->GetGame()->eventManager->QueueEvent(displayContentsInvalidatedEvent);
 }
 
@@ -225,7 +225,7 @@ void App::OnPointerPressed(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Wind
 	auto point = args->CurrentPoint;
 
 	// Notify subsystems.
-	auto pointerPressedEvent = std::shared_ptr<Events::PointerPressedEvent>(new Events::PointerPressedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	auto pointerPressedEvent = std::make_shared<Events::PointerPressedEvent>(point->PointerId, point->Position.X, point->Position.Y);
 	this->game->GetGame()->eventManager->QueueEvent(pointerPressedEvent);
 }
 
@@ -234,7 +234,7 @@ void App::OnPointerMoved(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Window
 	auto point = args->CurrentPoint;
 
 	// Notify subsystems.
-	auto pointerMovedEvent = std::shared_ptr<Events::PointerMovedEvent>(new Events::PointerMovedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	auto pointerMovedEvent = std::make_shared<Events::PointerMovedEvent>(point->PointerId, point->Position.X, point->Position.Y);
 	this->game->GetGame()->eventManager->QueueEvent(pointerMovedEvent);
 }
 
@@ -243,6 +243,6 @@ void App::OnPointerReleased(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Win
 	auto point = args->CurrentPoint;
 
 	// Notify subsystems.
-	auto pointerReleasedEvent = std::shared_ptr<Events::PointerReleasedEvent>(new Events::PointerReleasedEvent(point->PointerId, point->Position.X, point->Position.Y));
+	auto pointerReleasedEvent = std::make_shared<Events::PointerReleasedEvent>(point->PointerId, point->Position.X, point->Position.Y);
 	this->game->GetGame()->eventManager->QueueEvent(pointerReleasedEvent);
 }

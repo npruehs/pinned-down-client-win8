@@ -171,6 +171,6 @@ void UIFactory::SetTappable(int entityId)
 
 void UIFactory::FinishUIWidget(int entityId)
 {
-	auto entityInitializedEvent = std::shared_ptr<Events::EntityInitializedEvent>(new Events::EntityInitializedEvent(entityId));
+	auto entityInitializedEvent = std::make_shared<Events::EntityInitializedEvent>(entityId);
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
 }

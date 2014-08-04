@@ -56,7 +56,7 @@ void ScreenSystem::OnEvent(Event & newEvent)
 void ScreenSystem::OnLoginSuccess()
 {
 	// Switch to game screen.
-	this->SetScreen(new GameScreen());
+	this->SetScreen(std::make_shared<GameScreen>());
 }
 
 void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent)
@@ -64,10 +64,10 @@ void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetCh
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
 
 	// Show first screen.
-	this->SetScreen(new LoginScreen());
+	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
-void ScreenSystem::SetScreen(Screen* newScreen)
+void ScreenSystem::SetScreen(std::shared_ptr<Screen> newScreen)
 {
 	if (this->currentScreen != nullptr)
 	{
@@ -76,7 +76,7 @@ void ScreenSystem::SetScreen(Screen* newScreen)
 		this->currentScreen->DeInitScreen();
 	}
 
-	this->currentScreen = std::shared_ptr<Screen>(newScreen);
+	this->currentScreen = newScreen;
 
 	if (this->currentScreen != nullptr)
 	{

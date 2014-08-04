@@ -36,9 +36,9 @@ namespace PinnedDownClient
 			std::shared_ptr<UIFactory> uiFactory;
 			std::shared_ptr<StepTimer> timer;
 
-			int pointerPositionTextEntity;
-			int fpsTextEntity;
-			int versionTextEntity;
+			int pointerPositionTextEntity = INVALID_ENTITY_ID;
+			int fpsTextEntity = INVALID_ENTITY_ID;
+			int versionTextEntity = INVALID_ENTITY_ID;
 
 			void CreateEntities();
 

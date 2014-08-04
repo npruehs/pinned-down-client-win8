@@ -6,7 +6,7 @@ using namespace PinnedDownClient::Core;
 using namespace PinnedDownClient::Core::Resources;
 using namespace PinnedDownClient::Util;
 
-AudioResourceHandle::AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX* waveFormat, std::vector<BYTE>* audioBuffer)
+AudioResourceHandle::AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX* waveFormat, std::shared_ptr<std::vector<BYTE>> audioBuffer)
 	: ResourceHandle(resourceName)
 {
 	this->waveFormat = waveFormat;
@@ -16,5 +16,4 @@ AudioResourceHandle::AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX
 AudioResourceHandle::~AudioResourceHandle()
 {
 	CoTaskMemFree(waveFormat);
-	delete this->audioBuffer;
 }

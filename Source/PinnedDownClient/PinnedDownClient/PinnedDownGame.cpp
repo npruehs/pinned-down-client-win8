@@ -35,21 +35,20 @@ PinnedDownGame::PinnedDownGame()
 	this->game->logger->Info(L"Resource manager initialized.");
 
 	// Init systems.
-	this->game->systemManager->AddSystem(new Systems::RenderSystem());
-	this->game->systemManager->AddSystem(new Systems::LuaScriptSystem());
-	this->game->systemManager->AddSystem(new Systems::SoundSystem());
-	this->game->systemManager->AddSystem(new Systems::DebugInfoSystem());
-	this->game->systemManager->AddSystem(new Systems::UILayoutSystem());
-	this->game->systemManager->AddSystem(new Systems::UIInteractionSystem());
-	this->game->systemManager->AddSystem(new Systems::NetworkSystem());
-	this->game->systemManager->AddSystem(new Systems::ScreenSystem());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::RenderSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::LuaScriptSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::DebugInfoSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::UILayoutSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::UIInteractionSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::NetworkSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::ScreenSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->Info(L"Game initialized.");
 
 	// Setup event logger.
-	EventLogger* eventLogger = new Events::EventLogger(this->game);
-	this->eventLogger = std::shared_ptr<Events::EventLogger>();
+	this->eventLogger = std::make_shared<Events::EventLogger>(this->game);
 }
 
 PinnedDownGame::~PinnedDownGame()

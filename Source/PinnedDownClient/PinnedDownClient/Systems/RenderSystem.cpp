@@ -448,7 +448,7 @@ void RenderSystem::SetRenderTarget()
 	this->d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 
 	// Notify listeners.
-	auto renderTargetChangedEvent = std::shared_ptr<Events::RenderTargetChangedEvent>(new Events::RenderTargetChangedEvent(this->d2dContext));
+	auto renderTargetChangedEvent = std::make_shared<Events::RenderTargetChangedEvent>(this->d2dContext);
 	this->game->eventManager->RaiseEvent(renderTargetChangedEvent);
 }
 
@@ -689,7 +689,7 @@ void RenderSystem::OnDeviceLost()
 
 	// Notify the renderers that device resources need to be released.
 	// This ensures all references to the existing swap chain are released so that a new one can be created.
-	auto graphicsDeviceLostEvent = std::shared_ptr<Events::GraphicsDeviceLostEvent>(new Events::GraphicsDeviceLostEvent());
+	auto graphicsDeviceLostEvent = std::make_shared<Events::GraphicsDeviceLostEvent>();
 	this->game->eventManager->RaiseEvent(graphicsDeviceLostEvent);
 
 	// Create the new device and swap chain.
@@ -698,7 +698,7 @@ void RenderSystem::OnDeviceLost()
 	this->CreateWindowSizeDependentResources();
 
 	// Notify the renderers that resources can now be created again.
-	auto graphicsDeviceRestoredEvent = std::shared_ptr<Events::GraphicsDeviceRestoredEvent>(new Events::GraphicsDeviceRestoredEvent());
+	auto graphicsDeviceRestoredEvent = std::make_shared<Events::GraphicsDeviceRestoredEvent>();
 	this->game->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
 }
 

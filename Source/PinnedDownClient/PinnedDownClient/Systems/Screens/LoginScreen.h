@@ -32,13 +32,13 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int splashScreen;
-				int statusLabel;
-				int reconnectButton;
-				int reconnectLabel;
+				int splashScreen = INVALID_ENTITY_ID;
+				int statusLabel = INVALID_ENTITY_ID;
+				int reconnectButton = INVALID_ENTITY_ID;
+				int reconnectLabel = INVALID_ENTITY_ID;
 
-				bool connecting;
-				float totalTime;
+				bool connecting = false;
+				float totalTime = 0.0f;
 
 				void OnEvent(Event & event);
 

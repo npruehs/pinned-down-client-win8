@@ -79,8 +79,8 @@ namespace PinnedDownClient
 
 			Vector2F logicalWindowSize;
 			Vector2F windowScale;
-			float logicalDpi;
-			DisplayOrientations displayOrientation;
+			float logicalDpi = 0.0f;
+			DisplayOrientations displayOrientation = DisplayOrientations::None;
 
 			std::list<std::shared_ptr<Rendering::IRenderable>> renderables;
 
