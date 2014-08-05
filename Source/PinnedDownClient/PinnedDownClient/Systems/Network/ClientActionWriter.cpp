@@ -16,7 +16,7 @@ void ClientActionWriter::WriteClientAction(Event& clientAction)
 	// Convert event to bytes.
 	std::ostrstream	out;
 
-	out << clientAction.GetEventType().getString() << " ";
+	out << clientAction.GetEventType().GetString() << " ";
 	clientAction.Serialize(out);
 	out << "\r\n";
 

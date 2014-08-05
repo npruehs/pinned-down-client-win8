@@ -82,7 +82,7 @@ void PinnedDownResourceManager::LoadBitmapFromFile(
 
 	// Add to resource map.
 	ResHandlePtr handle = std::make_shared<BitmapResourceHandle>(WStringToString(imageUri), bitmap);
-	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
+	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->GetHash(), handle));
 
 	// Release resources.
 	SafeRelease(&decoder);
@@ -171,7 +171,7 @@ void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audi
 
 	// Add to resource map.
 	ResHandlePtr handle = std::make_shared<AudioResourceHandle>(WStringToString(audioUri), waveFormat, resultData);
-	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
+	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->GetHash(), handle));
 }
 
 Platform::Array<byte>^ PinnedDownResourceManager::ReadBytes(Platform::String^ fileName)
