@@ -21,7 +21,7 @@ void ClientActionWriter::WriteClientAction(Event& clientAction)
 	out << "\r\n";
 
 	auto buffer = out.rdbuf()->str();
-	int count = out.pcount();
+	int count = (int)out.pcount();
 
 	BYTE* byteBuffer = reinterpret_cast<BYTE*>(buffer);
 	UINT byteCount = (UINT)count;

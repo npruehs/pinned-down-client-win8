@@ -279,6 +279,7 @@
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\NetworkSystem.h" />
     <ClInclude Include="Systems\Network\ClientActionWriter.h" />
+    <ClInclude Include="Systems\Network\ClientActionDispatcher.h" />
     <ClInclude Include="Systems\Network\ServerEventReader.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
@@ -558,6 +559,7 @@
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
     <ClCompile Include="Systems\Network\ClientActionWriter.cpp" />
+    <ClCompile Include="Systems\Network\ClientActionDispatcher.cpp" />
     <ClCompile Include="Systems\Network\ServerEventReader.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\Screens\GameScreen.cpp" />

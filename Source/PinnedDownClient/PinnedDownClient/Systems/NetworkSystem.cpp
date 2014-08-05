@@ -91,6 +91,7 @@ void NetworkSystem::InitSocket()
 			dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
 			dataWriter->ByteOrder = ByteOrder::LittleEndian;
 			this->clientActionWriter = std::make_shared<ClientActionWriter>(this->dataWriter);
+			this->clientActionDispatcher = std::make_shared<ClientActionDispatcher>(this->game, this->clientActionWriter);
 
 			this->dataReader = ref new DataReader(this->clientSocket->InputStream);
 			dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
@@ -169,5 +170,5 @@ void NetworkSystem::SendPacket()
 	}
 
 	auto endTurnAction = std::make_shared<EndTurnAction>();
-	this->clientActionWriter->WriteClientAction(*endTurnAction);
+	this->game->eventManager->QueueEvent(endTurnAction);
 }

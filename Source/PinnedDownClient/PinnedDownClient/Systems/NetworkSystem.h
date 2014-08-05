@@ -10,7 +10,7 @@
 
 #include "Systems\Network\ServerEventReader.h"
 #include "Systems\Network\ClientActionWriter.h"
-
+#include "Systems\Network\ClientActionDispatcher.h"
 
 using namespace Windows::Networking;
 using namespace Windows::Networking::Sockets;
@@ -40,6 +40,7 @@ namespace PinnedDownClient
 			DataReader^ dataReader;
 			std::shared_ptr<ServerEventReader> serverEventReader;
 			std::shared_ptr<ClientActionWriter> clientActionWriter;
+			std::shared_ptr<ClientActionDispatcher> clientActionDispatcher;
 			azure::mobile::user user;
 
 			bool connected = false;
