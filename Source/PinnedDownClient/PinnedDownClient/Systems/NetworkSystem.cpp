@@ -148,9 +148,12 @@ void NetworkSystem::RecvPacketLoop()
 				// Read server event.
 				auto serverEvent = this->serverEventReader->ReadServerEvent(bytesLoaded);
 
-				// Pass to game.
-				this->game->eventManager->QueueEvent(serverEvent);
-
+				if (serverEvent != nullptr)
+				{
+					// Pass to game.
+					this->game->eventManager->QueueEvent(serverEvent);
+				}
+				
 				// Wait for next packet.
 				this->RecvPacketLoop();
 			}

@@ -3,6 +3,7 @@
 #include "ServerEventReader.h"
 
 #include "Events\LoginSuccessEvent.h"
+#include "Events\CoveredDistanceChangedEvent.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
@@ -34,6 +35,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		loginSuccessEvent->Deserialize(in);
 		return loginSuccessEvent;
+	}
+	else if (hashedEventType == CoveredDistanceChangedEvent::CoveredDistanceChangedEventType)
+	{
+		auto coveredDistanceChangedEvent = std::make_shared<CoveredDistanceChangedEvent>();
+		coveredDistanceChangedEvent->Deserialize(in);
+		return coveredDistanceChangedEvent;
 	}
 
 	return nullptr;

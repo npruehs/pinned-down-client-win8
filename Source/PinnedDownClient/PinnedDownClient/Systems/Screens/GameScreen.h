@@ -1,6 +1,11 @@
 #pragma once
 
+#include "Events\CoveredDistanceChangedEvent.h"
+
 #include "Systems\Screens\Screen.h"
+
+using namespace PinnedDownNet::Events;
+
 
 namespace PinnedDownClient
 {
@@ -8,10 +13,13 @@ namespace PinnedDownClient
 	{
 		namespace Screens
 		{
-			class GameScreen : public Screen
+			class GameScreen : public Screen, public IEventListener
 			{
 			public:
 				GameScreen();
+
+				void InitScreen(PinnedDownCore::Game* game);
+				void DeInitScreen();
 
 				void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext);
 				void UnloadResources();
@@ -22,13 +30,11 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int panel1 = INVALID_ENTITY_ID;
-				int window1 = INVALID_ENTITY_ID;
-				int button1 = INVALID_ENTITY_ID;
-				int panel2 = INVALID_ENTITY_ID;
-				int window2 = INVALID_ENTITY_ID;
-				int button2 = INVALID_ENTITY_ID;
-				int longLabel = INVALID_ENTITY_ID;
+				int distanceLabel = INVALID_ENTITY_ID;
+
+				void OnEvent(Event & event);
+
+				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
 			};
 		}
 	}
