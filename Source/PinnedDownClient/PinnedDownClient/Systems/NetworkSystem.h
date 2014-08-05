@@ -4,7 +4,6 @@
 #include "GameSystem.h"
 
 #include "Actions\ConnectToServerAction.h"
-#include "Events\PointerPressedEvent.h"
 
 #include "Services\MobileServices\PinnedDownMobileService.h"
 
@@ -48,10 +47,8 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void OnConnectToServer();
-			void OnPointerPressed(PointerPressedEvent& pointerPressedEvent);
 
 			void InitSocket();
-			void SendPacket();
 
 			void RecvPacketLoop();
 		};

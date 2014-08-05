@@ -40,7 +40,6 @@ void NetworkSystem::InitSystem(PinnedDownCore::Game* game)
 	GameSystem::InitSystem(game);
 
 	this->game->eventManager->AddListener(this, ConnectToServerAction::ConnectToServerActionType);
-	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 }
 
 void NetworkSystem::OnEvent(Event & newEvent)
@@ -49,16 +48,6 @@ void NetworkSystem::OnEvent(Event & newEvent)
 	{
 		this->OnConnectToServer();
 	}
-	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
-	{
-		auto pointerPressedEvent = static_cast<PointerPressedEvent&>(newEvent);
-		this->OnPointerPressed(pointerPressedEvent);
-	}
-}
-
-void NetworkSystem::OnPointerPressed(PointerPressedEvent& pointerPressedEvent)
-{
-	this->SendPacket();
 }
 
 void NetworkSystem::OnConnectToServer()
@@ -163,15 +152,4 @@ void NetworkSystem::RecvPacketLoop()
 			}
 		});
 	}
-}
-
-void NetworkSystem::SendPacket()
-{
-	if (!this->connected)
-	{
-		return;
-	}
-
-	auto endTurnAction = std::make_shared<EndTurnAction>();
-	this->game->eventManager->QueueEvent(endTurnAction);
 }

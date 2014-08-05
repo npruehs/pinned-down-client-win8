@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Events\CoveredDistanceChangedEvent.h"
+#include "Events\EntityTappedEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
 using namespace PinnedDownNet::Events;
-
+using namespace PinnedDownClient::Events;
 
 namespace PinnedDownClient
 {
@@ -31,10 +32,13 @@ namespace PinnedDownClient
 
 			private:
 				int distanceLabel = INVALID_ENTITY_ID;
+				int endTurnButton = INVALID_ENTITY_ID;
+				int endTurnLabel = INVALID_ENTITY_ID;
 
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
+				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 			};
 		}
 	}

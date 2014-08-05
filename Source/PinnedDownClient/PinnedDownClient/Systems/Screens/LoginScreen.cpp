@@ -37,6 +37,7 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game)
 
 void LoginScreen::DeInitScreen()
 {
+	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
 }
 
@@ -66,20 +67,6 @@ void LoginScreen::Update(float dt)
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->statusLabel, TextComponent::TextComponentType);
 	textComponent->text = text;
-}
-
-void LoginScreen::OnEvent(Event & newEvent)
-{
-	if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
-	{
-		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
-		this->OnEntityTapped(entityTappedEvent);
-	}
-	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
-	{
-		auto loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
-		this->OnLoginError(loginErrorEvent);
-	}
 }
 
 void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -125,6 +112,20 @@ void LoginScreen::UnloadUI()
 	{
 		this->game->entityManager->RemoveEntity(this->reconnectButton);
 		this->game->entityManager->RemoveEntity(this->reconnectLabel);
+	}
+}
+
+void LoginScreen::OnEvent(Event & newEvent)
+{
+	if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
+	{
+		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
+		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == LoginErrorEvent::LoginErrorEventType)
+	{
+		auto loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
+		this->OnLoginError(loginErrorEvent);
 	}
 }
 
