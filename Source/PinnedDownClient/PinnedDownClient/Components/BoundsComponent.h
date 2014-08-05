@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EntityComponent.h"
+#include "IEntityComponent.h"
 #include "Math\Vector2F.h"
 
 using namespace PinnedDownCore;
@@ -9,7 +9,7 @@ namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class BoundsComponent : public PinnedDownCore::EntityComponent
+		class BoundsComponent : public PinnedDownCore::IEntityComponent
 		{
 		public:
 			static const HashedString BoundsComponentType;

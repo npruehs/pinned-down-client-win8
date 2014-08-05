@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include <string>
-#include "EntityComponent.h"
+#include "IEntityComponent.h"
 
 using namespace PinnedDownCore;
 
@@ -10,7 +10,7 @@ namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class FontComponent : public PinnedDownCore::EntityComponent
+		class FontComponent : public PinnedDownCore::IEntityComponent
 		{
 		public:
 			static const HashedString FontComponentType;

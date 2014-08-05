@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "EntityComponent.h"
+#include "IEntityComponent.h"
 
 using namespace PinnedDownCore;
 
@@ -9,7 +9,7 @@ namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class TappableComponent : public PinnedDownCore::EntityComponent
+		class TappableComponent : public PinnedDownCore::IEntityComponent
 		{
 		public:
 			static const HashedString TappableComponentType;

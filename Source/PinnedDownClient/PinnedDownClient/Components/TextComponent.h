@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "EntityComponent.h"
+#include "IEntityComponent.h"
 
 using namespace PinnedDownCore;
 
@@ -9,7 +9,7 @@ namespace PinnedDownClient
 {
 	namespace Components
 	{
-		class TextComponent : public PinnedDownCore::EntityComponent
+		class TextComponent : public PinnedDownCore::IEntityComponent
 		{
 		public:
 			static const HashedString TextComponentType;
