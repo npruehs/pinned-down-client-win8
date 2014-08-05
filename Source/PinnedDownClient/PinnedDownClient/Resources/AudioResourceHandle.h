@@ -12,7 +12,7 @@ namespace PinnedDownClient
 		class AudioResourceHandle : public ResourceHandle
 		{
 		public:
-			AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX* waveFormat, std::shared_ptr<std::vector<BYTE>> audioBuffer);
+			AudioResourceHandle(std::string resourceName, WAVEFORMATEX* waveFormat, std::shared_ptr<std::vector<BYTE>> audioBuffer);
 			~AudioResourceHandle();
 
 			WAVEFORMATEX* waveFormat;

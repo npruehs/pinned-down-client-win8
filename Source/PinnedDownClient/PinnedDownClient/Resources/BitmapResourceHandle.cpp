@@ -5,7 +5,7 @@
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
-BitmapResourceHandle::BitmapResourceHandle(std::wstring resourceName, ID2D1Bitmap *bitmap)
+BitmapResourceHandle::BitmapResourceHandle(std::string resourceName, ID2D1Bitmap *bitmap)
 	: ResourceHandle(resourceName)
 {
 	this->bitmap = bitmap;

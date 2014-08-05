@@ -11,6 +11,7 @@
 #include "Systems\Screens\LoginScreen.h"
 
 using namespace PinnedDownCore;
+using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;

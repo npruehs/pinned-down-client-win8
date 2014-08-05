@@ -1,7 +1,11 @@
 #pragma once
 
-#include "PinnedDownNet.h"
+#include <memory>
 
+#include "PinnedDownNet.h"
+#include "Event.h"
+
+using namespace PinnedDownCore;
 using namespace Windows::Storage::Streams;
 
 namespace PinnedDownClient
@@ -15,7 +19,7 @@ namespace PinnedDownClient
 			public:
 				ServerEventReader(DataReader^ dataReader);
 
-				ServerEvent ReadServerEvent();
+				std::shared_ptr<Event> ReadServerEvent(int packetSize);
 
 			private:
 				DataReader^ dataReader;

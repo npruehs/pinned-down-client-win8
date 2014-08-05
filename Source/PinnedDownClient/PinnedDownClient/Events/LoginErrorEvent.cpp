@@ -1,4 +1,4 @@
 #include "pch.h"
 #include "Events\LoginErrorEvent.h"
 
-const HashedString PinnedDownClient::Events::LoginErrorEvent::LoginErrorEventType = HashedString(L"LoginError");
+const HashedString PinnedDownClient::Events::LoginErrorEvent::LoginErrorEventType = HashedString("LoginError");

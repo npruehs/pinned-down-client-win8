@@ -1,4 +1,4 @@
 #include "pch.h"
 #include "ColorComponent.h"
 
-const HashedString PinnedDownClient::Components::ColorComponent::ColorComponentType = HashedString(L"Color");
+const HashedString PinnedDownClient::Components::ColorComponent::ColorComponentType = HashedString("Color");

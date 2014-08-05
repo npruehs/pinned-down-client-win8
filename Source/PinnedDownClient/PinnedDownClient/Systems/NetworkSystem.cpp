@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "Event.h"
 
+#include "Actions\EndTurnAction.h"
+
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"
 
@@ -15,6 +17,7 @@
 using namespace concurrency;
 
 using namespace PinnedDownCore;
+using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 
@@ -94,10 +97,6 @@ void NetworkSystem::InitSocket()
 			dataReader->ByteOrder = ByteOrder::LittleEndian;
 			this->serverEventReader = std::make_shared<ServerEventReader>(this->dataReader);
 
-			// Notify listeners.
-			auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
-			this->game->eventManager->QueueEvent(loginSuccessEvent);
-
 			// Start receive loop.
 			this->RecvPacketLoop();
 #ifdef REQUIRES_AUTH
@@ -139,10 +138,17 @@ void NetworkSystem::RecvPacketLoop()
 
 		loadTask.then([this](unsigned int bytesLoaded)
 		{
+			int packetSize = this->dataReader->ReadInt32();
+			return this->dataReader->LoadAsync(packetSize);
+		}).then([this](unsigned int bytesLoaded)
+		{
 			try
 			{
 				// Read server event.
-				this->serverEventReader->ReadServerEvent();
+				auto serverEvent = this->serverEventReader->ReadServerEvent(bytesLoaded);
+
+				// Pass to game.
+				this->game->eventManager->QueueEvent(serverEvent);
 
 				// Wait for next packet.
 				this->RecvPacketLoop();
@@ -162,6 +168,6 @@ void NetworkSystem::SendPacket()
 		return;
 	}
 
-	ClientAction clientAction = ClientAction(ClientActionType::SelectCard);
-	this->clientActionWriter->WriteClientAction(clientAction);
+	auto endTurnAction = std::make_shared<EndTurnAction>();
+	this->clientActionWriter->WriteClientAction(*endTurnAction);
 }

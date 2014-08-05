@@ -235,7 +235,6 @@
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
     <ClInclude Include="Events\LoginErrorEvent.h" />
-    <ClInclude Include="Events\LoginSuccessEvent.h" />
     <ClInclude Include="Events\PointerMovedEvent.h" />
     <ClInclude Include="Events\PointerPressedEvent.h" />
     <ClInclude Include="Events\PointerReleasedEvent.h" />
@@ -332,7 +331,6 @@
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
     <ClCompile Include="Events\LoginErrorEvent.cpp" />
-    <ClCompile Include="Events\LoginSuccessEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />
     <ClCompile Include="Events\PointerPressedEvent.cpp" />
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />

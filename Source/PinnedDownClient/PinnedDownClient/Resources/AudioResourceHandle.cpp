@@ -5,7 +5,7 @@
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
-AudioResourceHandle::AudioResourceHandle(std::wstring resourceName, WAVEFORMATEX* waveFormat, std::shared_ptr<std::vector<BYTE>> audioBuffer)
+AudioResourceHandle::AudioResourceHandle(std::string resourceName, WAVEFORMATEX* waveFormat, std::shared_ptr<std::vector<BYTE>> audioBuffer)
 	: ResourceHandle(resourceName)
 {
 	this->waveFormat = waveFormat;

@@ -298,9 +298,6 @@
     <ClCompile Include="Events\LoginErrorEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Events\LoginSuccessEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Network\ServerEventReader.cpp">
       <Filter>Systems\Network</Filter>
     </ClCompile>
@@ -577,9 +574,6 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Events\LoginErrorEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\LoginSuccessEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Systems\Network\ServerEventReader.h">

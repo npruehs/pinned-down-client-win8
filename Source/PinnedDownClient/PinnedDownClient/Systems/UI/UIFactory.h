@@ -23,7 +23,7 @@ namespace PinnedDownClient
 
 				int CreateLabel(std::wstring text);
 				int CreatePanel();
-				int CreateSprite(std::wstring spriteName);
+				int CreateSprite(std::string spriteName);
 
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
 				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);

@@ -98,8 +98,8 @@ void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCo
 
 void LoginScreen::UnloadResources()
 {
-	this->game->resourceManager->UnloadResource(L"Assets/SplashScreen.png");
-	this->game->resourceManager->UnloadResource(L"Assets/Button.png");
+	this->game->resourceManager->UnloadResource("Assets/SplashScreen.png");
+	this->game->resourceManager->UnloadResource("Assets/Button.png");
 }
 
 void LoginScreen::LoadUI()
@@ -111,7 +111,7 @@ void LoginScreen::LoadUI()
 	this->uiFactory->FinishUIWidget(this->statusLabel);
 
 	// Logo.
-	this->splashScreen = this->uiFactory->CreateSprite(L"Assets/SplashScreen.png");
+	this->splashScreen = this->uiFactory->CreateSprite("Assets/SplashScreen.png");
 	this->uiFactory->SetAnchor(this->splashScreen, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->splashScreen);
 }
@@ -162,7 +162,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->connecting = false;
 
 	// Add Reconnect button.
-	this->reconnectButton = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->reconnectButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 300.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetTappable(this->reconnectButton);
 	this->uiFactory->FinishUIWidget(this->reconnectButton);

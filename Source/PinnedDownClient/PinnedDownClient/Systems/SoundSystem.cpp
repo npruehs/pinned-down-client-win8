@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "Systems\SoundSystem.h"
 #include "Util\DirectXUtils.h"
+#include "Util\StringUtils.h"
 #include "Events\PointerPressedEvent.h"
 #include "Resources\PinnedDownResourceManager.h"
 #include "Resources\AudioResourceHandle.h"
@@ -134,7 +135,7 @@ void SoundSystem::LoadResources()
 
 void SoundSystem::UnloadResources()
 {
-	this->game->resourceManager->UnloadResource(L"Assets/chord.wav");
+	this->game->resourceManager->UnloadResource("Assets/chord.wav");
 }
 
 void SoundSystem::PlaySound(_In_ const std::wstring& file)
@@ -191,7 +192,7 @@ void SoundSystem::StartVoice(
 	}
 
 	// Get audio resource.
-	std::shared_ptr<AudioResourceHandle> audioResource = this->game->resourceManager->GetResource<AudioResourceHandle>(url);
+	std::shared_ptr<AudioResourceHandle> audioResource = this->game->resourceManager->GetResource<AudioResourceHandle>(WStringToString(url));
 
 	// Create the source voice and start it.
 	ThrowIfFailed(

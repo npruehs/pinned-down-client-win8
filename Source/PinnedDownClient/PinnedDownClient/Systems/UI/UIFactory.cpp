@@ -93,7 +93,7 @@ int UIFactory::CreatePanel()
 	return entityId;
 }
 
-int UIFactory::CreateSprite(std::wstring spriteName)
+int UIFactory::CreateSprite(std::string spriteName)
 {
 	int entityId = this->game->entityManager->CreateEntity();
 
@@ -104,7 +104,7 @@ int UIFactory::CreateSprite(std::wstring spriteName)
 	this->game->entityManager->AddComponent(entityId, depthComponent);
 
 	auto spriteComponent = std::make_shared<SpriteComponent>();
-	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName.c_str());
+	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName);
 	this->game->entityManager->AddComponent(entityId, spriteComponent);
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();

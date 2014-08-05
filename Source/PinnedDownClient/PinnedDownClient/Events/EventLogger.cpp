@@ -20,6 +20,7 @@
 #include "Events\RenderTargetChangedEvent.h"
 
 using namespace PinnedDownCore;
+using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient;
 using namespace PinnedDownClient::Events;
 

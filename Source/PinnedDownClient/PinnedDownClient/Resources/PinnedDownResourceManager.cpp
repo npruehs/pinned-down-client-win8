@@ -2,6 +2,7 @@
 #include "PinnedDownResourceManager.h"
 #include "Util\DirectXUtils.h"
 #include "Util\MemoryUtils.h"
+#include "Util\StringUtils.h"
 #include "Resources\BitmapResourceHandle.h"
 #include "Resources\AudioResourceHandle.h"
 
@@ -80,7 +81,7 @@ void PinnedDownResourceManager::LoadBitmapFromFile(
 		);
 
 	// Add to resource map.
-	ResHandlePtr handle = std::make_shared<BitmapResourceHandle>(imageUri, bitmap);
+	ResHandlePtr handle = std::make_shared<BitmapResourceHandle>(WStringToString(imageUri), bitmap);
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 
 	// Release resources.
@@ -169,7 +170,7 @@ void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audi
 	}
 
 	// Add to resource map.
-	ResHandlePtr handle = std::make_shared<AudioResourceHandle>(audioUri, waveFormat, resultData);
+	ResHandlePtr handle = std::make_shared<AudioResourceHandle>(WStringToString(audioUri), waveFormat, resultData);
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->getHash(), handle));
 }
 

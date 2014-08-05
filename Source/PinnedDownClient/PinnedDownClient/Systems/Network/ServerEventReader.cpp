@@ -1,6 +1,11 @@
 #include "pch.h"
+#include "Event.h"
 #include "ServerEventReader.h"
 
+#include "Events\LoginSuccessEvent.h"
+
+using namespace PinnedDownCore;
+using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Systems::Network;
 
 
@@ -9,19 +14,27 @@ ServerEventReader::ServerEventReader(DataReader^ dataReader)
 	this->dataReader = dataReader;
 }
 
-ServerEvent ServerEventReader::ReadServerEvent()
+std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 {
-	// Read event type.
-	ServerEventType eventType = (ServerEventType)this->dataReader->ReadInt32();
+	auto bytes = ref new Platform::Array<BYTE>(packetSize);
+	this->dataReader->ReadBytes(bytes);
 
-	// Read event data.
-	ServerEvent serverEvent = ServerEvent(eventType);
+	auto byteBuffer = bytes->Data;
+	char* buffer = reinterpret_cast<char*>(byteBuffer);
 
-	switch (eventType)
+	std::istrstream	in(buffer);
+
+	char eventType[256];
+	in >> eventType;
+
+	HashedString hashedEventType = HashedString(eventType);
+
+	if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{
-	case ServerEventType::LoginSuccess:
-		OutputDebugString(L"LoginSuccess");
+		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
+		loginSuccessEvent->Deserialize(in);
+		return loginSuccessEvent;
 	}
 
-	return serverEvent;
+	return nullptr;
 }

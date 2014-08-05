@@ -31,8 +31,8 @@ void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCon
 
 void GameScreen::UnloadResources()
 {
-	this->game->resourceManager->UnloadResource(L"Assets/Window.png");
-	this->game->resourceManager->UnloadResource(L"Assets/Button.png");
+	this->game->resourceManager->UnloadResource("Assets/Window.png");
+	this->game->resourceManager->UnloadResource("Assets/Button.png");
 }
 
 void GameScreen::LoadUI()
@@ -43,13 +43,13 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetVisible(this->panel1, false);
 	this->uiFactory->FinishUIWidget(this->panel1);
 
-	this->window1 = this->uiFactory->CreateSprite(L"Assets/Window.png");
+	this->window1 = this->uiFactory->CreateSprite("Assets/Window.png");
 	this->uiFactory->SetAnchor(this->window1, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetDepth(this->window1, 1);
 	this->uiFactory->SetPanel(this->window1, this->panel1);
 	this->uiFactory->FinishUIWidget(this->window1);
 
-	this->button1 = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->button1 = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->button1, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->window1);
 	this->uiFactory->SetDepth(this->button1, 2);
 	this->uiFactory->SetPanel(this->button1, this->panel1);
@@ -60,13 +60,13 @@ void GameScreen::LoadUI()
 	this->panel2 = this->uiFactory->CreatePanel();
 	this->uiFactory->FinishUIWidget(this->panel2);
 
-	this->window2 = this->uiFactory->CreateSprite(L"Assets/Window.png");
+	this->window2 = this->uiFactory->CreateSprite("Assets/Window.png");
 	this->uiFactory->SetAnchor(this->window2, VerticalAnchor(VerticalAnchorType::VerticalCenter, -100.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, -100.0f), 0);
 	this->uiFactory->SetDepth(this->window2, 1);
 	this->uiFactory->SetPanel(this->window2, this->panel2);
 	this->uiFactory->FinishUIWidget(this->window2);
 
-	this->button2 = this->uiFactory->CreateSprite(L"Assets/Button.png");
+	this->button2 = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->button2, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->window2);
 	this->uiFactory->SetDepth(this->button2, 2);
 	this->uiFactory->SetPanel(this->button2, this->panel2);

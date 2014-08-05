@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Event.h"
 #include "PinnedDownNet.h"
 
 using namespace Windows::Storage::Streams;
+
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
@@ -15,7 +18,7 @@ namespace PinnedDownClient
 			public:
 				ClientActionWriter(DataWriter^ dataWriter);
 
-				void WriteClientAction(ClientAction action);
+				void WriteClientAction(Event& clientAction);
 
 			private:
 				DataWriter^ dataWriter;
