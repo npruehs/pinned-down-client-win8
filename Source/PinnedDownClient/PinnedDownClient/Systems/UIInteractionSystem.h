@@ -4,11 +4,14 @@
 #include "GameSystem.h"
 #include "IEventListener.h"
 
+#include "Events\AudioEngineChangedEvent.h"
 #include "Events\EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
 #include "Events\PointerReleasedEvent.h"
 
 #include "Systems\UI\Button.h"
+
+using namespace Microsoft::WRL;
 
 using namespace PinnedDownCore;
 using namespace PinnedDownClient::Events;
@@ -26,13 +29,18 @@ namespace PinnedDownClient
 			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
-			void OnEvent(Event & event);
+			ComPtr<IXAudio2> soundAudioEngine;
 
 			std::list<Button> buttons;
 
-			void OnEntityInitialized(EntityInitializedEvent entityInitializedEvent);
-			void OnEntityRemoved(EntityRemovedEvent entityRemovedEvent);
-			void OnPointerReleased(PointerReleasedEvent pointerReleasedEvent);
+			void LoadResources();
+
+			void OnEvent(Event & event);
+
+			void OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent);
+			void OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent);
+			void OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent);
+			void OnPointerReleased(PointerReleasedEvent& pointerReleasedEvent);
 		};
 	}
 }

@@ -328,6 +328,12 @@
     <ClCompile Include="Systems\Network\ClientActionDispatcher.cpp">
       <Filter>Systems\Network</Filter>
     </ClCompile>
+    <ClCompile Include="Actions\PlaySoundAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -608,6 +614,12 @@
     </ClInclude>
     <ClInclude Include="Systems\Network\ClientActionDispatcher.h">
       <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\PlaySoundAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AudioEngineChangedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

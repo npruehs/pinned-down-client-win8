@@ -7,12 +7,18 @@
 
 #include "Game.h"
 #include "Event.h"
+
+#include "Actions\PlaySoundAction.h"
+
+#include "Events\AudioEngineChangedEvent.h"
+
+#include "Resources\AudioResourceHandle.h"
+
 #include "Systems\SoundSystem.h"
+
 #include "Util\DirectXUtils.h"
 #include "Util\StringUtils.h"
-#include "Events\PointerPressedEvent.h"
-#include "Resources\PinnedDownResourceManager.h"
-#include "Resources\AudioResourceHandle.h"
+
 
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Events;
@@ -28,8 +34,6 @@ SoundSystem::SoundSystem()
 
 SoundSystem::~SoundSystem()
 {
-	this->UnloadResources();
-
 	// Destroy sound effect engine.
 	if (this->soundSourceVoice)
 	{
@@ -75,19 +79,18 @@ void SoundSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
+	this->game->eventManager->AddListener(this, PlaySoundAction::PlaySoundActionType);
 
 	// Create devices.
 	this->InitXAudio();
-
-	this->LoadResources();
 }
 
 void SoundSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
+	if (newEvent.GetEventType() == PlaySoundAction::PlaySoundActionType)
 	{
-		this->PlaySound(L"Assets/chord.wav");
+		PlaySoundAction playSoundAction = static_cast<PlaySoundAction&>(newEvent);
+		this->PlaySound(playSoundAction.soundAsset);
 	}
 }
 
@@ -121,21 +124,10 @@ void SoundSystem::InitXAudio()
 		nullptr,                    // No effect chain on the mastering voice.
 		AudioCategory_GameMedia)
 		);
-}
 
-void SoundSystem::LoadResources()
-{
-	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
-
-	resourceManager->LoadAudioFromFile(
-		this->soundAudioEngine.Get(),
-		L"Assets/chord.wav"
-		);
-}
-
-void SoundSystem::UnloadResources()
-{
-	this->game->resourceManager->UnloadResource("Assets/chord.wav");
+	// Notify listeners.
+	auto audioEngineChangedEvent = std::make_shared<AudioEngineChangedEvent>(this->soundAudioEngine);
+	this->game->eventManager->QueueEvent(audioEngineChangedEvent);
 }
 
 void SoundSystem::PlaySound(_In_ const std::wstring& file)

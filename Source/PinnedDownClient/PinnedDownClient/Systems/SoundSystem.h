@@ -48,8 +48,6 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void InitXAudio();
-			void LoadResources();
-			void UnloadResources();
 
 			void PlaySound(_In_ const std::wstring& filename);
 			void PlayMusic(_In_ const std::wstring& filename);

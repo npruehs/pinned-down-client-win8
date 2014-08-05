@@ -209,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions\ConnectToServerAction.h" />
+    <ClInclude Include="Actions\PlaySoundAction.h" />
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\ColorComponent.h" />
     <ClInclude Include="Components\DepthComponent.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Events\AppSuspendingEvent.h" />
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
+    <ClInclude Include="Events\AudioEngineChangedEvent.h" />
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
@@ -306,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actions\ConnectToServerAction.cpp" />
+    <ClCompile Include="Actions\PlaySoundAction.cpp" />
     <ClCompile Include="Components\BoundsComponent.cpp" />
     <ClCompile Include="Components\ColorComponent.cpp" />
     <ClCompile Include="Components\DepthComponent.cpp" />
@@ -323,6 +326,7 @@
     <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
+    <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
