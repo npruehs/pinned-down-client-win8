@@ -18,10 +18,10 @@ namespace PinnedDownClient
 			class Sprite : public IRenderable
 			{
 			public:
-				int entityId;
+				Entity entity;
 				std::shared_ptr<SpriteComponent> spriteComponent;
 
-				int GetEntityId() { return this->entityId; }
+				Entity GetEntity() { return this->entity; }
 			};
 		}
 	}

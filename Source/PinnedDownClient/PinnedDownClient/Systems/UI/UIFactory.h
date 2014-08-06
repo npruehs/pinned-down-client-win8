@@ -21,19 +21,19 @@ namespace PinnedDownClient
 			public:
 				UIFactory(PinnedDownCore::Game* game);
 
-				int CreateLabel(std::wstring text);
-				int CreatePanel();
-				int CreateSprite(std::string spriteName);
+				Entity CreateLabel(std::wstring text);
+				Entity CreatePanel();
+				Entity CreateSprite(std::string spriteName);
 
-				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left);
-				void SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget);
-				void SetDepth(int entityId, int depth);
-				void SetFontSize(int entityId, float fontSize);
-				void SetPanel(int entityId, int panelId);
-				void SetTappable(int entityId);
-				void SetVisible(int entityId, bool visible);
+				void SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left);
+				void SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left, Entity anchorTarget);
+				void SetDepth(Entity entity, int depth);
+				void SetFontSize(Entity entity, float fontSize);
+				void SetPanel(Entity entity, Entity panel);
+				void SetTappable(Entity entity);
+				void SetVisible(Entity entity, bool visible);
 
-				void FinishUIWidget(int entityId);
+				void FinishUIWidget(Entity widget);
 			private:
 				PinnedDownCore::Game* game;
 			};

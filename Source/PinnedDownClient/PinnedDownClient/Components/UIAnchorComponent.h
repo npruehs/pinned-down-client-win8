@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "EntityManager.h"
 #include "IEntityComponent.h"
 
 using namespace PinnedDownCore;
@@ -65,7 +66,7 @@ namespace PinnedDownClient
 				return UIAnchorComponentType;
 			}
 
-			int target = 0;
+			Entity target = INVALID_ENTITY_ID;
 			HorizontalAnchor left;
 			HorizontalAnchor right;
 			VerticalAnchor top;

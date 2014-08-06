@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "EntityManager.h"
 #include "IEntityComponent.h"
 
 using namespace PinnedDownCore;
@@ -19,7 +20,7 @@ namespace PinnedDownClient
 				return UIWidgetComponentType;
 			}
 
-			int panel = 0;
+			Entity panel = INVALID_ENTITY_ID;
 		};
 	}
 }

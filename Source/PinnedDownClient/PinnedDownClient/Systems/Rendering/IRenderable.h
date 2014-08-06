@@ -16,7 +16,7 @@ namespace PinnedDownClient
 			class IRenderable
 			{
 			public:
-				virtual int GetEntityId() = 0;
+				virtual Entity GetEntity() = 0;
 
 				std::shared_ptr<DepthComponent> depthComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;

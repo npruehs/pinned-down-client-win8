@@ -149,7 +149,7 @@ void LoginScreen::DoLogin()
 
 void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
-	if (entityTappedEvent.entityId == this->reconnectButton)
+	if (entityTappedEvent.entity == this->reconnectButton)
 	{
 		this->DoLogin();
 	}

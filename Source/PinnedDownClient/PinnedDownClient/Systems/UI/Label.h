@@ -23,14 +23,14 @@ namespace PinnedDownClient
 			class Label : public IRenderable
 			{
 			public:
-				int entityId;
+				Entity entity;
 				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ColorComponent> colorComponent;
 				std::shared_ptr<FontComponent> fontComponent;
 				std::shared_ptr<TextComponent> textComponent;
 				std::shared_ptr<TextAlignmentComponent> textAlignmentComponent;
 
-				int GetEntityId() { return this->entityId; }
+				Entity GetEntity() { return this->entity; }
 			};
 		}
 	}

@@ -34,14 +34,14 @@ void UILayoutSystem::InitSystem(PinnedDownCore::Game* game)
 void UILayoutSystem::CreateRootPanel()
 {
 	// Create panel entity.
-	int entityId = this->uiFactory->CreatePanel();
-	this->uiFactory->FinishUIWidget(entityId);
+	Entity entity = this->uiFactory->CreatePanel();
+	this->uiFactory->FinishUIWidget(entity);
 
 	// Set root panel.
 	Panel panel = Panel();
-	panel.entityId = entityId;
-	panel.boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
-	panel.screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
+	panel.entity = entity;
+	panel.boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entity, BoundsComponent::BoundsComponentType);
+	panel.screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entity, ScreenPositionComponent::ScreenPositionComponentType);
 	this->rootPanel = panel;
 }
 
@@ -86,10 +86,10 @@ void UILayoutSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowS
 
 void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitializedEvent)
 {
-	auto entityId = entityInitializedEvent.entityId;
-	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entityId, UIAnchorComponent::UIAnchorComponentType);
-	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
-	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
+	auto entity = entityInitializedEvent.entity;
+	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entity, UIAnchorComponent::UIAnchorComponentType);
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entity, BoundsComponent::BoundsComponentType);
+	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entity, ScreenPositionComponent::ScreenPositionComponentType);
 
 	if (anchorComponent != nullptr
 		&& boundsComponent != nullptr
@@ -97,7 +97,7 @@ void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitialize
 	{
 		// Add anchor.
 		Anchor anchor = Anchor();
-		anchor.entityId = entityId;
+		anchor.entity = entity;
 		anchor.anchorComponent = anchorComponent;
 		anchor.boundsComponent = boundsComponent;
 		anchor.screenPositionComponent = screenPositionComponent;
@@ -113,7 +113,7 @@ void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
 	{
 		Anchor& anchor = *iterator;
 
-		if (anchor.entityId == entityRemovedEvent.entityId)
+		if (anchor.entity == entityRemovedEvent.entity)
 		{
 			this->anchors.erase(iterator);
 			return;

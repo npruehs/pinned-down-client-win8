@@ -83,12 +83,12 @@ void RenderSystem::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
 	{
 		auto entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
-		this->OnEntityInitialized(entityInitializedEvent.entityId);
+		this->OnEntityInitialized(entityInitializedEvent.entity);
 	}
 	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
 	{
 		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityRemoved(entityRemovedEvent.entityId);
+		this->OnEntityRemoved(entityRemovedEvent.entity);
 	}
 }
 
@@ -182,18 +182,18 @@ void RenderSystem::OnDisplayContentsInvalidated()
 	}
 }
 
-void RenderSystem::OnEntityInitialized(int entityId)
+void RenderSystem::OnEntityInitialized(Entity entity)
 {
-	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityId, BoundsComponent::BoundsComponentType);
-	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entityId, ColorComponent::ColorComponentType);
-	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityId, DepthComponent::DepthComponentType);
-	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
-	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityId, ScreenPositionComponent::ScreenPositionComponentType);
-	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityId, TextComponent::TextComponentType);
-	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entityId, TextAlignmentComponent::TextAlignmentComponentType);
-	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entityId, SpriteComponent::SpriteComponentType);
-	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
-	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entity, BoundsComponent::BoundsComponentType);
+	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entity, ColorComponent::ColorComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entity, DepthComponent::DepthComponentType);
+	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entity, FontComponent::FontComponentType);
+	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entity, ScreenPositionComponent::ScreenPositionComponentType);
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entity, TextComponent::TextComponentType);
+	auto textAlignmentComponent = this->game->entityManager->GetComponent<TextAlignmentComponent>(entity, TextAlignmentComponent::TextAlignmentComponentType);
+	auto spriteComponent = this->game->entityManager->GetComponent<SpriteComponent>(entity, SpriteComponent::SpriteComponentType);
+	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entity, UIWidgetComponent::UIWidgetComponentType);
+	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entity, VisibilityComponent::VisibilityComponentType);
 
 	if (boundsComponent != nullptr
 		&& colorComponent != nullptr
@@ -206,7 +206,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	{
 		// Add label.
 		std::shared_ptr<UI::Label> label = std::make_shared<UI::Label>();
-		label->entityId = entityId;
+		label->entity = entity;
 		label->boundsComponent = boundsComponent;
 		label->colorComponent = colorComponent;
 		label->depthComponent = depthComponent;
@@ -234,7 +234,7 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	{
 		// Add sprite.
 		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
-		sprite->entityId = entityId;
+		sprite->entity = entity;
 		sprite->depthComponent = depthComponent;
 		sprite->screenPositionComponent = screenPositionComponent;
 		sprite->spriteComponent = spriteComponent;
@@ -251,14 +251,14 @@ void RenderSystem::OnEntityInitialized(int entityId)
 	}
 }
 
-void RenderSystem::OnEntityRemoved(int entityId)
+void RenderSystem::OnEntityRemoved(Entity entity)
 {
 	// Remove renderable.
 	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
 	{
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
-		if (renderable->GetEntityId() == entityId)
+		if (renderable->GetEntity() == entity)
 		{
 			this->renderables.erase(iterator);
 			return;

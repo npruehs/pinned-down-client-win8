@@ -2,6 +2,8 @@
 
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\TurnPhaseChangedEvent.h"
+#include "Events\VictoryEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
@@ -31,14 +33,19 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int distanceLabel = INVALID_ENTITY_ID;
-				int endTurnButton = INVALID_ENTITY_ID;
-				int endTurnLabel = INVALID_ENTITY_ID;
+				Entity distanceLabel = INVALID_ENTITY_ID;
+				Entity turnPhaseLabel = INVALID_ENTITY_ID;
+				Entity endTurnButton = INVALID_ENTITY_ID;
+				Entity endTurnLabel = INVALID_ENTITY_ID;
+				Entity victoryWindow = INVALID_ENTITY_ID;
+				Entity victoryLabel = INVALID_ENTITY_ID;
 
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
+				void OnVictory(VictoryEvent& victoryEvent);
 			};
 		}
 	}

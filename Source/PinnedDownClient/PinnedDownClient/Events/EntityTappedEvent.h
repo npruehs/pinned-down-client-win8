@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EntityManager.h"
 #include "Event.h"
 
 using namespace PinnedDownCore;
@@ -17,11 +18,11 @@ namespace PinnedDownClient
 				return EntityTappedEventType;
 			}
 
-			int entityId;
+			Entity entity;
 
-			explicit EntityTappedEvent(int entityId)
+			explicit EntityTappedEvent(Entity entity)
 			{
-				this->entityId = entityId;
+				this->entity = entity;
 			}
 		};
 	}
