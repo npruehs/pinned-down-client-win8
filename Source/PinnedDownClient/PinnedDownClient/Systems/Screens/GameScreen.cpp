@@ -128,7 +128,7 @@ void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDi
 
 void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
-	if (entityTappedEvent.entityId == this->endTurnButton)
+	if (entityTappedEvent.entity == this->endTurnButton)
 	{
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);

@@ -33,12 +33,12 @@ namespace PinnedDownClient
 				ScreenName GetScreenName();
 
 			private:
-				int distanceLabel = INVALID_ENTITY_ID;
-				int turnPhaseLabel = INVALID_ENTITY_ID;
-				int endTurnButton = INVALID_ENTITY_ID;
-				int endTurnLabel = INVALID_ENTITY_ID;
-				int victoryWindow = INVALID_ENTITY_ID;
-				int victoryLabel = INVALID_ENTITY_ID;
+				Entity distanceLabel = INVALID_ENTITY_ID;
+				Entity turnPhaseLabel = INVALID_ENTITY_ID;
+				Entity endTurnButton = INVALID_ENTITY_ID;
+				Entity endTurnLabel = INVALID_ENTITY_ID;
+				Entity victoryWindow = INVALID_ENTITY_ID;
+				Entity victoryLabel = INVALID_ENTITY_ID;
 
 				void OnEvent(Event & event);
 

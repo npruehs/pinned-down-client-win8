@@ -100,8 +100,8 @@ namespace PinnedDownClient
 			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
 			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
 			void OnDisplayContentsInvalidated();
-			void OnEntityInitialized(int entityId);
-			void OnEntityRemoved(int entityId);
+			void OnEntityInitialized(Entity entity);
+			void OnEntityRemoved(Entity entity);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();

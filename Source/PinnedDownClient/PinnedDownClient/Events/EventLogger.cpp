@@ -68,12 +68,12 @@ void EventLogger::OnEvent(Event & newEvent)
 	else if (newEvent.GetEventType() == EntityCreatedEvent::EntityCreatedEventType)
 	{
 		EntityCreatedEvent entityCreatedEvent = static_cast<EntityCreatedEvent&>(newEvent);
-		this->game->logger->Info(L"Entity created: " + std::to_wstring(entityCreatedEvent.entityId));
+		this->game->logger->Info(L"Entity created: " + std::to_wstring(entityCreatedEvent.entity));
 	}
 	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
 	{
 		EntityRemovedEvent entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->game->logger->Info(L"Entity removed: " + std::to_wstring(entityRemovedEvent.entityId));
+		this->game->logger->Info(L"Entity removed: " + std::to_wstring(entityRemovedEvent.entity));
 	}
 	else if (newEvent.GetEventType() == GraphicsDeviceLostEvent::GraphicsDeviceLostEventType)
 	{

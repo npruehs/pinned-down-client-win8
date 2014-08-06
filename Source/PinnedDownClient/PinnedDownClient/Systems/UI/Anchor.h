@@ -16,7 +16,7 @@ namespace PinnedDownClient
 		{
 			struct Anchor
 			{
-				int entityId;
+				Entity entity;
 				std::shared_ptr<UIAnchorComponent> anchorComponent;
 				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;

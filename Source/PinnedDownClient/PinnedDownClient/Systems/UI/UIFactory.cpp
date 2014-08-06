@@ -29,148 +29,148 @@ UIFactory::UIFactory(PinnedDownCore::Game* game)
 	this->game = game;
 }
 
-int UIFactory::CreateLabel(std::wstring text)
+Entity UIFactory::CreateLabel(std::wstring text)
 {
-	int entityId = this->game->entityManager->CreateEntity();
+	Entity entity = this->game->entityManager->CreateEntity();
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();
-	this->game->entityManager->AddComponent(entityId, boundsComponent);
+	this->game->entityManager->AddComponent(entity, boundsComponent);
 
 	auto colorComponent = std::make_shared<ColorComponent>();
 	colorComponent->color = D2D1::ColorF(D2D1::ColorF::White);
-	this->game->entityManager->AddComponent(entityId, colorComponent);
+	this->game->entityManager->AddComponent(entity, colorComponent);
 
 	auto depthComponent = std::make_shared<DepthComponent>();
-	this->game->entityManager->AddComponent(entityId, depthComponent);
+	this->game->entityManager->AddComponent(entity, depthComponent);
 
 	auto fontComponent = std::make_shared<FontComponent>();
-	this->game->entityManager->AddComponent(entityId, fontComponent);
+	this->game->entityManager->AddComponent(entity, fontComponent);
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+	this->game->entityManager->AddComponent(entity, screenPositionComponent);
 
 	auto textComponent = std::make_shared<TextComponent>();
 	textComponent->text = text;
-	this->game->entityManager->AddComponent(entityId, textComponent);
+	this->game->entityManager->AddComponent(entity, textComponent);
 
 	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();
-	this->game->entityManager->AddComponent(entityId, textAlignmentComponent);
+	this->game->entityManager->AddComponent(entity, textAlignmentComponent);
 
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
-	this->game->entityManager->AddComponent(entityId, anchorComponent);
+	this->game->entityManager->AddComponent(entity, anchorComponent);
 
 	auto widgetComponent = std::make_shared<UIWidgetComponent>();
-	this->game->entityManager->AddComponent(entityId, widgetComponent);
+	this->game->entityManager->AddComponent(entity, widgetComponent);
 
 	auto visibilityComponent = std::make_shared<VisibilityComponent>();
-	this->game->entityManager->AddComponent(entityId, visibilityComponent);
+	this->game->entityManager->AddComponent(entity, visibilityComponent);
 
-	return entityId;
+	return entity;
 }
 
-int UIFactory::CreatePanel()
+Entity UIFactory::CreatePanel()
 {
-	int entityId = this->game->entityManager->CreateEntity();
+	Entity entity = this->game->entityManager->CreateEntity();
 
 	auto panelComponent = std::make_shared<UIPanelComponent>();
-	this->game->entityManager->AddComponent(entityId, panelComponent);
+	this->game->entityManager->AddComponent(entity, panelComponent);
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();
-	this->game->entityManager->AddComponent(entityId, boundsComponent);
+	this->game->entityManager->AddComponent(entity, boundsComponent);
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+	this->game->entityManager->AddComponent(entity, screenPositionComponent);
 
 	auto depthComponent = std::make_shared<DepthComponent>();
-	this->game->entityManager->AddComponent(entityId, depthComponent);
+	this->game->entityManager->AddComponent(entity, depthComponent);
 
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
-	this->game->entityManager->AddComponent(entityId, anchorComponent);
+	this->game->entityManager->AddComponent(entity, anchorComponent);
 
 	auto visibilityComponent = std::make_shared<VisibilityComponent>();
-	this->game->entityManager->AddComponent(entityId, visibilityComponent);
+	this->game->entityManager->AddComponent(entity, visibilityComponent);
 
-	return entityId;
+	return entity;
 }
 
-int UIFactory::CreateSprite(std::string spriteName)
+Entity UIFactory::CreateSprite(std::string spriteName)
 {
-	int entityId = this->game->entityManager->CreateEntity();
+	Entity entity = this->game->entityManager->CreateEntity();
 
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
-	this->game->entityManager->AddComponent(entityId, screenPositionComponent);
+	this->game->entityManager->AddComponent(entity, screenPositionComponent);
 
 	auto depthComponent = std::make_shared<DepthComponent>();
-	this->game->entityManager->AddComponent(entityId, depthComponent);
+	this->game->entityManager->AddComponent(entity, depthComponent);
 
 	auto spriteComponent = std::make_shared<SpriteComponent>();
 	spriteComponent->sprite = this->game->resourceManager->GetResource<BitmapResourceHandle>(spriteName);
-	this->game->entityManager->AddComponent(entityId, spriteComponent);
+	this->game->entityManager->AddComponent(entity, spriteComponent);
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();
 	auto bitmapSize = spriteComponent->sprite->bitmap->GetPixelSize();
 	boundsComponent->bounds = Vector2F(static_cast<float>(bitmapSize.width), static_cast<float>(bitmapSize.height));
-	this->game->entityManager->AddComponent(entityId, boundsComponent);
+	this->game->entityManager->AddComponent(entity, boundsComponent);
 
 	auto anchorComponent = std::make_shared<UIAnchorComponent>();
-	this->game->entityManager->AddComponent(entityId, anchorComponent);
+	this->game->entityManager->AddComponent(entity, anchorComponent);
 
 	auto widgetComponent = std::make_shared<UIWidgetComponent>();
-	this->game->entityManager->AddComponent(entityId, widgetComponent);
+	this->game->entityManager->AddComponent(entity, widgetComponent);
 
 	auto visibilityComponent = std::make_shared<VisibilityComponent>();
-	this->game->entityManager->AddComponent(entityId, visibilityComponent);
+	this->game->entityManager->AddComponent(entity, visibilityComponent);
 
-	return entityId;
+	return entity;
 }
 
-void UIFactory::SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left)
+void UIFactory::SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left)
 {
-	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entityId, UIAnchorComponent::UIAnchorComponentType);
+	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entity, UIAnchorComponent::UIAnchorComponentType);
 	anchorComponent->top = top;
 	anchorComponent->left = left;
 }
 
-void UIFactory::SetAnchor(int entityId, VerticalAnchor top, HorizontalAnchor left, int anchorTarget)
+void UIFactory::SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left, Entity anchorTarget)
 {
-	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entityId, UIAnchorComponent::UIAnchorComponentType);
+	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entity, UIAnchorComponent::UIAnchorComponentType);
 	anchorComponent->top = top;
 	anchorComponent->left = left;
 	anchorComponent->target = anchorTarget;
 }
 
-void UIFactory::SetDepth(int entityId, int depth)
+void UIFactory::SetDepth(Entity entity, int depth)
 {
-	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityId, DepthComponent::DepthComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entity, DepthComponent::DepthComponentType);
 	depthComponent->depth = depth;
 }
 
-void UIFactory::SetFontSize(int entityId, float fontSize)
+void UIFactory::SetFontSize(Entity entity, float fontSize)
 {
-	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entityId, FontComponent::FontComponentType);
+	auto fontComponent = this->game->entityManager->GetComponent<FontComponent>(entity, FontComponent::FontComponentType);
 	fontComponent->fontSize = fontSize;
 }
 
-void UIFactory::SetPanel(int entityId, int panelId)
+void UIFactory::SetPanel(Entity entity, Entity panel)
 {
-	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entityId, UIWidgetComponent::UIWidgetComponentType);
-	widgetComponent->panel = panelId;
+	auto widgetComponent = this->game->entityManager->GetComponent<UIWidgetComponent>(entity, UIWidgetComponent::UIWidgetComponentType);
+	widgetComponent->panel = panel;
 }
 
-void UIFactory::SetVisible(int entityId, bool visible)
+void UIFactory::SetVisible(Entity entity, bool visible)
 {
-	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entityId, VisibilityComponent::VisibilityComponentType);
+	auto visibilityComponent = this->game->entityManager->GetComponent<VisibilityComponent>(entity, VisibilityComponent::VisibilityComponentType);
 	visibilityComponent->visible = visible;
 }
 
-void UIFactory::SetTappable(int entityId)
+void UIFactory::SetTappable(Entity entity)
 {
 	auto tappableComponent = std::make_shared<TappableComponent>();
-	this->game->entityManager->AddComponent(entityId, tappableComponent);
+	this->game->entityManager->AddComponent(entity, tappableComponent);
 }
 
-void UIFactory::FinishUIWidget(int entityId)
+void UIFactory::FinishUIWidget(Entity entity)
 {
-	auto entityInitializedEvent = std::make_shared<Events::EntityInitializedEvent>(entityId);
+	auto entityInitializedEvent = std::make_shared<Events::EntityInitializedEvent>(entity);
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
 }

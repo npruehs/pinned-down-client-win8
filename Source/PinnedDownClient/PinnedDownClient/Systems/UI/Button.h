@@ -16,7 +16,7 @@ namespace PinnedDownClient
 		{
 			struct Button
 			{
-				int entityId;
+				Entity entity;
 				std::shared_ptr<BoundsComponent> boundsComponent;
 				std::shared_ptr<DepthComponent> depthComponent;
 				std::shared_ptr<ScreenPositionComponent> screenPositionComponent;

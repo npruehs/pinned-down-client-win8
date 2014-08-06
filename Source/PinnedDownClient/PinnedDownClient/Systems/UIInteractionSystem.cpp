@@ -80,10 +80,10 @@ void UIInteractionSystem::OnAudioEngineChanged(AudioEngineChangedEvent& audioEng
 
 void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent)
 {
-	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityInitializedEvent.entityId, BoundsComponent::BoundsComponentType);
-	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityInitializedEvent.entityId, DepthComponent::DepthComponentType);
-	auto positionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityInitializedEvent.entityId, ScreenPositionComponent::ScreenPositionComponentType);
-	auto tappableComponent = this->game->entityManager->GetComponent<TappableComponent>(entityInitializedEvent.entityId, TappableComponent::TappableComponentType);
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityInitializedEvent.entity, BoundsComponent::BoundsComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityInitializedEvent.entity, DepthComponent::DepthComponentType);
+	auto positionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityInitializedEvent.entity, ScreenPositionComponent::ScreenPositionComponentType);
+	auto tappableComponent = this->game->entityManager->GetComponent<TappableComponent>(entityInitializedEvent.entity, TappableComponent::TappableComponentType);
 
 	if (boundsComponent != nullptr
 		&& depthComponent != nullptr
@@ -91,7 +91,7 @@ void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInit
 		&& tappableComponent != nullptr)
 	{
 		auto button = UI::Button();
-		button.entityId = entityInitializedEvent.entityId;
+		button.entity = entityInitializedEvent.entity;
 		button.boundsComponent = boundsComponent;
 		button.depthComponent = depthComponent;
 		button.screenPositionComponent = positionComponent;
@@ -106,7 +106,7 @@ void UIInteractionSystem::OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent
 	{
 		UI::Button& button = *iterator;
 
-		if (button.entityId == entityRemovedEvent.entityId)
+		if (button.entity == entityRemovedEvent.entity)
 		{
 			this->buttons.erase(iterator);
 			return;
@@ -137,7 +137,7 @@ void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerRelease
 	if (tappedButton != nullptr)
 	{
 		// Notify listeners.
-		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(tappedButton->entityId);
+		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(tappedButton->entity);
 		this->game->eventManager->QueueEvent(entityTappedEvent);
 
 		// Play sound.
