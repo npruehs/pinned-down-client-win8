@@ -32,12 +32,14 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game)
 
 	this->game->eventManager->AddListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 }
 
 void GameScreen::DeInitScreen()
 {
 	this->game->eventManager->RemoveListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 }
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -67,6 +69,11 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Right, -20.0f), 0);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
+	// Turn Phase label.
+	this->turnPhaseLabel = this->uiFactory->CreateLabel(L"Turn Phase:");
+	this->uiFactory->SetAnchor(this->turnPhaseLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->distanceLabel);
+	this->uiFactory->FinishUIWidget(this->turnPhaseLabel);
+
 	// End turn button.
 	this->endTurnButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->endTurnButton, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), 0);
@@ -95,6 +102,11 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
 	}
+	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
+	{
+		auto turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
+		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
+	}
 }
 
 void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent)
@@ -113,4 +125,37 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
 	}
+}
+
+void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
+{
+	std::wstring turnPhaseName;
+	
+	switch (turnPhaseChangedEvent.newTurnPhase)
+	{
+	case TurnPhase::Assignment:
+		turnPhaseName = L"Assignment";
+		break;
+	case TurnPhase::Attack:
+		turnPhaseName = L"Attack";
+		break;
+	case TurnPhase::Fight:
+		turnPhaseName = L"Fight";
+		break;
+	case TurnPhase::Jump:
+		turnPhaseName = L"Jump";
+		break;
+	case TurnPhase::Main:
+		turnPhaseName = L"Main";
+		break;
+	case TurnPhase::WrapUp:
+		turnPhaseName = L"Wrap Up";
+		break;
+	default:
+		turnPhaseName = L"Invalid";
+		break;
+	}
+
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseLabel, TextComponent::TextComponentType);
+	textComponent->text = L"Turn Phase: " + turnPhaseName;
 }

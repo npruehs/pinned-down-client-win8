@@ -2,6 +2,7 @@
 
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\TurnPhaseChangedEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
@@ -32,6 +33,7 @@ namespace PinnedDownClient
 
 			private:
 				int distanceLabel = INVALID_ENTITY_ID;
+				int turnPhaseLabel = INVALID_ENTITY_ID;
 				int endTurnButton = INVALID_ENTITY_ID;
 				int endTurnLabel = INVALID_ENTITY_ID;
 
@@ -39,6 +41,7 @@ namespace PinnedDownClient
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 			};
 		}
 	}
