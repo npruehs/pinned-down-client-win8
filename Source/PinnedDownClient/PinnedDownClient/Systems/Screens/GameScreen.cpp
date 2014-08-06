@@ -33,6 +33,7 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
+	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);
 }
 
 void GameScreen::DeInitScreen()
@@ -40,6 +41,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
+	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
 }
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -88,6 +90,7 @@ void GameScreen::LoadUI()
 void GameScreen::UnloadUI()
 {
 	this->game->entityManager->RemoveEntity(this->distanceLabel);
+	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
 }
 
 void GameScreen::OnEvent(Event & newEvent)
@@ -106,6 +109,11 @@ void GameScreen::OnEvent(Event & newEvent)
 	{
 		auto turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
 		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
+	}
+	else if (newEvent.GetEventType() == VictoryEvent::VictoryEventType)
+	{
+		auto victoryEvent = static_cast<VictoryEvent&>(newEvent);
+		this->OnVictory(victoryEvent);
 	}
 }
 
@@ -158,4 +166,21 @@ void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseLabel, TextComponent::TextComponentType);
 	textComponent->text = L"Turn Phase: " + turnPhaseName;
+}
+
+void GameScreen::OnVictory(VictoryEvent& victoryEvent)
+{
+	// Remove End Turn button.
+	this->game->entityManager->RemoveEntity(this->endTurnButton);
+	this->game->entityManager->RemoveEntity(this->endTurnLabel);
+
+	// Show victory window.
+	this->victoryWindow = this->uiFactory->CreateSprite("Assets/Window.png");
+	this->uiFactory->SetAnchor(this->victoryWindow, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->FinishUIWidget(this->victoryWindow);
+
+	this->victoryLabel = this->uiFactory->CreateLabel(L"VICTORY!");
+	this->uiFactory->SetFontSize(this->victoryLabel, 72.0f);
+	this->uiFactory->SetAnchor(this->victoryLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->victoryWindow);
+	this->uiFactory->FinishUIWidget(this->victoryLabel);
 }
