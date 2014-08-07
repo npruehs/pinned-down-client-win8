@@ -3,10 +3,14 @@
 #include "Game.h"
 #include "Event.h"
 
+#include "Events\CardIdMappingCreatedEvent.h"
+#include "Events\CardCopyCreatedEvent.h"
+
 #include "Systems\CardIdMappingSystem.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
+using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Util;
 
@@ -19,10 +23,15 @@ CardIdMappingSystem::CardIdMappingSystem()
 void CardIdMappingSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
-
+	
+	// Setup card mapping.
 	this->cardFactory = std::make_shared<CardFactory>(this->game);
 	this->cardIdMapping = std::make_shared<CardIdMapping>();
 
+	auto cardIdMappingCreatedEvent = std::make_shared<CardIdMappingCreatedEvent>(this->cardIdMapping);
+	this->game->eventManager->QueueEvent(cardIdMappingCreatedEvent);
+
+	// Register listener.
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 }
 
@@ -42,4 +51,8 @@ void CardIdMappingSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 	// Update mapping.
 	this->cardIdMapping->MapCardId(cardCreatedEvent.serverEntity, clientEntity);
+
+	// Notify listeners.
+	auto cardCopyCreatedEvent = std::make_shared<CardCopyCreatedEvent>(clientEntity);
+	this->game->eventManager->QueueEvent(cardCopyCreatedEvent);
 }
