@@ -331,6 +331,12 @@
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Util\CardIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -614,6 +620,12 @@
     </ClInclude>
     <ClInclude Include="Events\AudioEngineChangedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\CardIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardIdMappingSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

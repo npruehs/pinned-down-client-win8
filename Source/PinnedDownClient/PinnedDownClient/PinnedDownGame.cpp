@@ -4,6 +4,7 @@
 
 #include "Resources\PinnedDownResourceManager.h"
 
+#include "Systems\CardIdMappingSystem.h"
 #include "Systems\RenderSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\SoundSystem.h"
@@ -37,6 +38,7 @@ PinnedDownGame::PinnedDownGame()
 	this->game->logger->Info(L"Resource manager initialized.");
 
 	// Init systems.
+	this->game->systemManager->AddSystem(std::make_shared<Systems::CardIdMappingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::RenderSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::LuaScriptSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundSystem>());
