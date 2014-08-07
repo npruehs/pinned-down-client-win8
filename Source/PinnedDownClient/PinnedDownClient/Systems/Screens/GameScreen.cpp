@@ -3,18 +3,24 @@
 
 #include "Actions\EndTurnAction.h"
 
+#include "Data\TurnPhase.h"
+
 #include "Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\Screens\GameScreen.h"
 
+#include "Util\StringUtils.h"
+
 
 using namespace PinnedDownNet::Events;
+using namespace PinnedDownNet::Data;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
+using namespace PinnedDownClient::Util;
 
 
 GameScreen::GameScreen()
@@ -144,32 +150,7 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
 {
-	std::wstring turnPhaseName;
-	
-	switch (turnPhaseChangedEvent.newTurnPhase)
-	{
-	case TurnPhase::Assignment:
-		turnPhaseName = L"Assignment";
-		break;
-	case TurnPhase::Attack:
-		turnPhaseName = L"Attack";
-		break;
-	case TurnPhase::Fight:
-		turnPhaseName = L"Fight";
-		break;
-	case TurnPhase::Jump:
-		turnPhaseName = L"Jump";
-		break;
-	case TurnPhase::Main:
-		turnPhaseName = L"Main";
-		break;
-	case TurnPhase::WrapUp:
-		turnPhaseName = L"Wrap Up";
-		break;
-	default:
-		turnPhaseName = L"Invalid";
-		break;
-	}
+	std::wstring turnPhaseName = StringToWString(TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase));
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseLabel, TextComponent::TextComponentType);
 	textComponent->text = L"Turn Phase: " + turnPhaseName;

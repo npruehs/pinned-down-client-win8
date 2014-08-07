@@ -13,6 +13,8 @@
 
 #include "Systems\CardLayoutSystem.h"
 
+#include "Util\StringUtils.h"
+
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Components;
 using namespace PinnedDownNet::Events;
@@ -97,6 +99,8 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	this->uiFactory->FinishUIWidget(card->nameLabel);
 
 	// Card type label.
+	auto cardType = StringToWString(CardTypeToString(cardComponent->cardType));
+
 	card->cardTypeLabel = this->uiFactory->CreateLabel(L"Starship");
 	this->uiFactory->SetAnchor(card->cardTypeLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
 	this->uiFactory->SetColor(card->cardTypeLabel, D2D1::ColorF(D2D1::ColorF::Black));
