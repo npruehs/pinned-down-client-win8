@@ -331,6 +331,18 @@
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Util\CardIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardIdMappingCreatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardLayoutSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -615,6 +627,21 @@
     <ClInclude Include="Events\AudioEngineChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Util\CardIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardLayoutSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardIdMappingCreatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Card.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -627,6 +654,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Button.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BlueWingStarship.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

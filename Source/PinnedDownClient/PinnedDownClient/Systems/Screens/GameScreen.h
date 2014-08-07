@@ -4,6 +4,7 @@
 #include "Events\EntityTappedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
+#include "Events\DefeatEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
@@ -37,8 +38,8 @@ namespace PinnedDownClient
 				Entity turnPhaseLabel = INVALID_ENTITY_ID;
 				Entity endTurnButton = INVALID_ENTITY_ID;
 				Entity endTurnLabel = INVALID_ENTITY_ID;
-				Entity victoryWindow = INVALID_ENTITY_ID;
-				Entity victoryLabel = INVALID_ENTITY_ID;
+				Entity gameOverWindow = INVALID_ENTITY_ID;
+				Entity gameOverLabel = INVALID_ENTITY_ID;
 
 				void OnEvent(Event & event);
 
@@ -46,6 +47,9 @@ namespace PinnedDownClient
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
+				void OnDefeat(DefeatEvent& defeatEvent);
+
+				void ShowGameOver(std::wstring title);
 			};
 		}
 	}

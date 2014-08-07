@@ -2,10 +2,13 @@
 #include "Event.h"
 #include "ServerEventReader.h"
 
+#include "Events\CardCreatedEvent.h"
+#include "Events\CardRemovedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
+#include "Events\DefeatEvent.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
@@ -32,7 +35,19 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 
 	HashedString hashedEventType = HashedString(eventType);
 
-	if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
+	if (hashedEventType == CardCreatedEvent::CardCreatedEventType)
+	{
+		auto cardCreatedEvent = std::make_shared<CardCreatedEvent>();
+		cardCreatedEvent->Deserialize(in);
+		return cardCreatedEvent;
+	}
+	if (hashedEventType == CardRemovedEvent::CardRemovedEventType)
+	{
+		auto cardRemovedEvent = std::make_shared<CardRemovedEvent>();
+		cardRemovedEvent->Deserialize(in);
+		return cardRemovedEvent;
+	}
+	else if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		loginSuccessEvent->Deserialize(in);
@@ -55,6 +70,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto victoryEvent = std::make_shared<VictoryEvent>();
 		victoryEvent->Deserialize(in);
 		return victoryEvent;
+	}
+	else if (hashedEventType == DefeatEvent::DefeatEventType)
+	{
+		auto defeatEvent = std::make_shared<DefeatEvent>();
+		defeatEvent->Deserialize(in);
+		return defeatEvent;
 	}
 
 	return nullptr;

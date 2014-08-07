@@ -3,18 +3,24 @@
 
 #include "Actions\EndTurnAction.h"
 
+#include "Data\TurnPhase.h"
+
 #include "Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\Screens\GameScreen.h"
 
+#include "Util\StringUtils.h"
+
 
 using namespace PinnedDownNet::Events;
+using namespace PinnedDownNet::Data;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
+using namespace PinnedDownClient::Util;
 
 
 GameScreen::GameScreen()
@@ -34,6 +40,7 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);
+	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
 }
 
 void GameScreen::DeInitScreen()
@@ -42,6 +49,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
+	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 }
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -115,6 +123,11 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto victoryEvent = static_cast<VictoryEvent&>(newEvent);
 		this->OnVictory(victoryEvent);
 	}
+	else if (newEvent.GetEventType() == DefeatEvent::DefeatEventType)
+	{
+		auto defeatEvent = static_cast<DefeatEvent&>(newEvent);
+		this->OnDefeat(defeatEvent);
+	}
 }
 
 void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent)
@@ -137,32 +150,7 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
 {
-	std::wstring turnPhaseName;
-	
-	switch (turnPhaseChangedEvent.newTurnPhase)
-	{
-	case TurnPhase::Assignment:
-		turnPhaseName = L"Assignment";
-		break;
-	case TurnPhase::Attack:
-		turnPhaseName = L"Attack";
-		break;
-	case TurnPhase::Fight:
-		turnPhaseName = L"Fight";
-		break;
-	case TurnPhase::Jump:
-		turnPhaseName = L"Jump";
-		break;
-	case TurnPhase::Main:
-		turnPhaseName = L"Main";
-		break;
-	case TurnPhase::WrapUp:
-		turnPhaseName = L"Wrap Up";
-		break;
-	default:
-		turnPhaseName = L"Invalid";
-		break;
-	}
+	std::wstring turnPhaseName = StringToWString(TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase));
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseLabel, TextComponent::TextComponentType);
 	textComponent->text = L"Turn Phase: " + turnPhaseName;
@@ -170,17 +158,29 @@ void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent
 
 void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 {
+	// Show victory window.
+	this->ShowGameOver(L"VICTORY!");
+}
+
+void GameScreen::OnDefeat(DefeatEvent& defeatEvent)
+{
+	// Show defeat window.
+	this->ShowGameOver(L"DEFEAT!");
+}
+
+void GameScreen::ShowGameOver(std::wstring title)
+{
 	// Remove End Turn button.
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
 	this->game->entityManager->RemoveEntity(this->endTurnLabel);
 
 	// Show victory window.
-	this->victoryWindow = this->uiFactory->CreateSprite("Assets/Window.png");
-	this->uiFactory->SetAnchor(this->victoryWindow, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
-	this->uiFactory->FinishUIWidget(this->victoryWindow);
+	this->gameOverWindow = this->uiFactory->CreateSprite("Assets/Window.png");
+	this->uiFactory->SetAnchor(this->gameOverWindow, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->FinishUIWidget(this->gameOverWindow);
 
-	this->victoryLabel = this->uiFactory->CreateLabel(L"VICTORY!");
-	this->uiFactory->SetFontSize(this->victoryLabel, 72.0f);
-	this->uiFactory->SetAnchor(this->victoryLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->victoryWindow);
-	this->uiFactory->FinishUIWidget(this->victoryLabel);
+	this->gameOverLabel = this->uiFactory->CreateLabel(title);
+	this->uiFactory->SetFontSize(this->gameOverLabel, 72.0f);
+	this->uiFactory->SetAnchor(this->gameOverLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->gameOverWindow);
+	this->uiFactory->FinishUIWidget(this->gameOverLabel);
 }

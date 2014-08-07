@@ -202,6 +202,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="Assets\BlueWingStarship.png" />
     <Image Include="Assets\Button.png" />
     <Image Include="Assets\Logo.png" />
     <Image Include="Assets\SmallLogo.png" />
@@ -230,6 +231,7 @@
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
     <ClInclude Include="Events\AudioEngineChangedEvent.h" />
+    <ClInclude Include="Events\CardIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
@@ -278,6 +280,8 @@
     <ClInclude Include="Resources\BitmapResourceHandle.h" />
     <ClInclude Include="Resources\PinnedDownResourceManager.h" />
     <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h" />
+    <ClInclude Include="Systems\CardIdMappingSystem.h" />
+    <ClInclude Include="Systems\CardLayoutSystem.h" />
     <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\NetworkSystem.h" />
@@ -296,10 +300,12 @@
     <ClInclude Include="Systems\UILayoutSystem.h" />
     <ClInclude Include="Systems\UI\Anchor.h" />
     <ClInclude Include="Systems\UI\Button.h" />
+    <ClInclude Include="Systems\UI\Card.h" />
     <ClInclude Include="Systems\UI\Label.h" />
     <ClInclude Include="Systems\UI\Panel.h" />
     <ClInclude Include="Systems\UI\Sprite.h" />
     <ClInclude Include="Systems\UI\UIFactory.h" />
+    <ClInclude Include="Util\CardIdMapping.h" />
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\FileLogger.h" />
     <ClInclude Include="Util\GameException.h" />
@@ -328,6 +334,7 @@
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
+    <ClCompile Include="Events\CardIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
@@ -559,6 +566,8 @@
     <ClCompile Include="Resources\BitmapResourceHandle.cpp" />
     <ClCompile Include="Resources\PinnedDownResourceManager.cpp" />
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp" />
+    <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
+    <ClCompile Include="Systems\CardLayoutSystem.cpp" />
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
@@ -573,6 +582,7 @@
     <ClCompile Include="Systems\UILayoutSystem.cpp" />
     <ClCompile Include="Systems\ScreenSystem.cpp" />
     <ClCompile Include="Systems\UI\UIFactory.cpp" />
+    <ClCompile Include="Util\CardIdMapping.cpp" />
     <ClCompile Include="Util\FileLogger.cpp" />
     <ClCompile Include="Util\GameException.cpp" />
   </ItemGroup>

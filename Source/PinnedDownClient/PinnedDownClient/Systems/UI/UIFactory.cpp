@@ -140,6 +140,12 @@ void UIFactory::SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor le
 	anchorComponent->target = anchorTarget;
 }
 
+void UIFactory::SetColor(Entity entity,D2D1_COLOR_F color)
+{
+	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entity, ColorComponent::ColorComponentType);
+	colorComponent->color = color;
+}
+
 void UIFactory::SetDepth(Entity entity, int depth)
 {
 	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entity, DepthComponent::DepthComponentType);

@@ -27,6 +27,7 @@ namespace PinnedDownClient
 
 				void SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left);
 				void SetAnchor(Entity entity, VerticalAnchor top, HorizontalAnchor left, Entity anchorTarget);
+				void SetColor(Entity entity, D2D1_COLOR_F color);
 				void SetDepth(Entity entity, int depth);
 				void SetFontSize(Entity entity, float fontSize);
 				void SetPanel(Entity entity, Entity panel);
