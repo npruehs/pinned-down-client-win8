@@ -5,6 +5,7 @@
 
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
+#include "Components\FlagshipComponent.h"
 #include "Components\PowerComponent.h"
 #include "Components\ThreatComponent.h"
 
@@ -117,6 +118,14 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->FinishUIWidget(card->powerLabel);
 
+	// Ability label.
+	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
+
+	card->abilityLabel = this->uiFactory->CreateLabel(flagshipComponent != nullptr ? L"FLAGSHIP." : L"");
+	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 30.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), card->backgroundSprite);
+	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
+	this->uiFactory->FinishUIWidget(card->abilityLabel);
+
 	// Add to list.
 	this->cards.push_back(card);
 }
@@ -138,6 +147,7 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 			this->game->entityManager->RemoveEntity(card->nameLabel);
 			this->game->entityManager->RemoveEntity(card->powerLabel);
 			this->game->entityManager->RemoveEntity(card->threatLabel);
+			this->game->entityManager->RemoveEntity(card->abilityLabel);
 
 			this->cards.erase(iterator);
 			break;

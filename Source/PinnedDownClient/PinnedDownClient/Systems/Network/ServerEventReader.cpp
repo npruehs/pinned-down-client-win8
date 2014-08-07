@@ -8,6 +8,7 @@
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
+#include "Events\DefeatEvent.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
@@ -69,6 +70,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto victoryEvent = std::make_shared<VictoryEvent>();
 		victoryEvent->Deserialize(in);
 		return victoryEvent;
+	}
+	else if (hashedEventType == DefeatEvent::DefeatEventType)
+	{
+		auto defeatEvent = std::make_shared<DefeatEvent>();
+		defeatEvent->Deserialize(in);
+		return defeatEvent;
 	}
 
 	return nullptr;
