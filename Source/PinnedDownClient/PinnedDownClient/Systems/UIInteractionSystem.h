@@ -5,7 +5,7 @@
 #include "IEventListener.h"
 
 #include "Events\AudioEngineChangedEvent.h"
-#include "Events\EntityInitializedEvent.h"
+#include "EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
 #include "Events\PointerReleasedEvent.h"
 

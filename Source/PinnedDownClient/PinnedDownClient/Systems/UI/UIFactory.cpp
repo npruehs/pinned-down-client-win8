@@ -14,10 +14,11 @@
 #include "Components\UIWidgetComponent.h"
 #include "Components\VisibilityComponent.h"
 
-#include "Events\EntityInitializedEvent.h"
+#include "EntityInitializedEvent.h"
 
 #include "Math\Vector2F.h"
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Math;
@@ -171,6 +172,6 @@ void UIFactory::SetTappable(Entity entity)
 
 void UIFactory::FinishUIWidget(Entity entity)
 {
-	auto entityInitializedEvent = std::make_shared<Events::EntityInitializedEvent>(entity);
+	auto entityInitializedEvent = std::make_shared<EntityInitializedEvent>(entity);
 	this->game->eventManager->QueueEvent(entityInitializedEvent);
 }

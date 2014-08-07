@@ -241,9 +241,6 @@
     <ClCompile Include="Components\ColorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Events\EntityInitializedEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="Components\UIPanelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -503,9 +500,6 @@
     </ClInclude>
     <ClInclude Include="Components\ColorComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\EntityInitializedEvent.h">
-      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Components\UIPanelComponent.h">
       <Filter>Components</Filter>

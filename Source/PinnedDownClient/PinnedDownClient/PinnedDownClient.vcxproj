@@ -233,7 +233,6 @@
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
     <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
-    <ClInclude Include="Events\EntityInitializedEvent.h" />
     <ClInclude Include="Events\EntityTappedEvent.h" />
     <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
@@ -332,7 +331,6 @@
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
     <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
-    <ClCompile Include="Events\EntityInitializedEvent.cpp" />
     <ClCompile Include="Events\EntityTappedEvent.cpp" />
     <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />

@@ -6,7 +6,7 @@
 
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
-#include "Events\EntityInitializedEvent.h"
+#include "EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
 
 #include "Systems\UI\Anchor.h"

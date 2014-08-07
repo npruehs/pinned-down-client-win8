@@ -9,7 +9,7 @@
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
-#include "Events\EntityInitializedEvent.h"
+#include "EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
 #include "Resources\BitmapResourceHandle.h"
 #include "Math\Vector2F.h"
@@ -20,6 +20,7 @@
 using namespace Microsoft::WRL;
 using namespace Windows::Graphics::Display;
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Events;

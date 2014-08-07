@@ -8,10 +8,11 @@
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
 
-#include "Events\EntityInitializedEvent.h"
+#include "EntityInitializedEvent.h"
 
 using namespace Windows::ApplicationModel;
 
+using namespace PinnedDownCore;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Components;
