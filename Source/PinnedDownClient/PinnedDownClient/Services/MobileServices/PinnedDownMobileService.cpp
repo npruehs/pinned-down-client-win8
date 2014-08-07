@@ -1,12 +1,12 @@
 ﻿#include "pch.h"
+#include "PinnedDownAzure.h"
 #include "Services\MobileServices\PinnedDownMobileService.h"
+
 
 using namespace PinnedDownClient::Services;
 
 azure::mobile::client& PinnedDownMobileService::GetClient()
 {
-	
-    static azure::mobile::client c(L"https://pinneddown.azure-mobile.net/", 
-                                   L"GSzEZQfSDXOyfFdMYpCFlZVZiigAAN83");
+	static azure::mobile::client c(L"https://pinneddown.azure-mobile.net/", PINNED_DOWN_APPLICATION_KEY);
     return c;
 }
