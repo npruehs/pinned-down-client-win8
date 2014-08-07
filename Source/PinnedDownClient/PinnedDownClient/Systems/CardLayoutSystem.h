@@ -4,7 +4,8 @@
 #include "GameSystem.h"
 
 #include "Events\CardIdMappingCreatedEvent.h"
-#include "Events\CardCopyCreatedEvent.h"
+#include "Events\CardCreatedEvent.h"
+#include "Events\CardRemovedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
 #include "Systems\UI\UIFactory.h"
@@ -13,6 +14,7 @@
 #include "Util\CardIdMapping.h"
 
 
+using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Util;
@@ -40,7 +42,8 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void OnCardIdMappingCreated(CardIdMappingCreatedEvent& cardIdMappingCreatedEvent);
-			void OnCardCopyCreated(CardCopyCreatedEvent& cardCopyCreatedEvent);
+			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
+			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 		};
 	}

@@ -343,9 +343,6 @@
     <ClCompile Include="Systems\CardLayoutSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Events\CardCopyCreatedEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -640,9 +637,6 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Events\CardIdMappingCreatedEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\CardCopyCreatedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UI\Card.h">

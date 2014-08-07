@@ -231,7 +231,6 @@
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
     <ClInclude Include="Events\AudioEngineChangedEvent.h" />
-    <ClInclude Include="Events\CardCopyCreatedEvent.h" />
     <ClInclude Include="Events\CardIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
     <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
@@ -335,7 +334,6 @@
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
-    <ClCompile Include="Events\CardCopyCreatedEvent.cpp" />
     <ClCompile Include="Events\CardIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
     <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />

@@ -3,6 +3,7 @@
 #include "ServerEventReader.h"
 
 #include "Events\CardCreatedEvent.h"
+#include "Events\CardRemovedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
@@ -38,6 +39,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto cardCreatedEvent = std::make_shared<CardCreatedEvent>();
 		cardCreatedEvent->Deserialize(in);
 		return cardCreatedEvent;
+	}
+	if (hashedEventType == CardRemovedEvent::CardRemovedEventType)
+	{
+		auto cardRemovedEvent = std::make_shared<CardRemovedEvent>();
+		cardRemovedEvent->Deserialize(in);
+		return cardRemovedEvent;
 	}
 	else if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{

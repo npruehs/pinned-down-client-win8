@@ -4,7 +4,6 @@
 #include "Event.h"
 
 #include "Events\CardIdMappingCreatedEvent.h"
-#include "Events\CardCopyCreatedEvent.h"
 
 #include "Systems\CardIdMappingSystem.h"
 
@@ -51,8 +50,4 @@ void CardIdMappingSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 	// Update mapping.
 	this->cardIdMapping->MapCardId(cardCreatedEvent.serverEntity, clientEntity);
-
-	// Notify listeners.
-	auto cardCopyCreatedEvent = std::make_shared<CardCopyCreatedEvent>(clientEntity);
-	this->game->eventManager->QueueEvent(cardCopyCreatedEvent);
 }
