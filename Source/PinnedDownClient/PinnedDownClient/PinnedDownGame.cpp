@@ -8,6 +8,7 @@
 #include "Systems\CardLayoutSystem.h"
 #include "Systems\RenderSystem.h"
 #include "Systems\LuaScriptSystem.h"
+#include "Systems\LocalizationSystem.h"
 #include "Systems\SoundSystem.h"
 #include "Systems\DebugInfoSystem.h"
 #include "Systems\UIInteractionSystem.h"
@@ -35,7 +36,7 @@ PinnedDownGame::PinnedDownGame()
 	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
 	this->game->logger->Info(L"Logger initialized.");
 
-	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager());
+	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager(this->game.get()));
 	this->game->logger->Info(L"Resource manager initialized.");
 
 	// Init systems.
@@ -43,6 +44,7 @@ PinnedDownGame::PinnedDownGame()
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardLayoutSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::RenderSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::LuaScriptSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::LocalizationSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::DebugInfoSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::UILayoutSystem>());

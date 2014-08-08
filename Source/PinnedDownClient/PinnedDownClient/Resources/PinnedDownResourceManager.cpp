@@ -1,21 +1,33 @@
 #include "pch.h"
-#include "PinnedDownResourceManager.h"
-#include "Util\DirectXUtils.h"
-#include "Util\MemoryUtils.h"
-#include "Util\StringUtils.h"
-#include "Resources\BitmapResourceHandle.h"
-#include "Resources\AudioResourceHandle.h"
 
 #include <mfidl.h>
 #include <mfapi.h>
 #include <mfreadwrite.h>
 
-using namespace Windows::ApplicationModel;
+#include "PinnedDownResourceManager.h"
 
+#include "Events\ResourceLoadedEvent.h"
+
+#include "Resources\BitmapResourceHandle.h"
+#include "Resources\AudioResourceHandle.h"
+#include "Resources\TextResourceHandle.h"
+
+#include "Util\DirectXUtils.h"
+#include "Util\MemoryUtils.h"
+#include "Util\StringUtils.h"
+
+
+using namespace concurrency;
+
+using namespace Windows::ApplicationModel;
+using namespace Windows::Storage;
+
+using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Util;
 
-PinnedDownResourceManager::PinnedDownResourceManager()
+
+PinnedDownResourceManager::PinnedDownResourceManager(Game* game) : ResourceManager(game)
 {
 	// Create WIC imaging factory.
 	ThrowIfFailed(
@@ -172,6 +184,36 @@ void PinnedDownResourceManager::LoadAudioFromFile(IXAudio2* engine, LPCWSTR audi
 	// Add to resource map.
 	ResHandlePtr handle = std::make_shared<AudioResourceHandle>(WStringToString(audioUri), waveFormat, resultData);
 	this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->GetHash(), handle));
+}
+
+void PinnedDownResourceManager::LoadTextFromFile(std::wstring fileUri)
+{
+	StorageFolder^ storageFolder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+	auto getFolderTask = create_task(storageFolder->GetFolderAsync("Assets"));
+
+	getFolderTask.then([this, fileUri](StorageFolder^ folder)
+	{
+		return folder->GetFolderAsync("Text");
+	}).then([this, fileUri](StorageFolder^ folder)
+	{
+		return folder->GetFileAsync(ref new Platform::String(fileUri.c_str()));
+	}).then([this, fileUri](StorageFile^ textFile)
+	{
+		return FileIO::ReadTextAsync(textFile);
+	}).then([this, fileUri](task<Platform::String^> task)
+	{
+		Platform::String^ fileContent = task.get();
+		std::wstring text = fileContent->Data();
+
+		// Add to resource map.
+		auto resourceName = WStringToString(fileUri);
+		ResHandlePtr handle = std::make_shared<TextResourceHandle>(resourceName, text);
+		this->resourceMap.insert(std::pair<unsigned long, ResHandlePtr>(handle->GetResourceName()->GetHash(), handle));
+
+		// Notify listeners.
+		auto resourceLoadedEvent = std::make_shared<ResourceLoadedEvent>(resourceName);
+		this->game->eventManager->QueueEvent(resourceLoadedEvent);
+	});
 }
 
 Platform::Array<byte>^ PinnedDownResourceManager::ReadBytes(Platform::String^ fileName)

@@ -5,6 +5,7 @@
 #include "Components\ColorComponent.h"
 #include "Components\DepthComponent.h"
 #include "Components\FontComponent.h"
+#include "Components\LocalizationComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\SpriteComponent.h"
 #include "Components\TappableComponent.h"
@@ -30,7 +31,7 @@ UIFactory::UIFactory(PinnedDownCore::Game* game)
 	this->game = game;
 }
 
-Entity UIFactory::CreateLabel(std::wstring text)
+Entity UIFactory::CreateLabel(std::wstring localizationKey)
 {
 	Entity entity = this->game->entityManager->CreateEntity();
 
@@ -47,11 +48,14 @@ Entity UIFactory::CreateLabel(std::wstring text)
 	auto fontComponent = std::make_shared<FontComponent>();
 	this->game->entityManager->AddComponent(entity, fontComponent);
 
+	auto localizationComponent = std::make_shared<LocalizationComponent>();
+	localizationComponent->localizationKey = localizationKey;
+	this->game->entityManager->AddComponent(entity, localizationComponent);
+
 	auto screenPositionComponent = std::make_shared<ScreenPositionComponent>();
 	this->game->entityManager->AddComponent(entity, screenPositionComponent);
 
 	auto textComponent = std::make_shared<TextComponent>();
-	textComponent->text = text;
 	this->game->entityManager->AddComponent(entity, textComponent);
 
 	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();

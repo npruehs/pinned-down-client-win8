@@ -20,7 +20,7 @@ namespace PinnedDownClient
 			LuaInstance();
 			~LuaInstance();
 
-			bool ExecuteLine(const char* line);
+			bool ExecuteScript(const char* script);
 
 			void SetLogger(std::shared_ptr<Logger> logger);
 

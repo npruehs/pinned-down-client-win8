@@ -65,6 +65,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{17c2a5d2-6a32-4911-b2b4-19ef990963f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Text">
+      <UniqueIdentifier>{bbc5e848-e9ca-480f-911e-6c01dc16db44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -345,6 +348,21 @@
     </ClCompile>
     <ClCompile Include="Util\LuaInstance.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\LocalizationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\LocalizationSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\TextResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ResourceLoadedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,6 +666,21 @@
     <ClInclude Include="Util\LuaInstance.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="Components\LocalizationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\LocalizationSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\TextResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ResourceLoadedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LocalizationDataLoadedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -665,5 +698,10 @@
     <Image Include="Assets\BlueWingStarship.png">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Text\English.lua">
+      <Filter>Assets\Text</Filter>
+    </Text>
   </ItemGroup>
 </Project>

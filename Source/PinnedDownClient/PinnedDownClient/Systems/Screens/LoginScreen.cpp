@@ -2,6 +2,7 @@
 
 #include "Actions\ConnectToServerAction.h"
 
+#include "Components\LocalizationComponent.h"
 #include "Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
@@ -50,7 +51,8 @@ void LoginScreen::Update(float dt)
 		return;
 	}
 
-	std::wstring text = L"Connecting ";
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+	std::wstring text = localizationComponent->localizationValue;
 
 	if (this->totalTime - floorf(this->totalTime) < 0.33)
 	{
@@ -92,7 +94,7 @@ void LoginScreen::UnloadResources()
 void LoginScreen::LoadUI()
 {
 	// Status label.
-	this->statusLabel = this->uiFactory->CreateLabel(L"Connecting...");
+	this->statusLabel = this->uiFactory->CreateLabel(L"LoginScreen_Connecting");
 	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetFontSize(this->statusLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
@@ -168,7 +170,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->uiFactory->SetTappable(this->reconnectButton);
 	this->uiFactory->FinishUIWidget(this->reconnectButton);
 
-	this->reconnectLabel = this->uiFactory->CreateLabel(L"Reconnect");
+	this->reconnectLabel = this->uiFactory->CreateLabel(L"LoginScreen_Reconnect");
 	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
 	this->uiFactory->SetFontSize(this->reconnectLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->reconnectLabel);

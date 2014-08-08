@@ -24,9 +24,9 @@ void LuaInstance::SetLogger(std::shared_ptr<Logger> logger)
 	this->logger = logger;
 }
 
-bool LuaInstance::ExecuteLine(const char* line)
+bool LuaInstance::ExecuteScript(const char* script)
 {
-	error = luaL_loadbuffer(this->luaState, line, strlen(line), "line") || lua_pcall(this->luaState, 0, 0, 0);
+	error = luaL_loadbuffer(this->luaState, script, strlen(script), "script") || lua_pcall(this->luaState, 0, 0, 0);
 
 	// Check for errors.
 	if (error)
@@ -197,7 +197,7 @@ std::string LuaInstance::PopString(const char* var)
 		errorMessage += " is not a string.";
 		this->LogError(errorMessage.c_str());
 		lua_pop(this->luaState, 1);
-		return false;
+		return "";
 	}
 	else
 	{
