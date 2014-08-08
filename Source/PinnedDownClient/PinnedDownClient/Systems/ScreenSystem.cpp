@@ -29,6 +29,7 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
+	this->game->eventManager->AddListener(this, LocalizationDataLoadedEvent::LocalizationDataLoadedEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
@@ -47,6 +48,10 @@ void ScreenSystem::OnEvent(Event & newEvent)
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
 	}
+	else if (newEvent.GetEventType() == LocalizationDataLoadedEvent::LocalizationDataLoadedEventType)
+	{
+		this->OnLocalizationDataLoaded();
+	}
 	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
 	{
 		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
@@ -60,12 +65,15 @@ void ScreenSystem::OnLoginSuccess()
 	this->SetScreen(std::make_shared<GameScreen>());
 }
 
+void ScreenSystem::OnLocalizationDataLoaded()
+{
+	// Show first screen.
+	this->SetScreen(std::make_shared<LoginScreen>());
+}
+
 void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent)
 {
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
-
-	// Show first screen.
-	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
 void ScreenSystem::SetScreen(std::shared_ptr<Screen> newScreen)

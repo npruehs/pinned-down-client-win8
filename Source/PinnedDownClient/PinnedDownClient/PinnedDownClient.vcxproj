@@ -217,6 +217,7 @@
     <ClInclude Include="Components\ColorComponent.h" />
     <ClInclude Include="Components\DepthComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\LocalizationComponent.h" />
     <ClInclude Include="Components\SpriteComponent.h" />
     <ClInclude Include="Components\TappableComponent.h" />
     <ClInclude Include="Components\UIAnchorComponent.h" />
@@ -239,11 +240,13 @@
     <ClInclude Include="Events\EventLogger.h" />
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
+    <ClInclude Include="Events\LocalizationDataLoadedEvent.h" />
     <ClInclude Include="Events\LoginErrorEvent.h" />
     <ClInclude Include="Events\PointerMovedEvent.h" />
     <ClInclude Include="Events\PointerPressedEvent.h" />
     <ClInclude Include="Events\PointerReleasedEvent.h" />
     <ClInclude Include="Events\RenderTargetChangedEvent.h" />
+    <ClInclude Include="Events\ResourceLoadedEvent.h" />
     <ClInclude Include="Events\ScreenChangedEvent.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Lua\lapi.h" />
@@ -279,10 +282,12 @@
     <ClInclude Include="Resources\AudioResourceHandle.h" />
     <ClInclude Include="Resources\BitmapResourceHandle.h" />
     <ClInclude Include="Resources\PinnedDownResourceManager.h" />
+    <ClInclude Include="Resources\TextResourceHandle.h" />
     <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h" />
     <ClInclude Include="Systems\CardIdMappingSystem.h" />
     <ClInclude Include="Systems\CardLayoutSystem.h" />
     <ClInclude Include="Systems\DebugInfoSystem.h" />
+    <ClInclude Include="Systems\LocalizationSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\NetworkSystem.h" />
     <ClInclude Include="Systems\Network\ClientActionWriter.h" />
@@ -309,6 +314,7 @@
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\FileLogger.h" />
     <ClInclude Include="Util\GameException.h" />
+    <ClInclude Include="Util\LuaInstance.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
     <ClInclude Include="Util\StepTimer.h" />
     <ClInclude Include="Util\StringUtils.h" />
@@ -320,6 +326,7 @@
     <ClCompile Include="Components\ColorComponent.cpp" />
     <ClCompile Include="Components\DepthComponent.cpp" />
     <ClCompile Include="Components\FontComponent.cpp" />
+    <ClCompile Include="Components\LocalizationComponent.cpp" />
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\SpriteComponent.cpp" />
     <ClCompile Include="Components\TappableComponent.cpp" />
@@ -342,12 +349,14 @@
     <ClCompile Include="Events\EventLogger.cpp" />
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
+    <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp" />
     <ClCompile Include="Events\LoginErrorEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />
     <ClCompile Include="Events\PointerPressedEvent.cpp" />
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Events\ResourceLoadedEvent.cpp" />
     <ClCompile Include="Events\ScreenChangedEvent.cpp" />
     <ClCompile Include="Lua\lapi.c">
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
@@ -565,10 +574,12 @@
     <ClCompile Include="Resources\AudioResourceHandle.cpp" />
     <ClCompile Include="Resources\BitmapResourceHandle.cpp" />
     <ClCompile Include="Resources\PinnedDownResourceManager.cpp" />
+    <ClCompile Include="Resources\TextResourceHandle.cpp" />
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp" />
     <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
     <ClCompile Include="Systems\CardLayoutSystem.cpp" />
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
+    <ClCompile Include="Systems\LocalizationSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
     <ClCompile Include="Systems\Network\ClientActionWriter.cpp" />
@@ -585,6 +596,7 @@
     <ClCompile Include="Util\CardIdMapping.cpp" />
     <ClCompile Include="Util\FileLogger.cpp" />
     <ClCompile Include="Util\GameException.cpp" />
+    <ClCompile Include="Util\LuaInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -607,6 +619,9 @@
   <ItemGroup>
     <SDKReference Include="CppRESTWindowsSDK, version=1.0" />
     <SDKReference Include="MobileServicesCppClient, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Text\English.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

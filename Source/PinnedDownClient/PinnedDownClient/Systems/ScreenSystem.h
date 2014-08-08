@@ -5,6 +5,7 @@
 #include "IEventListener.h"
 
 #include "Events\RenderTargetChangedEvent.h"
+#include "Events\LocalizationDataLoadedEvent.h"
 
 #include "Systems\Screens\Screen.h"
 #include "Systems\UI\UIFactory.h"
@@ -36,6 +37,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
+			void OnLocalizationDataLoaded();
 			void OnLoginSuccess();
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
 			
