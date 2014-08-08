@@ -343,6 +343,9 @@
     <ClCompile Include="Systems\CardLayoutSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Util\LuaInstance.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -641,6 +644,9 @@
     </ClInclude>
     <ClInclude Include="Systems\UI\Card.h">
       <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LuaInstance.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

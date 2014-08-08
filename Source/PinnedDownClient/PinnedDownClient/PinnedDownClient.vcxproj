@@ -309,6 +309,7 @@
     <ClInclude Include="Util\DirectXUtils.h" />
     <ClInclude Include="Util\FileLogger.h" />
     <ClInclude Include="Util\GameException.h" />
+    <ClInclude Include="Util\LuaInstance.h" />
     <ClInclude Include="Util\MemoryUtils.h" />
     <ClInclude Include="Util\StepTimer.h" />
     <ClInclude Include="Util\StringUtils.h" />
@@ -585,6 +586,7 @@
     <ClCompile Include="Util\CardIdMapping.cpp" />
     <ClCompile Include="Util\FileLogger.cpp" />
     <ClCompile Include="Util\GameException.cpp" />
+    <ClCompile Include="Util\LuaInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

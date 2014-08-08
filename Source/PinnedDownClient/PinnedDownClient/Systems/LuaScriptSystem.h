@@ -3,6 +3,7 @@
 #include "PinnedDownGame.h"
 #include "GameSystem.h"
 #include "IEventListener.h"
+#include "Util\LuaInstance.h"
 
 extern "C" {
 #include <Lua\lua.h>
@@ -11,6 +12,7 @@ extern "C" {
 }
 
 using namespace PinnedDownCore;
+using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
 {
@@ -27,6 +29,8 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void InitLua();
+
+			std::shared_ptr<LuaInstance> lua;
 		};
 	}
 }
