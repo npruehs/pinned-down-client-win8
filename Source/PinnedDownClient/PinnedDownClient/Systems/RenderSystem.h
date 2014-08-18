@@ -93,7 +93,7 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			// Converts between Windows display orientation and DXGI rotation.
-			DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
+			DXGI_MODE_ROTATION ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
 
 			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
 			void OnAppSuspending();

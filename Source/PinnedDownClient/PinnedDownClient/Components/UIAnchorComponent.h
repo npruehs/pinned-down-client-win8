@@ -29,11 +29,11 @@ namespace PinnedDownClient
 			HorizontalAnchorType type;
 			float offset;
 
-			HorizontalAnchor::HorizontalAnchor() : HorizontalAnchor::HorizontalAnchor(HorizontalAnchorType::Left, 0.0f)
+			HorizontalAnchor() : HorizontalAnchor::HorizontalAnchor(HorizontalAnchorType::Left, 0.0f)
 			{
 			}
 
-			HorizontalAnchor::HorizontalAnchor(HorizontalAnchorType type, float offset)
+			HorizontalAnchor(HorizontalAnchorType type, float offset)
 			{
 				this->type = type;
 				this->offset = offset;
@@ -45,11 +45,11 @@ namespace PinnedDownClient
 			VerticalAnchorType type;
 			float offset;
 
-			VerticalAnchor::VerticalAnchor() : VerticalAnchor::VerticalAnchor(VerticalAnchorType::Top, 0.0f)
+			VerticalAnchor() : VerticalAnchor::VerticalAnchor(VerticalAnchorType::Top, 0.0f)
 			{
 			}
 
-			VerticalAnchor::VerticalAnchor(VerticalAnchorType type, float offset)
+			VerticalAnchor(VerticalAnchorType type, float offset)
 			{
 				this->type = type;
 				this->offset = offset;

@@ -124,7 +124,7 @@ void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
 void UILayoutSystem::Update(float dt)
 {
 	// Update anchors.
-	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); iterator++)
+	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); ++iterator)
 	{
 		Anchor& anchor = *iterator;
 

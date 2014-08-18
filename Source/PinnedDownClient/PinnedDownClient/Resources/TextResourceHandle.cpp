@@ -5,7 +5,7 @@ using namespace PinnedDownClient::Resources;
 
 
 TextResourceHandle::TextResourceHandle(std::string resourceName, std::wstring text)
-	: ResourceHandle(resourceName)
+	: ResourceHandle(resourceName),
+	text(text)
 {
-	this->text = text;
 }

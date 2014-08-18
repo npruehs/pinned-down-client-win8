@@ -469,7 +469,7 @@ void RenderSystem::Render()
 	this->d2dContext->BeginDraw();
 
 	// Draw renderables.
-	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); iterator++)
+	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
 	{
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 

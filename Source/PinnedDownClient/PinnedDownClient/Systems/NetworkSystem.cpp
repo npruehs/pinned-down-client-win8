@@ -111,7 +111,7 @@ void NetworkSystem::InitSocket()
 			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"Unable to connect to server.");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
-		catch (azure::mobile::mobile_exception e)
+		catch (azure::mobile::mobile_exception&)
 		{
 			// Notify listeners.
 			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"You must authenticate yourself in order to play Pinned Down.");
