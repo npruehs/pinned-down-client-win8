@@ -37,19 +37,21 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game)
 	Screen::InitScreen(game);
 
 	this->game->eventManager->AddListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
-	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
-	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
-	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);
 	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
+	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
+	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
+	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);	
 }
 
 void GameScreen::DeInitScreen()
 {
 	this->game->eventManager->RemoveListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
+	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
-	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 }
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -84,6 +86,11 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetAnchor(this->turnPhaseLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->turnPhaseLabel);
 
+	// Threat label.
+	this->threatLabel = this->uiFactory->CreateLabel(L"Threat:");
+	this->uiFactory->SetAnchor(this->threatLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->turnPhaseLabel);
+	this->uiFactory->FinishUIWidget(this->threatLabel);
+
 	// End turn button.
 	this->endTurnButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->endTurnButton, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), 0);
@@ -108,10 +115,20 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto coveredDistanceChangedEvent = static_cast<CoveredDistanceChangedEvent&>(newEvent);
 		this->OnCoveredDistanceChanged(coveredDistanceChangedEvent);
 	}
+	else if (newEvent.GetEventType() == DefeatEvent::DefeatEventType)
+	{
+		auto defeatEvent = static_cast<DefeatEvent&>(newEvent);
+		this->OnDefeat(defeatEvent);
+	}
 	else if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
 	{
 		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == ThreatChangedEvent::ThreatChangedEventType)
+	{
+		auto threatChangedEvent = static_cast<ThreatChangedEvent&>(newEvent);
+		this->OnThreatChanged(threatChangedEvent);
 	}
 	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
 	{
@@ -122,11 +139,6 @@ void GameScreen::OnEvent(Event & newEvent)
 	{
 		auto victoryEvent = static_cast<VictoryEvent&>(newEvent);
 		this->OnVictory(victoryEvent);
-	}
-	else if (newEvent.GetEventType() == DefeatEvent::DefeatEventType)
-	{
-		auto defeatEvent = static_cast<DefeatEvent&>(newEvent);
-		this->OnDefeat(defeatEvent);
 	}
 }
 
@@ -139,6 +151,12 @@ void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDi
 	textComponent->text = L"Distance Covered: " + std::to_wstring(distanceCovered) + L" / " + std::to_wstring(distanceMaximum);
 }
 
+void GameScreen::OnDefeat(DefeatEvent& defeatEvent)
+{
+	// Show defeat window.
+	this->ShowGameOver(L"DEFEAT!");
+}
+
 void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
 	if (entityTappedEvent.entity == this->endTurnButton)
@@ -146,6 +164,12 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
 	}
+}
+
+void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
+{
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->threatLabel, TextComponent::TextComponentType);
+	textComponent->text = L"Threat: " + std::to_wstring(threatChangedEvent.newThreat);
 }
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
@@ -160,12 +184,6 @@ void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 {
 	// Show victory window.
 	this->ShowGameOver(L"VICTORY!");
-}
-
-void GameScreen::OnDefeat(DefeatEvent& defeatEvent)
-{
-	// Show defeat window.
-	this->ShowGameOver(L"DEFEAT!");
 }
 
 void GameScreen::ShowGameOver(std::wstring title)

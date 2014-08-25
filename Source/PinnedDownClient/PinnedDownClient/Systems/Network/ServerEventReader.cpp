@@ -4,11 +4,12 @@
 
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
-#include "Events\LoginSuccessEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
+#include "Events\DefeatEvent.h"
+#include "Events\LoginSuccessEvent.h"
+#include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
-#include "Events\DefeatEvent.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
@@ -47,17 +48,29 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		cardRemovedEvent->Deserialize(in);
 		return cardRemovedEvent;
 	}
+	else if (hashedEventType == CoveredDistanceChangedEvent::CoveredDistanceChangedEventType)
+	{
+		auto coveredDistanceChangedEvent = std::make_shared<CoveredDistanceChangedEvent>();
+		coveredDistanceChangedEvent->Deserialize(in);
+		return coveredDistanceChangedEvent;
+	}
+	else if (hashedEventType == DefeatEvent::DefeatEventType)
+	{
+		auto defeatEvent = std::make_shared<DefeatEvent>();
+		defeatEvent->Deserialize(in);
+		return defeatEvent;
+	}
 	else if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		loginSuccessEvent->Deserialize(in);
 		return loginSuccessEvent;
 	}
-	else if (hashedEventType == CoveredDistanceChangedEvent::CoveredDistanceChangedEventType)
+	else if (hashedEventType == ThreatChangedEvent::ThreatChangedEventType)
 	{
-		auto coveredDistanceChangedEvent = std::make_shared<CoveredDistanceChangedEvent>();
-		coveredDistanceChangedEvent->Deserialize(in);
-		return coveredDistanceChangedEvent;
+		auto threatChangedEvent = std::make_shared<ThreatChangedEvent>();
+		threatChangedEvent->Deserialize(in);
+		return threatChangedEvent;
 	}
 	else if (hashedEventType == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
 	{
@@ -70,12 +83,6 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto victoryEvent = std::make_shared<VictoryEvent>();
 		victoryEvent->Deserialize(in);
 		return victoryEvent;
-	}
-	else if (hashedEventType == DefeatEvent::DefeatEventType)
-	{
-		auto defeatEvent = std::make_shared<DefeatEvent>();
-		defeatEvent->Deserialize(in);
-		return defeatEvent;
 	}
 
 	return nullptr;

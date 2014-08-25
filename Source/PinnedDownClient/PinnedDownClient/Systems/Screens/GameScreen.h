@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Events\CoveredDistanceChangedEvent.h"
+#include "Events\DefeatEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
-#include "Events\DefeatEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
@@ -36,6 +37,7 @@ namespace PinnedDownClient
 			private:
 				Entity distanceLabel = INVALID_ENTITY_ID;
 				Entity turnPhaseLabel = INVALID_ENTITY_ID;
+				Entity threatLabel = INVALID_ENTITY_ID;
 				Entity endTurnButton = INVALID_ENTITY_ID;
 				Entity endTurnLabel = INVALID_ENTITY_ID;
 				Entity gameOverWindow = INVALID_ENTITY_ID;
@@ -44,11 +46,12 @@ namespace PinnedDownClient
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
+				void OnDefeat(DefeatEvent& defeatEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+				void OnThreatChanged(ThreatChangedEvent& threatChangedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
-				void OnDefeat(DefeatEvent& defeatEvent);
-
+				
 				void ShowGameOver(std::wstring title);
 			};
 		}
