@@ -46,7 +46,7 @@ void CardIdMappingSystem::OnEvent(Event & newEvent)
 void CardIdMappingSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 {
 	// Create card copy on client.
-	Entity clientEntity = this->cardFactory->CreateCard(cardCreatedEvent.setIndex, cardCreatedEvent.cardIndex);
+	Entity clientEntity = this->cardFactory->CreateCard(cardCreatedEvent.owner, cardCreatedEvent.setIndex, cardCreatedEvent.cardIndex);
 
 	// Update mapping.
 	this->entityIdMapping->MapEntityId(cardCreatedEvent.serverEntity, clientEntity);
