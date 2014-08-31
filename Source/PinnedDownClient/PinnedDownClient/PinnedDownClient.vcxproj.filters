@@ -385,6 +385,12 @@
     <ClCompile Include="Events\CardTappedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Events\CardSelectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardDeselectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -721,6 +727,12 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Events\CardTappedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardSelectedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardDeselectedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>

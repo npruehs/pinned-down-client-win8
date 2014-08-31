@@ -23,7 +23,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-
+			void OnCardTapped(CardTappedEvent& cardTappedEvent);
 		};
 	}
 }
