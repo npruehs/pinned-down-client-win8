@@ -4,6 +4,7 @@
 
 #include "Resources\PinnedDownResourceManager.h"
 
+#include "Systems\AssignmentSystem.h"
 #include "Systems\CardIdMappingSystem.h"
 #include "Systems\CardLayoutSystem.h"
 #include "Systems\ClientIdMappingSystem.h"
@@ -56,7 +57,8 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::NetworkSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::ScreenSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::PlayerSystem>());
-	
+	this->game->systemManager->AddSystem(std::make_shared<Systems::AssignmentSystem>());
+
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");
 

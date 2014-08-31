@@ -11,6 +11,8 @@
 #include "Components\PowerComponent.h"
 #include "Components\ThreatComponent.h"
 
+#include "Events\CardTappedEvent.h"
+
 #include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\CardLayoutSystem.h"
@@ -39,6 +41,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
+	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
@@ -70,6 +73,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
 		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
 	}
+	else if(newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
+	{
+		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
+		this->OnEntityTapped(entityTappedEvent);
+	}
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
@@ -90,6 +98,7 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	// Card background sprite.
 	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
 	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetTappable(card->backgroundSprite);
 	this->uiFactory->FinishUIWidget(card->backgroundSprite);
 
 	// Name label.
@@ -164,6 +173,22 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 	}
 }
 
+void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
+{
+	// Find tapped card.
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+
+		if (card->backgroundSprite == entityTappedEvent.entity)
+		{
+			// Notify listeners.
+			auto cardTappedEvent = std::make_shared<CardTappedEvent>(card->cardEntity);
+			this->game->eventManager->QueueEvent(cardTappedEvent);
+		}
+	}
+}
+
 void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)
 {
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
@@ -193,8 +218,8 @@ void CardLayoutSystem::LayoutCards()
 	}
 
 	// Layout cards.
-	int playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
-	int enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
+	float playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
+	float enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
 	{

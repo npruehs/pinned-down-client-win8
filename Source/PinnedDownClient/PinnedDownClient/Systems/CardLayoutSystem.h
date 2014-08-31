@@ -4,6 +4,7 @@
 #include "GameSystem.h"
 
 #include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\EntityTappedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
@@ -37,10 +38,10 @@ namespace PinnedDownClient
 			ComPtr<ID2D1DeviceContext> d2dContext;
 			std::list<std::shared_ptr<Card>> cards;
 
-			int playerCardPositionY = 200;
-			int enemyCardPositionY = -200;
-			int cardWidth = 200;
-			int cardOffset = 50;
+			float playerCardPositionY = 200;
+			float enemyCardPositionY = -200;
+			float cardWidth = 200;
+			float cardOffset = 50;
 
 			void LoadResources();
 
@@ -49,6 +50,7 @@ namespace PinnedDownClient
 			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
+			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 
 			void LayoutCards();

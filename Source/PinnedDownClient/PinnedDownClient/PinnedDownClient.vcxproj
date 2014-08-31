@@ -232,6 +232,7 @@
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
     <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
     <ClInclude Include="Events\AudioEngineChangedEvent.h" />
+    <ClInclude Include="Events\CardTappedEvent.h" />
     <ClInclude Include="Events\EntityIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\ClientIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
@@ -285,6 +286,7 @@
     <ClInclude Include="Resources\PinnedDownResourceManager.h" />
     <ClInclude Include="Resources\TextResourceHandle.h" />
     <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h" />
+    <ClInclude Include="Systems\AssignmentSystem.h" />
     <ClInclude Include="Systems\CardIdMappingSystem.h" />
     <ClInclude Include="Systems\CardLayoutSystem.h" />
     <ClInclude Include="Systems\ClientIdMappingSystem.h" />
@@ -346,6 +348,7 @@
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
+    <ClCompile Include="Events\CardTappedEvent.cpp" />
     <ClCompile Include="Events\EntityIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\ClientIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
@@ -582,6 +585,7 @@
     <ClCompile Include="Resources\PinnedDownResourceManager.cpp" />
     <ClCompile Include="Resources\TextResourceHandle.cpp" />
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp" />
+    <ClCompile Include="Systems\AssignmentSystem.cpp" />
     <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
     <ClCompile Include="Systems\CardLayoutSystem.cpp" />
     <ClCompile Include="Systems\ClientIdMappingSystem.cpp" />
