@@ -7,6 +7,7 @@
 #include "Systems\AssignmentSystem.h"
 #include "Systems\CardIdMappingSystem.h"
 #include "Systems\CardLayoutSystem.h"
+#include "Systems\CardSelectionHighlightSystem.h"
 #include "Systems\ClientIdMappingSystem.h"
 #include "Systems\DebugInfoSystem.h"
 #include "Systems\EntityIdMappingSystem.h"
@@ -58,6 +59,7 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::ScreenSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::PlayerSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::AssignmentSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::CardSelectionHighlightSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");

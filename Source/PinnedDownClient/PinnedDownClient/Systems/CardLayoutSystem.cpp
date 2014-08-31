@@ -6,6 +6,7 @@
 
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
+#include "Components\CardUIComponent.h"
 #include "Components\FlagshipComponent.h"
 #include "Components\OwnerComponent.h"
 #include "Components\PowerComponent.h"
@@ -143,6 +144,10 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 	// Add to list.
 	this->cards.push_back(card);
+
+	auto cardUiComponent = std::make_shared<CardUIComponent>();
+	cardUiComponent->background = card->backgroundSprite;
+	this->game->entityManager->AddComponent(card->cardEntity, cardUiComponent);
 
 	// Update layout.
 	this->LayoutCards();

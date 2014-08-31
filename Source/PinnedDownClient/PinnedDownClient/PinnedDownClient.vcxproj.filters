@@ -391,6 +391,12 @@
     <ClCompile Include="Events\CardDeselectedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CardUIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -735,6 +741,12 @@
     <ClInclude Include="Events\CardDeselectedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Systems\CardSelectionHighlightSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CardUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -750,6 +762,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\BlueWingStarship.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\CardHighlight.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
