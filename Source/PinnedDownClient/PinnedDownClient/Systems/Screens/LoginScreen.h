@@ -18,7 +18,7 @@ namespace PinnedDownClient
 			public:
 				LoginScreen();
 
-				void InitScreen(PinnedDownCore::Game* game);
+				void InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping);
 				void DeInitScreen();
 
 				void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext);

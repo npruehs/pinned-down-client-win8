@@ -3,6 +3,7 @@
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\PlayerAddedEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
@@ -11,6 +12,8 @@
 
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Util;
+
 
 namespace PinnedDownClient
 {
@@ -23,7 +26,7 @@ namespace PinnedDownClient
 			public:
 				GameScreen();
 
-				void InitScreen(PinnedDownCore::Game* game);
+				void InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping);
 				void DeInitScreen();
 
 				void LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext);
@@ -42,12 +45,14 @@ namespace PinnedDownClient
 				Entity endTurnLabel = INVALID_ENTITY_ID;
 				Entity gameOverWindow = INVALID_ENTITY_ID;
 				Entity gameOverLabel = INVALID_ENTITY_ID;
+				Entity playerNameLabel = INVALID_ENTITY_ID;
 
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
 				void OnDefeat(DefeatEvent& defeatEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+				void OnPlayerAdded(PlayerAddedEvent& playerAddedEvent);
 				void OnThreatChanged(ThreatChangedEvent& threatChangedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);

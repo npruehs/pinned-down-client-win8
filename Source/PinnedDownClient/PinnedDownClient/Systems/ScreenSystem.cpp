@@ -28,6 +28,8 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
+	this->game->eventManager->AddListener(this, ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, LocalizationDataLoadedEvent::LocalizationDataLoadedEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
@@ -43,7 +45,17 @@ void ScreenSystem::Update(float dt)
 
 void ScreenSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
+	if (newEvent.GetEventType() == ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType)
+	{
+		auto clientIdMappingCreatedEvent = static_cast<ClientIdMappingCreatedEvent&>(newEvent);
+		this->OnClientIdMappingCreated(clientIdMappingCreatedEvent);
+	}
+	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
+	{
+		auto entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
+		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
+	}
+	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
@@ -57,6 +69,16 @@ void ScreenSystem::OnEvent(Event & newEvent)
 		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
 		this->OnLoginSuccess();
 	}
+}
+
+void ScreenSystem::OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent)
+{
+	this->clientIdMapping = clientIdMappingCreatedEvent.clientIdMapping;
+}
+
+void ScreenSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+{
+	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
 }
 
 void ScreenSystem::OnLoginSuccess()
@@ -89,7 +111,7 @@ void ScreenSystem::SetScreen(std::shared_ptr<Screen> newScreen)
 
 	if (this->currentScreen != nullptr)
 	{
-		this->currentScreen->InitScreen(this->game);
+		this->currentScreen->InitScreen(this->game, this->clientIdMapping, this->entityIdMapping);
 		this->currentScreen->LoadResources(this->d2dContext);
 		this->currentScreen->LoadUI();
 

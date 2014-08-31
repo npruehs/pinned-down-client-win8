@@ -2,11 +2,13 @@
 #include "Event.h"
 #include "ServerEventReader.h"
 
+#include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\LoginSuccessEvent.h"
+#include "Events\PlayerAddedEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
@@ -36,7 +38,13 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 
 	HashedString hashedEventType = HashedString(eventType);
 
-	if (hashedEventType == CardCreatedEvent::CardCreatedEventType)
+	if (hashedEventType == CardAssignedEvent::CardAssignedEventType)
+	{
+		auto cardAssignedEvent = std::make_shared<CardAssignedEvent>();
+		cardAssignedEvent->Deserialize(in);
+		return cardAssignedEvent;
+	}
+	else if (hashedEventType == CardCreatedEvent::CardCreatedEventType)
 	{
 		auto cardCreatedEvent = std::make_shared<CardCreatedEvent>();
 		cardCreatedEvent->Deserialize(in);
@@ -65,6 +73,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		loginSuccessEvent->Deserialize(in);
 		return loginSuccessEvent;
+	}
+	else if (hashedEventType == PlayerAddedEvent::PlayerAddedEventType)
+	{
+		auto playerAddedEvent = std::make_shared<PlayerAddedEvent>();
+		playerAddedEvent->Deserialize(in);
+		return playerAddedEvent;
 	}
 	else if (hashedEventType == ThreatChangedEvent::ThreatChangedEventType)
 	{

@@ -334,14 +334,8 @@
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Util\CardIdMapping.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\CardIdMappingSystem.cpp">
       <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Events\CardIdMappingCreatedEvent.cpp">
-      <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="Systems\CardLayoutSystem.cpp">
       <Filter>Systems</Filter>
@@ -363,6 +357,45 @@
     </ClCompile>
     <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp">
       <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ClientIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ClientIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ClientIdMappingCreatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\PlayerSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\EntityIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityIdMappingCreatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\EntityIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\AssignmentSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardTappedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardSelectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardDeselectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CardUIComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,17 +681,11 @@
     <ClInclude Include="Events\AudioEngineChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Util\CardIdMapping.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\CardIdMappingSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\CardLayoutSystem.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Events\CardIdMappingCreatedEvent.h">
-      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UI\Card.h">
       <Filter>Systems\UI</Filter>
@@ -681,6 +708,45 @@
     <ClInclude Include="Events\LocalizationDataLoadedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Util\ClientIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ClientIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ClientIdMappingCreatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\PlayerSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\EntityIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityIdMappingCreatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\EntityIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\AssignmentSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardTappedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardSelectedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardDeselectedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardSelectionHighlightSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CardUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -696,6 +762,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\BlueWingStarship.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\CardHighlight.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

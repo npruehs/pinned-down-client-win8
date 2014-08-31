@@ -10,13 +10,13 @@ namespace PinnedDownClient
 {
 	namespace Util
 	{
-		class CardIdMapping
+		class EntityIdMapping
 		{
 		public:
 			Entity ClientToServerId(Entity clientEntity);
 			Entity ServerToClientId(Entity serverEntity);
 			
-			void MapCardId(Entity serverEntity, Entity clientEntity);
+			void MapEntityId(Entity serverEntity, Entity clientEntity);
 
 		private:
 			std::map<Entity, Entity> clientToServerIdMap;

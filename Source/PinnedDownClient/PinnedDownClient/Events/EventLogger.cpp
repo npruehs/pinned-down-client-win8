@@ -7,6 +7,7 @@
 #include "Events\AppSuspendingEvent.h"
 #include "Events\AppWindowChangedEvent.h"
 #include "Events\AppWindowSizeChangedEvent.h"
+#include "Events\CardCreatedEvent.h"
 #include "Events\DisplayContentsInvalidatedEvent.h"
 #include "Events\DisplayDpiChangedEvent.h"
 #include "Events\DisplayOrientationChangedEvent.h"
@@ -48,6 +49,11 @@ void EventLogger::OnEvent(Event & newEvent)
 	{
 		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
 		this->game->logger->LogInfo(L"App window size changed: " + appWindowSizeChangedEvent.size.ToString());
+	}
+	else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
+	{
+		auto cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
+		this->game->logger->LogInfo(L"Card created: " + std::to_wstring(cardCreatedEvent.setIndex) + L"-" + std::to_wstring(cardCreatedEvent.cardIndex));
 	}
 	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
 	{
@@ -97,6 +103,7 @@ void EventLogger::OnEvent(Event & newEvent)
 	}
 	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
 	{
-		this->game->logger->LogInfo(L"Login success.");
+		LoginSuccessEvent loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
+		this->game->logger->LogInfo(L"Logged in as client: " + std::to_wstring(loginSuccessEvent.clientId));
 	}
 }

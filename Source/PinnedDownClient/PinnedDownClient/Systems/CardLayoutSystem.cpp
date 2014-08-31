@@ -2,12 +2,17 @@
 
 #include "Game.h"
 #include "Event.h"
+#include "EntityManager.h"
 
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
+#include "Components\CardUIComponent.h"
 #include "Components\FlagshipComponent.h"
+#include "Components\OwnerComponent.h"
 #include "Components\PowerComponent.h"
 #include "Components\ThreatComponent.h"
+
+#include "Events\CardTappedEvent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
@@ -35,9 +40,11 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
-	this->game->eventManager->AddListener(this, CardIdMappingCreatedEvent::CardIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
+	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
@@ -53,12 +60,12 @@ void CardLayoutSystem::LoadResources()
 
 void CardLayoutSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardIdMappingCreatedEvent::CardIdMappingCreatedEventType)
+	if (newEvent.GetEventType() == CardAssignedEvent::CardAssignedEventType)
 	{
-		CardIdMappingCreatedEvent& cardIdMappingCreatedEvent = static_cast<CardIdMappingCreatedEvent&>(newEvent);
-		this->OnCardIdMappingCreated(cardIdMappingCreatedEvent);
+		CardAssignedEvent& cardAssignedEvent = static_cast<CardAssignedEvent&>(newEvent);
+		this->OnCardAssigned(cardAssignedEvent);
 	}
-	else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
+    else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
 	{
 		CardCreatedEvent& cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
 		this->OnCardCreated(cardCreatedEvent);
@@ -68,26 +75,57 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 		CardRemovedEvent& cardRemovedEvent = static_cast<CardRemovedEvent&>(newEvent);
 		this->OnCardRemoved(cardRemovedEvent);
 	}
-	if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
+	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
+	{
+		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
+		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
+	}
+	else if(newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
+	{
+		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
+		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
 	}
 }
 
-void CardLayoutSystem::OnCardIdMappingCreated(CardIdMappingCreatedEvent& cardIdMappingCreatedEvent)
+void CardLayoutSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
 {
-	this->cardIdMapping = cardIdMappingCreatedEvent.cardIdMapping;
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.assignedCard);
+	auto clientTargetCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.targetCard);
+
+	// Check for previous assignment.
+	auto assignment = this->currentAssignments.find(clientAssignedCard);
+
+	if (assignment != this->currentAssignments.end())
+	{
+		this->currentAssignments.erase(assignment);
+	}
+
+	// Assign card.
+	this->currentAssignments.insert(std::pair<Entity, Entity>(clientAssignedCard, clientTargetCard));
+
+	// Update layout.
+	this->LayoutCards();
+}
+
+void CardLayoutSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+{
+	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
 }
 
 void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 {
 	auto card = std::make_shared<Card>();
-	card->cardEntity = this->cardIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
+	card->cardEntity = this->entityIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
 
 	// Card background sprite.
 	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
 	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetTappable(card->backgroundSprite);
 	this->uiFactory->FinishUIWidget(card->backgroundSprite);
 
 	// Name label.
@@ -132,11 +170,18 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 	// Add to list.
 	this->cards.push_back(card);
+
+	auto cardUiComponent = std::make_shared<CardUIComponent>();
+	cardUiComponent->background = card->backgroundSprite;
+	this->game->entityManager->AddComponent(card->cardEntity, cardUiComponent);
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 {
-	auto clientEntity = this->cardIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
+	auto clientEntity = this->entityIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
 	{
@@ -159,9 +204,85 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 	}
 }
 
+void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
+{
+	// Find tapped card.
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+
+		if (card->backgroundSprite == entityTappedEvent.entity)
+		{
+			// Notify listeners.
+			auto cardTappedEvent = std::make_shared<CardTappedEvent>(card->cardEntity);
+			this->game->eventManager->QueueEvent(cardTappedEvent);
+		}
+	}
+}
+
 void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)
 {
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
 
 	this->LoadResources();
+}
+
+void CardLayoutSystem::LayoutCards()
+{
+	// Count cards.
+	int playerCards = 0;
+	int enemyCards = 0;
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+
+		if (ownerComponent->owner != INVALID_ENTITY_ID)
+		{
+			playerCards++;
+		}
+		else
+		{
+			enemyCards++;
+		}
+	}
+
+	// Layout cards.
+	float playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
+	float enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+
+		if (ownerComponent->owner != INVALID_ENTITY_ID)
+		{
+			// Player card - check if assigned.
+			auto assignment = this->currentAssignments.find(card->cardEntity);
+
+			if (assignment != this->currentAssignments.end())
+			{
+				// Card is assigned to an enemy.
+				auto targetCard = assignment->second;
+				auto targetCardUiComponent = this->game->entityManager->GetComponent<CardUIComponent>(targetCard, CardUIComponent::CardUIComponentType);
+
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
+			}
+			else
+			{
+				// Card is not assigned.
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
+			}
+
+			playerCardPositionX += cardWidth + cardOffset;
+		}
+		else
+		{
+			// Enemy card.
+			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
+			enemyCardPositionX += cardWidth + cardOffset;
+		}
+	}
 }

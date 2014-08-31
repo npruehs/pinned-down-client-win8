@@ -7,7 +7,11 @@
 #include "Systems\UI\UIFactory.h"
 #include "Systems\Screens\ScreenName.h"
 
+#include "Util\ClientIdMapping.h"
+#include "Util\EntityIdMapping.h"
+
 using namespace PinnedDownClient::Systems::UI;
+using namespace PinnedDownClient::Util;
 
 namespace PinnedDownClient
 {
@@ -18,9 +22,12 @@ namespace PinnedDownClient
 			class Screen
 			{
 			public:
-				virtual void InitScreen(PinnedDownCore::Game* game)
+				virtual void InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping)
 				{
 					this->game = game;
+					this->clientIdMapping = clientIdMapping;
+					this->entityIdMapping = entityIdMapping;
+
 					this->uiFactory = std::make_shared<UIFactory>(game);
 				}
 
@@ -39,6 +46,8 @@ namespace PinnedDownClient
 			protected:
 				PinnedDownCore::Game* game;
 				std::shared_ptr<UIFactory> uiFactory;
+				std::shared_ptr<EntityIdMapping> entityIdMapping;
+				std::shared_ptr<ClientIdMapping> clientIdMapping;
 			};
 		}
 	}

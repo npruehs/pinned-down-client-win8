@@ -3,39 +3,38 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-#include "Data\CardFactory.h"
-
-#include "Events\CardCreatedEvent.h"
+#include "Events\CardAssignedEvent.h"
+#include "Events\CardTappedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 
 #include "Util\EntityIdMapping.h"
 
-
-using namespace PinnedDownNet::Data;
 using namespace PinnedDownNet::Events;
-using namespace PinnedDownClient::Util;
 using namespace PinnedDownClient::Events;
-
 
 namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class CardIdMappingSystem : public GameSystem, public IEventListener
+		class AssignmentSystem : public GameSystem, public IEventListener
 		{
 		public:
-			CardIdMappingSystem();
+			AssignmentSystem();
 
 			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
-			std::shared_ptr<CardFactory> cardFactory;
+			Entity selectedCard;
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 
 			void OnEvent(Event & event);
 
-			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
+			void OnCardAssigned(CardAssignedEvent& cardAssignedEvent);
+			void OnCardTapped(CardTappedEvent& cardTappedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
+
+			void SelectCard(Entity card);
+			void DeselectCard();
 		};
 	}
 }
