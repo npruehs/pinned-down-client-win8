@@ -2,10 +2,12 @@
 
 #include "Game.h"
 #include "Event.h"
+#include "EntityManager.h"
 
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
 #include "Components\FlagshipComponent.h"
+#include "Components\OwnerComponent.h"
 #include "Components\PowerComponent.h"
 #include "Components\ThreatComponent.h"
 
@@ -132,6 +134,9 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 	// Add to list.
 	this->cards.push_back(card);
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
@@ -164,4 +169,49 @@ void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTar
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
 
 	this->LoadResources();
+}
+
+void CardLayoutSystem::LayoutCards()
+{
+	// Count cards.
+	int playerCards = 0;
+	int enemyCards = 0;
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+
+		if (ownerComponent->owner != INVALID_ENTITY_ID)
+		{
+			playerCards++;
+		}
+		else
+		{
+			enemyCards++;
+		}
+	}
+
+	// Layout cards.
+	int playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
+	int enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+
+		if (ownerComponent->owner != INVALID_ENTITY_ID)
+		{
+			// Player card.
+			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
+			playerCardPositionX += cardWidth + cardOffset;
+		}
+		else
+		{
+			// Enemy card.
+			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
+			enemyCardPositionX += cardWidth + cardOffset;
+		}
+	}
 }

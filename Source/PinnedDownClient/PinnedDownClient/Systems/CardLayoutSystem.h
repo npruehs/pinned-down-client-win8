@@ -37,6 +37,11 @@ namespace PinnedDownClient
 			ComPtr<ID2D1DeviceContext> d2dContext;
 			std::list<std::shared_ptr<Card>> cards;
 
+			int playerCardPositionY = 200;
+			int enemyCardPositionY = -200;
+			int cardWidth = 200;
+			int cardOffset = 50;
+
 			void LoadResources();
 
 			void OnEvent(Event & event);
@@ -45,6 +50,8 @@ namespace PinnedDownClient
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
+
+			void LayoutCards();
 		};
 	}
 }
