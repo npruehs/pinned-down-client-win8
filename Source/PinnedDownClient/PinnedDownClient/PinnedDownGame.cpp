@@ -6,15 +6,18 @@
 
 #include "Systems\CardIdMappingSystem.h"
 #include "Systems\CardLayoutSystem.h"
-#include "Systems\RenderSystem.h"
+#include "Systems\ClientIdMappingSystem.h"
+#include "Systems\DebugInfoSystem.h"
+#include "Systems\EntityIdMappingSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\LocalizationSystem.h"
+#include "Systems\NetworkSystem.h"
+#include "Systems\PlayerSystem.h"
+#include "Systems\RenderSystem.h"
+#include "Systems\ScreenSystem.h"
 #include "Systems\SoundSystem.h"
-#include "Systems\DebugInfoSystem.h"
 #include "Systems\UIInteractionSystem.h"
 #include "Systems\UILayoutSystem.h"
-#include "Systems\NetworkSystem.h"
-#include "Systems\ScreenSystem.h"
 
 #include "Util\FileLogger.h"
 
@@ -40,7 +43,9 @@ timer(std::make_unique<Util::StepTimer>())
 
 	// Init systems.
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardIdMappingSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::EntityIdMappingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardLayoutSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::ClientIdMappingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::RenderSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::LuaScriptSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::LocalizationSystem>());
@@ -50,7 +55,8 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::UIInteractionSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::NetworkSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::ScreenSystem>());
-
+	this->game->systemManager->AddSystem(std::make_shared<Systems::PlayerSystem>());
+	
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");
 

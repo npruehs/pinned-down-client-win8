@@ -35,9 +35,9 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
-	this->game->eventManager->AddListener(this, CardIdMappingCreatedEvent::CardIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
+	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
@@ -53,12 +53,7 @@ void CardLayoutSystem::LoadResources()
 
 void CardLayoutSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardIdMappingCreatedEvent::CardIdMappingCreatedEventType)
-	{
-		CardIdMappingCreatedEvent& cardIdMappingCreatedEvent = static_cast<CardIdMappingCreatedEvent&>(newEvent);
-		this->OnCardIdMappingCreated(cardIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
+    if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
 	{
 		CardCreatedEvent& cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
 		this->OnCardCreated(cardCreatedEvent);
@@ -68,22 +63,27 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 		CardRemovedEvent& cardRemovedEvent = static_cast<CardRemovedEvent&>(newEvent);
 		this->OnCardRemoved(cardRemovedEvent);
 	}
-	if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
+	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
+	{
+		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
+		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
+	}
+	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
 	}
 }
 
-void CardLayoutSystem::OnCardIdMappingCreated(CardIdMappingCreatedEvent& cardIdMappingCreatedEvent)
+void CardLayoutSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
 {
-	this->cardIdMapping = cardIdMappingCreatedEvent.cardIdMapping;
+	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
 }
 
 void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 {
 	auto card = std::make_shared<Card>();
-	card->cardEntity = this->cardIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
+	card->cardEntity = this->entityIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
 
 	// Card background sprite.
 	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
@@ -136,7 +136,7 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 
 void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 {
-	auto clientEntity = this->cardIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
+	auto clientEntity = this->entityIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
 	{

@@ -32,13 +32,14 @@ ScreenName GameScreen::GetScreenName()
 	return ScreenName::Game;
 }
 
-void GameScreen::InitScreen(PinnedDownCore::Game* game)
+void GameScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping)
 {
-	Screen::InitScreen(game);
+	Screen::InitScreen(game, clientIdMapping, entityIdMapping);
 
 	this->game->eventManager->AddListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);	
@@ -49,6 +50,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->RemoveListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
@@ -76,9 +78,14 @@ void GameScreen::UnloadResources()
 
 void GameScreen::LoadUI()
 {
+	// Player name label.
+	this->playerNameLabel = this->uiFactory->CreateLabel(L"?");
+	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Right, -150.0f), 0);
+	this->uiFactory->FinishUIWidget(this->playerNameLabel);
+
 	// Distance label.
 	this->distanceLabel = this->uiFactory->CreateLabel(L"Distance Covered: 0 / 0");
-	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Right, -20.0f), 0);
+	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
 	// Turn Phase label.
@@ -125,6 +132,11 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
 	}
+	else if (newEvent.GetEventType() == PlayerAddedEvent::PlayerAddedEventType)
+	{
+		auto playerAddedEvent = static_cast<PlayerAddedEvent&>(newEvent);
+		this->OnPlayerAdded(playerAddedEvent);
+	}
 	else if (newEvent.GetEventType() == ThreatChangedEvent::ThreatChangedEventType)
 	{
 		auto threatChangedEvent = static_cast<ThreatChangedEvent&>(newEvent);
@@ -163,6 +175,15 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 	{
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
+	}
+}
+
+void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
+{
+	if (this->clientIdMapping->IsLocalPlayer(playerAddedEvent.serverEntity))
+	{
+		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameLabel, TextComponent::TextComponentType);
+		textComponent->text = StringToWString(playerAddedEvent.playerName);
 	}
 }
 

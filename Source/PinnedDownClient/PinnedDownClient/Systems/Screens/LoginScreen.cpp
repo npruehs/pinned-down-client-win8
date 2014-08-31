@@ -25,9 +25,9 @@ ScreenName LoginScreen::GetScreenName()
 }
 
 
-void LoginScreen::InitScreen(PinnedDownCore::Game* game)
+void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping)
 {
-	Screen::InitScreen(game);
+	Screen::InitScreen(game, clientIdMapping, entityIdMapping);
 
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);

@@ -6,13 +6,15 @@
 #include "Data\CardFactory.h"
 
 #include "Events\CardCreatedEvent.h"
+#include "Events\EntityIdMappingCreatedEvent.h"
 
-#include "Util\CardIdMapping.h"
+#include "Util\EntityIdMapping.h"
 
 
 using namespace PinnedDownNet::Data;
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Util;
+using namespace PinnedDownClient::Events;
 
 
 namespace PinnedDownClient
@@ -28,11 +30,12 @@ namespace PinnedDownClient
 
 		private:
 			std::shared_ptr<CardFactory> cardFactory;
-			std::shared_ptr<CardIdMapping> cardIdMapping;
+			std::shared_ptr<EntityIdMapping> entityIdMapping;
 
 			void OnEvent(Event & event);
 
 			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
+			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 		};
 	}
 }

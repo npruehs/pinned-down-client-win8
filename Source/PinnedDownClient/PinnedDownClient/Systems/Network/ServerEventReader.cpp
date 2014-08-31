@@ -7,6 +7,7 @@
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\LoginSuccessEvent.h"
+#include "Events\PlayerAddedEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
@@ -65,6 +66,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto loginSuccessEvent = std::make_shared<LoginSuccessEvent>();
 		loginSuccessEvent->Deserialize(in);
 		return loginSuccessEvent;
+	}
+	else if (hashedEventType == PlayerAddedEvent::PlayerAddedEventType)
+	{
+		auto playerAddedEvent = std::make_shared<PlayerAddedEvent>();
+		playerAddedEvent->Deserialize(in);
+		return playerAddedEvent;
 	}
 	else if (hashedEventType == ThreatChangedEvent::ThreatChangedEventType)
 	{
