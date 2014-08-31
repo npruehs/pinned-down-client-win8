@@ -40,6 +40,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
+	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
@@ -59,7 +60,12 @@ void CardLayoutSystem::LoadResources()
 
 void CardLayoutSystem::OnEvent(Event & newEvent)
 {
-    if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
+	if (newEvent.GetEventType() == CardAssignedEvent::CardAssignedEventType)
+	{
+		CardAssignedEvent& cardAssignedEvent = static_cast<CardAssignedEvent&>(newEvent);
+		this->OnCardAssigned(cardAssignedEvent);
+	}
+    else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
 	{
 		CardCreatedEvent& cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
 		this->OnCardCreated(cardCreatedEvent);
@@ -84,6 +90,26 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
 		this->OnRenderTargetChanged(renderTargetChangedEvent);
 	}
+}
+
+void CardLayoutSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
+{
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.assignedCard);
+	auto clientTargetCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.targetCard);
+
+	// Check for previous assignment.
+	auto assignment = this->currentAssignments.find(clientAssignedCard);
+
+	if (assignment != this->currentAssignments.end())
+	{
+		this->currentAssignments.erase(assignment);
+	}
+
+	// Assign card.
+	this->currentAssignments.insert(std::pair<Entity, Entity>(clientAssignedCard, clientTargetCard));
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
@@ -233,8 +259,23 @@ void CardLayoutSystem::LayoutCards()
 
 		if (ownerComponent->owner != INVALID_ENTITY_ID)
 		{
-			// Player card.
-			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
+			// Player card - check if assigned.
+			auto assignment = this->currentAssignments.find(card->cardEntity);
+
+			if (assignment != this->currentAssignments.end())
+			{
+				// Card is assigned to an enemy.
+				auto targetCard = assignment->second;
+				auto targetCardUiComponent = this->game->entityManager->GetComponent<CardUIComponent>(targetCard, CardUIComponent::CardUIComponentType);
+
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
+			}
+			else
+			{
+				// Card is not assigned.
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
+			}
+
 			playerCardPositionX += cardWidth + cardOffset;
 		}
 		else

@@ -1,10 +1,13 @@
 #pragma once
 
+#include <map>
+
 #include "IEventListener.h"
 #include "GameSystem.h"
 
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
@@ -33,6 +36,8 @@ namespace PinnedDownClient
 			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
+			std::map<Entity, Entity> currentAssignments;
+
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			std::shared_ptr<UIFactory> uiFactory;
 			ComPtr<ID2D1DeviceContext> d2dContext;
@@ -42,11 +47,13 @@ namespace PinnedDownClient
 			float enemyCardPositionY = -200;
 			float cardWidth = 200;
 			float cardOffset = 50;
+			float assignedCardOffset = 300;
 
 			void LoadResources();
 
 			void OnEvent(Event & event);
 
+			void OnCardAssigned(CardAssignedEvent& cardAssignedEvent);
 			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
