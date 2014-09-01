@@ -297,6 +297,7 @@
     <ClInclude Include="Systems\ClientIdMappingSystem.h" />
     <ClInclude Include="Systems\DebugInfoSystem.h" />
     <ClInclude Include="Systems\EntityIdMappingSystem.h" />
+    <ClInclude Include="Systems\FightSystem.h" />
     <ClInclude Include="Systems\LocalizationSystem.h" />
     <ClInclude Include="Systems\LuaScriptSystem.h" />
     <ClInclude Include="Systems\NetworkSystem.h" />
@@ -600,6 +601,7 @@
     <ClCompile Include="Systems\ClientIdMappingSystem.cpp" />
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\EntityIdMappingSystem.cpp" />
+    <ClCompile Include="Systems\FightSystem.cpp" />
     <ClCompile Include="Systems\LocalizationSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />
