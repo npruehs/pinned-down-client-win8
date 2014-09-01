@@ -30,6 +30,7 @@ void AssignmentSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
 	this->game->eventManager->AddListener(this, CardTappedEvent::CardTappedEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 }
 
 void AssignmentSystem::OnEvent(Event & newEvent)
@@ -49,6 +50,11 @@ void AssignmentSystem::OnEvent(Event & newEvent)
 		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
 		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
 	}
+	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
+	{
+		TurnPhaseChangedEvent& turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
+		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
+	}
 }
 
 void AssignmentSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
@@ -64,6 +70,11 @@ void AssignmentSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
 
 void AssignmentSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
 {
+	if (this->turnPhase != TurnPhase::Assignment)
+	{
+		return;
+	}
+
 	auto tappedCard = cardTappedEvent.entity;
 	auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(tappedCard, OwnerComponent::OwnerComponentType);
 
@@ -106,6 +117,11 @@ void AssignmentSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& ent
 	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
 }
 
+void AssignmentSystem::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
+{
+	this->turnPhase = turnPhaseChangedEvent.newTurnPhase;
+}
+
 void AssignmentSystem::SelectCard(Entity card)
 {
 	auto cardSelectedEvent = std::make_shared<CardSelectedEvent>(card);
@@ -121,3 +137,4 @@ void AssignmentSystem::DeselectCard()
 
 	this->selectedCard = INVALID_ENTITY_ID;
 }
+
