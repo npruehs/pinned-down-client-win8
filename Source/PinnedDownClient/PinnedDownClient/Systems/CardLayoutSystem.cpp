@@ -45,6 +45,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
@@ -84,6 +85,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == FightResolvedEvent::FightResolvedEventType)
+	{
+		FightResolvedEvent& fightResolvedEvent = static_cast<FightResolvedEvent&>(newEvent);
+		this->OnFightResolved(fightResolvedEvent);
 	}
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
@@ -218,6 +224,22 @@ void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 			this->game->eventManager->QueueEvent(cardTappedEvent);
 		}
 	}
+}
+
+void CardLayoutSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
+{
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(fightResolvedEvent.assignedCard);
+
+	// Remove assignment
+	auto assignment = this->currentAssignments.find(clientAssignedCard);
+
+	if (assignment != this->currentAssignments.end())
+	{
+		this->currentAssignments.erase(assignment);
+	}
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)

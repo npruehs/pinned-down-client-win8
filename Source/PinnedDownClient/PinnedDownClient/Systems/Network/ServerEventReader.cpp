@@ -7,6 +7,7 @@
 #include "Events\CardRemovedEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
+#include "Events\FightResolvedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\PlayerAddedEvent.h"
 #include "Events\ThreatChangedEvent.h"
@@ -67,6 +68,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto defeatEvent = std::make_shared<DefeatEvent>();
 		defeatEvent->Deserialize(in);
 		return defeatEvent;
+	}
+	else if (hashedEventType == FightResolvedEvent::FightResolvedEventType)
+	{
+		auto fightResolvedEvent = std::make_shared<FightResolvedEvent>();
+		fightResolvedEvent->Deserialize(in);
+		return fightResolvedEvent;
 	}
 	else if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{

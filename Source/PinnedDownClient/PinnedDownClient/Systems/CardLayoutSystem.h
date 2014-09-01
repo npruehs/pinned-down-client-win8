@@ -7,6 +7,7 @@
 
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\FightResolvedEvent.h"
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
@@ -58,6 +59,7 @@ namespace PinnedDownClient
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 
 			void LayoutCards();

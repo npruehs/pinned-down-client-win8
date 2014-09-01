@@ -5,7 +5,6 @@
 
 #include "Data\TurnPhase.h"
 
-#include "Events\CardAssignedEvent.h"
 #include "Events\CardTappedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
@@ -20,27 +19,22 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
-		class AssignmentSystem : public GameSystem, public IEventListener
+		class FightSystem : public GameSystem, public IEventListener
 		{
 		public:
-			AssignmentSystem();
+			FightSystem();
 
 			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
-			Entity selectedCard;
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			TurnPhase turnPhase;
 
 			void OnEvent(Event & event);
 
-			void OnCardAssigned(CardAssignedEvent& cardAssignedEvent);
 			void OnCardTapped(CardTappedEvent& cardTappedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
-
-			void SelectCard(Entity card);
-			void DeselectCard();
 		};
 	}
 }
