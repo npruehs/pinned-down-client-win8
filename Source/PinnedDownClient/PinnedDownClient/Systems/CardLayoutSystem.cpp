@@ -13,6 +13,7 @@
 #include "Components\ThreatComponent.h"
 
 #include "Events\CardTappedEvent.h"
+#include "Events\DisconnectedFromServerEvent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
@@ -43,6 +44,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
+	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
@@ -75,6 +77,10 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		CardRemovedEvent& cardRemovedEvent = static_cast<CardRemovedEvent&>(newEvent);
 		this->OnCardRemoved(cardRemovedEvent);
+	}
+	else if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
+	{
+		this->OnDisconnectedFromServer();
 	}
 	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
 	{
@@ -196,18 +202,22 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 		if (card->cardEntity == clientEntity)
 		{
 			// Remove card.
-			this->game->entityManager->RemoveEntity(card->backgroundSprite);
-			this->game->entityManager->RemoveEntity(card->cardEntity);
-			this->game->entityManager->RemoveEntity(card->cardTypeLabel);
-			this->game->entityManager->RemoveEntity(card->nameLabel);
-			this->game->entityManager->RemoveEntity(card->powerLabel);
-			this->game->entityManager->RemoveEntity(card->threatLabel);
-			this->game->entityManager->RemoveEntity(card->abilityLabel);
-
+			this->RemoveCardEntity(card);
 			this->cards.erase(iterator);
 			break;
 		}
 	}
+}
+
+void CardLayoutSystem::OnDisconnectedFromServer()
+{
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		this->RemoveCardEntity(card);
+	}
+
+	this->cards.clear();
 }
 
 void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
@@ -307,4 +317,15 @@ void CardLayoutSystem::LayoutCards()
 			enemyCardPositionX += cardWidth + cardOffset;
 		}
 	}
+}
+
+void CardLayoutSystem::RemoveCardEntity(std::shared_ptr<Card> card)
+{
+	this->game->entityManager->RemoveEntity(card->backgroundSprite);
+	this->game->entityManager->RemoveEntity(card->cardEntity);
+	this->game->entityManager->RemoveEntity(card->cardTypeLabel);
+	this->game->entityManager->RemoveEntity(card->nameLabel);
+	this->game->entityManager->RemoveEntity(card->powerLabel);
+	this->game->entityManager->RemoveEntity(card->threatLabel);
+	this->game->entityManager->RemoveEntity(card->abilityLabel);
 }

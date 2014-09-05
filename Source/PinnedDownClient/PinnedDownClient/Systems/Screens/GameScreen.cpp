@@ -111,8 +111,12 @@ void GameScreen::LoadUI()
 
 void GameScreen::UnloadUI()
 {
-	this->game->entityManager->RemoveEntity(this->distanceLabel);
+	this->game->entityManager->RemoveEntity(this->endTurnLabel);
+	this->game->entityManager->RemoveEntity(this->endTurnButton);
+	this->game->entityManager->RemoveEntity(this->threatLabel);
 	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
+	this->game->entityManager->RemoveEntity(this->distanceLabel);
+	this->game->entityManager->RemoveEntity(this->playerNameLabel);
 }
 
 void GameScreen::OnEvent(Event & newEvent)

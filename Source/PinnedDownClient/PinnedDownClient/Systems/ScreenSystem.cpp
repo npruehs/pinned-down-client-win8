@@ -3,6 +3,7 @@
 
 #include "Event.h"
 
+#include "Events\DisconnectedFromServerEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\ScreenChangedEvent.h"
 
@@ -33,6 +34,7 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, LocalizationDataLoadedEvent::LocalizationDataLoadedEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
+	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 }
 
 void ScreenSystem::Update(float dt)
@@ -69,6 +71,10 @@ void ScreenSystem::OnEvent(Event & newEvent)
 		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
 		this->OnLoginSuccess();
 	}
+	if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
+	{
+		this->OnDisconnectedFromServer();
+	}
 }
 
 void ScreenSystem::OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent)
@@ -96,6 +102,12 @@ void ScreenSystem::OnLocalizationDataLoaded()
 void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent)
 {
 	this->d2dContext = renderTargetChangedEvent.d2dContext;
+}
+
+void ScreenSystem::OnDisconnectedFromServer()
+{
+	// Switch to login screen.
+	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
 void ScreenSystem::SetScreen(std::shared_ptr<Screen> newScreen)

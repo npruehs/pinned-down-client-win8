@@ -237,6 +237,7 @@
     <ClInclude Include="Events\CardDeselectedEvent.h" />
     <ClInclude Include="Events\CardSelectedEvent.h" />
     <ClInclude Include="Events\CardTappedEvent.h" />
+    <ClInclude Include="Events\DisconnectedFromServerEvent.h" />
     <ClInclude Include="Events\EntityIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\ClientIdMappingCreatedEvent.h" />
     <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
@@ -359,6 +360,7 @@
     <ClCompile Include="Events\CardDeselectedEvent.cpp" />
     <ClCompile Include="Events\CardSelectedEvent.cpp" />
     <ClCompile Include="Events\CardTappedEvent.cpp" />
+    <ClCompile Include="Events\DisconnectedFromServerEvent.cpp" />
     <ClCompile Include="Events\EntityIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\ClientIdMappingCreatedEvent.cpp" />
     <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />

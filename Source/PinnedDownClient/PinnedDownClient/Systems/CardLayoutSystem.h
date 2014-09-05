@@ -61,8 +61,10 @@ namespace PinnedDownClient
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
+			void OnDisconnectedFromServer();
 
 			void LayoutCards();
+			void RemoveCardEntity(std::shared_ptr<Card> card);
 		};
 	}
 }

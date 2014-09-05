@@ -50,7 +50,8 @@ namespace PinnedDownClient
 			void OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
-			
+			void OnDisconnectedFromServer();
+
 			void SetScreen(std::shared_ptr<Screen> newScreen);
 			void RefreshScreen();
 		};

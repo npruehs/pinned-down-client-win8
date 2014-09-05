@@ -5,6 +5,7 @@
 
 #include "Actions\EndTurnAction.h"
 
+#include "Events\DisconnectedFromServerEvent.h"
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"
 
@@ -150,6 +151,20 @@ void NetworkSystem::RecvPacketLoop()
 			{
 				OutputDebugString(e->Message->Data());
 			}
-		});
+		}).then([this](concurrency::task<void> t)
+		{
+			try {
+				t.get();
+				// .get() didn't throw, so we succeeded.
+			}
+			catch (Platform::Exception^ e) {
+				OutputDebugString(e->Message->Data());
+				this->connected = false;
+
+				// Notify listeners.
+				auto disconnectedFromServerEvent = std::make_shared<DisconnectedFromServerEvent>();
+				this->game->eventManager->QueueEvent(disconnectedFromServerEvent);
+			}
+		});;
 	}
 }
