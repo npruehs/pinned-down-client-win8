@@ -4,20 +4,22 @@
 using namespace PinnedDownClient::Util;
 
 
+EntityIdMapping::EntityIdMapping()
+{
+	this->serverToClientIdMap = std::make_shared<BidirectionalMap<Entity, Entity>>();
+}
+
 void EntityIdMapping::MapEntityId(Entity serverEntity, Entity clientEntity)
 {
-	this->clientToServerIdMap.insert(std::pair<Entity, Entity>(clientEntity, serverEntity));
-	this->serverToClientIdMap.insert(std::pair<Entity, Entity>(serverEntity, clientEntity));
+	this->serverToClientIdMap->Add(serverEntity, clientEntity);
 }
 
 Entity EntityIdMapping::ServerToClientId(Entity serverEntity)
 {
-	auto iterator = this->serverToClientIdMap.find(serverEntity);
-	return iterator != this->serverToClientIdMap.end() ? iterator->second : INVALID_ENTITY_ID;
+	return this->serverToClientIdMap->GetValueOrDefault(serverEntity, INVALID_ENTITY_ID);
 }
 
 Entity EntityIdMapping::ClientToServerId(Entity clientEntity)
 {
-	auto iterator = this->clientToServerIdMap.find(clientEntity);
-	return iterator != this->clientToServerIdMap.end() ? iterator->second : INVALID_ENTITY_ID;
+	return this->serverToClientIdMap->GetKeyOrDefault(clientEntity, INVALID_ENTITY_ID);
 }

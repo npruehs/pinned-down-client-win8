@@ -3,6 +3,7 @@
 #include <map>
 
 #include "EntityManager.h"
+#include "BidirectionalMap.h"
 
 using namespace PinnedDownCore;
 
@@ -13,14 +14,15 @@ namespace PinnedDownClient
 		class EntityIdMapping
 		{
 		public:
+			EntityIdMapping();
+
 			Entity ClientToServerId(Entity clientEntity);
 			Entity ServerToClientId(Entity serverEntity);
 			
 			void MapEntityId(Entity serverEntity, Entity clientEntity);
 
 		private:
-			std::map<Entity, Entity> clientToServerIdMap;
-			std::map<Entity, Entity> serverToClientIdMap;
+			std::shared_ptr<BidirectionalMap<Entity, Entity>> serverToClientIdMap;
 		};
 	}
 }

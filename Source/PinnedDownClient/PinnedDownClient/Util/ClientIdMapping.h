@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "BidirectionalMap.h"
 #include "EntityManager.h"
 
 using namespace PinnedDownCore;
@@ -13,6 +14,8 @@ namespace PinnedDownClient
 		class ClientIdMapping
 		{
 		public:
+			ClientIdMapping();
+
 			bool IsLocalPlayer(Entity playerEntity);
 
 			int GetLocalClientId();
@@ -23,8 +26,7 @@ namespace PinnedDownClient
 		private:
 			int localClientId;
 
-			std::map<int, Entity> clientToPlayerEntityIdMap;
-			std::map<Entity, int> playerEntityToClientIdMap;
+			std::shared_ptr<BidirectionalMap<int, Entity>> clientToPlayerEntityIdMap;
 		};
 	}
 }

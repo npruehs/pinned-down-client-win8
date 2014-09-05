@@ -753,6 +753,9 @@
     <ClInclude Include="Systems\FightSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Util\BidirectionalMap.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
