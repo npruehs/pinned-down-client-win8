@@ -294,6 +294,7 @@
     <ClInclude Include="Systems\AssignmentSystem.h" />
     <ClInclude Include="Systems\CardIdMappingSystem.h" />
     <ClInclude Include="Systems\CardLayoutSystem.h" />
+    <ClInclude Include="Systems\CardLayout\DamageLayoutData.h" />
     <ClInclude Include="Systems\CardSelectionHighlightSystem.h" />
     <ClInclude Include="Systems\ClientIdMappingSystem.h" />
     <ClInclude Include="Systems\DebugInfoSystem.h" />

@@ -5,6 +5,8 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
+#include "Systems\CardLayout\DamageLayoutData.h"
+
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
@@ -23,8 +25,8 @@
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::UI;
+using namespace PinnedDownClient::Systems::CardLayout;
 using namespace PinnedDownClient::Util;
-
 
 namespace PinnedDownClient
 {
@@ -39,6 +41,7 @@ namespace PinnedDownClient
 
 		private:
 			std::map<Entity, Entity> currentAssignments;
+			std::map<Entity, DamageLayoutData> damagedShips;
 
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			std::shared_ptr<UIFactory> uiFactory;

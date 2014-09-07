@@ -68,6 +68,9 @@
     <Filter Include="Assets\Text">
       <UniqueIdentifier>{bbc5e848-e9ca-480f-911e-6c01dc16db44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\CardLayout">
+      <UniqueIdentifier>{b8870e3f-35f1-4c8d-bea0-f9bc3fa72eda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -761,6 +764,9 @@
     </ClInclude>
     <ClInclude Include="Events\DisconnectedFromServerEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardLayout\DamageLayoutData.h">
+      <Filter>Systems\CardLayout</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,7 @@ using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems;
+using namespace PinnedDownClient::Systems::CardLayout;
 using namespace PinnedDownClient::Util;
 
 
@@ -315,9 +316,35 @@ void CardLayoutSystem::OnShipDamaged(ShipDamagedEvent& shipDamagedEvent)
 		}
 	}
 
-	// Anchor damage card.
-	this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0), shipCard->backgroundSprite);
-	this->uiFactory->SetDepth(damageCard->panel, -10);
+	// Get last attached damage card.
+	auto damagedShipsIterator = this->damagedShips.find(shipCardEntity);
+
+	if (damagedShipsIterator == this->damagedShips.end())
+	{
+		// Store damage layout data.
+		auto damageLayoutData = DamageLayoutData();
+		damageLayoutData.panelDepth = -10;
+
+		// Anchor damage card to ship.
+		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0), shipCard->backgroundSprite);
+		this->uiFactory->SetDepth(damageCard->panel, damageLayoutData.panelDepth);
+
+		damageLayoutData.background = damageCard->backgroundSprite;
+
+		this->damagedShips.insert(std::pair<Entity, DamageLayoutData>(shipCardEntity, damageLayoutData));
+	}
+	else
+	{
+		// Update damage layout data.
+		auto damageLayoutData = &damagedShipsIterator->second;
+		damageLayoutData->panelDepth--;
+
+		// Anchor damage card to last damage card.
+		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0), damageLayoutData->background);
+		this->uiFactory->SetDepth(damageCard->panel, damageLayoutData->panelDepth);
+
+		damageLayoutData->background = damageCard->backgroundSprite;
+	}
 }
 
 void CardLayoutSystem::LayoutCards()
