@@ -5,13 +5,14 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-#include "Events\EntityIdMappingCreatedEvent.h"
-#include "Events\EntityTappedEvent.h"
-#include "Events\FightResolvedEvent.h"
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
+#include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\EntityTappedEvent.h"
+#include "Events\FightResolvedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
+#include "Events\ShipDamagedEvent.h"
 
 #include "Systems\UI\UIFactory.h"
 #include "Systems\UI\Card.h"
@@ -44,11 +45,13 @@ namespace PinnedDownClient
 			ComPtr<ID2D1DeviceContext> d2dContext;
 			std::list<std::shared_ptr<Card>> cards;
 
+			const float cardWidth = 200;
+			const float cardOffset = 50;
+			const float assignedCardOffset = 300;
+			const float damageCardOffset = 25;
+
 			float playerCardPositionY = 200;
 			float enemyCardPositionY = -200;
-			float cardWidth = 200;
-			float cardOffset = 50;
-			float assignedCardOffset = 300;
 
 			void LoadResources();
 
@@ -61,6 +64,7 @@ namespace PinnedDownClient
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
+			void OnShipDamaged(ShipDamagedEvent& shipDamagedEvent);
 			void OnDisconnectedFromServer();
 
 			void LayoutCards();
