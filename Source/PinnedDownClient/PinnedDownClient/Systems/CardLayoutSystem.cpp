@@ -10,6 +10,7 @@
 #include "Components\FlagshipComponent.h"
 #include "Components\OwnerComponent.h"
 #include "Components\PowerComponent.h"
+#include "Components\StructureComponent.h"
 #include "Components\ThreatComponent.h"
 
 #include "Events\CardTappedEvent.h"
@@ -188,6 +189,15 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->powerLabel, card->panel);
 	this->uiFactory->FinishUIWidget(card->powerLabel);
+
+	// Structure label.
+	auto structureComponent = this->game->entityManager->GetComponent<StructureComponent>(card->cardEntity, StructureComponent::StructureComponentType);
+
+	card->structureLabel = this->uiFactory->CreateLabel(L"Structure " + std::to_wstring(structureComponent->structure) + L"%");
+	this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
+	this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
+	this->uiFactory->SetPanel(card->structureLabel, card->panel);
+	this->uiFactory->FinishUIWidget(card->structureLabel);
 
 	// Ability label.
 	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
