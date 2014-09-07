@@ -108,15 +108,24 @@ void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitialize
 
 void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
 {
-	// Remove anchor.
-	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); ++iterator)
+	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); )
 	{
 		Anchor& anchor = *iterator;
 
+		if (anchor.anchorComponent->target == entityRemovedEvent.entity)
+		{
+			// Reset anchor.
+			anchor.anchorComponent->target = INVALID_ENTITY_ID;
+		}
+
 		if (anchor.entity == entityRemovedEvent.entity)
 		{
-			this->anchors.erase(iterator);
-			return;
+			// Remove anchor.
+			iterator = this->anchors.erase(iterator);
+		}
+		else
+		{
+			++iterator;
 		}
 	}
 }
