@@ -154,7 +154,7 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	// Name label.
 	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
 
-	card->nameLabel = this->uiFactory->CreateLabel(L"Card " + std::to_wstring(cardComponent->cardIndex));
+	card->nameLabel = this->uiFactory->CreateLabel(L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex));
 	this->uiFactory->SetAnchor(card->nameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
 	this->uiFactory->SetColor(card->nameLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->nameLabel, card->panel);
