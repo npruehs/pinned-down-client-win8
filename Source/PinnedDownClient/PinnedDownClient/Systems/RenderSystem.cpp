@@ -223,7 +223,6 @@ void RenderSystem::OnEntityInitialized(Entity entity)
 		}
 
 		this->renderables.push_back(label);
-		this->renderables.sort(&RenderSystem::SortByDepth);
 	}
 
 	if (depthComponent != nullptr
@@ -247,7 +246,6 @@ void RenderSystem::OnEntityInitialized(Entity entity)
 		}
 
 		this->renderables.push_back(sprite);
-		this->renderables.sort(&RenderSystem::SortByDepth);
 	}
 }
 
@@ -469,6 +467,8 @@ void RenderSystem::Render()
 	this->d2dContext->BeginDraw();
 
 	// Draw renderables.
+	this->renderables.sort(&RenderSystem::SortByDepth);
+
 	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
 	{
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
