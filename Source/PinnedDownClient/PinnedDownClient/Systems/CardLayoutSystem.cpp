@@ -394,6 +394,7 @@ void CardLayoutSystem::LayoutCards()
 
 void CardLayoutSystem::RemoveCardEntity(std::shared_ptr<Card> card)
 {
+	this->game->entityManager->RemoveEntity(card->panel);
 	this->game->entityManager->RemoveEntity(card->backgroundSprite);
 	this->game->entityManager->RemoveEntity(card->cardEntity);
 	this->game->entityManager->RemoveEntity(card->cardTypeLabel);
@@ -401,4 +402,5 @@ void CardLayoutSystem::RemoveCardEntity(std::shared_ptr<Card> card)
 	this->game->entityManager->RemoveEntity(card->powerLabel);
 	this->game->entityManager->RemoveEntity(card->threatLabel);
 	this->game->entityManager->RemoveEntity(card->abilityLabel);
+	this->game->entityManager->RemoveEntity(card->structureLabel);
 }
