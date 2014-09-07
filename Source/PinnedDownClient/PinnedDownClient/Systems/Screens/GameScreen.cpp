@@ -104,9 +104,14 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetTappable(this->endTurnButton);
 	this->uiFactory->FinishUIWidget(this->endTurnButton);
 
-	this->endTurnLabel = this->uiFactory->CreateLabel(L"End Turn");
+	this->endTurnLabel = this->uiFactory->CreateLabel(L"End Turn Phase");
 	this->uiFactory->SetAnchor(this->endTurnLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endTurnButton);
 	this->uiFactory->FinishUIWidget(this->endTurnLabel);
+
+	// Turn Phase Hint label.
+	this->turnPhaseHintLabel = this->uiFactory->CreateLabel(L"");
+	this->uiFactory->SetAnchor(this->turnPhaseHintLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->FinishUIWidget(this->turnPhaseHintLabel);
 }
 
 void GameScreen::UnloadUI()
@@ -117,6 +122,7 @@ void GameScreen::UnloadUI()
 	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
 	this->game->entityManager->RemoveEntity(this->distanceLabel);
 	this->game->entityManager->RemoveEntity(this->playerNameLabel);
+	this->game->entityManager->RemoveEntity(this->turnPhaseHintLabel);
 }
 
 void GameScreen::OnEvent(Event & newEvent)
@@ -199,10 +205,17 @@ void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
 {
+	// Update phase.
 	std::wstring turnPhaseName = StringToWString(TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase));
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseLabel, TextComponent::TextComponentType);
 	textComponent->text = L"Turn Phase: " + turnPhaseName;
+
+	// Update hint.
+	std::wstring turnPhaseHint = StringToWString(GetTurnPhaseHint(turnPhaseChangedEvent.newTurnPhase));
+
+	textComponent = this->game->entityManager->GetComponent<TextComponent>(this->turnPhaseHintLabel, TextComponent::TextComponentType);
+	textComponent->text = turnPhaseHint;
 }
 
 void GameScreen::OnVictory(VictoryEvent& victoryEvent)
