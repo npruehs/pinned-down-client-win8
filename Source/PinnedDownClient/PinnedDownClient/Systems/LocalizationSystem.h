@@ -5,6 +5,7 @@
 #include "IEventListener.h"
 
 #include "EntityInitializedEvent.h"
+#include "Events\LocalizedTextChangedEvent.h"
 #include "Events\ResourceLoadedEvent.h"
 
 #include "Util\LuaInstance.h"
@@ -33,7 +34,10 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			void OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent);
+			void OnLocalizedTextChanged(LocalizedTextChangedEvent& localizedTextChangedEvent);
 			void OnResourceLoaded(ResourceLoadedEvent& resourceLoadedEvent);
+
+			void LocalizeText(Entity entity);
 		};
 	}
 }

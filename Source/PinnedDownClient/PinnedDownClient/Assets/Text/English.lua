@@ -6,3 +6,5 @@ Card_0_84 = "Swarm Frigate"
 
 LoginScreen_Connecting = "Connecting"
 LoginScreen_Reconnect = "Reconnect"
+
+Error_NotAllPlayerShipsAssigned = "You have to assign all of your ships to fight!"

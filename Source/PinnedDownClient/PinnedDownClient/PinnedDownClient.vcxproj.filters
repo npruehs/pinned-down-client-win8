@@ -406,6 +406,9 @@
     <ClCompile Include="Events\DisconnectedFromServerEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Events\LocalizedTextChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -767,6 +770,9 @@
     </ClInclude>
     <ClInclude Include="Systems\CardLayout\DamageLayoutData.h">
       <Filter>Systems\CardLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LocalizedTextChangedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

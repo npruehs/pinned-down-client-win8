@@ -35,6 +35,7 @@ void LocalizationSystem::InitSystem(Game* game)
 	GameSystem::InitSystem(game);
 
 	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
+	this->game->eventManager->AddListener(this, LocalizedTextChangedEvent::LocalizedTextChangedEventType);
 	this->game->eventManager->AddListener(this, ResourceLoadedEvent::ResourceLoadedEventType);
 
 	// Init Lua.
@@ -66,6 +67,11 @@ void LocalizationSystem::OnEvent(Event & newEvent)
 		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
 		this->OnEntityInitialized(entityInitializedEvent);
 	}
+	else if (newEvent.GetEventType() == LocalizedTextChangedEvent::LocalizedTextChangedEventType)
+	{
+		LocalizedTextChangedEvent localizedTextChangedEvent = static_cast<LocalizedTextChangedEvent&>(newEvent);
+		this->OnLocalizedTextChanged(localizedTextChangedEvent);
+	}
 	else if (newEvent.GetEventType() == ResourceLoadedEvent::ResourceLoadedEventType)
 	{
 		ResourceLoadedEvent resourceLoadedEvent = static_cast<ResourceLoadedEvent&>(newEvent);
@@ -75,18 +81,12 @@ void LocalizationSystem::OnEvent(Event & newEvent)
 
 void LocalizationSystem::OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent)
 {
-	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(entityInitializedEvent.entity, LocalizationComponent::LocalizationComponentType);
+	this->LocalizeText(entityInitializedEvent.entity);
+}
 
-	if (localizationComponent != nullptr && !localizationComponent->localizationKey.empty())
-	{
-		// Store localized value.
-		auto key = WStringToString(localizationComponent->localizationKey);
-		auto value = this->lua->GetString(key.c_str());
-		localizationComponent->localizationValue = value.empty() ? localizationComponent->localizationKey : StringToWString(value);
-		
-		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entityInitializedEvent.entity, TextComponent::TextComponentType);
-		textComponent->text = localizationComponent->localizationValue;
-	}
+void LocalizationSystem::OnLocalizedTextChanged(LocalizedTextChangedEvent& localizedTextChangedEvent)
+{
+	this->LocalizeText(localizedTextChangedEvent.entity);
 }
 
 void LocalizationSystem::OnResourceLoaded(ResourceLoadedEvent& resourceLoadedEvent)
@@ -94,5 +94,21 @@ void LocalizationSystem::OnResourceLoaded(ResourceLoadedEvent& resourceLoadedEve
 	if (!resourceLoadedEvent.resourceName.compare(LOCALIZATION_FILE_NAME))
 	{
 		this->LoadLocalizationData();
+	}
+}
+
+void LocalizationSystem::LocalizeText(Entity entity)
+{
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(entity, LocalizationComponent::LocalizationComponentType);
+
+	if (localizationComponent != nullptr && !localizationComponent->localizationKey.empty())
+	{
+		// Store localized value.
+		auto key = WStringToString(localizationComponent->localizationKey);
+		auto value = this->lua->GetString(key.c_str());
+		localizationComponent->localizationValue = value.empty() ? localizationComponent->localizationKey : StringToWString(value);
+
+		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entity, TextComponent::TextComponentType);
+		textComponent->text = localizationComponent->localizationValue;
 	}
 }

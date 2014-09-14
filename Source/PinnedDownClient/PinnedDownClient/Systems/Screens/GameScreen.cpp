@@ -3,8 +3,11 @@
 
 #include "Actions\EndTurnAction.h"
 
+#include "Events\LocalizedTextChangedEvent.h"
+
 #include "Data\TurnPhase.h"
 
+#include "Components\LocalizationComponent.h"
 #include "Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
@@ -39,6 +42,7 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientId
 	this->game->eventManager->AddListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
@@ -50,6 +54,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, CoveredDistanceChangedEvent::CoveredDistanceChangedEventType);
 	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->RemoveListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->RemoveListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
@@ -112,6 +117,12 @@ void GameScreen::LoadUI()
 	this->turnPhaseHintLabel = this->uiFactory->CreateLabel(L"");
 	this->uiFactory->SetAnchor(this->turnPhaseHintLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->turnPhaseHintLabel);
+
+	// Error Message label.
+	this->errorMessageLabel = this->uiFactory->CreateLabel(L"");
+	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
+	this->uiFactory->SetColor(this->errorMessageLabel, D2D1::ColorF(D2D1::ColorF::Red));
+	this->uiFactory->FinishUIWidget(this->errorMessageLabel);
 }
 
 void GameScreen::UnloadUI()
@@ -123,6 +134,7 @@ void GameScreen::UnloadUI()
 	this->game->entityManager->RemoveEntity(this->distanceLabel);
 	this->game->entityManager->RemoveEntity(this->playerNameLabel);
 	this->game->entityManager->RemoveEntity(this->turnPhaseHintLabel);
+	this->game->entityManager->RemoveEntity(this->errorMessageLabel);
 }
 
 void GameScreen::OnEvent(Event & newEvent)
@@ -141,6 +153,11 @@ void GameScreen::OnEvent(Event & newEvent)
 	{
 		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == ErrorMessageEvent::ErrorMessageEventType)
+	{
+		auto errorMessageEvent = static_cast<ErrorMessageEvent&>(newEvent);
+		this->OnErrorMessage(errorMessageEvent);
 	}
 	else if (newEvent.GetEventType() == PlayerAddedEvent::PlayerAddedEventType)
 	{
@@ -186,6 +203,15 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
 	}
+}
+
+void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
+{
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->errorMessageLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = StringToWString(errorMessageEvent.errorMessage);
+
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->errorMessageLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }
 
 void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)

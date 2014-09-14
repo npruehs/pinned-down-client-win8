@@ -248,6 +248,7 @@
     <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
     <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
     <ClInclude Include="Events\LocalizationDataLoadedEvent.h" />
+    <ClInclude Include="Events\LocalizedTextChangedEvent.h" />
     <ClInclude Include="Events\LoginErrorEvent.h" />
     <ClInclude Include="Events\PointerMovedEvent.h" />
     <ClInclude Include="Events\PointerPressedEvent.h" />
@@ -372,6 +373,7 @@
     <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
     <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
     <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp" />
+    <ClCompile Include="Events\LocalizedTextChangedEvent.cpp" />
     <ClCompile Include="Events\LoginErrorEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />
     <ClCompile Include="Events\PointerPressedEvent.cpp" />

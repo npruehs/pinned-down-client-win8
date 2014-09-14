@@ -3,6 +3,7 @@
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\ErrorMessageEvent.h"
 #include "Events\PlayerAddedEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
@@ -44,6 +45,7 @@ namespace PinnedDownClient
 				Entity threatLabel = INVALID_ENTITY_ID;
 				Entity endTurnButton = INVALID_ENTITY_ID;
 				Entity endTurnLabel = INVALID_ENTITY_ID;
+				Entity errorMessageLabel = INVALID_ENTITY_ID;
 				Entity gameOverWindow = INVALID_ENTITY_ID;
 				Entity gameOverLabel = INVALID_ENTITY_ID;
 				Entity playerNameLabel = INVALID_ENTITY_ID;
@@ -53,6 +55,7 @@ namespace PinnedDownClient
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
 				void OnDefeat(DefeatEvent& defeatEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+				void OnErrorMessage(ErrorMessageEvent& errorMessageEvent);
 				void OnPlayerAdded(PlayerAddedEvent& playerAddedEvent);
 				void OnThreatChanged(ThreatChangedEvent& threatChangedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
