@@ -5,6 +5,7 @@
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardRemovedEvent.h"
+#include "Events\CardStateChangedEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\ErrorMessageEvent.h"
@@ -53,11 +54,17 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		cardCreatedEvent->Deserialize(in);
 		return cardCreatedEvent;
 	}
-	if (hashedEventType == CardRemovedEvent::CardRemovedEventType)
+	else if(hashedEventType == CardRemovedEvent::CardRemovedEventType)
 	{
 		auto cardRemovedEvent = std::make_shared<CardRemovedEvent>();
 		cardRemovedEvent->Deserialize(in);
 		return cardRemovedEvent;
+	}
+	else if (hashedEventType == CardStateChangedEvent::CardStateChangedEventType)
+	{
+		auto cardStateChangedEvent = std::make_shared<CardStateChangedEvent>();
+		cardStateChangedEvent->Deserialize(in);
+		return cardStateChangedEvent;
 	}
 	else if (hashedEventType == CoveredDistanceChangedEvent::CoveredDistanceChangedEventType)
 	{

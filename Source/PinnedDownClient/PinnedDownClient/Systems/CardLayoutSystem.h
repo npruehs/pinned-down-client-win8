@@ -9,6 +9,7 @@
 
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardCreatedEvent.h"
+#include "Events\CardStateChangedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityTappedEvent.h"
@@ -42,6 +43,7 @@ namespace PinnedDownClient
 		private:
 			std::map<Entity, Entity> currentAssignments;
 			std::map<Entity, DamageLayoutData> damagedShips;
+			std::list<Entity> handCards;
 
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			std::shared_ptr<UIFactory> uiFactory;
@@ -53,6 +55,7 @@ namespace PinnedDownClient
 			const float assignedCardOffset = 300;
 			const float damageCardOffset = 25;
 
+			float playerHandPositionY = 200;
 			float playerCardPositionY = 200;
 			float enemyCardPositionY = -200;
 
@@ -62,6 +65,7 @@ namespace PinnedDownClient
 
 			void OnCardAssigned(CardAssignedEvent& cardAssignedEvent);
 			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
+			void OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent);
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);

@@ -1,11 +1,14 @@
 #include "pch.h"
 
+#include <algorithm>
+
 #include "Game.h"
 #include "Event.h"
 #include "EntityManager.h"
 
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
+#include "Components\CardStateComponent.h"
 #include "Components\CardUIComponent.h"
 #include "Components\FlagshipComponent.h"
 #include "Components\OwnerComponent.h"
@@ -45,6 +48,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
+	this->game->eventManager->AddListener(this, CardStateChangedEvent::CardStateChangedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
 	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
@@ -80,6 +84,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		CardRemovedEvent& cardRemovedEvent = static_cast<CardRemovedEvent&>(newEvent);
 		this->OnCardRemoved(cardRemovedEvent);
+	}
+	else if (newEvent.GetEventType() == CardStateChangedEvent::CardStateChangedEventType)
+	{
+		CardStateChangedEvent& cardStateChangedEvent = static_cast<CardStateChangedEvent&>(newEvent);
+		this->OnCardStateChanged(cardStateChangedEvent);
 	}
 	else if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
 	{
@@ -220,6 +229,16 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	this->LayoutCards();
 }
 
+void CardLayoutSystem::OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent)
+{
+	auto cardEntity = this->entityIdMapping->ServerToClientId(cardStateChangedEvent.serverEntity);
+	auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(cardEntity, CardStateComponent::CardStateComponentType);
+	cardStateComponent->cardState = cardStateChangedEvent.newState;
+
+	// Update layout.
+	this->LayoutCards();
+}
+
 void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 {
 	auto clientEntity = this->entityIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
@@ -351,6 +370,7 @@ void CardLayoutSystem::LayoutCards()
 {
 	// Count cards.
 	int playerCards = 0;
+	int playerHandCards = 0;
 	int enemyCards = 0;
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
@@ -358,6 +378,7 @@ void CardLayoutSystem::LayoutCards()
 		auto card = *iterator;
 		auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
 		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+		auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(card->cardEntity, CardStateComponent::CardStateComponentType);
 
 		if (cardComponent->cardType != CardType::Starship)
 		{
@@ -366,7 +387,14 @@ void CardLayoutSystem::LayoutCards()
 
 		if (ownerComponent->owner != INVALID_ENTITY_ID)
 		{
-			playerCards++;
+			if (cardStateComponent->cardState == CardState::Hand)
+			{
+				playerHandCards++;
+			}
+			else
+			{
+				playerCards++;
+			}
 		}
 		else
 		{
@@ -376,6 +404,7 @@ void CardLayoutSystem::LayoutCards()
 
 	// Layout cards.
 	float playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
+	float playerHandCardPositionX = -(playerHandCards - 1) * (cardWidth + cardOffset) / 2;
 	float enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
@@ -383,6 +412,7 @@ void CardLayoutSystem::LayoutCards()
 		auto card = *iterator;
 		auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
 		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
+		auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(card->cardEntity, CardStateComponent::CardStateComponentType);
 
 		if (cardComponent->cardType != CardType::Starship)
 		{
@@ -402,18 +432,23 @@ void CardLayoutSystem::LayoutCards()
 
 				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
 			}
+			else if (cardStateComponent->cardState == CardState::Hand)
+			{
+				// Card is in hand.
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::Bottom, this->playerHandPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerHandCardPositionX), 0);
+				playerHandCardPositionX += cardWidth + cardOffset;
+			}
 			else
 			{
 				// Card is not assigned.
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
-			}
-
-			playerCardPositionX += cardWidth + cardOffset;
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
+				playerCardPositionX += cardWidth + cardOffset;
+			}			
 		}
 		else
 		{
 			// Enemy card.
-			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
+			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
 			enemyCardPositionX += cardWidth + cardOffset;
 		}
 	}
