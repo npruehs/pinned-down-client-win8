@@ -307,6 +307,7 @@
     <ClInclude Include="Systems\Network\ClientActionWriter.h" />
     <ClInclude Include="Systems\Network\ClientActionDispatcher.h" />
     <ClInclude Include="Systems\Network\ServerEventReader.h" />
+    <ClInclude Include="Systems\CardPlayingSystem.h" />
     <ClInclude Include="Systems\PlayerSystem.h" />
     <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
@@ -603,6 +604,7 @@
     <ClCompile Include="Systems\AssignmentSystem.cpp" />
     <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
     <ClCompile Include="Systems\CardLayoutSystem.cpp" />
+    <ClCompile Include="Systems\CardPlayingSystem.cpp" />
     <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp" />
     <ClCompile Include="Systems\ClientIdMappingSystem.cpp" />
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />

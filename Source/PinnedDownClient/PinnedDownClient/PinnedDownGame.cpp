@@ -15,6 +15,7 @@
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\LocalizationSystem.h"
 #include "Systems\NetworkSystem.h"
+#include "Systems\CardPlayingSystem.h"
 #include "Systems\PlayerSystem.h"
 #include "Systems\RenderSystem.h"
 #include "Systems\ScreenSystem.h"
@@ -62,6 +63,7 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::AssignmentSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardSelectionHighlightSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::FightSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::CardPlayingSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");
