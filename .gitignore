@@ -26,3 +26,8 @@ Source/PinnedDownClient/ipch/
 Bin/
 *.pri
 Obj/
+Source/PinnedDownClientWin32/PinnedDownClientWin32.opensdf
+Source/PinnedDownClientWin32/PinnedDownClientWin32.sdf
+Source/PinnedDownClientWin32/PinnedDownClientWin32.v12.suo
+Source/PinnedDownClientWin32/Debug/
+Source/PinnedDownClientWin32/PinnedDownClientWin32/Debug/
