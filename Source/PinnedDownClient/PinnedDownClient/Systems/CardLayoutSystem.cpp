@@ -18,6 +18,7 @@
 
 #include "Events\CardTappedEvent.h"
 #include "Events\DisconnectedFromServerEvent.h"
+#include "Events\LocalizedTextChangedEvent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
@@ -56,6 +57,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, EntityUnhoveredEvent::EntityUnhoveredEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
+	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, ShipDamagedEvent::ShipDamagedEventType);
 }
@@ -120,6 +122,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		FightResolvedEvent& fightResolvedEvent = static_cast<FightResolvedEvent&>(newEvent);
 		this->OnFightResolved(fightResolvedEvent);
+	}
+	else if (newEvent.GetEventType() == PowerChangedEvent::PowerChangedEventType)
+	{
+		PowerChangedEvent& powerChangedEvent = static_cast<PowerChangedEvent&>(newEvent);
+		this->OnPowerChanged(powerChangedEvent);
 	}
 	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
 	{
@@ -190,10 +197,9 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 
 		if (card->cardEntity == clientEntity)
 		{
-			// Remove card.
 			this->RemoveCardEntity(card);
 			this->cards.erase(iterator);
-			break;
+			return;
 		}
 	}
 }
@@ -269,6 +275,20 @@ void CardLayoutSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
 
 	// Update layout.
 	this->LayoutCards();
+}
+
+void CardLayoutSystem::OnPowerChanged(PowerChangedEvent& powerChangedEvent)
+{
+	auto card = this->ServerEntityToCard(powerChangedEvent.entity);
+
+	if (card != nullptr)
+	{
+		this->uiFactory->SetText(card->powerLabel, L"Power " + std::to_wstring(powerChangedEvent.newPower));
+
+		// Notify listeners.
+		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(card->powerLabel);
+		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
+	}
 }
 
 void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)
@@ -531,4 +551,21 @@ Entity CardLayoutSystem::CardBackgroundToEntityId(Entity backgroundSprite)
 	}
 
 	return INVALID_ENTITY_ID;
+}
+
+std::shared_ptr<Card> CardLayoutSystem::ServerEntityToCard(Entity serverEntity)
+{
+	auto clientEntity = this->entityIdMapping->ServerToClientId(serverEntity);
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+
+		if (card->cardEntity == clientEntity)
+		{
+			return card;
+		}
+	}
+
+	return nullptr;
 }

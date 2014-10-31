@@ -16,6 +16,7 @@
 #include "Events\EntityTappedEvent.h"
 #include "Events\EntityUnhoveredEvent.h"
 #include "Events\FightResolvedEvent.h"
+#include "Events\PowerChangedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
 
@@ -76,6 +77,7 @@ namespace PinnedDownClient
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 			void OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEvent);
 			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
+			void OnPowerChanged(PowerChangedEvent& powerChangedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 			void OnShipDamaged(ShipDamagedEvent& shipDamagedEvent);
 			void OnDisconnectedFromServer();
@@ -83,7 +85,9 @@ namespace PinnedDownClient
 			std::shared_ptr<Card> CreateCard(Entity cardEntity);
 			void LayoutCards();
 			void RemoveCardEntity(std::shared_ptr<Card> card);
+			
 			Entity CardBackgroundToEntityId(Entity backgroundSprite);
+			std::shared_ptr<Card> ServerEntityToCard(Entity serverEntity);
 		};
 	}
 }
