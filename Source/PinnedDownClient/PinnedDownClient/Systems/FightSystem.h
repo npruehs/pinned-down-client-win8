@@ -6,8 +6,11 @@
 #include "Data\TurnPhase.h"
 
 #include "Events\CardTappedEvent.h"
-#include "Events\TurnPhaseChangedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\TurnPhaseChangedEvent.h"
+#include "Events\UIModeChangedEvent.h"
+
+#include "Systems\UI\UIMode.h"
 
 #include "Util\EntityIdMapping.h"
 
@@ -29,12 +32,14 @@ namespace PinnedDownClient
 		private:
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			TurnPhase turnPhase;
+			UI::UIMode currentUIMode;
 
 			void OnEvent(Event & event);
 
 			void OnCardTapped(CardTappedEvent& cardTappedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
+			void OnUIModeChanged(UIModeChangedEvent& uiModeChangedEvent);
 		};
 	}
 }

@@ -9,7 +9,9 @@
 #include "Components\TappableComponent.h"
 
 #include "EntityRemovedEvent.h"
+#include "Events\EntityHoveredEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\EntityUnhoveredEvent.h"
 
 #include "Math\RectF.h"
 
@@ -34,6 +36,7 @@ void UIInteractionSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, AudioEngineChangedEvent::AudioEngineChangedEventType);
 	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
 	this->game->eventManager->AddListener(this, EntityRemovedEvent::EntityRemovedEventType);
+	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 	this->game->eventManager->AddListener(this, PointerReleasedEvent::PointerReleasedEventType);
 
 	this->LoadResources();
@@ -66,11 +69,36 @@ void UIInteractionSystem::OnEvent(Event & newEvent)
 		EntityRemovedEvent entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
 		this->OnEntityRemoved(entityRemovedEvent);
 	}
+	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
+	{
+		PointerPressedEvent pointerPressedEvent = static_cast<PointerPressedEvent&>(newEvent);
+		this->OnPointerPressed(pointerPressedEvent);
+	}
 	else if (newEvent.GetEventType() == PointerReleasedEvent::PointerReleasedEventType)
 	{
 		PointerReleasedEvent pointerReleasedEvent = static_cast<PointerReleasedEvent&>(newEvent);
 		this->OnPointerReleased(pointerReleasedEvent);
 	}
+}
+
+void UIInteractionSystem::Update(float dt)
+{
+	if (this->currentButton == nullptr)
+	{
+		return;
+	}
+
+	auto oldElapsedTapTime = this->elapsedTapTime;
+	auto newElapedTapTime = oldElapsedTapTime + dt;
+
+	if (oldElapsedTapTime < this->hoverThreshold && newElapedTapTime >= this->hoverThreshold)
+	{
+		// Notify listeners.
+		auto entityHoveredEvent = std::make_shared<EntityHoveredEvent>(this->currentButton->entity);
+		this->game->eventManager->QueueEvent(entityHoveredEvent);
+	}
+
+	this->elapsedTapTime = newElapedTapTime;
 }
 
 void UIInteractionSystem::OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent)
@@ -114,9 +142,50 @@ void UIInteractionSystem::OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent
 	}
 }
 
+void UIInteractionSystem::OnPointerPressed(PointerPressedEvent& pointerPressedEvent)
+{
+	this->elapsedTapTime = 0.0f;
+
+	// Hit testing.
+	this->currentButton = this->HitTest(pointerPressedEvent.position);
+}
+
 void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerReleasedEvent)
 {
-	// Hit testing.
+	if (this->currentButton == nullptr)
+	{
+		return;
+	}
+
+	UI::Button* tappedButton = this->HitTest(pointerReleasedEvent.position);
+
+	if (this->currentButton != tappedButton)
+	{
+		return;
+	}
+
+	// Notify listeners.
+	if (this->elapsedTapTime < this->hoverThreshold)
+	{
+		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(this->currentButton->entity);
+		this->game->eventManager->QueueEvent(entityTappedEvent);
+
+		// Play sound.
+		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/chord.wav");
+		this->game->eventManager->QueueEvent(playSoundAction);
+	}
+	else
+	{
+		auto entityUnhoveredEvent = std::make_shared<EntityUnhoveredEvent>(this->currentButton->entity);
+		this->game->eventManager->QueueEvent(entityUnhoveredEvent);
+	}
+
+	// Reset state.
+	this->currentButton = nullptr;
+}
+
+UI::Button* UIInteractionSystem::HitTest(Vector2F position)
+{
 	UI::Button* tappedButton = nullptr;
 
 	for (std::list<UI::Button>::iterator iterator = this->buttons.begin(); iterator != this->buttons.end(); ++iterator)
@@ -124,7 +193,7 @@ void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerRelease
 		UI::Button& button = *iterator;
 		RectF buttonRect = RectF(button.screenPositionComponent->position, button.boundsComponent->bounds);
 
-		if (buttonRect.Contains(pointerReleasedEvent.position))
+		if (buttonRect.Contains(position))
 		{
 			// Button hit, check depth.
 			if (tappedButton == nullptr || (tappedButton->depthComponent->depth < button.depthComponent->depth))
@@ -134,14 +203,5 @@ void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerRelease
 		}
 	}
 
-	if (tappedButton != nullptr)
-	{
-		// Notify listeners.
-		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(tappedButton->entity);
-		this->game->eventManager->QueueEvent(entityTappedEvent);
-
-		// Play sound.
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/chord.wav");
-		this->game->eventManager->QueueEvent(playSoundAction);
-	}
+	return tappedButton;
 }

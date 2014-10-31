@@ -12,6 +12,7 @@
 #include "Events\FightResolvedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\PlayerAddedEvent.h"
+#include "Events\PowerChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
@@ -101,6 +102,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto playerAddedEvent = std::make_shared<PlayerAddedEvent>();
 		playerAddedEvent->Deserialize(in);
 		return playerAddedEvent;
+	}
+	else if (hashedEventType == PowerChangedEvent::PowerChangedEventType)
+	{
+		auto powerChangedEvent = std::make_shared<PowerChangedEvent>();
+		powerChangedEvent->Deserialize(in);
+		return powerChangedEvent;
 	}
 	else if (hashedEventType == ShipDamagedEvent::ShipDamagedEventType)
 	{
