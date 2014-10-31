@@ -12,7 +12,9 @@
 #include "Events\CardStateChangedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\EntityHoveredEvent.h"
 #include "Events\EntityTappedEvent.h"
+#include "Events\EntityUnhoveredEvent.h"
 #include "Events\FightResolvedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
@@ -50,6 +52,8 @@ namespace PinnedDownClient
 			ComPtr<ID2D1DeviceContext> d2dContext;
 			std::list<std::shared_ptr<Card>> cards;
 
+			std::shared_ptr<Card> cardDetailView;
+
 			const float cardWidth = 200;
 			const float cardOffset = 50;
 			const float assignedCardOffset = 300;
@@ -68,14 +72,18 @@ namespace PinnedDownClient
 			void OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent);
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
+			void OnEntityHovered(EntityHoveredEvent& entityHoveredEvent);
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
+			void OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEvent);
 			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 			void OnShipDamaged(ShipDamagedEvent& shipDamagedEvent);
 			void OnDisconnectedFromServer();
 
+			std::shared_ptr<Card> CreateCard(Entity cardEntity);
 			void LayoutCards();
 			void RemoveCardEntity(std::shared_ptr<Card> card);
+			Entity CardBackgroundToEntityId(Entity backgroundSprite);
 		};
 	}
 }

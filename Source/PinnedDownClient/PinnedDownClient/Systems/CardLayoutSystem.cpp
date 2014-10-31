@@ -51,7 +51,9 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CardStateChangedEvent::CardStateChangedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
 	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
+	this->game->eventManager->AddListener(this, EntityHoveredEvent::EntityHoveredEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
+	this->game->eventManager->AddListener(this, EntityUnhoveredEvent::EntityUnhoveredEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
@@ -99,10 +101,20 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
 		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
 	}
+	else if (newEvent.GetEventType() == EntityHoveredEvent::EntityHoveredEventType)
+	{
+		EntityHoveredEvent& entityHoveredEvent = static_cast<EntityHoveredEvent&>(newEvent);
+		this->OnEntityHovered(entityHoveredEvent);
+	}
 	else if(newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
 	{
 		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
+	}
+	else if (newEvent.GetEventType() == EntityUnhoveredEvent::EntityUnhoveredEventType)
+	{
+		EntityUnhoveredEvent& entityUnhoveredEvent = static_cast<EntityUnhoveredEvent&>(newEvent);
+		this->OnEntityUnhovered(entityUnhoveredEvent);
 	}
 	else if (newEvent.GetEventType() == FightResolvedEvent::FightResolvedEventType)
 	{
@@ -148,88 +160,11 @@ void CardLayoutSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& ent
 
 void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 {
-	auto card = std::make_shared<Card>();
-	card->cardEntity = this->entityIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
-
-	// Card panel.
-	card->panel = this->uiFactory->CreatePanel();
-
-	// Card background sprite.
-	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
-	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
-	this->uiFactory->SetPanel(card->backgroundSprite, card->panel);
-	this->uiFactory->SetTappable(card->backgroundSprite);
-	this->uiFactory->FinishUIWidget(card->backgroundSprite);
-
-	// Name label.
-	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
-
-	card->nameLabel = this->uiFactory->CreateLabel(L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex));
-	this->uiFactory->SetAnchor(card->nameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
-	this->uiFactory->SetColor(card->nameLabel, D2D1::ColorF(D2D1::ColorF::Black));
-	this->uiFactory->SetPanel(card->nameLabel, card->panel);
-	this->uiFactory->FinishUIWidget(card->nameLabel);
-
-	// Card type label.
-	auto cardType = StringToWString(CardTypeToString(cardComponent->cardType));
-
-	card->cardTypeLabel = this->uiFactory->CreateLabel(StringToWString(CardTypeToString(cardComponent->cardType)));
-	this->uiFactory->SetAnchor(card->cardTypeLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
-	this->uiFactory->SetColor(card->cardTypeLabel, D2D1::ColorF(D2D1::ColorF::Black));
-	this->uiFactory->SetPanel(card->cardTypeLabel, card->panel);
-	this->uiFactory->FinishUIWidget(card->cardTypeLabel);
-
-	// Threat label.
-	auto threatComponent = this->game->entityManager->GetComponent<ThreatComponent>(card->cardEntity, ThreatComponent::ThreatComponentType);
-
-	if (threatComponent != nullptr)
-	{
-		card->threatLabel = this->uiFactory->CreateLabel(L"[" + std::to_wstring(threatComponent->threat) + L"]");
-		this->uiFactory->SetAnchor(card->threatLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
-		this->uiFactory->SetColor(card->threatLabel, D2D1::ColorF(D2D1::ColorF::Black));
-		this->uiFactory->SetPanel(card->threatLabel, card->panel);
-		this->uiFactory->FinishUIWidget(card->threatLabel);
-	}
-
-	// Power label.
-	auto powerComponent = this->game->entityManager->GetComponent<PowerComponent>(card->cardEntity, PowerComponent::PowerComponentType);
-
-	if (powerComponent != nullptr)
-	{
-		card->powerLabel = this->uiFactory->CreateLabel(L"Power " + std::to_wstring(powerComponent->power));
-		this->uiFactory->SetAnchor(card->powerLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
-		this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
-		this->uiFactory->SetPanel(card->powerLabel, card->panel);
-		this->uiFactory->FinishUIWidget(card->powerLabel);
-	}
-
-	// Structure label.
-	auto structureComponent = this->game->entityManager->GetComponent<StructureComponent>(card->cardEntity, StructureComponent::StructureComponentType);
-
-	if (structureComponent != nullptr)
-	{
-		card->structureLabel = this->uiFactory->CreateLabel(L"Structure " + std::to_wstring(structureComponent->structure) + L"%");
-		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
-		this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
-		this->uiFactory->SetPanel(card->structureLabel, card->panel);
-		this->uiFactory->FinishUIWidget(card->structureLabel);
-	}
-
-	// Ability label.
-	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
-
-	card->abilityLabel = this->uiFactory->CreateLabel(flagshipComponent != nullptr ? L"FLAGSHIP." : L"");
-	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 30.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), card->backgroundSprite);
-	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
-	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
-	this->uiFactory->FinishUIWidget(card->abilityLabel);
+	auto cardEntity = this->entityIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
+	auto card = this->CreateCard(cardEntity);
 
 	// Add to list.
 	this->cards.push_back(card);
-
-	auto cardUiComponent = std::make_shared<CardUIComponent>();
-	cardUiComponent->background = card->backgroundSprite;
-	this->game->entityManager->AddComponent(card->cardEntity, cardUiComponent);
 
 	// Update layout.
 	this->LayoutCards();
@@ -274,20 +209,50 @@ void CardLayoutSystem::OnDisconnectedFromServer()
 	this->cards.clear();
 }
 
+void CardLayoutSystem::OnEntityHovered(EntityHoveredEvent& entityHoveredEvent)
+{
+	// Find hovered card.
+	auto cardEntity = this->CardBackgroundToEntityId(entityHoveredEvent.entity);
+
+	if (cardEntity != INVALID_ENTITY_ID)
+	{
+		this->cardDetailView = this->CreateCard(cardEntity);
+	}
+
+	// Update layout.
+	this->LayoutCards();
+}
+
 void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
 	// Find tapped card.
-	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
-	{
-		auto card = *iterator;
+	auto cardEntity = this->CardBackgroundToEntityId(entityTappedEvent.entity);
 
-		if (card->backgroundSprite == entityTappedEvent.entity)
+	if (cardEntity != INVALID_ENTITY_ID)
+	{
+		// Notify listeners.
+		auto cardTappedEvent = std::make_shared<CardTappedEvent>(cardEntity);
+		this->game->eventManager->QueueEvent(cardTappedEvent);
+	}
+}
+
+void CardLayoutSystem::OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEvent)
+{
+	// Find unhovered card.
+	auto cardEntity = this->CardBackgroundToEntityId(entityUnhoveredEvent.entity);
+
+	if (cardEntity != INVALID_ENTITY_ID)
+	{
+		if (this->cardDetailView != nullptr && this->cardDetailView->cardEntity == cardEntity)
 		{
-			// Notify listeners.
-			auto cardTappedEvent = std::make_shared<CardTappedEvent>(card->cardEntity);
-			this->game->eventManager->QueueEvent(cardTappedEvent);
+			// Remove card.
+			this->RemoveCardEntity(this->cardDetailView);
+			this->cardDetailView = nullptr;
 		}
 	}
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
@@ -372,6 +337,91 @@ void CardLayoutSystem::OnShipDamaged(ShipDamagedEvent& shipDamagedEvent)
 	}
 }
 
+std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
+{
+	auto card = std::make_shared<Card>();
+	card->cardEntity = cardEntity;
+
+	// Card panel.
+	card->panel = this->uiFactory->CreatePanel();
+
+	// Card background sprite.
+	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
+	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetPanel(card->backgroundSprite, card->panel);
+	this->uiFactory->SetTappable(card->backgroundSprite);
+	this->uiFactory->FinishUIWidget(card->backgroundSprite);
+
+	// Name label.
+	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
+
+	card->nameLabel = this->uiFactory->CreateLabel(L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex));
+	this->uiFactory->SetAnchor(card->nameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
+	this->uiFactory->SetColor(card->nameLabel, D2D1::ColorF(D2D1::ColorF::Black));
+	this->uiFactory->SetPanel(card->nameLabel, card->panel);
+	this->uiFactory->FinishUIWidget(card->nameLabel);
+
+	// Card type label.
+	auto cardType = StringToWString(CardTypeToString(cardComponent->cardType));
+
+	card->cardTypeLabel = this->uiFactory->CreateLabel(StringToWString(CardTypeToString(cardComponent->cardType)));
+	this->uiFactory->SetAnchor(card->cardTypeLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
+	this->uiFactory->SetColor(card->cardTypeLabel, D2D1::ColorF(D2D1::ColorF::Black));
+	this->uiFactory->SetPanel(card->cardTypeLabel, card->panel);
+	this->uiFactory->FinishUIWidget(card->cardTypeLabel);
+
+	// Threat label.
+	auto threatComponent = this->game->entityManager->GetComponent<ThreatComponent>(card->cardEntity, ThreatComponent::ThreatComponentType);
+
+	if (threatComponent != nullptr)
+	{
+		card->threatLabel = this->uiFactory->CreateLabel(L"[" + std::to_wstring(threatComponent->threat) + L"]");
+		this->uiFactory->SetAnchor(card->threatLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
+		this->uiFactory->SetColor(card->threatLabel, D2D1::ColorF(D2D1::ColorF::Black));
+		this->uiFactory->SetPanel(card->threatLabel, card->panel);
+		this->uiFactory->FinishUIWidget(card->threatLabel);
+	}
+
+	// Power label.
+	auto powerComponent = this->game->entityManager->GetComponent<PowerComponent>(card->cardEntity, PowerComponent::PowerComponentType);
+
+	if (powerComponent != nullptr)
+	{
+		card->powerLabel = this->uiFactory->CreateLabel(L"Power " + std::to_wstring(powerComponent->power));
+		this->uiFactory->SetAnchor(card->powerLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
+		this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
+		this->uiFactory->SetPanel(card->powerLabel, card->panel);
+		this->uiFactory->FinishUIWidget(card->powerLabel);
+	}
+
+	// Structure label.
+	auto structureComponent = this->game->entityManager->GetComponent<StructureComponent>(card->cardEntity, StructureComponent::StructureComponentType);
+
+	if (structureComponent != nullptr)
+	{
+		card->structureLabel = this->uiFactory->CreateLabel(L"Structure " + std::to_wstring(structureComponent->structure) + L"%");
+		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
+		this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
+		this->uiFactory->SetPanel(card->structureLabel, card->panel);
+		this->uiFactory->FinishUIWidget(card->structureLabel);
+	}
+
+	// Ability label.
+	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
+
+	card->abilityLabel = this->uiFactory->CreateLabel(flagshipComponent != nullptr ? L"FLAGSHIP." : L"");
+	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 30.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), card->backgroundSprite);
+	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
+	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
+	this->uiFactory->FinishUIWidget(card->abilityLabel);
+
+	auto cardUiComponent = std::make_shared<CardUIComponent>();
+	cardUiComponent->background = card->backgroundSprite;
+	this->game->entityManager->AddComponent(card->cardEntity, cardUiComponent);
+
+	return card;
+}
+
 void CardLayoutSystem::LayoutCards()
 {
 	// Count cards.
@@ -448,17 +498,37 @@ void CardLayoutSystem::LayoutCards()
 			enemyCardPositionX += cardWidth + cardOffset;
 		}
 	}
+
+	// Layout card preview.
+	if (this->cardDetailView != nullptr)
+	{
+		this->uiFactory->SetAnchor(this->cardDetailView->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), 0);
+	}	
 }
 
 void CardLayoutSystem::RemoveCardEntity(std::shared_ptr<Card> card)
 {
 	this->game->entityManager->RemoveEntity(card->panel);
 	this->game->entityManager->RemoveEntity(card->backgroundSprite);
-	this->game->entityManager->RemoveEntity(card->cardEntity);
 	this->game->entityManager->RemoveEntity(card->cardTypeLabel);
 	this->game->entityManager->RemoveEntity(card->nameLabel);
 	this->game->entityManager->RemoveEntity(card->powerLabel);
 	this->game->entityManager->RemoveEntity(card->threatLabel);
 	this->game->entityManager->RemoveEntity(card->abilityLabel);
 	this->game->entityManager->RemoveEntity(card->structureLabel);
+}
+
+Entity CardLayoutSystem::CardBackgroundToEntityId(Entity backgroundSprite)
+{
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+
+		if (card->backgroundSprite == backgroundSprite)
+		{
+			return card->cardEntity;
+		}
+	}
+
+	return INVALID_ENTITY_ID;
 }
