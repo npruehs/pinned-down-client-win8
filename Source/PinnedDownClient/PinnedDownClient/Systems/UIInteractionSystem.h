@@ -7,6 +7,7 @@
 #include "Events\AudioEngineChangedEvent.h"
 #include "EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
+#include "Events\PointerPressedEvent.h"
 #include "Events\PointerReleasedEvent.h"
 
 #include "Systems\UI\Button.h"
@@ -27,11 +28,17 @@ namespace PinnedDownClient
 			UIInteractionSystem();
 
 			void InitSystem(PinnedDownCore::Game* game);
+			void Update(float dt);
 
 		private:
 			ComPtr<IXAudio2> soundAudioEngine;
 
 			std::list<Button> buttons;
+
+			UI::Button* currentButton = nullptr;
+			float elapsedTapTime = 0.0f;
+			float hoverThreshold = 1.0f;
+			
 
 			void LoadResources();
 
@@ -40,7 +47,10 @@ namespace PinnedDownClient
 			void OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent);
 			void OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent);
 			void OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent);
+			void OnPointerPressed(PointerPressedEvent& pointerPressedEvent);
 			void OnPointerReleased(PointerReleasedEvent& pointerReleasedEvent);
+			
+			UI::Button* HitTest(Vector2F position);
 		};
 	}
 }
