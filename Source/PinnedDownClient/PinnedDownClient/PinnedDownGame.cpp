@@ -62,8 +62,8 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::PlayerSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::AssignmentSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardSelectionHighlightSystem>());
-	this->game->systemManager->AddSystem(std::make_shared<Systems::FightSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardPlayingSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::FightSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");

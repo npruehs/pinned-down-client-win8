@@ -29,12 +29,16 @@ namespace PinnedDownClient
 		private:
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
 			TurnPhase turnPhase;
+			Entity selectedCard;
 
 			void OnEvent(Event & event);
 
 			void OnCardTapped(CardTappedEvent& cardTappedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
+
+			void SelectCard(Entity card);
+			void DeselectCard();
 		};
 	}
 }

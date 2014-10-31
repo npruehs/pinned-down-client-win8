@@ -259,6 +259,7 @@
     <ClInclude Include="Events\ResourceLoadedEvent.h" />
     <ClInclude Include="Events\ScreenChangedEvent.h" />
     <ClInclude Include="App.h" />
+    <ClInclude Include="Events\UIModeChangedEvent.h" />
     <ClInclude Include="Lua\lapi.h" />
     <ClInclude Include="Lua\lauxlib.h" />
     <ClInclude Include="Lua\lcode.h" />
@@ -328,6 +329,7 @@
     <ClInclude Include="Systems\UI\Panel.h" />
     <ClInclude Include="Systems\UI\Sprite.h" />
     <ClInclude Include="Systems\UI\UIFactory.h" />
+    <ClInclude Include="Systems\UI\UIMode.h" />
     <ClInclude Include="Util\BidirectionalMap.h" />
     <ClInclude Include="Util\EntityIdMapping.h" />
     <ClInclude Include="Util\ClientIdMapping.h" />
@@ -387,6 +389,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Events\ResourceLoadedEvent.cpp" />
     <ClCompile Include="Events\ScreenChangedEvent.cpp" />
+    <ClCompile Include="Events\UIModeChangedEvent.cpp" />
     <ClCompile Include="Lua\lapi.c">
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

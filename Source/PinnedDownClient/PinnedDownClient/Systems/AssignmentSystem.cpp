@@ -6,6 +6,8 @@
 
 #include "Actions\AssignCardAction.h"
 
+#include "Components\CardComponent.h"
+#include "Components\CardStateComponent.h"
 #include "Components\OwnerComponent.h"
 
 #include "Events\CardDeselectedEvent.h"
@@ -76,7 +78,20 @@ void AssignmentSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
 	}
 
 	auto tappedCard = cardTappedEvent.entity;
+
+	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(tappedCard, CardComponent::CardComponentType);
+	auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(tappedCard, CardStateComponent::CardStateComponentType);
 	auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(tappedCard, OwnerComponent::OwnerComponentType);
+
+	if (cardComponent == nullptr || cardComponent->cardType != CardType::Starship)
+	{
+		return;
+	}
+
+	if (cardStateComponent == nullptr || cardStateComponent->cardState != CardState::InPlay)
+	{
+		return;
+	}
 
 	if (ownerComponent != nullptr)
 	{

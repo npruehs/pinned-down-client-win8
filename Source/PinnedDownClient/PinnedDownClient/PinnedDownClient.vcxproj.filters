@@ -418,6 +418,9 @@
     <ClCompile Include="Events\EntityUnhoveredEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Events\UIModeChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -790,6 +793,12 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="Events\EntityUnhoveredEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\UIMode.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\UIModeChangedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
