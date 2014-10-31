@@ -194,20 +194,26 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	// Power label.
 	auto powerComponent = this->game->entityManager->GetComponent<PowerComponent>(card->cardEntity, PowerComponent::PowerComponentType);
 
-	card->powerLabel = this->uiFactory->CreateLabel(L"Power " + std::to_wstring(powerComponent->power));
-	this->uiFactory->SetAnchor(card->powerLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
-	this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
-	this->uiFactory->SetPanel(card->powerLabel, card->panel);
-	this->uiFactory->FinishUIWidget(card->powerLabel);
+	if (powerComponent != nullptr)
+	{
+		card->powerLabel = this->uiFactory->CreateLabel(L"Power " + std::to_wstring(powerComponent->power));
+		this->uiFactory->SetAnchor(card->powerLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
+		this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
+		this->uiFactory->SetPanel(card->powerLabel, card->panel);
+		this->uiFactory->FinishUIWidget(card->powerLabel);
+	}
 
 	// Structure label.
 	auto structureComponent = this->game->entityManager->GetComponent<StructureComponent>(card->cardEntity, StructureComponent::StructureComponentType);
 
-	card->structureLabel = this->uiFactory->CreateLabel(L"Structure " + std::to_wstring(structureComponent->structure) + L"%");
-	this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
-	this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
-	this->uiFactory->SetPanel(card->structureLabel, card->panel);
-	this->uiFactory->FinishUIWidget(card->structureLabel);
+	if (structureComponent != nullptr)
+	{
+		card->structureLabel = this->uiFactory->CreateLabel(L"Structure " + std::to_wstring(structureComponent->structure) + L"%");
+		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
+		this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
+		this->uiFactory->SetPanel(card->structureLabel, card->panel);
+		this->uiFactory->FinishUIWidget(card->structureLabel);
+	}
 
 	// Ability label.
 	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
@@ -380,11 +386,6 @@ void CardLayoutSystem::LayoutCards()
 		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
 		auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(card->cardEntity, CardStateComponent::CardStateComponentType);
 
-		if (cardComponent->cardType != CardType::Starship)
-		{
-			continue;
-		}
-
 		if (ownerComponent->owner != INVALID_ENTITY_ID)
 		{
 			if (cardStateComponent->cardState == CardState::Hand)
@@ -413,11 +414,6 @@ void CardLayoutSystem::LayoutCards()
 		auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
 		auto ownerComponent = this->game->entityManager->GetComponent<OwnerComponent>(card->cardEntity, OwnerComponent::OwnerComponentType);
 		auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(card->cardEntity, CardStateComponent::CardStateComponentType);
-
-		if (cardComponent->cardType != CardType::Starship)
-		{
-			continue;
-		}
 
 		if (ownerComponent->owner != INVALID_ENTITY_ID)
 		{
