@@ -11,6 +11,7 @@
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardStateChangedEvent.h"
 #include "Events\CardRemovedEvent.h"
+#include "Events\CardUnassignedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityHoveredEvent.h"
 #include "Events\EntityTappedEvent.h"
@@ -72,6 +73,7 @@ namespace PinnedDownClient
 			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
 			void OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent);
 			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
+			void OnCardUnassigned(CardUnassignedEvent& cardUnassignedEvent);
 			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
 			void OnEntityHovered(EntityHoveredEvent& entityHoveredEvent);
 			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);

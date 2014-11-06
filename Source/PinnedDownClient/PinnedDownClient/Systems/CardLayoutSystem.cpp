@@ -51,6 +51,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardStateChangedEvent::CardStateChangedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
+	this->game->eventManager->AddListener(this, CardUnassignedEvent::CardUnassignedEventType);
 	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityHoveredEvent::EntityHoveredEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
@@ -93,6 +94,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		CardStateChangedEvent& cardStateChangedEvent = static_cast<CardStateChangedEvent&>(newEvent);
 		this->OnCardStateChanged(cardStateChangedEvent);
+	}
+	else if (newEvent.GetEventType() == CardUnassignedEvent::CardUnassignedEventType)
+	{
+		CardUnassignedEvent& cardUnassignedEvent = static_cast<CardUnassignedEvent&>(newEvent);
+		this->OnCardUnassigned(cardUnassignedEvent);
 	}
 	else if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
 	{
@@ -145,14 +151,6 @@ void CardLayoutSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
 	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.assignedCard);
 	auto clientTargetCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.targetCard);
 
-	// Check for previous assignment.
-	auto assignment = this->currentAssignments.find(clientAssignedCard);
-
-	if (assignment != this->currentAssignments.end())
-	{
-		this->currentAssignments.erase(assignment);
-	}
-
 	// Assign card.
 	this->currentAssignments.insert(std::pair<Entity, Entity>(clientAssignedCard, clientTargetCard));
 
@@ -202,6 +200,22 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 			return;
 		}
 	}
+}
+
+void CardLayoutSystem::OnCardUnassigned(CardUnassignedEvent& cardUnassignedEvent)
+{
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardUnassignedEvent.assignedCard);
+
+	// Remove assignment.
+	auto assignment = this->currentAssignments.find(clientAssignedCard);
+
+	if (assignment != this->currentAssignments.end())
+	{
+		this->currentAssignments.erase(assignment);
+	}
+
+	// Update layout.
+	this->LayoutCards();
 }
 
 void CardLayoutSystem::OnDisconnectedFromServer()
