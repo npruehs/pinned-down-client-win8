@@ -527,9 +527,13 @@ void CardLayoutSystem::LayoutCards()
 		}
 		else
 		{
-			// Enemy card.
-			this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
-			enemyCardPositionX += cardWidth + cardOffset;
+			// Not a player card, check card type.
+			if (cardComponent->cardType != CardType::Damage)
+			{
+				// Enemy card.
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
+				enemyCardPositionX += cardWidth + cardOffset;
+			}
 		}
 	}
 
