@@ -5,9 +5,6 @@
       <UniqueIdentifier>d299dedd-ebba-4c47-9fe9-3e37389692dc</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <Media Include="Assets\chord.wav">
-      <Filter>Assets</Filter>
-    </Media>
     <Media Include="Assets\becky.wma">
       <Filter>Assets</Filter>
     </Media>
@@ -826,5 +823,8 @@
     <Text Include="Assets\Text\English.lua">
       <Filter>Assets\Text</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\sfx_button.wav" />
   </ItemGroup>
 </Project>

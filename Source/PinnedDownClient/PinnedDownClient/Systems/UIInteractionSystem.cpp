@@ -48,7 +48,7 @@ void UIInteractionSystem::LoadResources()
 
 	resourceManager->LoadAudioFromFile(
 		this->soundAudioEngine.Get(),
-		L"Assets/chord.wav"
+		L"Assets/sfx_button.wav"
 		);
 }
 
@@ -171,7 +171,7 @@ void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerRelease
 		this->game->eventManager->QueueEvent(entityTappedEvent);
 
 		// Play sound.
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/chord.wav");
+		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/sfx_button.wav");
 		this->game->eventManager->QueueEvent(playSoundAction);
 	}
 	else
