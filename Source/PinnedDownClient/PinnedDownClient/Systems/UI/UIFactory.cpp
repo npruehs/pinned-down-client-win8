@@ -168,10 +168,10 @@ void UIFactory::SetPanel(Entity entity, Entity panel)
 	widgetComponent->panel = panel;
 }
 
-void UIFactory::SetText(Entity entity, std::wstring localizationKey)
+void UIFactory::SetText(Entity entity, std::wstring text)
 {
-	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(entity, LocalizationComponent::LocalizationComponentType);
-	localizationComponent->localizationKey = localizationKey;
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entity, TextComponent::TextComponentType);
+	textComponent->text = text;
 }
 
 void UIFactory::SetVisible(Entity entity, bool visible)

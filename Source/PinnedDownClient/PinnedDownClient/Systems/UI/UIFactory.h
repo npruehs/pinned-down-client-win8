@@ -32,7 +32,7 @@ namespace PinnedDownClient
 				void SetFontSize(Entity entity, float fontSize);
 				void SetPanel(Entity entity, Entity panel);
 				void SetTappable(Entity entity);
-				void SetText(Entity entity, std::wstring localizationKey);
+				void SetText(Entity entity, std::wstring text);
 				void SetVisible(Entity entity, bool visible);
 
 				void FinishUIWidget(Entity widget);
