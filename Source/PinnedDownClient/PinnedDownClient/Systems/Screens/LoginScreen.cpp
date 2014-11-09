@@ -2,6 +2,8 @@
 
 #include "Actions\ConnectToServerAction.h"
 
+#include "Events\LocalizedTextChangedEvent.h"
+
 #include "Components\LocalizationComponent.h"
 #include "Components\TextComponent.h"
 
@@ -159,12 +161,16 @@ void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 
 void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 {
-	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->statusLabel, TextComponent::TextComponentType);
-	textComponent->text = loginErrorEvent.errorMessage;
+	// Show error.
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = loginErrorEvent.errorMessage;
 
-	this->connecting = false;
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 
 	// Add Reconnect button.
+	this->connecting = false;
+
 	this->reconnectButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 300.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetTappable(this->reconnectButton);

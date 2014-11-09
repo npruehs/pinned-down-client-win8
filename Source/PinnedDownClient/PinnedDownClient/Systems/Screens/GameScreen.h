@@ -40,9 +40,12 @@ namespace PinnedDownClient
 
 			private:
 				Entity distanceLabel = INVALID_ENTITY_ID;
+				Entity distanceValueLabel = INVALID_ENTITY_ID;
 				Entity turnPhaseLabel = INVALID_ENTITY_ID;
+				Entity turnPhaseValueLabel = INVALID_ENTITY_ID;
 				Entity turnPhaseHintLabel = INVALID_ENTITY_ID;
 				Entity threatLabel = INVALID_ENTITY_ID;
+				Entity threatValueLabel = INVALID_ENTITY_ID;
 				Entity endTurnButton = INVALID_ENTITY_ID;
 				Entity endTurnLabel = INVALID_ENTITY_ID;
 				Entity errorMessageLabel = INVALID_ENTITY_ID;

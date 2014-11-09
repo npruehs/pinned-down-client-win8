@@ -20,7 +20,9 @@ namespace PinnedDownClient
 				Entity cardTypeLabel = INVALID_ENTITY_ID;
 				Entity abilityLabel = INVALID_ENTITY_ID;
 				Entity powerLabel = INVALID_ENTITY_ID;
+				Entity powerValueLabel = INVALID_ENTITY_ID;
 				Entity structureLabel = INVALID_ENTITY_ID;
+				Entity structureValueLabel = INVALID_ENTITY_ID;
 			};
 		}
 	}
