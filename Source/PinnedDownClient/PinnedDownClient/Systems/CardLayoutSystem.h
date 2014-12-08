@@ -20,6 +20,7 @@
 #include "Events\PowerChangedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
+#include "Events\StructureChangedEvent.h"
 
 #include "Systems\UI\UIFactory.h"
 #include "Systems\UI\Card.h"
@@ -83,6 +84,7 @@ namespace PinnedDownClient
 			void OnPowerChanged(PowerChangedEvent& powerChangedEvent);
 			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
 			void OnShipDamaged(ShipDamagedEvent& shipDamagedEvent);
+			void OnStructureChanged(StructureChangedEvent& structureChangedEvent);
 			void OnDisconnectedFromServer();
 
 			std::shared_ptr<Card> CreateCard(Entity cardEntity);

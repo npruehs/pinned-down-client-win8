@@ -61,6 +61,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, ShipDamagedEvent::ShipDamagedEventType);
+	this->game->eventManager->AddListener(this, StructureChangedEvent::StructureChangedEventType);
 }
 
 void CardLayoutSystem::LoadResources()
@@ -143,6 +144,11 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	{
 		auto shipDamagedEvent = static_cast<ShipDamagedEvent&>(newEvent);
 		this->OnShipDamaged(shipDamagedEvent);
+	}
+	else if (newEvent.GetEventType() == StructureChangedEvent::StructureChangedEventType)
+	{
+		auto structureChangedEvent = static_cast<StructureChangedEvent&>(newEvent);
+		this->OnStructureChanged(structureChangedEvent);
 	}
 }
 
@@ -364,6 +370,16 @@ void CardLayoutSystem::OnShipDamaged(ShipDamagedEvent& shipDamagedEvent)
 		this->uiFactory->SetDepth(damageCard->panel, damageLayoutData->panelDepth);
 
 		damageLayoutData->background = damageCard->backgroundSprite;
+	}
+}
+
+void CardLayoutSystem::OnStructureChanged(StructureChangedEvent& structureChangedEvent)
+{
+	auto card = this->ServerEntityToCard(structureChangedEvent.entity);
+
+	if (card != nullptr)
+	{
+		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(structureChangedEvent.newStructure) + L"%");
 	}
 }
 
