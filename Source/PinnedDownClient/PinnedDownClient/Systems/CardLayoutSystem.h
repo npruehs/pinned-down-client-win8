@@ -58,7 +58,8 @@ namespace PinnedDownClient
 
 			const float cardWidth = 200;
 			const float cardOffset = 50;
-			const float assignedCardOffset = 300;
+			const float firstAssignedCardPositionX = 50;
+			const float assignedCardOffsetY = 300;
 			const float damageCardOffset = 25;
 
 			float playerHandPositionY = 200;

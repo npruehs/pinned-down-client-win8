@@ -467,7 +467,8 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 void CardLayoutSystem::LayoutCards()
 {
 	// Count cards.
-	int playerCards = 0;
+	int assignedPlayerCards = 0;
+	int unassignedPlayerCards = 0;
 	int playerHandCards = 0;
 	int enemyCards = 0;
 
@@ -480,13 +481,23 @@ void CardLayoutSystem::LayoutCards()
 
 		if (ownerComponent->owner != INVALID_ENTITY_ID)
 		{
-			if (cardStateComponent->cardState == CardState::Hand)
+			// Player card - check if assigned.
+			auto assignment = this->currentAssignments.find(card->cardEntity);
+
+			if (assignment != this->currentAssignments.end())
 			{
+				// Card is assigned to an enemy.
+				assignedPlayerCards++;
+			}
+			else if (cardStateComponent->cardState == CardState::Hand)
+			{
+				// Card is in hand.
 				playerHandCards++;
 			}
 			else
 			{
-				playerCards++;
+				// Card is not assigned.
+				unassignedPlayerCards++;
 			}
 		}
 		else
@@ -498,12 +509,27 @@ void CardLayoutSystem::LayoutCards()
 		}
 	}
 
-	// Layout cards.
-	float playerCardPositionX = -(playerCards - 1) * (cardWidth + cardOffset) / 2;
-	float playerHandCardPositionX = -(playerHandCards - 1) * (cardWidth + cardOffset) / 2;
-	float enemyCardPositionX = -(enemyCards - 1) * (cardWidth + cardOffset) / 2;
+	int assignedEnemyCards = assignedPlayerCards;
+	int unassignedEnemyCards = enemyCards - assignedEnemyCards;
 
-	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	// Layout cards.
+
+	// Compute offset between assigned cards to the left and unassigned cards to the right.
+	float unassignedCardOffset = assignedPlayerCards * (cardWidth + cardOffset);
+
+	// Center unassigned player cards to the right.
+	float unassignedPlayerCardPositionX = -(unassignedPlayerCards - 1) * (cardWidth + cardOffset) / 2 + unassignedCardOffset;
+
+	// Center player hand cards.
+	float playerHandCardPositionX = -(playerHandCards - 1) * (cardWidth + cardOffset) / 2;
+
+	// Align assigned enemy cards left. Assigned player cards will be anchored to their respective enemies.
+	float assignedEnemyCardPositionX = firstAssignedCardPositionX;
+
+	// Center unassigned player cards to the right.
+	float unassignedEnemyCardPositionX = -(unassignedEnemyCards - 1) * (cardWidth + cardOffset) / 2 + unassignedCardOffset;
+
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); ++iterator)
 	{
 		auto card = *iterator;
 		auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
@@ -521,7 +547,7 @@ void CardLayoutSystem::LayoutCards()
 				auto targetCard = assignment->second;
 				auto targetCardUiComponent = this->game->entityManager->GetComponent<CardUIComponent>(targetCard, CardUIComponent::CardUIComponentType);
 
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
 			}
 			else if (cardStateComponent->cardState == CardState::Hand)
 			{
@@ -532,18 +558,38 @@ void CardLayoutSystem::LayoutCards()
 			else
 			{
 				// Card is not assigned.
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerCardPositionX), 0);
-				playerCardPositionX += cardWidth + cardOffset;
-			}			
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, unassignedPlayerCardPositionX), 0);
+				unassignedPlayerCardPositionX += cardWidth + cardOffset;
+			}
 		}
 		else
 		{
 			// Not a player card, check card type.
 			if (cardComponent->cardType != CardType::Damage)
 			{
-				// Enemy card.
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, enemyCardPositionX), 0);
-				enemyCardPositionX += cardWidth + cardOffset;
+				// Enemy card - check if assigned.
+				bool assigned = false;
+
+				for (auto assignmentIt = this->currentAssignments.begin(); assignmentIt != this->currentAssignments.end(); ++assignmentIt)
+				{
+					auto assignedEnemy = assignmentIt->second;
+					if (assignedEnemy == card->cardEntity)
+					{
+						assigned = true;
+						break;
+					}
+				}
+
+				if (assigned)
+				{
+					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::Left, assignedEnemyCardPositionX), 0);
+					assignedEnemyCardPositionX += cardWidth + cardOffset;
+				}
+				else
+				{
+					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, unassignedEnemyCardPositionX), 0);
+					unassignedEnemyCardPositionX += cardWidth + cardOffset;
+				}
 			}
 		}
 	}
