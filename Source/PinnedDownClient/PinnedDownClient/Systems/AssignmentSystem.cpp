@@ -110,6 +110,11 @@ void AssignmentSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
 				// Select new card.
 				this->SelectCard(tappedCard);
 			}
+			else
+			{
+				// Deselect current card.
+				this->DeselectCard();
+			}
 		}
 		else
 		{
@@ -134,6 +139,11 @@ void AssignmentSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& ent
 
 void AssignmentSystem::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
 {
+	if (this->turnPhase == TurnPhase::Assignment && this->selectedCard != INVALID_ENTITY_ID)
+	{
+		this->DeselectCard();
+	}
+
 	this->turnPhase = turnPhaseChangedEvent.newTurnPhase;
 }
 
