@@ -491,7 +491,10 @@ void CardLayoutSystem::LayoutCards()
 		}
 		else
 		{
-			enemyCards++;
+			if (cardComponent->cardType != CardType::Damage)
+			{
+				enemyCards++;
+			}
 		}
 	}
 
