@@ -33,9 +33,6 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
-
-	// Start connecting to server.
-	this->DoLogin();
 }
 
 void LoginScreen::DeInitScreen()
@@ -105,6 +102,9 @@ void LoginScreen::LoadUI()
 	this->splashScreen = this->uiFactory->CreateSprite("Assets/SplashScreen.png");
 	this->uiFactory->SetAnchor(this->splashScreen, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->splashScreen);
+
+	// Start connecting to server.
+	this->DoLogin();
 }
 
 void LoginScreen::UnloadUI()
@@ -140,6 +140,13 @@ void LoginScreen::DoLogin()
 	this->game->eventManager->QueueEvent(connectToServerAction);
 
 	this->connecting = true;
+
+	// Set status label text.
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = L"LoginScreen_Connecting";
+
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 
 	// Hide reconnect button.
 	if (this->showReconnectUI)
