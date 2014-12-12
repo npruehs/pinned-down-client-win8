@@ -395,7 +395,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
 	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetPanel(card->backgroundSprite, card->panel);
-	this->uiFactory->SetTappable(card->backgroundSprite);
+	this->uiFactory->SetTappable(card->backgroundSprite, true);
 	this->uiFactory->FinishUIWidget(card->backgroundSprite);
 
 	// Name label.

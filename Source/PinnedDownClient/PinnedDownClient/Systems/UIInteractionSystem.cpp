@@ -123,6 +123,7 @@ void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInit
 		button.boundsComponent = boundsComponent;
 		button.depthComponent = depthComponent;
 		button.screenPositionComponent = positionComponent;
+		button.tappableComponent = tappableComponent;
 
 		this->buttons.push_back(button);
 	}
@@ -191,14 +192,18 @@ UI::Button* UIInteractionSystem::HitTest(Vector2F position)
 	for (std::list<UI::Button>::iterator iterator = this->buttons.begin(); iterator != this->buttons.end(); ++iterator)
 	{
 		UI::Button& button = *iterator;
-		RectF buttonRect = RectF(button.screenPositionComponent->position, button.boundsComponent->bounds);
 
-		if (buttonRect.Contains(position))
+		if (button.tappableComponent->tappable)
 		{
-			// Button hit, check depth.
-			if (tappedButton == nullptr || (tappedButton->depthComponent->depth < button.depthComponent->depth))
+			RectF buttonRect = RectF(button.screenPositionComponent->position, button.boundsComponent->bounds);
+
+			if (buttonRect.Contains(position))
 			{
-				tappedButton = &button;
+				// Button hit, check depth.
+				if (tappedButton == nullptr || (tappedButton->depthComponent->depth < button.depthComponent->depth))
+				{
+					tappedButton = &button;
+				}
 			}
 		}
 	}

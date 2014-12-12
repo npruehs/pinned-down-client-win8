@@ -73,12 +73,17 @@ void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCon
 		d2dContext.Get(),
 		L"Assets/Button.png"
 		);
+	resourceManager->LoadBitmapFromFile(
+		d2dContext.Get(),
+		L"Assets/Hints.png"
+		);
 }
 
 void GameScreen::UnloadResources()
 {
 	this->game->resourceManager->UnloadResource("Assets/Window.png");
 	this->game->resourceManager->UnloadResource("Assets/Button.png");
+	this->game->resourceManager->UnloadResource("Assets/Hints.png");
 }
 
 void GameScreen::LoadUI()
@@ -118,12 +123,22 @@ void GameScreen::LoadUI()
 	// End turn button.
 	this->endTurnButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->endTurnButton, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), 0);
-	this->uiFactory->SetTappable(this->endTurnButton);
+	this->uiFactory->SetTappable(this->endTurnButton, true);
 	this->uiFactory->FinishUIWidget(this->endTurnButton);
 
 	this->endTurnLabel = this->uiFactory->CreateLabel(L"GameScreen_Button_EndTurnPhase");
 	this->uiFactory->SetAnchor(this->endTurnLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endTurnButton);
 	this->uiFactory->FinishUIWidget(this->endTurnLabel);
+
+	// Hints button.
+	this->hintButton = this->uiFactory->CreateSprite("Assets/Button.png");
+	this->uiFactory->SetAnchor(this->hintButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 200.0f), this->endTurnButton);
+	this->uiFactory->SetTappable(this->hintButton, true);
+	this->uiFactory->FinishUIWidget(this->hintButton);
+
+	this->hintLabel = this->uiFactory->CreateLabel(L"GameScreen_Button_Hint");
+	this->uiFactory->SetAnchor(this->hintLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->hintButton);
+	this->uiFactory->FinishUIWidget(this->hintLabel);
 
 	// Turn Phase Hint label.
 	this->turnPhaseHintLabel = this->uiFactory->CreateLabel(L"");
@@ -135,12 +150,22 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
 	this->uiFactory->SetColor(this->errorMessageLabel, D2D1::ColorF(D2D1::ColorF::Red));
 	this->uiFactory->FinishUIWidget(this->errorMessageLabel);
+
+	// Hint overlay.
+	this->hintOverlay = this->uiFactory->CreateSprite("Assets/Hints.png");
+	this->uiFactory->SetAnchor(this->hintOverlay, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f));
+	this->uiFactory->SetDepth(this->hintOverlay, 10);
+	this->uiFactory->SetVisible(this->hintOverlay, true);
+	this->uiFactory->SetTappable(this->hintOverlay, true);
+	this->uiFactory->FinishUIWidget(this->hintOverlay);
 }
 
 void GameScreen::UnloadUI()
 {
 	this->game->entityManager->RemoveEntity(this->endTurnLabel);
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
+	this->game->entityManager->RemoveEntity(this->hintButton);
+	this->game->entityManager->RemoveEntity(this->hintLabel);
 	this->game->entityManager->RemoveEntity(this->threatLabel);
 	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
 	this->game->entityManager->RemoveEntity(this->distanceLabel);
@@ -215,6 +240,16 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
 	}
+	else if (entityTappedEvent.entity == this->hintButton)
+	{
+		this->uiFactory->SetVisible(this->hintOverlay, true);
+		this->uiFactory->SetTappable(this->hintOverlay, true);
+	}
+	else if (entityTappedEvent.entity == this->hintOverlay)
+	{
+		this->uiFactory->SetVisible(this->hintOverlay, false);
+		this->uiFactory->SetTappable(this->hintOverlay, false);
+	}
 }
 
 void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
@@ -273,6 +308,9 @@ void GameScreen::ShowGameOver(std::wstring title)
 	// Remove End Turn button.
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
 	this->game->entityManager->RemoveEntity(this->endTurnLabel);
+
+	this->game->entityManager->RemoveEntity(this->hintButton);
+	this->game->entityManager->RemoveEntity(this->hintLabel);
 
 	// Show victory window.
 	this->gameOverWindow = this->uiFactory->CreateSprite("Assets/Window.png");

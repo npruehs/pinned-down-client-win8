@@ -33,15 +33,16 @@ Error_UnableToConntect = "Unable to connect to server."
 
 
 GameScreen_Button_EndTurnPhase = "End Turn Phase"
+GameScreen_Button_Hint = "Help"
 
 GameScreen_GameOver_Defeat = "DEFEAT!"
 GameScreen_GameOver_Victory = "VICTORY!"
 
-GameScreen_Hint_Assignment = "Assign your starships to enemy attackers!"
+GameScreen_Hint_Assignment = "Assign your starships to enemy attackers by tapping one of your ships first, and an enemy ship after!"
 GameScreen_Hint_Attack = ""
-GameScreen_Hint_Fight = "Resolve fights in order of your choice!"
+GameScreen_Hint_Fight = "Play effects to increase the power of your starships by tapping of your effects in hand first, and one of your ships after!\r\nResolve fights in order of your choice by tapping any of your assigned ships!"
 GameScreen_Hint_Jump = ""
-GameScreen_Hint_Main = "Deploy new starships!"
+GameScreen_Hint_Main = "Tap a starship on your hand to deploy it for battle!\r\nTap and hold any hand card to show its details!\r\n"
 
 GameScreen_Info_DistanceCovered = "Distance Covered:"
 GameScreen_Info_TurnPhase = "Turn Phase:"

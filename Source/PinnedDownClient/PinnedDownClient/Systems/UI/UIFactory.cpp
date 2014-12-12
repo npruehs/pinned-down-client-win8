@@ -126,6 +126,9 @@ Entity UIFactory::CreateSprite(std::string spriteName)
 	auto visibilityComponent = std::make_shared<VisibilityComponent>();
 	this->game->entityManager->AddComponent(entity, visibilityComponent);
 
+	auto tappableComponent = std::make_shared<TappableComponent>();
+	this->game->entityManager->AddComponent(entity, tappableComponent);
+
 	return entity;
 }
 
@@ -180,10 +183,10 @@ void UIFactory::SetVisible(Entity entity, bool visible)
 	visibilityComponent->visible = visible;
 }
 
-void UIFactory::SetTappable(Entity entity)
+void UIFactory::SetTappable(Entity entity, bool tappable)
 {
-	auto tappableComponent = std::make_shared<TappableComponent>();
-	this->game->entityManager->AddComponent(entity, tappableComponent);
+	auto tappableComponent = this->game->entityManager->GetComponent<TappableComponent>(entity, TappableComponent::TappableComponentType);
+	tappableComponent->tappable = tappable;
 }
 
 void UIFactory::FinishUIWidget(Entity entity)

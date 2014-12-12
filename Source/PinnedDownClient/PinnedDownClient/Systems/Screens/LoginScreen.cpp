@@ -173,7 +173,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 
 	this->reconnectButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 300.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
-	this->uiFactory->SetTappable(this->reconnectButton);
+	this->uiFactory->SetTappable(this->reconnectButton, true);
 	this->uiFactory->FinishUIWidget(this->reconnectButton);
 
 	this->reconnectLabel = this->uiFactory->CreateLabel(L"LoginScreen_Reconnect");

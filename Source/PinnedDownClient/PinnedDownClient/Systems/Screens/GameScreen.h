@@ -48,11 +48,14 @@ namespace PinnedDownClient
 				Entity threatValueLabel = INVALID_ENTITY_ID;
 				Entity endTurnButton = INVALID_ENTITY_ID;
 				Entity endTurnLabel = INVALID_ENTITY_ID;
+				Entity hintButton = INVALID_ENTITY_ID;
+				Entity hintLabel = INVALID_ENTITY_ID;
 				Entity errorMessageLabel = INVALID_ENTITY_ID;
 				Entity gameOverWindow = INVALID_ENTITY_ID;
 				Entity gameOverLabel = INVALID_ENTITY_ID;
 				Entity playerNameLabel = INVALID_ENTITY_ID;
-				
+				Entity hintOverlay = INVALID_ENTITY_ID;
+
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);

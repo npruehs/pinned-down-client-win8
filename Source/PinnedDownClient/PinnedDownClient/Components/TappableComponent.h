@@ -18,6 +18,8 @@ namespace PinnedDownClient
 			{
 				return TappableComponentType;
 			}
+
+			bool tappable = false;
 		};
 	}
 }
