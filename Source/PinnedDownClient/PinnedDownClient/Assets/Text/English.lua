@@ -29,6 +29,7 @@ Card_Type_Starship = "Starship"
 
 Error_AuthenticationRequired = "You must authenticate yourself in order to play Pinned Down."
 Error_NotAllEnemyShipsAssigned = "You have to assign all of your ships to fight!"
+Error_NotAllFightsResolved = "You have to resolve all fights first!"
 Error_UnableToConntect = "Unable to connect to server."
 
 
