@@ -36,6 +36,8 @@ namespace PinnedDownClient
 				void LoadUI();
 				void UnloadUI();
 
+				void Update(float dt);
+
 				ScreenName GetScreenName();
 
 			private:
@@ -55,6 +57,12 @@ namespace PinnedDownClient
 				Entity gameOverLabel = INVALID_ENTITY_ID;
 				Entity playerNameLabel = INVALID_ENTITY_ID;
 				Entity hintOverlay = INVALID_ENTITY_ID;
+
+				// Time before error messages are hidden, in seconds.
+				const float errorTimeout = 3.0f;
+
+				// Time before the current message is hidden, in seconds.
+				float errorTimeRemaining = 0.0f;
 
 				void OnEvent(Event & event);
 

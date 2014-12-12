@@ -7,6 +7,7 @@
 
 #include "Data\TurnPhase.h"
 
+#include "Components\ColorComponent.h"
 #include "Components\LocalizationComponent.h"
 #include "Components\TextComponent.h"
 
@@ -147,7 +148,7 @@ void GameScreen::LoadUI()
 
 	// Error Message label.
 	this->errorMessageLabel = this->uiFactory->CreateLabel(L"");
-	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
+	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 50.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
 	this->uiFactory->SetColor(this->errorMessageLabel, D2D1::ColorF(D2D1::ColorF::Red));
 	this->uiFactory->FinishUIWidget(this->errorMessageLabel);
 
@@ -218,6 +219,21 @@ void GameScreen::OnEvent(Event & newEvent)
 	}
 }
 
+void GameScreen::Update(float dt)
+{
+	if (this->errorTimeRemaining <= 0)
+	{
+		return;
+	}
+
+	// Tick error message timer.
+	this->errorTimeRemaining -= dt;
+
+	// Fade error message out.
+	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(this->errorMessageLabel, ColorComponent::ColorComponentType);
+	colorComponent->color.a = this->errorTimeRemaining / this->errorTimeout;
+}
+
 void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent)
 {
 	int distanceCovered = coveredDistanceChangedEvent.distanceCovered;
@@ -254,11 +270,15 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 
 void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
 {
+	// Set error message text.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->errorMessageLabel, LocalizationComponent::LocalizationComponentType);
 	localizationComponent->localizationKey = StringToWString(errorMessageEvent.errorMessage);
 
 	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->errorMessageLabel);
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
+
+	// Start fading out.
+	this->errorTimeRemaining = this->errorTimeout;
 }
 
 void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
