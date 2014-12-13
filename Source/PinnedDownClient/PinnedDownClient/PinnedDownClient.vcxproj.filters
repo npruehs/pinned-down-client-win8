@@ -5,9 +5,6 @@
       <UniqueIdentifier>d299dedd-ebba-4c47-9fe9-3e37389692dc</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <Media Include="Assets\becky.wma">
-      <Filter>Assets</Filter>
-    </Media>
     <Image Include="Assets\Logo.png">
       <Filter>Assets</Filter>
     </Image>
@@ -67,6 +64,9 @@
     </Filter>
     <Filter Include="Systems\CardLayout">
       <UniqueIdentifier>{b8870e3f-35f1-4c8d-bea0-f9bc3fa72eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Sounds">
+      <UniqueIdentifier>{a016093e-fb4f-425b-bb5e-ed955b220ba6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -834,6 +834,26 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Assets\sfx_button.wav" />
+    <Media Include="Assets\Sounds\AttackPhase.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\EffectPlayed.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\EntityTapped.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\FightResolved.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\JumpPhase.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\GameOver.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\StarshipPlayed.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

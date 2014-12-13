@@ -648,8 +648,13 @@
     <None Include="PinnedDownClient_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Assets\becky.wma" />
-    <Media Include="Assets\sfx_button.wav" />
+    <Media Include="Assets\Sounds\AttackPhase.wav" />
+    <Media Include="Assets\Sounds\EffectPlayed.wav" />
+    <Media Include="Assets\Sounds\EntityTapped.wav" />
+    <Media Include="Assets\Sounds\FightResolved.wav" />
+    <Media Include="Assets\Sounds\GameOver.wav" />
+    <Media Include="Assets\Sounds\JumpPhase.wav" />
+    <Media Include="Assets\Sounds\StarshipPlayed.wav" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCore.vcxproj">

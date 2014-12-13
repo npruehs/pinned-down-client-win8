@@ -7,8 +7,8 @@
 
 #include "Events\CardAssignedEvent.h"
 #include "Events\CardTappedEvent.h"
-#include "Events\TurnPhaseChangedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\TurnPhaseChangedEvent.h"
 
 #include "Util\EntityIdMapping.h"
 
