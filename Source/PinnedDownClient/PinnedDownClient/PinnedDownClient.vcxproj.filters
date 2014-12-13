@@ -418,6 +418,9 @@
     <ClCompile Include="Events\UIModeChangedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\SoundEffectSytem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -797,6 +800,9 @@
     </ClInclude>
     <ClInclude Include="Events\UIModeChangedEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\SoundEffectSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

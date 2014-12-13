@@ -2,8 +2,6 @@
 #include "Event.h"
 #include "Systems\UIInteractionSystem.h"
 
-#include "Actions\PlaySoundAction.h"
-
 #include "Components\BoundsComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\TappableComponent.h"
@@ -15,13 +13,10 @@
 
 #include "Math\RectF.h"
 
-#include "Resources\PinnedDownResourceManager.h"
-
 using namespace PinnedDownCore;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Math;
-using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems;
 
 
@@ -33,33 +28,15 @@ void UIInteractionSystem::InitSystem(PinnedDownCore::Game* game)
 {
 	GameSystem::InitSystem(game);
 
-	this->game->eventManager->AddListener(this, AudioEngineChangedEvent::AudioEngineChangedEventType);
 	this->game->eventManager->AddListener(this, EntityInitializedEvent::EntityInitializedEventType);
 	this->game->eventManager->AddListener(this, EntityRemovedEvent::EntityRemovedEventType);
 	this->game->eventManager->AddListener(this, PointerPressedEvent::PointerPressedEventType);
 	this->game->eventManager->AddListener(this, PointerReleasedEvent::PointerReleasedEventType);
-
-	this->LoadResources();
-}
-
-void UIInteractionSystem::LoadResources()
-{
-	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
-
-	resourceManager->LoadAudioFromFile(
-		this->soundAudioEngine.Get(),
-		L"Assets/sfx_button.wav"
-		);
 }
 
 void UIInteractionSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == AudioEngineChangedEvent::AudioEngineChangedEventType)
-	{
-		AudioEngineChangedEvent audioEngineChangedEvent = static_cast<AudioEngineChangedEvent&>(newEvent);
-		this->OnAudioEngineChanged(audioEngineChangedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
+	if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
 	{
 		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
 		this->OnEntityInitialized(entityInitializedEvent);
@@ -99,11 +76,6 @@ void UIInteractionSystem::Update(float dt)
 	}
 
 	this->elapsedTapTime = newElapedTapTime;
-}
-
-void UIInteractionSystem::OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent)
-{
-	this->soundAudioEngine = audioEngineChangedEvent.audioEngine;
 }
 
 void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent)
@@ -170,10 +142,6 @@ void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerRelease
 	{
 		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(this->currentButton->entity);
 		this->game->eventManager->QueueEvent(entityTappedEvent);
-
-		// Play sound.
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/sfx_button.wav");
-		this->game->eventManager->QueueEvent(playSoundAction);
 	}
 	else
 	{

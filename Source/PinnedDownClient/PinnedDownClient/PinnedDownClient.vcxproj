@@ -320,6 +320,7 @@
     <ClInclude Include="Systems\Screens\LoginScreen.h" />
     <ClInclude Include="Systems\Screens\Screen.h" />
     <ClInclude Include="Systems\Screens\ScreenName.h" />
+    <ClInclude Include="Systems\SoundEffectSystem.h" />
     <ClInclude Include="Systems\SoundSystem.h" />
     <ClInclude Include="Systems\UIInteractionSystem.h" />
     <ClInclude Include="Systems\UILayoutSystem.h" />
@@ -628,6 +629,7 @@
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\Screens\GameScreen.cpp" />
     <ClCompile Include="Systems\Screens\LoginScreen.cpp" />
+    <ClCompile Include="Systems\SoundEffectSytem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
     <ClCompile Include="Systems\UIInteractionSystem.cpp" />
     <ClCompile Include="Systems\UILayoutSystem.cpp" />

@@ -20,6 +20,7 @@
 #include "Systems\RenderSystem.h"
 #include "Systems\ScreenSystem.h"
 #include "Systems\SoundSystem.h"
+#include "Systems\SoundEffectSystem.h"
 #include "Systems\UIInteractionSystem.h"
 #include "Systems\UILayoutSystem.h"
 
@@ -64,6 +65,7 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardSelectionHighlightSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardPlayingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::FightSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundEffectSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo(L"Game initialized.");
