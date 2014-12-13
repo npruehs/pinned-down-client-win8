@@ -22,6 +22,7 @@ namespace PinnedDownClient
 				UIFactory(PinnedDownCore::Game* game);
 
 				Entity CreateLabel(std::wstring localizationKey);
+				Entity CreateLabel(std::wstring localizationKey, float maxWidth);
 				Entity CreatePanel();
 				Entity CreateSprite(std::string spriteName);
 

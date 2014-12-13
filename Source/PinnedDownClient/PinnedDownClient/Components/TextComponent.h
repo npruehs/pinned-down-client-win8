@@ -20,6 +20,7 @@ namespace PinnedDownClient
 			}
 
 			std::wstring text;
+			float maxWidth = 500.0f;
 		};
 	}
 }

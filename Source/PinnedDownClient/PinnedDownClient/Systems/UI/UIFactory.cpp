@@ -33,6 +33,11 @@ UIFactory::UIFactory(PinnedDownCore::Game* game)
 
 Entity UIFactory::CreateLabel(std::wstring localizationKey)
 {
+	return this->CreateLabel(localizationKey, 0.0f);
+}
+
+Entity UIFactory::CreateLabel(std::wstring localizationKey, float maxWidth)
+{
 	Entity entity = this->game->entityManager->CreateEntity();
 
 	auto boundsComponent = std::make_shared<BoundsComponent>();
@@ -57,6 +62,11 @@ Entity UIFactory::CreateLabel(std::wstring localizationKey)
 
 	auto textComponent = std::make_shared<TextComponent>();
 	this->game->entityManager->AddComponent(entity, textComponent);
+
+	if (maxWidth > 0)
+	{
+		textComponent->maxWidth = maxWidth;
+	}
 
 	auto textAlignmentComponent = std::make_shared<TextAlignmentComponent>();
 	this->game->entityManager->AddComponent(entity, textAlignmentComponent);

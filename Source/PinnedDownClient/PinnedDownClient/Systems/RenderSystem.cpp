@@ -746,8 +746,8 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		label->textComponent->text.c_str(),
 		(uint32)label->textComponent->text.length(),
 		textFormat.Get(),
-		500.0f, // Max width.
-		500.0f, // Max height.
+		label->textComponent->maxWidth, // Max width.
+		0.0f, // Max height.
 		&textLayout)
 		);
 

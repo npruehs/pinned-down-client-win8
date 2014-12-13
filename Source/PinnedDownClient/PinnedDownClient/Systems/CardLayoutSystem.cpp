@@ -465,9 +465,9 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	}
 
 	// Ability label.
-	auto flagshipComponent = this->game->entityManager->GetComponent<FlagshipComponent>(card->cardEntity, FlagshipComponent::FlagshipComponentType);
+	std::wstring cardText = L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex) + L"_Text";
 
-	card->abilityLabel = this->uiFactory->CreateLabel(flagshipComponent != nullptr ? L"Card_Ability_Flagship" : L"");
+	card->abilityLabel = this->uiFactory->CreateLabel(cardText, 150.0f);
 	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 30.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), card->backgroundSprite);
 	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
