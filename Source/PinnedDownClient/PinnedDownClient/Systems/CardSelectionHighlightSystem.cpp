@@ -44,26 +44,14 @@ void CardSelectionHighlightSystem::LoadResources()
 
 void CardSelectionHighlightSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardSelectedEvent::CardSelectedEventType)
-	{
-		CardSelectedEvent& cardSelectedEvent = static_cast<CardSelectedEvent&>(newEvent);
-		this->OnCardSelected(cardSelectedEvent);
-	}
-	else if (newEvent.GetEventType() == CardDeselectedEvent::CardDeselectedEventType)
-	{
-		CardDeselectedEvent& cardDeselectedEvent = static_cast<CardDeselectedEvent&>(newEvent);
-		this->OnCardDeselected(cardDeselectedEvent);
-	}
-	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
-	{
-		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
-		this->OnRenderTargetChanged(renderTargetChangedEvent);
-	}
+	CALL_EVENT_HANDLER(CardSelectedEvent);
+	CALL_EVENT_HANDLER(CardDeselectedEvent);
+	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 }
 
-void CardSelectionHighlightSystem::OnCardSelected(CardSelectedEvent& cardSelectedEvent)
+EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, CardSelectedEvent)
 {
-	auto selectedCard = cardSelectedEvent.entity;
+	auto selectedCard = data.entity;
 	auto selectedCardUiComponent = this->game->entityManager->GetComponent<CardUIComponent>(selectedCard, CardUIComponent::CardUIComponentType);
 
 	// Add highlight.
@@ -73,14 +61,14 @@ void CardSelectionHighlightSystem::OnCardSelected(CardSelectedEvent& cardSelecte
 	this->uiFactory->FinishUIWidget(this->currentHighlight);
 }
 
-void CardSelectionHighlightSystem::OnCardDeselected(CardDeselectedEvent& cardDeselectedEvent)
+EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, CardDeselectedEvent)
 {
 	this->game->entityManager->RemoveEntity(this->currentHighlight);
 }
 
-void CardSelectionHighlightSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)
+EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, RenderTargetChangedEvent)
 {
-	this->d2dContext = renderTargetChangedEvent.d2dContext;
+	this->d2dContext = data.d2dContext;
 
 	this->LoadResources();
 }

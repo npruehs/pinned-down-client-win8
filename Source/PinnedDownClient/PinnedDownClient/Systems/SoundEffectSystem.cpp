@@ -74,56 +74,24 @@ void SoundEffectSystem::LoadResources()
 
 void SoundEffectSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == AudioEngineChangedEvent::AudioEngineChangedEventType)
-	{
-		AudioEngineChangedEvent& audioEngineChangedEvent = static_cast<AudioEngineChangedEvent&>(newEvent);
-		this->OnAudioEngineChanged(audioEngineChangedEvent);
-	}
-	else if(newEvent.GetEventType() == CardPlayedEvent::CardPlayedEventType)
-	{
-		CardPlayedEvent& cardPlayedEvent = static_cast<CardPlayedEvent&>(newEvent);
-		this->OnCardPlayed(cardPlayedEvent);
-	}
-	else if (newEvent.GetEventType() == DefeatEvent::DefeatEventType)
-	{
-		DefeatEvent& defeatEvent = static_cast<DefeatEvent&>(newEvent);
-		this->OnDefeat(defeatEvent);
-	}
-	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
-	{
-		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
-		this->OnEntityTapped(entityTappedEvent);
-	}
-	else if (newEvent.GetEventType() == FightResolvedEvent::FightResolvedEventType)
-	{
-		FightResolvedEvent& fightResolvedEvent = static_cast<FightResolvedEvent&>(newEvent);
-		this->OnFightResolved(fightResolvedEvent);
-	}
-	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
-	{
-		TurnPhaseChangedEvent& turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
-		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
-	}
-	else if (newEvent.GetEventType() == VictoryEvent::VictoryEventType)
-	{
-		VictoryEvent& victoryEvent = static_cast<VictoryEvent&>(newEvent);
-		this->OnVictory(victoryEvent);
-	}
+	CALL_EVENT_HANDLER(AudioEngineChangedEvent);
+	CALL_EVENT_HANDLER(CardPlayedEvent);
+	CALL_EVENT_HANDLER(DefeatEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(EntityTappedEvent);
+	CALL_EVENT_HANDLER(FightResolvedEvent);
+	CALL_EVENT_HANDLER(TurnPhaseChangedEvent);
+	CALL_EVENT_HANDLER(VictoryEvent);
 }
 
-void SoundEffectSystem::OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, AudioEngineChangedEvent)
 {
-	this->soundAudioEngine = audioEngineChangedEvent.audioEngine;
+	this->soundAudioEngine = data.audioEngine;
 }
 
-void SoundEffectSystem::OnCardPlayed(CardPlayedEvent& cardPlayedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, CardPlayedEvent)
 {
-	auto entityId = this->entityIdMapping->ServerToClientId(cardPlayedEvent.serverEntity);
+	auto entityId = this->entityIdMapping->ServerToClientId(data.serverEntity);
 	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(entityId, CardComponent::CardComponentType);
 
 	if (cardComponent->cardType == CardType::Effect)
@@ -138,44 +106,44 @@ void SoundEffectSystem::OnCardPlayed(CardPlayedEvent& cardPlayedEvent)
 	}
 }
 
-void SoundEffectSystem::OnDefeat(DefeatEvent& defeatEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, DefeatEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/GameOver.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
-void SoundEffectSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }
 
-void SoundEffectSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, EntityTappedEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/EntityTapped.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
-void SoundEffectSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, FightResolvedEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/FightResolved.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
-void SoundEffectSystem::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, TurnPhaseChangedEvent)
 {
-	if (turnPhaseChangedEvent.newTurnPhase == TurnPhase::Attack)
+	if (data.newTurnPhase == TurnPhase::Attack)
 	{
 		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/AttackPhase.wav");
 		this->game->eventManager->QueueEvent(playSoundAction);
 	}
-	else if (turnPhaseChangedEvent.newTurnPhase == TurnPhase::Jump)
+	else if (data.newTurnPhase == TurnPhase::Jump)
 	{
 		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/JumpPhase.wav");
 		this->game->eventManager->QueueEvent(playSoundAction);
 	}
 }
 
-void SoundEffectSystem::OnVictory(VictoryEvent& victoryEvent)
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, VictoryEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/GameOver.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);

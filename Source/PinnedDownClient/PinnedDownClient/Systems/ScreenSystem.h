@@ -5,9 +5,11 @@
 #include "IEventListener.h"
 
 #include "Events\ClientIdMappingCreatedEvent.h"
+#include "Events\DisconnectedFromServerEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
-#include "Events\RenderTargetChangedEvent.h"
 #include "Events\LocalizationDataLoadedEvent.h"
+#include "Events\LoginSuccessEvent.h"
+#include "Events\RenderTargetChangedEvent.h"
 
 #include "Systems\Screens\Screen.h"
 #include "Systems\UI\UIFactory.h"
@@ -22,6 +24,7 @@ using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems::Screens;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Util;
+using namespace PinnedDownNet::Events;
 
 namespace PinnedDownClient
 {
@@ -45,12 +48,12 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnLocalizationDataLoaded();
-			void OnLoginSuccess();
-			void OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent);
-			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
-			void OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent);
-			void OnDisconnectedFromServer();
+			EVENT_HANDLER_DECLARATION(ClientIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
+			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(LocalizationDataLoadedEvent);
+			EVENT_HANDLER_DECLARATION(LoginSuccessEvent);
+			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 
 			void SetScreen(std::shared_ptr<Screen> newScreen);
 			void RefreshScreen();

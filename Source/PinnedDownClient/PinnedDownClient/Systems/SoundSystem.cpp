@@ -8,8 +8,6 @@
 #include "Game.h"
 #include "Event.h"
 
-#include "Actions\PlaySoundAction.h"
-
 #include "Events\AudioEngineChangedEvent.h"
 
 #include "Resources\AudioResourceHandle.h"
@@ -87,11 +85,12 @@ void SoundSystem::InitSystem(PinnedDownCore::Game* game)
 
 void SoundSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == PlaySoundAction::PlaySoundActionType)
-	{
-		PlaySoundAction playSoundAction = static_cast<PlaySoundAction&>(newEvent);
-		this->PlaySound(playSoundAction.soundAsset);
-	}
+	CALL_EVENT_HANDLER(PlaySoundAction);
+}
+
+EVENT_HANDLER_DEFINITION(SoundSystem, PlaySoundAction)
+{
+	this->PlaySound(data.soundAsset);
 }
 
 void SoundSystem::InitXAudio()

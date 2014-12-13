@@ -33,9 +33,9 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent);
-			void OnLocalizedTextChanged(LocalizedTextChangedEvent& localizedTextChangedEvent);
-			void OnResourceLoaded(ResourceLoadedEvent& resourceLoadedEvent);
+			EVENT_HANDLER_DECLARATION(EntityInitializedEvent);
+			EVENT_HANDLER_DECLARATION(LocalizedTextChangedEvent);
+			EVENT_HANDLER_DECLARATION(ResourceLoadedEvent);
 
 			void LocalizeText(Entity entity);
 		};

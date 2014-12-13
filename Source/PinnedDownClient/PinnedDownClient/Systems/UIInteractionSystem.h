@@ -37,10 +37,10 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent);
-			void OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent);
-			void OnPointerPressed(PointerPressedEvent& pointerPressedEvent);
-			void OnPointerReleased(PointerReleasedEvent& pointerReleasedEvent);
+			EVENT_HANDLER_DECLARATION(EntityInitializedEvent);
+			EVENT_HANDLER_DECLARATION(EntityRemovedEvent);
+			EVENT_HANDLER_DECLARATION(PointerPressedEvent);
+			EVENT_HANDLER_DECLARATION(PointerReleasedEvent);
 			
 			UI::Button* HitTest(Vector2F position);
 		};

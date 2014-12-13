@@ -30,7 +30,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent);
+			EVENT_HANDLER_DECLARATION(LoginSuccessEvent);
 		};
 	}
 }

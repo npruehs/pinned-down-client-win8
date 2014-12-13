@@ -36,10 +36,10 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnCardTapped(CardTappedEvent& cardTappedEvent);
-			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
-			void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
-			void OnUIModeChanged(UIModeChangedEvent& uiModeChangedEvent);
+			EVENT_HANDLER_DECLARATION(CardTappedEvent);
+			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(TurnPhaseChangedEvent);
+			EVENT_HANDLER_DECLARATION(UIModeChangedEvent);
 		};
 	}
 }

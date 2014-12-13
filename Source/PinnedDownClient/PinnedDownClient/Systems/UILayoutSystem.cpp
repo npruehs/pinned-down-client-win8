@@ -47,46 +47,30 @@ void UILayoutSystem::CreateRootPanel()
 
 void UILayoutSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == AppWindowChangedEvent::AppWindowChangedEventType)
-	{
-		AppWindowChangedEvent appWindowChangedEvent = static_cast<AppWindowChangedEvent&>(newEvent);
-		this->OnAppWindowChanged(appWindowChangedEvent);
-	}
-	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
-	{
-		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
-		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
-	{
-		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
-		this->OnEntityInitialized(entityInitializedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
-	{
-		EntityRemovedEvent entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityRemoved(entityRemovedEvent);
-	}
+	CALL_EVENT_HANDLER(AppWindowChangedEvent);
+	CALL_EVENT_HANDLER(AppWindowSizeChangedEvent);
+	CALL_EVENT_HANDLER(EntityInitializedEvent);
+	CALL_EVENT_HANDLER(EntityRemovedEvent);
 }
 
-void UILayoutSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
+EVENT_HANDLER_DEFINITION(UILayoutSystem, AppWindowChangedEvent)
 {
 	// Resize root panel.
-	auto window = appWindowChangedEvent.appWindow;
+	auto window = data.appWindow;
 	auto newSize = Vector2F(window->Bounds.Width, window->Bounds.Height);
 	this->ResizeRootPanel(newSize);
 }
 
-void UILayoutSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+EVENT_HANDLER_DEFINITION(UILayoutSystem, AppWindowSizeChangedEvent)
 {
 	// Resize root panel.
-	auto newSize = appWindowSizeChangedEvent.size;
+	auto newSize = data.size;
 	this->ResizeRootPanel(newSize);
 }
 
-void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitializedEvent)
+EVENT_HANDLER_DEFINITION(UILayoutSystem, EntityInitializedEvent)
 {
-	auto entity = entityInitializedEvent.entity;
+	auto entity = data.entity;
 	auto anchorComponent = this->game->entityManager->GetComponent<UIAnchorComponent>(entity, UIAnchorComponent::UIAnchorComponentType);
 	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entity, BoundsComponent::BoundsComponentType);
 	auto screenPositionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entity, ScreenPositionComponent::ScreenPositionComponentType);
@@ -106,19 +90,19 @@ void UILayoutSystem::OnEntityInitialized(EntityInitializedEvent entityInitialize
 	}
 }
 
-void UILayoutSystem::OnEntityRemoved(EntityRemovedEvent entityRemovedEvent)
+EVENT_HANDLER_DEFINITION(UILayoutSystem, EntityRemovedEvent)
 {
 	for (std::list<Anchor>::iterator iterator = this->anchors.begin(); iterator != this->anchors.end(); )
 	{
 		Anchor& anchor = *iterator;
 
-		if (anchor.anchorComponent->target == entityRemovedEvent.entity)
+		if (anchor.anchorComponent->target == data.entity)
 		{
 			// Reset anchor.
 			anchor.anchorComponent->target = INVALID_ENTITY_ID;
 		}
 
-		if (anchor.entity == entityRemovedEvent.entity)
+		if (anchor.entity == data.entity)
 		{
 			// Remove anchor.
 			iterator = this->anchors.erase(iterator);

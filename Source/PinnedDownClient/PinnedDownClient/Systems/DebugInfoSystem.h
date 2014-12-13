@@ -44,7 +44,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnPointerMoved(PointerMovedEvent pointerMovedEvent);
+			EVENT_HANDLER_DECLARATION(PointerMovedEvent);
 		};
 	}
 }

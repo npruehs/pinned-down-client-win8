@@ -34,8 +34,8 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
-			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(CardCreatedEvent);
+			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
 		};
 	}
 }

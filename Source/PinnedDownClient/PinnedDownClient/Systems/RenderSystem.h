@@ -95,14 +95,14 @@ namespace PinnedDownClient
 			// Converts between Windows display orientation and DXGI rotation.
 			DXGI_MODE_ROTATION ComputeDisplayRotation(DisplayOrientations displayOrientation, DisplayOrientations nativeOrientation);
 
-			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
-			void OnAppSuspending();
-			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
-			void OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent);
-			void OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent);
-			void OnDisplayContentsInvalidated();
-			void OnEntityInitialized(Entity entity);
-			void OnEntityRemoved(Entity entity);
+			EVENT_HANDLER_DECLARATION(AppWindowChangedEvent);
+			EVENT_HANDLER_DECLARATION(AppSuspendingEvent);
+			EVENT_HANDLER_DECLARATION(AppWindowSizeChangedEvent);
+			EVENT_HANDLER_DECLARATION(DisplayDpiChangedEvent);
+			EVENT_HANDLER_DECLARATION(DisplayOrientationChangedEvent);
+			EVENT_HANDLER_DECLARATION(DisplayContentsInvalidatedEvent);
+			EVENT_HANDLER_DECLARATION(EntityInitializedEvent);
+			EVENT_HANDLER_DECLARATION(EntityRemovedEvent);
 
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();

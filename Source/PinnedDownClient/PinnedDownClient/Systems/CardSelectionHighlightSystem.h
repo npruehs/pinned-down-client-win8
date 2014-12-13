@@ -36,9 +36,9 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnCardSelected(CardSelectedEvent& cardSelectedEvent);
-			void OnCardDeselected(CardDeselectedEvent& cardDeselectedEvent);
-			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
+			EVENT_HANDLER_DECLARATION(CardSelectedEvent);
+			EVENT_HANDLER_DECLARATION(CardDeselectedEvent);
+			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 		};
 	}
 }

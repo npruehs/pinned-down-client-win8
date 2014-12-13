@@ -69,16 +69,12 @@ void DebugInfoSystem::Update(float dt)
 
 void DebugInfoSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType)
-	{
-		PointerMovedEvent pointerMovedEvent = static_cast<PointerMovedEvent&>(newEvent);
-		this->OnPointerMoved(pointerMovedEvent);
-	}
+	CALL_EVENT_HANDLER(PointerMovedEvent);
 }
 
-void DebugInfoSystem::OnPointerMoved(PointerMovedEvent pointerMovedEvent)
+EVENT_HANDLER_DEFINITION(DebugInfoSystem, PointerMovedEvent)
 {
-	this->pointerPosition = pointerMovedEvent.position;
+	this->pointerPosition = data.position;
 	
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->pointerPositionTextEntity, TextComponent::TextComponentType);
 	textComponent->text = L"\nPointer Position: " + this->pointerPosition.ToString();

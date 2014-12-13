@@ -47,64 +47,42 @@ void ScreenSystem::Update(float dt)
 
 void ScreenSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType)
-	{
-		auto clientIdMappingCreatedEvent = static_cast<ClientIdMappingCreatedEvent&>(newEvent);
-		this->OnClientIdMappingCreated(clientIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		auto entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
-	{
-		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
-		this->OnRenderTargetChanged(renderTargetChangedEvent);
-	}
-	else if (newEvent.GetEventType() == LocalizationDataLoadedEvent::LocalizationDataLoadedEventType)
-	{
-		this->OnLocalizationDataLoaded();
-	}
-	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
-	{
-		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
-		this->OnLoginSuccess();
-	}
-	if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
-	{
-		this->OnDisconnectedFromServer();
-	}
+	CALL_EVENT_HANDLER(ClientIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
+	CALL_EVENT_HANDLER(LocalizationDataLoadedEvent);
+	CALL_EVENT_HANDLER(LoginSuccessEvent);
+	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
 }
 
-void ScreenSystem::OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(ScreenSystem, ClientIdMappingCreatedEvent)
 {
-	this->clientIdMapping = clientIdMappingCreatedEvent.clientIdMapping;
+	this->clientIdMapping = data.clientIdMapping;
 }
 
-void ScreenSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(ScreenSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }
 
-void ScreenSystem::OnLoginSuccess()
+EVENT_HANDLER_DEFINITION(ScreenSystem, LoginSuccessEvent)
 {
 	// Switch to game screen.
 	this->SetScreen(std::make_shared<GameScreen>());
 }
 
-void ScreenSystem::OnLocalizationDataLoaded()
+EVENT_HANDLER_DEFINITION(ScreenSystem, LocalizationDataLoadedEvent)
 {
 	// Show first screen.
 	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
-void ScreenSystem::OnRenderTargetChanged(RenderTargetChangedEvent renderTargetChangedEvent)
+EVENT_HANDLER_DEFINITION(ScreenSystem, RenderTargetChangedEvent)
 {
-	this->d2dContext = renderTargetChangedEvent.d2dContext;
+	this->d2dContext = data.d2dContext;
 }
 
-void ScreenSystem::OnDisconnectedFromServer()
+EVENT_HANDLER_DEFINITION(ScreenSystem, DisconnectedFromServerEvent)
 {
 	// Switch to login screen.
 	this->SetScreen(std::make_shared<LoginScreen>());

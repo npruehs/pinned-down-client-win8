@@ -62,36 +62,24 @@ void LocalizationSystem::LoadLocalizationData()
 
 void LocalizationSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
-	{
-		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
-		this->OnEntityInitialized(entityInitializedEvent);
-	}
-	else if (newEvent.GetEventType() == LocalizedTextChangedEvent::LocalizedTextChangedEventType)
-	{
-		LocalizedTextChangedEvent localizedTextChangedEvent = static_cast<LocalizedTextChangedEvent&>(newEvent);
-		this->OnLocalizedTextChanged(localizedTextChangedEvent);
-	}
-	else if (newEvent.GetEventType() == ResourceLoadedEvent::ResourceLoadedEventType)
-	{
-		ResourceLoadedEvent resourceLoadedEvent = static_cast<ResourceLoadedEvent&>(newEvent);
-		this->OnResourceLoaded(resourceLoadedEvent);
-	}
+	CALL_EVENT_HANDLER(EntityInitializedEvent);
+	CALL_EVENT_HANDLER(LocalizedTextChangedEvent);
+	CALL_EVENT_HANDLER(ResourceLoadedEvent);
 }
 
-void LocalizationSystem::OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent)
+EVENT_HANDLER_DEFINITION(LocalizationSystem, EntityInitializedEvent)
 {
-	this->LocalizeText(entityInitializedEvent.entity);
+	this->LocalizeText(data.entity);
 }
 
-void LocalizationSystem::OnLocalizedTextChanged(LocalizedTextChangedEvent& localizedTextChangedEvent)
+EVENT_HANDLER_DEFINITION(LocalizationSystem, LocalizedTextChangedEvent)
 {
-	this->LocalizeText(localizedTextChangedEvent.entity);
+	this->LocalizeText(data.entity);
 }
 
-void LocalizationSystem::OnResourceLoaded(ResourceLoadedEvent& resourceLoadedEvent)
+EVENT_HANDLER_DEFINITION(LocalizationSystem, ResourceLoadedEvent)
 {
-	if (!resourceLoadedEvent.resourceName.compare(LOCALIZATION_FILE_NAME))
+	if (!data.resourceName.compare(LOCALIZATION_FILE_NAME))
 	{
 		this->LoadLocalizationData();
 	}

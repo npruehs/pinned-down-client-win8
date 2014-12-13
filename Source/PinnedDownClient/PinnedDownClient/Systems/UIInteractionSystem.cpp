@@ -36,26 +36,10 @@ void UIInteractionSystem::InitSystem(PinnedDownCore::Game* game)
 
 void UIInteractionSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
-	{
-		EntityInitializedEvent entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
-		this->OnEntityInitialized(entityInitializedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
-	{
-		EntityRemovedEvent entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityRemoved(entityRemovedEvent);
-	}
-	else if (newEvent.GetEventType() == PointerPressedEvent::PointerPressedEventType)
-	{
-		PointerPressedEvent pointerPressedEvent = static_cast<PointerPressedEvent&>(newEvent);
-		this->OnPointerPressed(pointerPressedEvent);
-	}
-	else if (newEvent.GetEventType() == PointerReleasedEvent::PointerReleasedEventType)
-	{
-		PointerReleasedEvent pointerReleasedEvent = static_cast<PointerReleasedEvent&>(newEvent);
-		this->OnPointerReleased(pointerReleasedEvent);
-	}
+	CALL_EVENT_HANDLER(EntityInitializedEvent);
+	CALL_EVENT_HANDLER(EntityRemovedEvent);
+	CALL_EVENT_HANDLER(PointerPressedEvent);
+	CALL_EVENT_HANDLER(PointerReleasedEvent);
 }
 
 void UIInteractionSystem::Update(float dt)
@@ -78,12 +62,12 @@ void UIInteractionSystem::Update(float dt)
 	this->elapsedTapTime = newElapedTapTime;
 }
 
-void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInitializedEvent)
+EVENT_HANDLER_DEFINITION(UIInteractionSystem, EntityInitializedEvent)
 {
-	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entityInitializedEvent.entity, BoundsComponent::BoundsComponentType);
-	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entityInitializedEvent.entity, DepthComponent::DepthComponentType);
-	auto positionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(entityInitializedEvent.entity, ScreenPositionComponent::ScreenPositionComponentType);
-	auto tappableComponent = this->game->entityManager->GetComponent<TappableComponent>(entityInitializedEvent.entity, TappableComponent::TappableComponentType);
+	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(data.entity, BoundsComponent::BoundsComponentType);
+	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(data.entity, DepthComponent::DepthComponentType);
+	auto positionComponent = this->game->entityManager->GetComponent<ScreenPositionComponent>(data.entity, ScreenPositionComponent::ScreenPositionComponentType);
+	auto tappableComponent = this->game->entityManager->GetComponent<TappableComponent>(data.entity, TappableComponent::TappableComponentType);
 
 	if (boundsComponent != nullptr
 		&& depthComponent != nullptr
@@ -91,7 +75,7 @@ void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInit
 		&& tappableComponent != nullptr)
 	{
 		auto button = UI::Button();
-		button.entity = entityInitializedEvent.entity;
+		button.entity = data.entity;
 		button.boundsComponent = boundsComponent;
 		button.depthComponent = depthComponent;
 		button.screenPositionComponent = positionComponent;
@@ -101,13 +85,13 @@ void UIInteractionSystem::OnEntityInitialized(EntityInitializedEvent& entityInit
 	}
 }
 
-void UIInteractionSystem::OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent)
+EVENT_HANDLER_DEFINITION(UIInteractionSystem, EntityRemovedEvent)
 {
 	for (std::list<UI::Button>::iterator iterator = this->buttons.begin(); iterator != this->buttons.end(); ++iterator)
 	{
 		UI::Button& button = *iterator;
 
-		if (button.entity == entityRemovedEvent.entity)
+		if (button.entity == data.entity)
 		{
 			this->buttons.erase(iterator);
 			return;
@@ -115,22 +99,22 @@ void UIInteractionSystem::OnEntityRemoved(EntityRemovedEvent& entityRemovedEvent
 	}
 }
 
-void UIInteractionSystem::OnPointerPressed(PointerPressedEvent& pointerPressedEvent)
+EVENT_HANDLER_DEFINITION(UIInteractionSystem, PointerPressedEvent)
 {
 	this->elapsedTapTime = 0.0f;
 
 	// Hit testing.
-	this->currentButton = this->HitTest(pointerPressedEvent.position);
+	this->currentButton = this->HitTest(data.position);
 }
 
-void UIInteractionSystem::OnPointerReleased(PointerReleasedEvent& pointerReleasedEvent)
+EVENT_HANDLER_DEFINITION(UIInteractionSystem, PointerReleasedEvent)
 {
 	if (this->currentButton == nullptr)
 	{
 		return;
 	}
 
-	UI::Button* tappedButton = this->HitTest(pointerReleasedEvent.position);
+	UI::Button* tappedButton = this->HitTest(data.position);
 
 	if (this->currentButton != tappedButton)
 	{

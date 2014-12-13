@@ -6,7 +6,10 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
+#include "Actions\PlaySoundAction.h"
+
 using namespace PinnedDownCore;
+using namespace PinnedDownClient::Events;
 using namespace Microsoft::WRL;
 
 namespace PinnedDownClient
@@ -46,6 +49,8 @@ namespace PinnedDownClient
 			std::mutex criticalSection;
 
 			void OnEvent(Event & event);
+
+			EVENT_HANDLER_DECLARATION(PlaySoundAction);
 
 			void InitXAudio();
 

@@ -76,86 +76,27 @@ void CardLayoutSystem::LoadResources()
 
 void CardLayoutSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardAssignedEvent::CardAssignedEventType)
-	{
-		CardAssignedEvent& cardAssignedEvent = static_cast<CardAssignedEvent&>(newEvent);
-		this->OnCardAssigned(cardAssignedEvent);
-	}
-    else if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
-	{
-		CardCreatedEvent& cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
-		this->OnCardCreated(cardCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == CardRemovedEvent::CardRemovedEventType)
-	{
-		CardRemovedEvent& cardRemovedEvent = static_cast<CardRemovedEvent&>(newEvent);
-		this->OnCardRemoved(cardRemovedEvent);
-	}
-	else if (newEvent.GetEventType() == CardStateChangedEvent::CardStateChangedEventType)
-	{
-		CardStateChangedEvent& cardStateChangedEvent = static_cast<CardStateChangedEvent&>(newEvent);
-		this->OnCardStateChanged(cardStateChangedEvent);
-	}
-	else if (newEvent.GetEventType() == CardUnassignedEvent::CardUnassignedEventType)
-	{
-		CardUnassignedEvent& cardUnassignedEvent = static_cast<CardUnassignedEvent&>(newEvent);
-		this->OnCardUnassigned(cardUnassignedEvent);
-	}
-	else if (newEvent.GetEventType() == DisconnectedFromServerEvent::DisconnectedFromServerEventType)
-	{
-		this->OnDisconnectedFromServer();
-	}
-	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityHoveredEvent::EntityHoveredEventType)
-	{
-		EntityHoveredEvent& entityHoveredEvent = static_cast<EntityHoveredEvent&>(newEvent);
-		this->OnEntityHovered(entityHoveredEvent);
-	}
-	else if(newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
-	{
-		EntityTappedEvent& entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
-		this->OnEntityTapped(entityTappedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityUnhoveredEvent::EntityUnhoveredEventType)
-	{
-		EntityUnhoveredEvent& entityUnhoveredEvent = static_cast<EntityUnhoveredEvent&>(newEvent);
-		this->OnEntityUnhovered(entityUnhoveredEvent);
-	}
-	else if (newEvent.GetEventType() == FightResolvedEvent::FightResolvedEventType)
-	{
-		FightResolvedEvent& fightResolvedEvent = static_cast<FightResolvedEvent&>(newEvent);
-		this->OnFightResolved(fightResolvedEvent);
-	}
-	else if (newEvent.GetEventType() == PowerChangedEvent::PowerChangedEventType)
-	{
-		PowerChangedEvent& powerChangedEvent = static_cast<PowerChangedEvent&>(newEvent);
-		this->OnPowerChanged(powerChangedEvent);
-	}
-	else if (newEvent.GetEventType() == RenderTargetChangedEvent::RenderTargetChangedEventType)
-	{
-		auto renderTargetChangedEvent = static_cast<RenderTargetChangedEvent&>(newEvent);
-		this->OnRenderTargetChanged(renderTargetChangedEvent);
-	}
-	else if (newEvent.GetEventType() == ShipDamagedEvent::ShipDamagedEventType)
-	{
-		auto shipDamagedEvent = static_cast<ShipDamagedEvent&>(newEvent);
-		this->OnShipDamaged(shipDamagedEvent);
-	}
-	else if (newEvent.GetEventType() == StructureChangedEvent::StructureChangedEventType)
-	{
-		auto structureChangedEvent = static_cast<StructureChangedEvent&>(newEvent);
-		this->OnStructureChanged(structureChangedEvent);
-	}
+	CALL_EVENT_HANDLER(CardAssignedEvent);
+	CALL_EVENT_HANDLER(CardCreatedEvent);
+	CALL_EVENT_HANDLER(CardRemovedEvent);
+	CALL_EVENT_HANDLER(CardStateChangedEvent);
+	CALL_EVENT_HANDLER(CardUnassignedEvent);
+	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(EntityHoveredEvent);
+	CALL_EVENT_HANDLER(EntityTappedEvent);
+	CALL_EVENT_HANDLER(EntityUnhoveredEvent);
+	CALL_EVENT_HANDLER(FightResolvedEvent);
+	CALL_EVENT_HANDLER(PowerChangedEvent);
+	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
+	CALL_EVENT_HANDLER(ShipDamagedEvent);
+	CALL_EVENT_HANDLER(StructureChangedEvent);
 }
 
-void CardLayoutSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardAssignedEvent)
 {
-	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.assignedCard);
-	auto clientTargetCard = this->entityIdMapping->ServerToClientId(cardAssignedEvent.targetCard);
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(data.assignedCard);
+	auto clientTargetCard = this->entityIdMapping->ServerToClientId(data.targetCard);
 
 	// Assign card.
 	this->currentAssignments.insert(std::pair<Entity, Entity>(clientAssignedCard, clientTargetCard));
@@ -164,14 +105,14 @@ void CardLayoutSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }
 
-void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardCreatedEvent)
 {
-	auto cardEntity = this->entityIdMapping->ServerToClientId(cardCreatedEvent.serverEntity);
+	auto cardEntity = this->entityIdMapping->ServerToClientId(data.serverEntity);
 	auto card = this->CreateCard(cardEntity);
 
 	// Add to list.
@@ -181,19 +122,19 @@ void CardLayoutSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardStateChangedEvent)
 {
-	auto cardEntity = this->entityIdMapping->ServerToClientId(cardStateChangedEvent.serverEntity);
+	auto cardEntity = this->entityIdMapping->ServerToClientId(data.serverEntity);
 	auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(cardEntity, CardStateComponent::CardStateComponentType);
-	cardStateComponent->cardState = cardStateChangedEvent.newState;
+	cardStateComponent->cardState = data.newState;
 
 	// Update layout.
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardRemovedEvent)
 {
-	auto clientEntity = this->entityIdMapping->ServerToClientId(cardRemovedEvent.serverEntity);
+	auto clientEntity = this->entityIdMapping->ServerToClientId(data.serverEntity);
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
 	{
@@ -208,9 +149,9 @@ void CardLayoutSystem::OnCardRemoved(CardRemovedEvent& cardRemovedEvent)
 	}
 }
 
-void CardLayoutSystem::OnCardUnassigned(CardUnassignedEvent& cardUnassignedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardUnassignedEvent)
 {
-	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(cardUnassignedEvent.assignedCard);
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(data.assignedCard);
 
 	// Remove assignment.
 	auto assignment = this->currentAssignments.find(clientAssignedCard);
@@ -224,7 +165,7 @@ void CardLayoutSystem::OnCardUnassigned(CardUnassignedEvent& cardUnassignedEvent
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnDisconnectedFromServer()
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, DisconnectedFromServerEvent)
 {
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
 	{
@@ -235,10 +176,10 @@ void CardLayoutSystem::OnDisconnectedFromServer()
 	this->cards.clear();
 }
 
-void CardLayoutSystem::OnEntityHovered(EntityHoveredEvent& entityHoveredEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityHoveredEvent)
 {
 	// Find hovered card.
-	auto cardEntity = this->CardBackgroundToEntityId(entityHoveredEvent.entity);
+	auto cardEntity = this->CardBackgroundToEntityId(data.entity);
 
 	if (cardEntity != INVALID_ENTITY_ID)
 	{
@@ -249,10 +190,10 @@ void CardLayoutSystem::OnEntityHovered(EntityHoveredEvent& entityHoveredEvent)
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityTappedEvent)
 {
 	// Find tapped card.
-	auto cardEntity = this->CardBackgroundToEntityId(entityTappedEvent.entity);
+	auto cardEntity = this->CardBackgroundToEntityId(data.entity);
 
 	if (cardEntity != INVALID_ENTITY_ID)
 	{
@@ -262,10 +203,10 @@ void CardLayoutSystem::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 	}
 }
 
-void CardLayoutSystem::OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityUnhoveredEvent)
 {
 	// Find unhovered card.
-	auto cardEntity = this->CardBackgroundToEntityId(entityUnhoveredEvent.entity);
+	auto cardEntity = this->CardBackgroundToEntityId(data.entity);
 
 	if (cardEntity != INVALID_ENTITY_ID)
 	{
@@ -281,9 +222,9 @@ void CardLayoutSystem::OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEv
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, FightResolvedEvent)
 {
-	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(fightResolvedEvent.assignedCard);
+	auto clientAssignedCard = this->entityIdMapping->ServerToClientId(data.assignedCard);
 
 	// Remove assignment
 	auto assignment = this->currentAssignments.find(clientAssignedCard);
@@ -297,27 +238,27 @@ void CardLayoutSystem::OnFightResolved(FightResolvedEvent& fightResolvedEvent)
 	this->LayoutCards();
 }
 
-void CardLayoutSystem::OnPowerChanged(PowerChangedEvent& powerChangedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, PowerChangedEvent)
 {
-	auto card = this->ServerEntityToCard(powerChangedEvent.entity);
+	auto card = this->ServerEntityToCard(data.entity);
 
 	if (card != nullptr)
 	{
-		this->uiFactory->SetText(card->powerValueLabel, std::to_wstring(powerChangedEvent.newPower));
+		this->uiFactory->SetText(card->powerValueLabel, std::to_wstring(data.newPower));
 	}
 }
 
-void CardLayoutSystem::OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, RenderTargetChangedEvent)
 {
-	this->d2dContext = renderTargetChangedEvent.d2dContext;
+	this->d2dContext = data.d2dContext;
 
 	this->LoadResources();
 }
 
-void CardLayoutSystem::OnShipDamaged(ShipDamagedEvent& shipDamagedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, ShipDamagedEvent)
 {
-	Entity damageCardEntity = this->entityIdMapping->ServerToClientId(shipDamagedEvent.damageCard);
-	Entity shipCardEntity = this->entityIdMapping->ServerToClientId(shipDamagedEvent.damagedShip);
+	Entity damageCardEntity = this->entityIdMapping->ServerToClientId(data.damageCard);
+	Entity shipCardEntity = this->entityIdMapping->ServerToClientId(data.damagedShip);
 
 	std::shared_ptr<Card> damageCard;
 	std::shared_ptr<Card> shipCard;
@@ -373,13 +314,13 @@ void CardLayoutSystem::OnShipDamaged(ShipDamagedEvent& shipDamagedEvent)
 	}
 }
 
-void CardLayoutSystem::OnStructureChanged(StructureChangedEvent& structureChangedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, StructureChangedEvent)
 {
-	auto card = this->ServerEntityToCard(structureChangedEvent.entity);
+	auto card = this->ServerEntityToCard(data.entity);
 
 	if (card != nullptr)
 	{
-		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(structureChangedEvent.newStructure) + L"%");
+		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(data.newStructure) + L"%");
 	}
 }
 

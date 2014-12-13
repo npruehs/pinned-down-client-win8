@@ -33,8 +33,8 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent);
-			void OnPlayerAdded(PlayerAddedEvent& playerAddedEvent);
+			EVENT_HANDLER_DECLARATION(ClientIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(PlayerAddedEvent);
 		};
 	}
 }

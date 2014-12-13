@@ -35,36 +35,20 @@ void FightSystem::InitSystem(PinnedDownCore::Game* game)
 
 void FightSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardTappedEvent::CardTappedEventType)
-	{
-		CardTappedEvent& cardTappedEvent = static_cast<CardTappedEvent&>(newEvent);
-		this->OnCardTapped(cardTappedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
-	{
-		TurnPhaseChangedEvent& turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
-		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
-	}
-	else if (newEvent.GetEventType() == UIModeChangedEvent::UIModeChangedEventType)
-	{
-		UIModeChangedEvent& uiModeChangedEvent = static_cast<UIModeChangedEvent&>(newEvent);
-		this->OnUIModeChanged(uiModeChangedEvent);
-	}
+	CALL_EVENT_HANDLER(CardTappedEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(TurnPhaseChangedEvent);
+	CALL_EVENT_HANDLER(UIModeChangedEvent);
 }
 
-void FightSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
+EVENT_HANDLER_DEFINITION(FightSystem, CardTappedEvent)
 {
 	if (this->turnPhase != TurnPhase::Fight || this->currentUIMode != UI::UIMode::DefaultUIMode)
 	{
 		return;
 	}
 
-	auto tappedCard = cardTappedEvent.entity;
+	auto tappedCard = data.entity;
 
 	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(tappedCard, CardComponent::CardComponentType);
 	auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(tappedCard, CardStateComponent::CardStateComponentType);
@@ -92,17 +76,17 @@ void FightSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
 	this->game->eventManager->QueueEvent(resolveFightAction);
 }
 
-void FightSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(FightSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }
 
-void FightSystem::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
+EVENT_HANDLER_DEFINITION(FightSystem, TurnPhaseChangedEvent)
 {
-	this->turnPhase = turnPhaseChangedEvent.newTurnPhase;
+	this->turnPhase = data.newTurnPhase;
 }
 
-void FightSystem::OnUIModeChanged(UIModeChangedEvent& uiModeChangedEvent)
+EVENT_HANDLER_DEFINITION(FightSystem, UIModeChangedEvent)
 {
-	this->currentUIMode = uiModeChangedEvent.newMode;
+	this->currentUIMode = data.newMode;
 }

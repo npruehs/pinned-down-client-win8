@@ -40,14 +40,14 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnAudioEngineChanged(AudioEngineChangedEvent& audioEngineChangedEvent);
-			void OnCardPlayed(CardPlayedEvent& cardPlayedEvent);
-			void OnDefeat(DefeatEvent& defeatEvent);
-			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
-			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
-			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
-			void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
-			void OnVictory(VictoryEvent& victoryEvent);
+			EVENT_HANDLER_DECLARATION(AudioEngineChangedEvent);
+			EVENT_HANDLER_DECLARATION(CardPlayedEvent);
+			EVENT_HANDLER_DECLARATION(DefeatEvent);
+			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(EntityTappedEvent);
+			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
+			EVENT_HANDLER_DECLARATION(TurnPhaseChangedEvent);
+			EVENT_HANDLER_DECLARATION(VictoryEvent);
 		};
 	}
 }

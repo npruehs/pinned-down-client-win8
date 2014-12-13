@@ -52,49 +52,19 @@ void RenderSystem::InitSystem(PinnedDownCore::Game* game)
 
 void RenderSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == AppWindowChangedEvent::AppWindowChangedEventType)
-	{
-		AppWindowChangedEvent appWindowChangedEvent = static_cast<AppWindowChangedEvent&>(newEvent);
-		this->OnAppWindowChanged(appWindowChangedEvent);
-	}
-	else if (newEvent.GetEventType() == AppSuspendingEvent::AppSuspendingEventType)
-	{
-		this->OnAppSuspending();
-	}
-	else if (newEvent.GetEventType() == AppWindowSizeChangedEvent::AppWindowSizeChangedEventType)
-	{
-		AppWindowSizeChangedEvent appWindowSizeChangedEvent = static_cast<AppWindowSizeChangedEvent&>(newEvent);
-		this->OnAppWindowSizeChanged(appWindowSizeChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayDpiChangedEvent::DisplayDpiChangedEventType)
-	{
-		DisplayDpiChangedEvent displayDpiChangedEvent = static_cast<DisplayDpiChangedEvent&>(newEvent);
-		this->OnDisplayDpiChanged(displayDpiChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayOrientationChangedEvent::DisplayOrientationChangedEventType)
-	{
-		DisplayOrientationChangedEvent displayOrientationChangedEvent = static_cast<DisplayOrientationChangedEvent&>(newEvent);
-		this->OnDisplayOrientationChanged(displayOrientationChangedEvent);
-	}
-	else if (newEvent.GetEventType() == DisplayContentsInvalidatedEvent::DisplayContentsInvalidatedEventType)
-	{
-		this->OnDisplayContentsInvalidated();
-	}
-	else if (newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType)
-	{
-		auto entityInitializedEvent = static_cast<EntityInitializedEvent&>(newEvent);
-		this->OnEntityInitialized(entityInitializedEvent.entity);
-	}
-	else if (newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType)
-	{
-		auto entityRemovedEvent = static_cast<EntityRemovedEvent&>(newEvent);
-		this->OnEntityRemoved(entityRemovedEvent.entity);
-	}
+	CALL_EVENT_HANDLER(AppWindowChangedEvent);
+	CALL_EVENT_HANDLER(AppSuspendingEvent);
+	CALL_EVENT_HANDLER(AppWindowSizeChangedEvent);
+	CALL_EVENT_HANDLER(DisplayDpiChangedEvent);
+	CALL_EVENT_HANDLER(DisplayOrientationChangedEvent);
+	CALL_EVENT_HANDLER(DisplayContentsInvalidatedEvent);
+	CALL_EVENT_HANDLER(EntityInitializedEvent);
+	CALL_EVENT_HANDLER(EntityRemovedEvent);
 }
 
-void RenderSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent)
+EVENT_HANDLER_DEFINITION(RenderSystem, AppWindowChangedEvent)
 {
-	this->window = appWindowChangedEvent.appWindow;
+	this->window = data.appWindow;
 	
 	// Store current window data for future updates.
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
@@ -107,7 +77,7 @@ void RenderSystem::OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEven
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnAppSuspending()
+EVENT_HANDLER_DEFINITION(RenderSystem, AppSuspendingEvent)
 {
 	// Provides a hint to the driver that the app is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
 	ComPtr<IDXGIDevice3> dxgiDevice;
@@ -116,28 +86,28 @@ void RenderSystem::OnAppSuspending()
 	dxgiDevice->Trim();
 }
 
-void RenderSystem::OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent)
+EVENT_HANDLER_DEFINITION(RenderSystem, AppWindowSizeChangedEvent)
 {
-	this->logicalWindowSize = appWindowSizeChangedEvent.size;
+	this->logicalWindowSize = data.size;
 
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnDisplayDpiChanged(DisplayDpiChangedEvent displayDpiChangedEvent)
+EVENT_HANDLER_DEFINITION(RenderSystem, DisplayDpiChangedEvent)
 {
-	this->logicalDpi = displayDpiChangedEvent.logicalDpi;
+	this->logicalDpi = data.logicalDpi;
 
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnDisplayOrientationChanged(DisplayOrientationChangedEvent displayOrientationChangedEvent)
+EVENT_HANDLER_DEFINITION(RenderSystem, DisplayOrientationChangedEvent)
 {
-	this->displayOrientation = displayOrientationChangedEvent.orientation;
+	this->displayOrientation = data.orientation;
 
 	this->CreateWindowSizeDependentResources();
 }
 
-void RenderSystem::OnDisplayContentsInvalidated()
+EVENT_HANDLER_DEFINITION(RenderSystem, DisplayContentsInvalidatedEvent)
 {
 	// The D3D Device is no longer valid if the default adapter change since the device
 	// was created or if the device has been removed.
@@ -182,8 +152,10 @@ void RenderSystem::OnDisplayContentsInvalidated()
 	}
 }
 
-void RenderSystem::OnEntityInitialized(Entity entity)
+EVENT_HANDLER_DEFINITION(RenderSystem, EntityInitializedEvent)
 {
+	auto entity = data.entity;
+
 	auto boundsComponent = this->game->entityManager->GetComponent<BoundsComponent>(entity, BoundsComponent::BoundsComponentType);
 	auto colorComponent = this->game->entityManager->GetComponent<ColorComponent>(entity, ColorComponent::ColorComponentType);
 	auto depthComponent = this->game->entityManager->GetComponent<DepthComponent>(entity, DepthComponent::DepthComponentType);
@@ -249,8 +221,10 @@ void RenderSystem::OnEntityInitialized(Entity entity)
 	}
 }
 
-void RenderSystem::OnEntityRemoved(Entity entity)
+EVENT_HANDLER_DEFINITION(RenderSystem, EntityRemovedEvent)
 {
+	auto entity = data.entity;
+
 	// Remove renderable.
 	for (std::list<std::shared_ptr<Rendering::IRenderable>>::iterator iterator = this->renderables.begin(); iterator != this->renderables.end(); ++iterator)
 	{

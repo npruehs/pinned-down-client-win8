@@ -31,28 +31,20 @@ void CardIdMappingSystem::InitSystem(PinnedDownCore::Game* game)
 
 void CardIdMappingSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardCreatedEvent::CardCreatedEventType)
-	{
-		CardCreatedEvent& cardCreatedEvent = static_cast<CardCreatedEvent&>(newEvent);
-		this->OnCardCreated(cardCreatedEvent);
-	}
-	if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
+	CALL_EVENT_HANDLER(CardCreatedEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
 }
 
-void CardIdMappingSystem::OnCardCreated(CardCreatedEvent& cardCreatedEvent)
+EVENT_HANDLER_DEFINITION(CardIdMappingSystem, CardCreatedEvent)
 {
 	// Create card copy on client.
-	Entity clientEntity = this->cardFactory->CreateCard(cardCreatedEvent.owner, cardCreatedEvent.setIndex, cardCreatedEvent.cardIndex, cardCreatedEvent.initialState);
+	Entity clientEntity = this->cardFactory->CreateCard(data.owner, data.setIndex, data.cardIndex, data.initialState);
 
 	// Update mapping.
-	this->entityIdMapping->MapEntityId(cardCreatedEvent.serverEntity, clientEntity);
+	this->entityIdMapping->MapEntityId(data.serverEntity, clientEntity);
 }
 
-void CardIdMappingSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(CardIdMappingSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }

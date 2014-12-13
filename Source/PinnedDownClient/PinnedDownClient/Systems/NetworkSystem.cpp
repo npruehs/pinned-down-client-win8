@@ -45,13 +45,10 @@ void NetworkSystem::InitSystem(PinnedDownCore::Game* game)
 
 void NetworkSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == ConnectToServerAction::ConnectToServerActionType)
-	{
-		this->OnConnectToServer();
-	}
+	CALL_EVENT_HANDLER(ConnectToServerAction);
 }
 
-void NetworkSystem::OnConnectToServer()
+EVENT_HANDLER_DEFINITION(NetworkSystem, ConnectToServerAction)
 {
 	this->InitSocket();
 }

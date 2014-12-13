@@ -37,31 +37,15 @@ void AssignmentSystem::InitSystem(PinnedDownCore::Game* game)
 
 void AssignmentSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == CardAssignedEvent::CardAssignedEventType)
-	{
-		CardAssignedEvent& cardAssignedEvent = static_cast<CardAssignedEvent&>(newEvent);
-		this->OnCardAssigned(cardAssignedEvent);
-	}
-	else if (newEvent.GetEventType() == CardTappedEvent::CardTappedEventType)
-	{
-		CardTappedEvent& cardTappedEvent = static_cast<CardTappedEvent&>(newEvent);
-		this->OnCardTapped(cardTappedEvent);
-	}
-	else if (newEvent.GetEventType() == EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType)
-	{
-		EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent = static_cast<EntityIdMappingCreatedEvent&>(newEvent);
-		this->OnEntityIdMappingCreated(entityIdMappingCreatedEvent);
-	}
-	else if (newEvent.GetEventType() == TurnPhaseChangedEvent::TurnPhaseChangedEventType)
-	{
-		TurnPhaseChangedEvent& turnPhaseChangedEvent = static_cast<TurnPhaseChangedEvent&>(newEvent);
-		this->OnTurnPhaseChanged(turnPhaseChangedEvent);
-	}
+	CALL_EVENT_HANDLER(CardAssignedEvent);
+	CALL_EVENT_HANDLER(CardTappedEvent);
+	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(TurnPhaseChangedEvent);
 }
 
-void AssignmentSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
+EVENT_HANDLER_DEFINITION(AssignmentSystem, CardAssignedEvent)
 {
-	auto assignedCardClient = this->entityIdMapping->ServerToClientId(cardAssignedEvent.assignedCard);
+	auto assignedCardClient = this->entityIdMapping->ServerToClientId(data.assignedCard);
 
 	if (assignedCardClient == this->selectedCard)
 	{
@@ -70,14 +54,14 @@ void AssignmentSystem::OnCardAssigned(CardAssignedEvent& cardAssignedEvent)
 	}
 }
 
-void AssignmentSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
+EVENT_HANDLER_DEFINITION(AssignmentSystem, CardTappedEvent)
 {
 	if (this->turnPhase != TurnPhase::Assignment)
 	{
 		return;
 	}
 
-	auto tappedCard = cardTappedEvent.entity;
+	auto tappedCard = data.entity;
 
 	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(tappedCard, CardComponent::CardComponentType);
 	auto cardStateComponent = this->game->entityManager->GetComponent<CardStateComponent>(tappedCard, CardStateComponent::CardStateComponentType);
@@ -132,19 +116,19 @@ void AssignmentSystem::OnCardTapped(CardTappedEvent& cardTappedEvent)
 	}
 }
 
-void AssignmentSystem::OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(AssignmentSystem, EntityIdMappingCreatedEvent)
 {
-	this->entityIdMapping = entityIdMappingCreatedEvent.entityIdMapping;
+	this->entityIdMapping = data.entityIdMapping;
 }
 
-void AssignmentSystem::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
+EVENT_HANDLER_DEFINITION(AssignmentSystem, TurnPhaseChangedEvent)
 {
 	if (this->turnPhase == TurnPhase::Assignment && this->selectedCard != INVALID_ENTITY_ID)
 	{
 		this->DeselectCard();
 	}
 
-	this->turnPhase = turnPhaseChangedEvent.newTurnPhase;
+	this->turnPhase = data.newTurnPhase;
 }
 
 void AssignmentSystem::SelectCard(Entity card)

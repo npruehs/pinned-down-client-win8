@@ -30,25 +30,17 @@ void PlayerSystem::InitSystem(PinnedDownCore::Game* game)
 
 void PlayerSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType)
-	{
-		ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent = static_cast<ClientIdMappingCreatedEvent&>(newEvent);
-		this->OnClientIdMappingCreated(clientIdMappingCreatedEvent);
-	}
-	if (newEvent.GetEventType() == PlayerAddedEvent::PlayerAddedEventType)
-	{
-		PlayerAddedEvent& playerAddedEvent = static_cast<PlayerAddedEvent&>(newEvent);
-		this->OnPlayerAdded(playerAddedEvent);
-	}
+	CALL_EVENT_HANDLER(ClientIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(PlayerAddedEvent);
 }
 
-void PlayerSystem::OnClientIdMappingCreated(ClientIdMappingCreatedEvent& clientIdMappingCreatedEvent)
+EVENT_HANDLER_DEFINITION(PlayerSystem, ClientIdMappingCreatedEvent)
 {
-	this->clientIdMapping = clientIdMappingCreatedEvent.clientIdMapping;
+	this->clientIdMapping = data.clientIdMapping;
 }
 
-void PlayerSystem::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
+EVENT_HANDLER_DEFINITION(PlayerSystem, PlayerAddedEvent)
 {
 	// Map player entity id.
-	this->clientIdMapping->MapClientId(playerAddedEvent.clientId, playerAddedEvent.serverEntity);
+	this->clientIdMapping->MapClientId(data.clientId, data.serverEntity);
 }

@@ -35,14 +35,10 @@ void ClientIdMappingSystem::InitSystem(PinnedDownCore::Game* game)
 
 void ClientIdMappingSystem::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
-	{
-		LoginSuccessEvent& loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
-		this->OnLoginSuccess(loginSuccessEvent);
-	}
+	CALL_EVENT_HANDLER(LoginSuccessEvent);
 }
 
-void ClientIdMappingSystem::OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent)
+EVENT_HANDLER_DEFINITION(ClientIdMappingSystem, LoginSuccessEvent)
 {
-	this->clientIdMapping->SetLocalClientId(loginSuccessEvent.clientId);
+	this->clientIdMapping->SetLocalClientId(data.clientId);
 }

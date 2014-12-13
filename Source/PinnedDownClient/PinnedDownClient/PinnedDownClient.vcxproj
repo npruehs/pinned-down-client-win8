@@ -629,7 +629,7 @@
     <ClCompile Include="Systems\RenderSystem.cpp" />
     <ClCompile Include="Systems\Screens\GameScreen.cpp" />
     <ClCompile Include="Systems\Screens\LoginScreen.cpp" />
-    <ClCompile Include="Systems\SoundEffectSytem.cpp" />
+    <ClCompile Include="Systems\SoundEffectSystem.cpp" />
     <ClCompile Include="Systems\SoundSystem.cpp" />
     <ClCompile Include="Systems\UIInteractionSystem.cpp" />
     <ClCompile Include="Systems\UILayoutSystem.cpp" />

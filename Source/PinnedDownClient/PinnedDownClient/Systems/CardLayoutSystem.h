@@ -12,6 +12,7 @@
 #include "Events\CardStateChangedEvent.h"
 #include "Events\CardRemovedEvent.h"
 #include "Events\CardUnassignedEvent.h"
+#include "Events\DisconnectedFromServerEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityHoveredEvent.h"
 #include "Events\EntityTappedEvent.h"
@@ -70,22 +71,22 @@ namespace PinnedDownClient
 			void LoadResources();
 
 			void OnEvent(Event & event);
-
-			void OnCardAssigned(CardAssignedEvent& cardAssignedEvent);
-			void OnCardCreated(CardCreatedEvent& cardCreatedEvent);
-			void OnCardStateChanged(CardStateChangedEvent& cardStateChangedEvent);
-			void OnCardRemoved(CardRemovedEvent& cardRemovedEvent);
-			void OnCardUnassigned(CardUnassignedEvent& cardUnassignedEvent);
-			void OnEntityIdMappingCreated(EntityIdMappingCreatedEvent& entityIdMappingCreatedEvent);
-			void OnEntityHovered(EntityHoveredEvent& entityHoveredEvent);
-			void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
-			void OnEntityUnhovered(EntityUnhoveredEvent& entityUnhoveredEvent);
-			void OnFightResolved(FightResolvedEvent& fightResolvedEvent);
-			void OnPowerChanged(PowerChangedEvent& powerChangedEvent);
-			void OnRenderTargetChanged(RenderTargetChangedEvent& renderTargetChangedEvent);
-			void OnShipDamaged(ShipDamagedEvent& shipDamagedEvent);
-			void OnStructureChanged(StructureChangedEvent& structureChangedEvent);
-			void OnDisconnectedFromServer();
+			
+			EVENT_HANDLER_DECLARATION(CardAssignedEvent);
+			EVENT_HANDLER_DECLARATION(CardCreatedEvent);
+			EVENT_HANDLER_DECLARATION(CardStateChangedEvent);
+			EVENT_HANDLER_DECLARATION(CardRemovedEvent);
+			EVENT_HANDLER_DECLARATION(CardUnassignedEvent);
+			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(EntityHoveredEvent);
+			EVENT_HANDLER_DECLARATION(EntityTappedEvent);
+			EVENT_HANDLER_DECLARATION(EntityUnhoveredEvent);
+			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
+			EVENT_HANDLER_DECLARATION(PowerChangedEvent);
+			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
+			EVENT_HANDLER_DECLARATION(ShipDamagedEvent);
+			EVENT_HANDLER_DECLARATION(StructureChangedEvent);
+			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
 
 			std::shared_ptr<Card> CreateCard(Entity cardEntity);
 			void LayoutCards();

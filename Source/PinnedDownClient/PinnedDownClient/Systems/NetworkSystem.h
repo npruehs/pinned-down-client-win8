@@ -46,7 +46,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
-			void OnConnectToServer();
+			EVENT_HANDLER_DECLARATION(ConnectToServerAction);
 
 			void InitSocket();
 

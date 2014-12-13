@@ -39,10 +39,10 @@ namespace PinnedDownClient
 			void CreateRootPanel();
 			void ResizeRootPanel(Vector2F newSize);
 
-			void OnAppWindowChanged(AppWindowChangedEvent appWindowChangedEvent);
-			void OnAppWindowSizeChanged(AppWindowSizeChangedEvent appWindowSizeChangedEvent);
-			void OnEntityInitialized(EntityInitializedEvent entityInitializedEvent);
-			void OnEntityRemoved(EntityRemovedEvent entityRemovedEvent);
+			EVENT_HANDLER_DECLARATION(AppWindowChangedEvent);
+			EVENT_HANDLER_DECLARATION(AppWindowSizeChangedEvent);
+			EVENT_HANDLER_DECLARATION(EntityInitializedEvent);
+			EVENT_HANDLER_DECLARATION(EntityRemovedEvent);
 		};
 	}
 }
