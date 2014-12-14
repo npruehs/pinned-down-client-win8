@@ -27,32 +27,44 @@ namespace PinnedDownClient
 		struct HorizontalAnchor
 		{
 			HorizontalAnchorType type;
-			float offset;
+			float relativeOffset;
+			float absoluteOffset;
 
 			HorizontalAnchor() : HorizontalAnchor::HorizontalAnchor(HorizontalAnchorType::Left, 0.0f)
 			{
 			}
 
-			HorizontalAnchor(HorizontalAnchorType type, float offset)
+			HorizontalAnchor(HorizontalAnchorType type, float relativeOffset) : HorizontalAnchor::HorizontalAnchor(type, relativeOffset, 0.0f)
+			{
+			}
+
+			HorizontalAnchor(HorizontalAnchorType type, float relativeOffset, float absoluteOffset)
 			{
 				this->type = type;
-				this->offset = offset;
+				this->relativeOffset = relativeOffset;
+				this->absoluteOffset = absoluteOffset;
 			}
 		};
 
 		struct VerticalAnchor
 		{
 			VerticalAnchorType type;
-			float offset;
+			float relativeOffset;
+			float absoluteOffset;
 
 			VerticalAnchor() : VerticalAnchor::VerticalAnchor(VerticalAnchorType::Top, 0.0f)
 			{
 			}
 
-			VerticalAnchor(VerticalAnchorType type, float offset)
+			VerticalAnchor(VerticalAnchorType type, float relativeOffset) : VerticalAnchor::VerticalAnchor(type, relativeOffset, 0.0f)
+			{
+			}
+
+			VerticalAnchor(VerticalAnchorType type, float relativeOffset, float absoluteOffset)
 			{
 				this->type = type;
-				this->offset = offset;
+				this->relativeOffset = relativeOffset;
+				this->absoluteOffset = absoluteOffset;
 			}
 		};
 

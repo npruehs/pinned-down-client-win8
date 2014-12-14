@@ -58,15 +58,17 @@ namespace PinnedDownClient
 
 			std::shared_ptr<Card> cardDetailView;
 
-			const float cardWidth = 200;
-			const float cardOffset = 50;
-			const float firstAssignedCardPositionX = 50;
-			const float assignedCardOffsetY = 300;
-			const float damageCardOffset = 25;
-
-			float playerHandPositionY = 200;
-			float playerCardPositionY = 200;
-			float enemyCardPositionY = -200;
+			const float cardOffset = 0.125f;
+			const float firstAssignedCardPositionX = 0.03125f;
+			const float assignedCardOffsetY = 0.28f;
+			const float damageCardOffsetY = 0.025f;
+			const float powerLabelOffsetX = 0.025f;
+			const float structureLabelOffsetX = 0.025f;
+			const float abilityLabelOffsetX = 0.0125f;
+			const float abilityLabelOffsetY = 0.0333f;
+			const float playerHandPositionY = 0.15f;
+			const float playerCardPositionY = 0.222f;
+			const float enemyCardPositionY = -0.222f;
 
 			void LoadResources();
 

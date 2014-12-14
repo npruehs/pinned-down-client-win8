@@ -94,7 +94,7 @@ void LoginScreen::LoadUI()
 {
 	// Status label.
 	this->statusLabel = this->uiFactory->CreateLabel(L"LoginScreen_Connecting");
-	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.222f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetFontSize(this->statusLabel, 18.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
 
@@ -179,7 +179,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->connecting = false;
 
 	this->reconnectButton = this->uiFactory->CreateSprite("Assets/Button.png");
-	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 300.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.333f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetTappable(this->reconnectButton, true);
 	this->uiFactory->FinishUIWidget(this->reconnectButton);
 

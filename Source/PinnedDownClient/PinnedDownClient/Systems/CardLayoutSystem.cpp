@@ -293,7 +293,7 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, ShipDamagedEvent)
 		damageLayoutData.panelDepth = -10;
 
 		// Anchor damage card to ship.
-		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0), shipCard->backgroundSprite);
+		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f, 0.0f), shipCard->backgroundSprite);
 		this->uiFactory->SetDepth(damageCard->panel, damageLayoutData.panelDepth);
 
 		damageLayoutData.background = damageCard->backgroundSprite;
@@ -307,7 +307,7 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, ShipDamagedEvent)
 		damageLayoutData->panelDepth--;
 
 		// Anchor damage card to last damage card.
-		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffset), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0), damageLayoutData->background);
+		this->uiFactory->SetAnchor(damageCard->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->damageCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), damageLayoutData->background);
 		this->uiFactory->SetDepth(damageCard->panel, damageLayoutData->panelDepth);
 
 		damageLayoutData->background = damageCard->backgroundSprite;
@@ -334,7 +334,6 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 
 	// Card background sprite.
 	card->backgroundSprite = this->uiFactory->CreateSprite("Assets/BlueWingStarship.png");
-	this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, 200.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetPanel(card->backgroundSprite, card->panel);
 	this->uiFactory->SetTappable(card->backgroundSprite, true);
 	this->uiFactory->FinishUIWidget(card->backgroundSprite);
@@ -381,7 +380,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->FinishUIWidget(card->powerLabel);
 
 		card->powerValueLabel = this->uiFactory->CreateLabel(std::to_wstring(powerComponent->power));
-		this->uiFactory->SetAnchor(card->powerValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 40.0f), card->powerLabel);
+		this->uiFactory->SetAnchor(card->powerValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, powerLabelOffsetX), card->powerLabel);
 		this->uiFactory->SetColor(card->powerValueLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->powerValueLabel, card->panel);
 		this->uiFactory->FinishUIWidget(card->powerValueLabel);
@@ -393,7 +392,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	if (structureComponent != nullptr)
 	{
 		card->structureLabel = this->uiFactory->CreateLabel(L"Card_Property_Structure");
-		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, -40.0f), card->backgroundSprite);
+		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, -structureLabelOffsetX), card->backgroundSprite);
 		this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->structureLabel, card->panel);
 		this->uiFactory->FinishUIWidget(card->structureLabel);
@@ -409,7 +408,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	std::wstring cardText = L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex) + L"_Text";
 
 	card->abilityLabel = this->uiFactory->CreateLabel(cardText, 150.0f);
-	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 30.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), card->backgroundSprite);
+	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, abilityLabelOffsetY), HorizontalAnchor(HorizontalAnchorType::Left, abilityLabelOffsetX), card->backgroundSprite);
 	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
 	this->uiFactory->FinishUIWidget(card->abilityLabel);
@@ -472,19 +471,19 @@ void CardLayoutSystem::LayoutCards()
 	// Layout cards.
 
 	// Compute offset between assigned cards to the left and unassigned cards to the right.
-	float unassignedCardOffset = assignedPlayerCards * (cardWidth + cardOffset);
+	float unassignedCardOffset = assignedPlayerCards * cardOffset;
 
 	// Center unassigned player cards to the right.
-	float unassignedPlayerCardPositionX = -(unassignedPlayerCards - 1) * (cardWidth + cardOffset) / 2 + unassignedCardOffset;
+	float unassignedPlayerCardPositionX = -(unassignedPlayerCards - 1) * cardOffset / 2 + unassignedCardOffset;
 
 	// Center player hand cards.
-	float playerHandCardPositionX = -(playerHandCards - 1) * (cardWidth + cardOffset) / 2;
+	float playerHandCardPositionX = -(playerHandCards - 1) * cardOffset / 2;
 
 	// Align assigned enemy cards left. Assigned player cards will be anchored to their respective enemies.
 	float assignedEnemyCardPositionX = firstAssignedCardPositionX;
 
 	// Center unassigned player cards to the right.
-	float unassignedEnemyCardPositionX = -(unassignedEnemyCards - 1) * (cardWidth + cardOffset) / 2 + unassignedCardOffset;
+	float unassignedEnemyCardPositionX = -(unassignedEnemyCards - 1) * cardOffset / 2 + unassignedCardOffset;
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); ++iterator)
 	{
@@ -510,13 +509,13 @@ void CardLayoutSystem::LayoutCards()
 			{
 				// Card is in hand.
 				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::Bottom, this->playerHandPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerHandCardPositionX), 0);
-				playerHandCardPositionX += cardWidth + cardOffset;
+				playerHandCardPositionX += cardOffset;
 			}
 			else
 			{
 				// Card is not assigned.
 				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, unassignedPlayerCardPositionX), 0);
-				unassignedPlayerCardPositionX += cardWidth + cardOffset;
+				unassignedPlayerCardPositionX += cardOffset;
 			}
 		}
 		else
@@ -540,12 +539,12 @@ void CardLayoutSystem::LayoutCards()
 				if (assigned)
 				{
 					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::Left, assignedEnemyCardPositionX), 0);
-					assignedEnemyCardPositionX += cardWidth + cardOffset;
+					assignedEnemyCardPositionX += cardOffset;
 				}
 				else
 				{
 					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->enemyCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, unassignedEnemyCardPositionX), 0);
-					unassignedEnemyCardPositionX += cardWidth + cardOffset;
+					unassignedEnemyCardPositionX += cardOffset;
 				}
 			}
 		}
