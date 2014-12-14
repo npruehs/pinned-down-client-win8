@@ -24,7 +24,7 @@ namespace PinnedDownClient
 			DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL;
 			DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL;
 			DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL;
-			float fontSize = 12.0f;
+			float fontSize = 16.0f;
 		};
 	}
 }

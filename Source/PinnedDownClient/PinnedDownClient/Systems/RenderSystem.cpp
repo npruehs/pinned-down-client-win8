@@ -197,7 +197,8 @@ EVENT_HANDLER_DEFINITION(RenderSystem, EntityInitializedEvent)
 		this->renderables.push_back(label);
 	}
 
-	if (depthComponent != nullptr
+	if (boundsComponent != nullptr
+		&& depthComponent != nullptr
 		&& screenPositionComponent != nullptr
 		&& spriteComponent != nullptr
 		&& widgetComponent != nullptr
@@ -206,6 +207,7 @@ EVENT_HANDLER_DEFINITION(RenderSystem, EntityInitializedEvent)
 		// Add sprite.
 		std::shared_ptr<UI::Sprite> sprite = std::make_shared<UI::Sprite>();
 		sprite->entity = entity;
+		sprite->boundsComponent = boundsComponent;
 		sprite->depthComponent = depthComponent;
 		sprite->screenPositionComponent = screenPositionComponent;
 		sprite->spriteComponent = spriteComponent;
@@ -680,18 +682,28 @@ void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
 {
 	D2D1_SIZE_F size = sprite->spriteComponent->sprite->bitmap->GetSize();
 
+	// Scale sprites, but preserve original aspect ratio.
+	float spriteScaleX = this->logicalWindowSize.x / this->designResolution.x;
+	float spriteWidth = size.width * spriteScaleX;
+	float spriteHeight = size.height * spriteScaleX;
+
+	sprite->boundsComponent->bounds = Vector2F(spriteWidth, spriteHeight);
+
+	// Draw sprite.
 	this->d2dContext->DrawBitmap(
 		sprite->spriteComponent->sprite->bitmap,
 		D2D1::RectF(
 		0,
 		0,
-		size.width,
-		size.height)
+		sprite->boundsComponent->bounds.x,
+		sprite->boundsComponent->bounds.y)
 		);
 }
 
 void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 {
+	float fontScale = this->logicalWindowSize.x / this->designResolution.x;
+
 	// Create text format.
 	ComPtr<IDWriteTextFormat> textFormat;
 
@@ -702,7 +714,7 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		label->fontComponent->fontWeight,
 		label->fontComponent->fontStyle,
 		label->fontComponent->fontStretch,
-		label->fontComponent->fontSize,
+		label->fontComponent->fontSize * fontScale,
 		L"en-US",
 		&textFormat)
 		);
@@ -720,7 +732,7 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		label->textComponent->text.c_str(),
 		(uint32)label->textComponent->text.length(),
 		textFormat.Get(),
-		label->textComponent->maxWidth, // Max width.
+		label->textComponent->maxWidth * this->logicalWindowSize.x, // Max width.
 		0.0f, // Max height.
 		&textLayout)
 		);

@@ -2,7 +2,6 @@
 
 #include "pch.h"
 
-#include "Components\ScreenPositionComponent.h"
 #include "Components\SpriteComponent.h"
 #include "Systems\Rendering\IRenderable.h"
 
@@ -20,7 +19,7 @@ namespace PinnedDownClient
 			public:
 				Entity entity;
 				std::shared_ptr<SpriteComponent> spriteComponent;
-
+				
 				Entity GetEntity() { return this->entity; }
 			};
 		}

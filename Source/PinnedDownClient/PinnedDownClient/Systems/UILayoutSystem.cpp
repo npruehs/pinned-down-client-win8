@@ -166,8 +166,8 @@ void UILayoutSystem::Update(float dt)
 		}
 
 		// Add relative offset.
-		x += left.offset;
-		y += top.offset;
+		x += this->rootPanel.boundsComponent->bounds.x * left.relativeOffset + left.absoluteOffset;
+		y += this->rootPanel.boundsComponent->bounds.y * top.relativeOffset  + top.absoluteOffset;
 
 		// Update screen position.
 		anchor.screenPositionComponent->position = Vector2F(x, y);

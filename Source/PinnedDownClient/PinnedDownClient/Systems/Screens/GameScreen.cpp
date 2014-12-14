@@ -91,39 +91,39 @@ void GameScreen::LoadUI()
 {
 	// Player name label.
 	this->playerNameLabel = this->uiFactory->CreateLabel(L"?");
-	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Right, -200.0f), 0);
+	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Right, -0.125f), 0);
 	this->uiFactory->FinishUIWidget(this->playerNameLabel);
 
 	// Distance label.
 	this->distanceLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_DistanceCovered");
-	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
+	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
 	this->distanceValueLabel = this->uiFactory->CreateLabel(L"0 / 0");
-	this->uiFactory->SetAnchor(this->distanceValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 120.0f), this->distanceLabel);
+	this->uiFactory->SetAnchor(this->distanceValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->distanceValueLabel);
 
 	// Turn Phase label.
 	this->turnPhaseLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_TurnPhase");
-	this->uiFactory->SetAnchor(this->turnPhaseLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->distanceLabel);
+	this->uiFactory->SetAnchor(this->turnPhaseLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->turnPhaseLabel);
 
 	this->turnPhaseValueLabel = this->uiFactory->CreateLabel(L"");
-	this->uiFactory->SetAnchor(this->turnPhaseValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 120.0f), this->turnPhaseLabel);
+	this->uiFactory->SetAnchor(this->turnPhaseValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->turnPhaseLabel);
 	this->uiFactory->FinishUIWidget(this->turnPhaseValueLabel);
 
 	// Threat label.
 	this->threatLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_Threat");
-	this->uiFactory->SetAnchor(this->threatLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->turnPhaseLabel);
+	this->uiFactory->SetAnchor(this->threatLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->turnPhaseLabel);
 	this->uiFactory->FinishUIWidget(this->threatLabel);
 
 	this->threatValueLabel = this->uiFactory->CreateLabel(L"");
-	this->uiFactory->SetAnchor(this->threatValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 120.0f), this->threatLabel);
+	this->uiFactory->SetAnchor(this->threatValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->threatLabel);
 	this->uiFactory->FinishUIWidget(this->threatValueLabel);
 
 	// End turn button.
 	this->endTurnButton = this->uiFactory->CreateSprite("Assets/Button.png");
-	this->uiFactory->SetAnchor(this->endTurnButton, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::Left, 20.0f), 0);
+	this->uiFactory->SetAnchor(this->endTurnButton, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0125f), 0);
 	this->uiFactory->SetTappable(this->endTurnButton, true);
 	this->uiFactory->FinishUIWidget(this->endTurnButton);
 
@@ -133,7 +133,7 @@ void GameScreen::LoadUI()
 
 	// Hints button.
 	this->hintButton = this->uiFactory->CreateSprite("Assets/Button.png");
-	this->uiFactory->SetAnchor(this->hintButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 200.0f), this->endTurnButton);
+	this->uiFactory->SetAnchor(this->hintButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.1f), this->endTurnButton);
 	this->uiFactory->SetTappable(this->hintButton, true);
 	this->uiFactory->FinishUIWidget(this->hintButton);
 
@@ -143,12 +143,12 @@ void GameScreen::LoadUI()
 
 	// Turn Phase Hint label.
 	this->turnPhaseHintLabel = this->uiFactory->CreateLabel(L"");
-	this->uiFactory->SetAnchor(this->turnPhaseHintLabel, VerticalAnchor(VerticalAnchorType::Top, 20.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
+	this->uiFactory->SetAnchor(this->turnPhaseHintLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->turnPhaseHintLabel);
 
 	// Error Message label.
 	this->errorMessageLabel = this->uiFactory->CreateLabel(L"");
-	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 50.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
+	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0556f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
 	this->uiFactory->SetColor(this->errorMessageLabel, D2D1::ColorF(D2D1::ColorF::Red));
 	this->uiFactory->FinishUIWidget(this->errorMessageLabel);
 

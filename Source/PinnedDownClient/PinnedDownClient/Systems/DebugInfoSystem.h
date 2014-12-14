@@ -40,6 +40,10 @@ namespace PinnedDownClient
 			Entity fpsTextEntity = INVALID_ENTITY_ID;
 			Entity versionTextEntity = INVALID_ENTITY_ID;
 
+			const Vector2F pointerPositionTextPosition = Vector2F(0.0125f, -0.088f);
+			const Vector2F fpsTextPosition = Vector2F(0.0125f, - 0.067f);
+			const Vector2F versionTextPosition = Vector2F(0.0125f, -0.044f);
+
 			void CreateEntities();
 
 			void OnEvent(Event & event);
