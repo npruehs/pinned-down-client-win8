@@ -65,7 +65,7 @@ namespace PinnedDownClient
 			const float powerLabelOffsetX = 0.025f;
 			const float structureLabelOffsetX = 0.025f;
 			const float abilityLabelOffsetX = 0.0125f;
-			const float abilityLabelOffsetY = 0.0333f;
+			const float abilityLabelOffsetY = 0.05f;
 			const float playerHandPositionY = 0.15f;
 			const float playerCardPositionY = 0.222f;
 			const float enemyCardPositionY = -0.222f;
