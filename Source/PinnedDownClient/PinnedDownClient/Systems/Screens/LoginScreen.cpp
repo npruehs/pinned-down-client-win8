@@ -95,7 +95,7 @@ void LoginScreen::LoadUI()
 	// Status label.
 	this->statusLabel = this->uiFactory->CreateLabel(L"LoginScreen_Connecting");
 	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.222f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
-	this->uiFactory->SetFontSize(this->statusLabel, 18.0f);
+	this->uiFactory->SetFontSize(this->statusLabel, 22.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
 
 	// Logo.
@@ -185,7 +185,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 
 	this->reconnectLabel = this->uiFactory->CreateLabel(L"LoginScreen_Reconnect");
 	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
-	this->uiFactory->SetFontSize(this->reconnectLabel, 18.0f);
+	this->uiFactory->SetFontSize(this->reconnectLabel, 22.0f);
 	this->uiFactory->FinishUIWidget(this->reconnectLabel);
 
 	this->showReconnectUI = true;

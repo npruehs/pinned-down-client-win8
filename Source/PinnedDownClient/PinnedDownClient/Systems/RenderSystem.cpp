@@ -702,6 +702,8 @@ void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
 
 void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 {
+	float fontScale = this->logicalWindowSize.x / this->designResolution.x;
+
 	// Create text format.
 	ComPtr<IDWriteTextFormat> textFormat;
 
@@ -712,7 +714,7 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		label->fontComponent->fontWeight,
 		label->fontComponent->fontStyle,
 		label->fontComponent->fontStretch,
-		label->fontComponent->fontSize,
+		label->fontComponent->fontSize * fontScale,
 		L"en-US",
 		&textFormat)
 		);
@@ -730,7 +732,7 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 		label->textComponent->text.c_str(),
 		(uint32)label->textComponent->text.length(),
 		textFormat.Get(),
-		label->textComponent->maxWidth, // Max width.
+		label->textComponent->maxWidth * this->logicalWindowSize.x, // Max width.
 		0.0f, // Max height.
 		&textLayout)
 		);

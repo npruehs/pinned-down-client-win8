@@ -407,7 +407,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	// Ability label.
 	std::wstring cardText = L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex) + L"_Text";
 
-	card->abilityLabel = this->uiFactory->CreateLabel(cardText, 150.0f);
+	card->abilityLabel = this->uiFactory->CreateLabel(cardText, 0.08f);
 	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, abilityLabelOffsetY), HorizontalAnchor(HorizontalAnchorType::Left, abilityLabelOffsetX), card->backgroundSprite);
 	this->uiFactory->SetColor(card->abilityLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
