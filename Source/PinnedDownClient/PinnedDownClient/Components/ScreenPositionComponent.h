@@ -20,6 +20,7 @@ namespace PinnedDownClient
 			}
 
 			PinnedDownClient::Math::Vector2F position;
+			bool positionValid = false;
 		};
 	}
 }

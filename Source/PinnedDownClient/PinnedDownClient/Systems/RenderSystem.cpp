@@ -450,7 +450,9 @@ void RenderSystem::Render()
 		std::shared_ptr<Rendering::IRenderable>& renderable = *iterator;
 
 		// Visibility check.
-		if (!renderable->visibilityComponent->visible || (renderable->panelVisibilityComponent != nullptr && !renderable->panelVisibilityComponent->visible))
+		if (!renderable->visibilityComponent->visible
+			|| (renderable->panelVisibilityComponent != nullptr && !renderable->panelVisibilityComponent->visible)
+			|| !renderable->screenPositionComponent->positionValid)
 		{
 			continue;
 		}

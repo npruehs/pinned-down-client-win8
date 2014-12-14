@@ -100,6 +100,7 @@ EVENT_HANDLER_DEFINITION(UILayoutSystem, EntityRemovedEvent)
 		{
 			// Reset anchor.
 			anchor.anchorComponent->target = INVALID_ENTITY_ID;
+			anchor.screenPositionComponent->positionValid = false;
 		}
 
 		if (anchor.entity == data.entity)
@@ -171,6 +172,7 @@ void UILayoutSystem::Update(float dt)
 
 		// Update screen position.
 		anchor.screenPositionComponent->position = Vector2F(x, y);
+		anchor.screenPositionComponent->positionValid = true;
 	}
 }
 
