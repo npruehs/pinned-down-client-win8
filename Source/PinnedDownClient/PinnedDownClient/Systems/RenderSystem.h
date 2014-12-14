@@ -82,6 +82,8 @@ namespace PinnedDownClient
 			float logicalDpi = 0.0f;
 			DisplayOrientations displayOrientation = DisplayOrientations::None;
 
+			Vector2F designResolution = Vector2F(1920, 1080);
+
 			std::list<std::shared_ptr<Rendering::IRenderable>> renderables;
 
 			void CreateD3DDevice();
