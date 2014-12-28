@@ -56,7 +56,7 @@ void DebugInfoSystem::CreateEntities()
 	// Show version number.
 	auto version = Package::Current->Id->Version;
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision);
+	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision) + L" (Mercury)";
 }
 
 void DebugInfoSystem::Update(float dt)
