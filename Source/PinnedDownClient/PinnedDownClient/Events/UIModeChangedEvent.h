@@ -5,6 +5,8 @@
 
 #include "Systems\UI\UIMode.h"
 
+#include "Util\StringUtils.h"
+
 using namespace PinnedDownCore;
 
 namespace PinnedDownClient
@@ -25,6 +27,11 @@ namespace PinnedDownClient
 			explicit UIModeChangedEvent(Systems::UI::UIMode newMode)
 			{
 				this->newMode = newMode;
+			}
+
+			std::wstring ToString()
+			{
+				return std::wstring(L"UI mode changed: " + PinnedDownClient::Util::StringToWString(UIModeToString(this->newMode)));
 			}
 		};
 	}

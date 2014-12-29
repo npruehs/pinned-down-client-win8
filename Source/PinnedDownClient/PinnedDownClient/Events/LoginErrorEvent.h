@@ -23,6 +23,11 @@ namespace PinnedDownClient
 			{
 				this->errorMessage = errorMessage;
 			}
+
+			std::wstring ToString()
+			{
+				return std::wstring(L"Login error " + this->errorMessage);
+			}
 		};
 	}
 }

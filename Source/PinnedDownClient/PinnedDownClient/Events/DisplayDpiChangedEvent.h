@@ -23,6 +23,11 @@ namespace PinnedDownClient
 			{
 				this->logicalDpi = logicalDpi;
 			}
+
+			std::wstring ToString()
+			{
+				return std::wstring(L"Display DPI changed: " + std::to_wstring(this->logicalDpi));
+			}
 		};
 	}
 }

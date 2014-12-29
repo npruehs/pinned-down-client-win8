@@ -25,6 +25,11 @@ namespace PinnedDownClient
 			{
 				this->size = Vector2F(width, height);
 			}
+
+			std::wstring ToString()
+			{
+				return std::wstring(L"App window size changed: " + this->size.ToString());
+			}
 		};
 	}
 }

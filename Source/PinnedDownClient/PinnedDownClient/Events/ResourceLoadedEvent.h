@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "Util\StringUtils.h"
 
 using namespace PinnedDownCore;
 
@@ -22,6 +23,11 @@ namespace PinnedDownClient
 			explicit ResourceLoadedEvent(std::string resourceName)
 			{
 				this->resourceName = resourceName;
+			}
+
+			std::wstring ToString()
+			{
+				return std::wstring(L"Resource loaded: " + PinnedDownClient::Util::StringToWString(resourceName));
 			}
 		};
 	}
