@@ -28,5 +28,5 @@ void EventLogger::OnEvent(Event & newEvent)
 	}
 
 	// Log event.
-	this->game->logger->LogInfo(newEvent.ToString());
+	this->game->logger->LogDebug(newEvent.ToString());
 }

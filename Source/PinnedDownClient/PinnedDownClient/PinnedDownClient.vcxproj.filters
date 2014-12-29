@@ -804,6 +804,9 @@
     <ClInclude Include="Systems\SoundEffectSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Util\VersionUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

@@ -10,12 +10,13 @@
 
 #include "EntityInitializedEvent.h"
 
-using namespace Windows::ApplicationModel;
+#include "..\Util\VersionUtils.h"
 
 using namespace PinnedDownCore;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Util;
 
 DebugInfoSystem::DebugInfoSystem()
 {
@@ -54,9 +55,8 @@ void DebugInfoSystem::CreateEntities()
 	this->uiFactory->FinishUIWidget(this->versionTextEntity);
 
 	// Show version number.
-	auto version = Package::Current->Id->Version;
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\nVersion " + std::to_wstring(version.Major) + L"." + std::to_wstring(version.Minor) + L"." + std::to_wstring(version.Build) + L"." + std::to_wstring(version.Revision) + L" (Mercury)";
+	textComponent->text = L"\n" + GetPinnedDownClientVersion();
 }
 
 void DebugInfoSystem::Update(float dt)
