@@ -90,7 +90,7 @@ void GameScreen::UnloadResources()
 void GameScreen::LoadUI()
 {
 	// Player name label.
-	this->playerNameLabel = this->uiFactory->CreateLabel(L"?");
+	this->playerNameLabel = this->uiFactory->CreateLabel();
 	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Right, -0.125f), 0);
 	this->uiFactory->FinishUIWidget(this->playerNameLabel);
 
@@ -99,7 +99,7 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
-	this->distanceValueLabel = this->uiFactory->CreateLabel(L"0 / 0");
+	this->distanceValueLabel = this->uiFactory->CreateLabel();
 	this->uiFactory->SetAnchor(this->distanceValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->distanceValueLabel);
 

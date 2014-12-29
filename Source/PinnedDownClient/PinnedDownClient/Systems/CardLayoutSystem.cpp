@@ -361,10 +361,11 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 
 	if (threatComponent != nullptr)
 	{
-		card->threatLabel = this->uiFactory->CreateLabel(L"[" + std::to_wstring(threatComponent->threat) + L"]");
+		card->threatLabel = this->uiFactory->CreateLabel();
 		this->uiFactory->SetAnchor(card->threatLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
 		this->uiFactory->SetColor(card->threatLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->threatLabel, card->panel);
+		this->uiFactory->SetText(card->threatLabel, L"[" + std::to_wstring(threatComponent->threat) + L"]");
 		this->uiFactory->FinishUIWidget(card->threatLabel);
 	}
 
@@ -379,10 +380,11 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->SetPanel(card->powerLabel, card->panel);
 		this->uiFactory->FinishUIWidget(card->powerLabel);
 
-		card->powerValueLabel = this->uiFactory->CreateLabel(std::to_wstring(powerComponent->power));
+		card->powerValueLabel = this->uiFactory->CreateLabel();
 		this->uiFactory->SetAnchor(card->powerValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, powerLabelOffsetX), card->powerLabel);
 		this->uiFactory->SetColor(card->powerValueLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->powerValueLabel, card->panel);
+		this->uiFactory->SetText(card->powerValueLabel, std::to_wstring(powerComponent->power));
 		this->uiFactory->FinishUIWidget(card->powerValueLabel);
 	}
 
@@ -397,10 +399,11 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->SetPanel(card->structureLabel, card->panel);
 		this->uiFactory->FinishUIWidget(card->structureLabel);
 
-		card->structureValueLabel = this->uiFactory->CreateLabel(std::to_wstring(structureComponent->structure) + L"%");
+		card->structureValueLabel = this->uiFactory->CreateLabel();
 		this->uiFactory->SetAnchor(card->structureValueLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
 		this->uiFactory->SetColor(card->structureValueLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->structureValueLabel, card->panel);
+		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(structureComponent->structure) + L"%");
 		this->uiFactory->FinishUIWidget(card->structureValueLabel);
 	}
 
