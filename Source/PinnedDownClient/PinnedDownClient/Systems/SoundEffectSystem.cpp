@@ -27,11 +27,12 @@ void SoundEffectSystem::InitSystem(PinnedDownCore::Game* game)
 
 	// Register listener.
 	this->game->eventManager->AddListener(this, AudioEngineChangedEvent::AudioEngineChangedEventType);
-	this->game->eventManager->AddListener(this, CardPlayedEvent::CardPlayedEventType);
 	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
+	this->game->eventManager->AddListener(this, EffectPlayedEvent::EffectPlayedEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
+	this->game->eventManager->AddListener(this, StarshipPlayedEvent::StarshipPlayedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);
 
@@ -75,11 +76,12 @@ void SoundEffectSystem::LoadResources()
 void SoundEffectSystem::OnEvent(Event & newEvent)
 {
 	CALL_EVENT_HANDLER(AudioEngineChangedEvent);
-	CALL_EVENT_HANDLER(CardPlayedEvent);
 	CALL_EVENT_HANDLER(DefeatEvent);
+	CALL_EVENT_HANDLER(EffectPlayedEvent);
 	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
 	CALL_EVENT_HANDLER(EntityTappedEvent);
 	CALL_EVENT_HANDLER(FightResolvedEvent);
+	CALL_EVENT_HANDLER(StarshipPlayedEvent);
 	CALL_EVENT_HANDLER(TurnPhaseChangedEvent);
 	CALL_EVENT_HANDLER(VictoryEvent);
 }
@@ -89,26 +91,15 @@ EVENT_HANDLER_DEFINITION(SoundEffectSystem, AudioEngineChangedEvent)
 	this->soundAudioEngine = data.audioEngine;
 }
 
-EVENT_HANDLER_DEFINITION(SoundEffectSystem, CardPlayedEvent)
-{
-	auto entityId = this->entityIdMapping->ServerToClientId(data.serverEntity);
-	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(entityId, CardComponent::CardComponentType);
-
-	if (cardComponent->cardType == CardType::Effect)
-	{
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/EffectPlayed.wav");
-		this->game->eventManager->QueueEvent(playSoundAction);
-	}
-	else if (cardComponent->cardType == CardType::Starship)
-	{
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/StarshipPlayed.wav");
-		this->game->eventManager->QueueEvent(playSoundAction);
-	}
-}
-
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, DefeatEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/GameOver.wav");
+	this->game->eventManager->QueueEvent(playSoundAction);
+}
+
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, EffectPlayedEvent)
+{
+	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/EffectPlayed.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
@@ -126,6 +117,12 @@ EVENT_HANDLER_DEFINITION(SoundEffectSystem, EntityTappedEvent)
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, FightResolvedEvent)
 {
 	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/FightResolved.wav");
+	this->game->eventManager->QueueEvent(playSoundAction);
+}
+
+EVENT_HANDLER_DEFINITION(SoundEffectSystem, StarshipPlayedEvent)
+{
+	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/StarshipPlayed.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
