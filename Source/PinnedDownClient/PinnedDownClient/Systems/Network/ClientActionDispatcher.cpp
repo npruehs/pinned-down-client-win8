@@ -12,6 +12,11 @@ ClientActionDispatcher::ClientActionDispatcher(Game* game, std::shared_ptr<Clien
 	this->game->eventManager->AddListener(this);
 }
 
+ClientActionDispatcher::~ClientActionDispatcher()
+{
+	this->game->eventManager->RemoveListener(this);
+}
+
 void ClientActionDispatcher::OnEvent(Event& newEvent)
 {
 	if (newEvent.GetNetRole() == NetRole::Server)

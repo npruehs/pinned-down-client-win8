@@ -18,6 +18,7 @@ namespace PinnedDownClient
 			{
 			public:
 				ClientActionDispatcher(Game* game, std::shared_ptr<ClientActionWriter> clientActionWriter);
+				~ClientActionDispatcher();
 
 			private:
 				Game* game;
