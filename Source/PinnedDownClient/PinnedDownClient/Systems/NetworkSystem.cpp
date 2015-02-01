@@ -29,7 +29,8 @@ using namespace Windows::Networking::Sockets;
 using namespace Windows::Storage::Streams;
 
 
-#define PINNED_DOWN_SERVER_HOST "localhost"
+//#define PINNED_DOWN_SERVER_HOST "localhost"
+#define PINNED_DOWN_SERVER_HOST "pinneddown.cloudapp.net"
 //#define REQUIRES_AUTH
 
 NetworkSystem::NetworkSystem()
