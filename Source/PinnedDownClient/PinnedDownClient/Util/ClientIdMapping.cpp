@@ -10,6 +10,12 @@ ClientIdMapping::ClientIdMapping()
 {
 }
 
+void ClientIdMapping::Clear()
+{
+	this->localClientId = 0;
+	this->clientToPlayerEntityIdMap->Clear();
+}
+
 bool ClientIdMapping::IsLocalPlayer(Entity playerEntity)
 {
 	auto clientId = this->clientToPlayerEntityIdMap->GetKeyOrDefault(playerEntity, -1);

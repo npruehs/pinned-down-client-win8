@@ -58,6 +58,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, EntityUnhoveredEvent::EntityUnhoveredEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
+	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
 	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, ShipDamagedEvent::ShipDamagedEventType);
@@ -87,6 +88,7 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	CALL_EVENT_HANDLER(EntityTappedEvent);
 	CALL_EVENT_HANDLER(EntityUnhoveredEvent);
 	CALL_EVENT_HANDLER(FightResolvedEvent);
+	CALL_EVENT_HANDLER(MatchEndedEvent);
 	CALL_EVENT_HANDLER(PowerChangedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 	CALL_EVENT_HANDLER(ShipDamagedEvent);
@@ -167,13 +169,7 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardUnassignedEvent)
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, DisconnectedFromServerEvent)
 {
-	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
-	{
-		auto card = *iterator;
-		this->RemoveCardEntity(card);
-	}
-
-	this->cards.clear();
+	this->Reset();
 }
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityHoveredEvent)
@@ -236,6 +232,11 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, FightResolvedEvent)
 
 	// Update layout.
 	this->LayoutCards();
+}
+
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, MatchEndedEvent)
+{
+	this->Reset();
 }
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, PowerChangedEvent)
@@ -562,15 +563,17 @@ void CardLayoutSystem::LayoutCards()
 
 void CardLayoutSystem::RemoveCardEntity(std::shared_ptr<Card> card)
 {
-	this->game->entityManager->RemoveEntity(card->panel);
+	this->game->entityManager->RemoveEntity(card->abilityLabel);
 	this->game->entityManager->RemoveEntity(card->backgroundSprite);
+	this->game->entityManager->RemoveEntity(card->cardEntity);
 	this->game->entityManager->RemoveEntity(card->cardTypeLabel);
 	this->game->entityManager->RemoveEntity(card->nameLabel);
+	this->game->entityManager->RemoveEntity(card->panel);
 	this->game->entityManager->RemoveEntity(card->powerLabel);
 	this->game->entityManager->RemoveEntity(card->powerValueLabel);
-	this->game->entityManager->RemoveEntity(card->threatLabel);
-	this->game->entityManager->RemoveEntity(card->abilityLabel);
 	this->game->entityManager->RemoveEntity(card->structureLabel);
+	this->game->entityManager->RemoveEntity(card->structureValueLabel);
+	this->game->entityManager->RemoveEntity(card->threatLabel);
 }
 
 Entity CardLayoutSystem::CardBackgroundToEntityId(Entity backgroundSprite)
@@ -586,6 +589,25 @@ Entity CardLayoutSystem::CardBackgroundToEntityId(Entity backgroundSprite)
 	}
 
 	return INVALID_ENTITY_ID;
+}
+
+void CardLayoutSystem::Reset()
+{
+	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
+	{
+		auto card = *iterator;
+		this->RemoveCardEntity(card);
+	}
+
+	if (this->cardDetailView != nullptr)
+	{
+		// Remove card.
+		this->RemoveCardEntity(this->cardDetailView);
+		this->cardDetailView = nullptr;
+	}
+
+	this->cards.clear();
+	this->currentAssignments.clear();
 }
 
 std::shared_ptr<Card> CardLayoutSystem::ServerEntityToCard(Entity serverEntity)

@@ -9,6 +9,11 @@ EntityIdMapping::EntityIdMapping()
 {
 }
 
+void EntityIdMapping::Clear()
+{
+	this->serverToClientIdMap->Clear();
+}
+
 void EntityIdMapping::MapEntityId(Entity serverEntity, Entity clientEntity)
 {
 	this->serverToClientIdMap->Add(serverEntity, clientEntity);

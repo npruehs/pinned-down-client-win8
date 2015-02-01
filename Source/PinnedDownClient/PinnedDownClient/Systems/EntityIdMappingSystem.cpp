@@ -27,8 +27,24 @@ void EntityIdMappingSystem::InitSystem(PinnedDownCore::Game* game)
 	// Notify listeners.
 	auto entityIdMappingCreatedEvent = std::make_shared<EntityIdMappingCreatedEvent>(this->entityIdMapping);
 	this->game->eventManager->QueueEvent(entityIdMappingCreatedEvent);
+
+	// Register listener.
+	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
+	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
 }
 
 void EntityIdMappingSystem::OnEvent(Event & newEvent)
 {
+	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
+	CALL_EVENT_HANDLER(MatchEndedEvent);
+}
+
+EVENT_HANDLER_DEFINITION(EntityIdMappingSystem, DisconnectedFromServerEvent)
+{
+	this->entityIdMapping->Clear();
+}
+
+EVENT_HANDLER_DEFINITION(EntityIdMappingSystem, MatchEndedEvent)
+{
+	this->entityIdMapping->Clear();
 }
