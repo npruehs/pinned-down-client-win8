@@ -55,6 +55,7 @@ GameScreen_Button_Hint = "Help"
 
 GameScreen_GameOver_Defeat = "DEFEAT!"
 GameScreen_GameOver_Victory = "VICTORY!"
+GameScreen_GameOver_EndGame = "End Game"
 
 GameScreen_Hint_Assignment = "Assign your starships to enemy attackers by tapping one of your ships first, and an enemy ship after!"
 GameScreen_Hint_Attack = ""

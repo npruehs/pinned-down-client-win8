@@ -421,6 +421,9 @@
     <ClCompile Include="Systems\SoundEffectSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Events\MatchEndedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -806,6 +809,9 @@
     </ClInclude>
     <ClInclude Include="Util\VersionUtils.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\MatchEndedEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

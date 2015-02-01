@@ -9,6 +9,7 @@
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\LocalizationDataLoadedEvent.h"
 #include "Events\LoginSuccessEvent.h"
+#include "Events\MatchEndedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
 #include "Systems\Screens\Screen.h"
@@ -53,6 +54,7 @@ namespace PinnedDownClient
 			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
 			EVENT_HANDLER_DECLARATION(LocalizationDataLoadedEvent);
 			EVENT_HANDLER_DECLARATION(LoginSuccessEvent);
+			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 
 			void SetScreen(std::shared_ptr<Screen> newScreen);

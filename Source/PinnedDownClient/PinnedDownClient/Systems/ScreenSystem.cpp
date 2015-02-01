@@ -30,11 +30,12 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
 	this->game->eventManager->AddListener(this, ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
-	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, LocalizationDataLoadedEvent::LocalizationDataLoadedEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
-	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
+	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
+	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
 void ScreenSystem::Update(float dt)
@@ -48,16 +49,23 @@ void ScreenSystem::Update(float dt)
 void ScreenSystem::OnEvent(Event & newEvent)
 {
 	CALL_EVENT_HANDLER(ClientIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
 	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
-	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 	CALL_EVENT_HANDLER(LocalizationDataLoadedEvent);
 	CALL_EVENT_HANDLER(LoginSuccessEvent);
-	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
+	CALL_EVENT_HANDLER(MatchEndedEvent);
+	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 }
 
 EVENT_HANDLER_DEFINITION(ScreenSystem, ClientIdMappingCreatedEvent)
 {
 	this->clientIdMapping = data.clientIdMapping;
+}
+
+EVENT_HANDLER_DEFINITION(ScreenSystem, DisconnectedFromServerEvent)
+{
+	// Switch to login screen.
+	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
 EVENT_HANDLER_DEFINITION(ScreenSystem, EntityIdMappingCreatedEvent)
@@ -77,15 +85,15 @@ EVENT_HANDLER_DEFINITION(ScreenSystem, LocalizationDataLoadedEvent)
 	this->SetScreen(std::make_shared<LoginScreen>());
 }
 
-EVENT_HANDLER_DEFINITION(ScreenSystem, RenderTargetChangedEvent)
-{
-	this->d2dContext = data.d2dContext;
-}
-
-EVENT_HANDLER_DEFINITION(ScreenSystem, DisconnectedFromServerEvent)
+EVENT_HANDLER_DEFINITION(ScreenSystem, MatchEndedEvent)
 {
 	// Switch to login screen.
 	this->SetScreen(std::make_shared<LoginScreen>());
+}
+
+EVENT_HANDLER_DEFINITION(ScreenSystem, RenderTargetChangedEvent)
+{
+	this->d2dContext = data.d2dContext;
 }
 
 void ScreenSystem::SetScreen(std::shared_ptr<Screen> newScreen)
