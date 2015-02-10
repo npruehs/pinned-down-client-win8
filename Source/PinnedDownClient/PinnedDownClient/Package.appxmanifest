@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
   <Identity Name="Npruehs.PinnedDown" Publisher="CN=npruehs" Version="0.1.0.0" />
   <Properties>
-    <DisplayName>PinnedDownClient</DisplayName>
+    <DisplayName>Pinned Down</DisplayName>
     <PublisherDisplayName>npruehs</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,13 +15,19 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="PinnedDownClient.App">
-      <m2:VisualElements DisplayName="PinnedDownClient" Description="PinnedDownClient" BackgroundColor="#000000" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
-        <m2:DefaultTile>
+      <m2:VisualElements DisplayName="Pinned Down" Description="Command your flagship. Outsmart your enemies. Against all odds." BackgroundColor="#000000" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
+        <m2:DefaultTile ShortName="Pinned Down" DefaultSize="wide310x150Logo" Square310x310Logo="Assets\Logos\Square310x310.png" Wide310x150Logo="Assets\Logos\Wide310x150.png" Square70x70Logo="Assets\Logos\Square70x70.png">
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />
+            <m2:ShowOn Tile="wide310x150Logo" />
+            <m2:ShowOn Tile="square310x310Logo" />
           </m2:ShowNameOnTiles>
         </m2:DefaultTile>
-        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+          <m2:Rotation Preference="landscapeFlipped" />
+        </m2:InitialRotationPreference>
       </m2:VisualElements>
     </Application>
   </Applications>

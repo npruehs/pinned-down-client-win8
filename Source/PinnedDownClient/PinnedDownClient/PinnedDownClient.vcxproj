@@ -211,10 +211,31 @@
     <Image Include="Assets\Button.png" />
     <Image Include="Assets\CardHighlight.png" />
     <Image Include="Assets\Hints.png" />
-    <Image Include="Assets\Logo.png" />
-    <Image Include="Assets\SmallLogo.png" />
-    <Image Include="Assets\StoreLogo.png" />
-    <Image Include="Assets\SplashScreen.png" />
+    <Image Include="Assets\Logo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Splash.png" />
+    <Image Include="Assets\Logos\Square150x150.png" />
+    <Image Include="Assets\Logos\Square30x30.png" />
+    <Image Include="Assets\Logos\Square310x310.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Square70x70.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Store.png" />
+    <Image Include="Assets\Logos\Wide310x150.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\SmallLogo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="Assets\Window.png" />
   </ItemGroup>
   <ItemGroup>
