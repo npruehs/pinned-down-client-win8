@@ -5,8 +5,13 @@ using namespace PinnedDownClient::Util;
 
 
 EntityIdMapping::EntityIdMapping()
+	: serverToClientIdMap(std::make_shared<BidirectionalMap<Entity, Entity>>())
 {
-	this->serverToClientIdMap = std::make_shared<BidirectionalMap<Entity, Entity>>();
+}
+
+void EntityIdMapping::Clear()
+{
+	this->serverToClientIdMap->Clear();
 }
 
 void EntityIdMapping::MapEntityId(Entity serverEntity, Entity clientEntity)

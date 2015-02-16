@@ -18,6 +18,7 @@
 #include "Events\EntityTappedEvent.h"
 #include "Events\EntityUnhoveredEvent.h"
 #include "Events\FightResolvedEvent.h"
+#include "Events\MatchEndedEvent.h"
 #include "Events\PowerChangedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
@@ -74,6 +75,8 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 			
+			void Reset();
+
 			EVENT_HANDLER_DECLARATION(CardAssignedEvent);
 			EVENT_HANDLER_DECLARATION(CardCreatedEvent);
 			EVENT_HANDLER_DECLARATION(CardStateChangedEvent);
@@ -84,6 +87,7 @@ namespace PinnedDownClient
 			EVENT_HANDLER_DECLARATION(EntityTappedEvent);
 			EVENT_HANDLER_DECLARATION(EntityUnhoveredEvent);
 			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
+			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 			EVENT_HANDLER_DECLARATION(PowerChangedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 			EVENT_HANDLER_DECLARATION(ShipDamagedEvent);

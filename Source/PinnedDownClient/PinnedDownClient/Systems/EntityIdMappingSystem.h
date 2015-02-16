@@ -3,9 +3,13 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
+#include "Events\DisconnectedFromServerEvent.h"
+#include "Events\MatchEndedEvent.h"
+
 #include "Util\EntityIdMapping.h"
 
 
+using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Util;
 
 
@@ -22,6 +26,9 @@ namespace PinnedDownClient
 
 		private:
 			std::shared_ptr<EntityIdMapping> entityIdMapping;
+
+			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
+			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 
 			void OnEvent(Event & event);
 		};

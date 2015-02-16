@@ -19,11 +19,16 @@ namespace PinnedDownClient
 				return AppWindowSizeChangedEventType;
 			}
 
-			Vector2F size;
+			const Vector2F size;
 
 			explicit AppWindowSizeChangedEvent(float width, float height)
+				: size(Vector2F(width, height))
 			{
-				this->size = Vector2F(width, height);
+			}
+
+			std::wstring ToString() const
+			{
+				return std::wstring(L"App window size changed: " + this->size.ToString());
 			}
 		};
 	}

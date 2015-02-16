@@ -24,6 +24,11 @@ namespace PinnedDownClient
 			{
 				this->entity = entity;
 			}
+
+			std::wstring ToString() const
+			{
+				return std::wstring(L"Entity tapped: " + std::to_wstring(this->entity));
+			}
 		};
 	}
 }

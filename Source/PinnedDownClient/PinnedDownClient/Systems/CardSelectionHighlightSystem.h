@@ -5,6 +5,7 @@
 
 #include "Events\CardSelectedEvent.h"
 #include "Events\CardDeselectedEvent.h"
+#include "Events\MatchEndedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
 #include "Systems\UI\UIFactory.h"
@@ -38,6 +39,7 @@ namespace PinnedDownClient
 
 			EVENT_HANDLER_DECLARATION(CardSelectedEvent);
 			EVENT_HANDLER_DECLARATION(CardDeselectedEvent);
+			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 		};
 	}

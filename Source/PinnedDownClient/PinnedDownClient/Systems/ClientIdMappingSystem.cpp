@@ -30,12 +30,19 @@ void ClientIdMappingSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->QueueEvent(clientIdMappingCreatedEvent);
 
 	// Register listener.
+	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
 void ClientIdMappingSystem::OnEvent(Event & newEvent)
 {
+	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
 	CALL_EVENT_HANDLER(LoginSuccessEvent);
+}
+
+EVENT_HANDLER_DEFINITION(ClientIdMappingSystem, DisconnectedFromServerEvent)
+{
+	this->clientIdMapping->Clear();
 }
 
 EVENT_HANDLER_DEFINITION(ClientIdMappingSystem, LoginSuccessEvent)

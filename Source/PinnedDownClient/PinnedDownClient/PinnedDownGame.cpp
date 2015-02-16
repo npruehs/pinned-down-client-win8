@@ -25,6 +25,7 @@
 #include "Systems\UILayoutSystem.h"
 
 #include "Util\FileLogger.h"
+#include "Util\VersionUtils.h"
 
 using namespace Concurrency;
 using namespace Windows::Foundation;
@@ -41,6 +42,7 @@ timer(std::make_unique<Util::StepTimer>())
 {
 	// Setup game infrastructure.
 	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
+	this->game->logger->LogInfo(L"Pinned Down Client " + GetPinnedDownClientVersion());
 	this->game->logger->LogInfo(L"Logger initialized.");
 
 	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager(this->game.get()));

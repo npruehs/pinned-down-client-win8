@@ -16,6 +16,8 @@ namespace PinnedDownClient
 		public:
 			ClientIdMapping();
 
+			void Clear();
+
 			bool IsLocalPlayer(Entity playerEntity);
 
 			int GetLocalClientId();

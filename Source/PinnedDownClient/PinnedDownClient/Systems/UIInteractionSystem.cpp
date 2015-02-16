@@ -114,21 +114,21 @@ EVENT_HANDLER_DEFINITION(UIInteractionSystem, PointerReleasedEvent)
 		return;
 	}
 
-	UI::Button* tappedButton = this->HitTest(data.position);
-
-	if (this->currentButton != tappedButton)
-	{
-		return;
-	}
-
-	// Notify listeners.
+	// Check for tap or hover.
 	if (this->elapsedTapTime < this->hoverThreshold)
 	{
-		auto entityTappedEvent = std::make_shared<EntityTappedEvent>(this->currentButton->entity);
-		this->game->eventManager->QueueEvent(entityTappedEvent);
+		// Tap: Check if tap still on button.
+		UI::Button* tappedButton = this->HitTest(data.position);
+
+		if (this->currentButton == tappedButton)
+		{
+			auto entityTappedEvent = std::make_shared<EntityTappedEvent>(this->currentButton->entity);
+			this->game->eventManager->QueueEvent(entityTappedEvent);
+		}
 	}
 	else
 	{
+		// Hover: Notify listeners that hover has ended.
 		auto entityUnhoveredEvent = std::make_shared<EntityUnhoveredEvent>(this->currentButton->entity);
 		this->game->eventManager->QueueEvent(entityUnhoveredEvent);
 	}

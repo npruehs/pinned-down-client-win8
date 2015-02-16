@@ -11,6 +11,13 @@ namespace PinnedDownClient
 		{
 		public:
 			void Add(TKey key, TValue value);
+
+			void Clear()
+			{
+				this->keyToValue.clear();
+				this->valueToKey.clear();
+			}
+
 			TKey GetKeyOrDefault(TValue value, TKey defaultKey);
 			TValue GetValueOrDefault(TKey key, TValue defaultValue);
 

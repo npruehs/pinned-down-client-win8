@@ -24,6 +24,11 @@ namespace PinnedDownClient
 			{
 				this->entity = entity;
 			}
+
+			std::wstring ToString() const
+			{
+				return std::wstring(L"Localized text changed: " + std::to_wstring(this->entity));
+			}
 		};
 	}
 }

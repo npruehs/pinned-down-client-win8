@@ -6,11 +6,12 @@
 #include "Actions\PlaySoundAction.h"
 
 #include "Events\AudioEngineChangedEvent.h"
-#include "Events\CardPlayedEvent.h"
 #include "Events\DefeatEvent.h"
+#include "Events\EffectPlayedEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\EntityTappedEvent.h"
 #include "Events\FightResolvedEvent.h"
+#include "Events\StarshipPlayedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
 
@@ -41,11 +42,12 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			EVENT_HANDLER_DECLARATION(AudioEngineChangedEvent);
-			EVENT_HANDLER_DECLARATION(CardPlayedEvent);
 			EVENT_HANDLER_DECLARATION(DefeatEvent);
+			EVENT_HANDLER_DECLARATION(EffectPlayedEvent);
 			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
 			EVENT_HANDLER_DECLARATION(EntityTappedEvent);
 			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
+			EVENT_HANDLER_DECLARATION(StarshipPlayedEvent);
 			EVENT_HANDLER_DECLARATION(TurnPhaseChangedEvent);
 			EVENT_HANDLER_DECLARATION(VictoryEvent);
 		};

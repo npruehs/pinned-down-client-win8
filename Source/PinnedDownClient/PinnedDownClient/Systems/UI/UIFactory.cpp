@@ -31,6 +31,11 @@ UIFactory::UIFactory(PinnedDownCore::Game* game)
 	this->game = game;
 }
 
+Entity UIFactory::CreateLabel()
+{
+	return this->CreateLabel(L"");
+}
+
 Entity UIFactory::CreateLabel(std::wstring localizationKey)
 {
 	return this->CreateLabel(localizationKey, 0.0f);

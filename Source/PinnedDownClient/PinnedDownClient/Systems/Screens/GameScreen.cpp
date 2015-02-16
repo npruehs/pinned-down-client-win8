@@ -1,9 +1,11 @@
 
 #include "pch.h"
 
+#include "Actions\DisconnectClientAction.h"
 #include "Actions\EndTurnAction.h"
 
 #include "Events\LocalizedTextChangedEvent.h"
+#include "Events\MatchEndedEvent.h"
 
 #include "Data\TurnPhase.h"
 
@@ -90,7 +92,7 @@ void GameScreen::UnloadResources()
 void GameScreen::LoadUI()
 {
 	// Player name label.
-	this->playerNameLabel = this->uiFactory->CreateLabel(L"?");
+	this->playerNameLabel = this->uiFactory->CreateLabel();
 	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Right, -0.125f), 0);
 	this->uiFactory->FinishUIWidget(this->playerNameLabel);
 
@@ -99,7 +101,7 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
-	this->distanceValueLabel = this->uiFactory->CreateLabel(L"0 / 0");
+	this->distanceValueLabel = this->uiFactory->CreateLabel();
 	this->uiFactory->SetAnchor(this->distanceValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->distanceValueLabel);
 
@@ -163,16 +165,24 @@ void GameScreen::LoadUI()
 
 void GameScreen::UnloadUI()
 {
-	this->game->entityManager->RemoveEntity(this->endTurnLabel);
+	this->game->entityManager->RemoveEntity(this->distanceLabel);
+	this->game->entityManager->RemoveEntity(this->distanceValueLabel);
+	this->game->entityManager->RemoveEntity(this->errorMessageLabel);
+	this->game->entityManager->RemoveEntity(this->endGameButton);
+	this->game->entityManager->RemoveEntity(this->endGameLabel);
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
+	this->game->entityManager->RemoveEntity(this->endTurnLabel);
+	this->game->entityManager->RemoveEntity(this->gameOverLabel);
+	this->game->entityManager->RemoveEntity(this->gameOverWindow);
 	this->game->entityManager->RemoveEntity(this->hintButton);
 	this->game->entityManager->RemoveEntity(this->hintLabel);
-	this->game->entityManager->RemoveEntity(this->threatLabel);
-	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
-	this->game->entityManager->RemoveEntity(this->distanceLabel);
+	this->game->entityManager->RemoveEntity(this->hintOverlay);
 	this->game->entityManager->RemoveEntity(this->playerNameLabel);
+	this->game->entityManager->RemoveEntity(this->threatLabel);
+	this->game->entityManager->RemoveEntity(this->threatValueLabel);
+	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
 	this->game->entityManager->RemoveEntity(this->turnPhaseHintLabel);
-	this->game->entityManager->RemoveEntity(this->errorMessageLabel);
+	this->game->entityManager->RemoveEntity(this->turnPhaseValueLabel);
 }
 
 void GameScreen::OnEvent(Event & newEvent)
@@ -266,6 +276,11 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 		this->uiFactory->SetVisible(this->hintOverlay, false);
 		this->uiFactory->SetTappable(this->hintOverlay, false);
 	}
+	else if (entityTappedEvent.entity == this->endGameButton)
+	{
+		auto matchEndedEvent = std::make_shared<MatchEndedEvent>();
+		this->game->eventManager->QueueEvent(matchEndedEvent);
+	}
 }
 
 void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
@@ -341,4 +356,14 @@ void GameScreen::ShowGameOver(std::wstring title)
 	this->uiFactory->SetFontSize(this->gameOverLabel, 72.0f);
 	this->uiFactory->SetAnchor(this->gameOverLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->gameOverWindow);
 	this->uiFactory->FinishUIWidget(this->gameOverLabel);
+
+	// Show end game button.
+	this->endGameButton = this->uiFactory->CreateSprite("Assets/Button.png");
+	this->uiFactory->SetAnchor(this->endGameButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.1f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->gameOverWindow);
+	this->uiFactory->SetTappable(this->endGameButton, true);
+	this->uiFactory->FinishUIWidget(this->endGameButton);
+
+	this->endGameLabel = this->uiFactory->CreateLabel(L"GameScreen_GameOver_EndGame");
+	this->uiFactory->SetAnchor(this->endGameLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endGameButton);
+	this->uiFactory->FinishUIWidget(this->endGameLabel);
 }

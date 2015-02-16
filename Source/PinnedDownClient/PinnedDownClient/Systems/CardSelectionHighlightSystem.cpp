@@ -29,6 +29,7 @@ void CardSelectionHighlightSystem::InitSystem(PinnedDownCore::Game* game)
 
 	this->game->eventManager->AddListener(this, CardSelectedEvent::CardSelectedEventType);
 	this->game->eventManager->AddListener(this, CardDeselectedEvent::CardDeselectedEventType);
+	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
 
@@ -46,6 +47,7 @@ void CardSelectionHighlightSystem::OnEvent(Event & newEvent)
 {
 	CALL_EVENT_HANDLER(CardSelectedEvent);
 	CALL_EVENT_HANDLER(CardDeselectedEvent);
+	CALL_EVENT_HANDLER(MatchEndedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 }
 
@@ -63,6 +65,13 @@ EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, CardSelectedEvent)
 
 EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, CardDeselectedEvent)
 {
+	// Hide card highlight.
+	this->game->entityManager->RemoveEntity(this->currentHighlight);
+}
+
+EVENT_HANDLER_DEFINITION(CardSelectionHighlightSystem, MatchEndedEvent)
+{
+	// Hide card highlight.
 	this->game->entityManager->RemoveEntity(this->currentHighlight);
 }
 

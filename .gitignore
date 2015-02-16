@@ -26,3 +26,4 @@ Source/PinnedDownClient/ipch/
 Bin/
 *.pri
 Obj/
+Source/PinnedDownClient/AppPackages/

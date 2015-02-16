@@ -5,8 +5,15 @@ using namespace PinnedDownClient::Util;
 
 
 ClientIdMapping::ClientIdMapping()
+	: clientToPlayerEntityIdMap(std::make_shared<BidirectionalMap<int, Entity>>()),
+	localClientId(0)
 {
-	this->clientToPlayerEntityIdMap = std::make_shared<BidirectionalMap<int, Entity>>();
+}
+
+void ClientIdMapping::Clear()
+{
+	this->localClientId = 0;
+	this->clientToPlayerEntityIdMap->Clear();
 }
 
 bool ClientIdMapping::IsLocalPlayer(Entity playerEntity)

@@ -16,6 +16,8 @@ namespace PinnedDownClient
 		public:
 			EntityIdMapping();
 
+			void Clear();
+
 			Entity ClientToServerId(Entity clientEntity);
 			Entity ServerToClientId(Entity serverEntity);
 			

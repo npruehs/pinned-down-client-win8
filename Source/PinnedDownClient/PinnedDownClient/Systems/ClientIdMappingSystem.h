@@ -4,14 +4,15 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-
+#include "Events\DisconnectedFromServerEvent.h"
 #include "Events\LoginSuccessEvent.h"
 
 #include "Util\ClientIdMapping.h"
 
 
-using namespace PinnedDownNet::Events;
+using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Util;
+using namespace PinnedDownNet::Events;
 
 
 namespace PinnedDownClient
@@ -30,6 +31,7 @@ namespace PinnedDownClient
 
 			void OnEvent(Event & event);
 
+			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
 			EVENT_HANDLER_DECLARATION(LoginSuccessEvent);
 		};
 	}

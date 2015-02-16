@@ -47,7 +47,7 @@ Card_Type_Starship = "Starship"
 Error_AuthenticationRequired = "You must authenticate yourself in order to play Pinned Down."
 Error_NotAllEnemyShipsAssigned = "You have to assign all of your ships to fight!"
 Error_NotAllFightsResolved = "You have to resolve all fights first!"
-Error_UnableToConntect = "Unable to connect to server.\r\n\r\nCheck http://pinneddown.de/server/ if you're sure you've done everything right!"
+Error_UnableToConntect = "Unable to connect to server.\r\n\r\nCheck http://pinneddown.de/server if you're sure you've done everything right!"
 
 
 GameScreen_Button_EndTurnPhase = "End Turn Phase"
@@ -55,6 +55,7 @@ GameScreen_Button_Hint = "Help"
 
 GameScreen_GameOver_Defeat = "DEFEAT!"
 GameScreen_GameOver_Victory = "VICTORY!"
+GameScreen_GameOver_EndGame = "End Game"
 
 GameScreen_Hint_Assignment = "Assign your starships to enemy attackers by tapping one of your ships first, and an enemy ship after!"
 GameScreen_Hint_Attack = ""

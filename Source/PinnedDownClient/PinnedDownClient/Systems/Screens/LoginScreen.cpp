@@ -76,7 +76,7 @@ void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCo
 
 	resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
-		L"Assets/SplashScreen.png"
+		L"Assets/Logos/Splash.png"
 		);
 	resourceManager->LoadBitmapFromFile(
 		d2dContext.Get(),
@@ -86,7 +86,7 @@ void LoginScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dCo
 
 void LoginScreen::UnloadResources()
 {
-	this->game->resourceManager->UnloadResource("Assets/SplashScreen.png");
+	this->game->resourceManager->UnloadResource("Assets/Logos/Splash.png");
 	this->game->resourceManager->UnloadResource("Assets/Button.png");
 }
 
@@ -99,7 +99,7 @@ void LoginScreen::LoadUI()
 	this->uiFactory->FinishUIWidget(this->statusLabel);
 
 	// Logo.
-	this->splashScreen = this->uiFactory->CreateSprite("Assets/SplashScreen.png");
+	this->splashScreen = this->uiFactory->CreateSprite("Assets/Logos/Splash.png");
 	this->uiFactory->SetAnchor(this->splashScreen, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->splashScreen);
 
