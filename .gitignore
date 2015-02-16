@@ -19,10 +19,11 @@
 *.exe
 *.out
 *.app
-Source/PinnedDownClient/Debug/
-Source/PinnedDownClient/PinnedDownClient/Debug/
 Source/PinnedDownClient/PinnedDownClient.opensdf
 Source/PinnedDownClient/PinnedDownClient.sdf
 Source/PinnedDownClient/PinnedDownClient.v12.suo
 Source/PinnedDownClient/ipch/
 Bin/
+*.pri
+Obj/
+Source/PinnedDownClient/AppPackages/

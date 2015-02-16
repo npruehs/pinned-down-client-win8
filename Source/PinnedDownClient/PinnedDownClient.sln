@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PinnedDownClient", "PinnedDownClient\PinnedDownClient.vcxproj", "{926D8AA8-3082-4CBC-B3AD-BCE1155E9396}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PinnedDownNet", "..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet\PinnedDownNet.vcxproj", "{2C645185-98F4-4398-9CF2-319CF875E6D1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PinnedDownCore", "..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCore.vcxproj", "{51037F52-F903-4BB2-90CD-70B5BDE869DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -33,6 +37,22 @@ Global
 		{926D8AA8-3082-4CBC-B3AD-BCE1155E9396}.Release|x64.ActiveCfg = Release|x64
 		{926D8AA8-3082-4CBC-B3AD-BCE1155E9396}.Release|x64.Build.0 = Release|x64
 		{926D8AA8-3082-4CBC-B3AD-BCE1155E9396}.Release|x64.Deploy.0 = Release|x64
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Debug|ARM.ActiveCfg = Debug|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Debug|Win32.Build.0 = Debug|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Debug|x64.ActiveCfg = Debug|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Release|ARM.ActiveCfg = Release|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Release|Win32.ActiveCfg = Release|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Release|Win32.Build.0 = Release|Win32
+		{2C645185-98F4-4398-9CF2-319CF875E6D1}.Release|x64.ActiveCfg = Release|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Debug|ARM.ActiveCfg = Debug|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Debug|Win32.Build.0 = Debug|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Debug|x64.ActiveCfg = Debug|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Release|ARM.ActiveCfg = Release|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Release|Win32.ActiveCfg = Release|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Release|Win32.Build.0 = Release|Win32
+		{51037F52-F903-4BB2-90CD-70B5BDE869DE}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,84 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Common">
-      <UniqueIdentifier>926d8aa8-3082-4cbc-b3ad-bce1155e9396</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>d299dedd-ebba-4c47-9fe9-3e37389692dc</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
-    </Filter>
-    <Filter Include="Content">
-      <UniqueIdentifier>dbd29068-6e18-46b4-8d85-8919663bcd25</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Helpers">
-      <UniqueIdentifier>a4832c97-b232-422e-8ea2-059f315a5b30</UniqueIdentifier>
-    </Filter>
-    <ClInclude Include="Helpers\DirectXHelper.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\StepTimer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\DeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClCompile Include="Helpers\DeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClInclude Include="Helpers\InputManager.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\OverlayManager.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\SoundPlayer.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClCompile Include="Helpers\InputManager.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\OverlayManager.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\SoundPlayer.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClInclude Include="Content\SampleVirtualControllerRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\SampleDebugTextRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\ShaderStructures.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="Content\SampleDebugTextRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <Media Include="Assets\chord.wav">
-      <Filter>Assets</Filter>
-    </Media>
-    <Media Include="Assets\becky.wma">
-      <Filter>Assets</Filter>
-    </Media>
-    <Image Include="Assets\Logo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SmallLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\StoreLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SplashScreen.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Filter Include="Core">
-      <UniqueIdentifier>{ba9eecaf-1b9a-46c4-af87-62b8ac48f6b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{ed8f45ab-a472-4d7b-b562-2017dabbf3d4}</UniqueIdentifier>
@@ -89,53 +14,791 @@
     <Filter Include="Events">
       <UniqueIdentifier>{7761561d-1681-4942-92fd-55153e54e091}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems\Rendering">
+      <UniqueIdentifier>{adc9564f-2c48-4edc-927b-4e772b90935a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{258960eb-ab43-42f5-bd13-ac2ccdb3e48d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{4c769de7-7dad-45a6-9460-dbb631cf485d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{2d4a34af-95ad-4827-8023-1ccaa3aac219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\UI">
+      <UniqueIdentifier>{6c50566c-a386-4c61-bed0-81f24d966541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Screens">
+      <UniqueIdentifier>{381c7d6b-2462-440a-bc5e-b9f2e23e2413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Network">
+      <UniqueIdentifier>{2294dee4-db7a-446b-a162-2361fa0973b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{6d7876eb-9917-4ff8-89f1-fb5c3f1a368b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\MobileServices">
+      <UniqueIdentifier>{35884276-f72b-41c0-a9ad-2aa7d9c6e303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{d6d407d8-b70e-441a-b177-e1745fb7b07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{17c2a5d2-6a32-4911-b2b4-19ef990963f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Text">
+      <UniqueIdentifier>{bbc5e848-e9ca-480f-911e-6c01dc16db44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\CardLayout">
+      <UniqueIdentifier>{b8870e3f-35f1-4c8d-bea0-f9bc3fa72eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Sounds">
+      <UniqueIdentifier>{a016093e-fb4f-425b-bb5e-ed955b220ba6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="PinnedDownClientMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\SystemManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\RenderSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Core\EventManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Events\AppWindowChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="PinnedDownGame.cpp" />
+    <ClCompile Include="Events\AppSupendingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppResumingEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayDpiChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\RenderTargetChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PointerPressedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PointerReleasedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PointerMovedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lapi.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lauxlib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lbaselib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lbitlib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lcode.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lcorolib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lctype.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ldblib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ldebug.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ldo.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ldump.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lfunc.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lgc.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\linit.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\liolib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\llex.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lmathlib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lmem.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\loadlib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lobject.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lopcodes.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\loslib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lparser.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lstate.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lstring.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lstrlib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ltable.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ltablib.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\ltm.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lua.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\luac.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lundump.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lvm.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua\lzio.c">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\LuaScriptSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EventLogger.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\SoundSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\DebugInfoSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ScreenPositionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TextComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TextAlignmentComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\FontComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\UIPanelComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\BoundsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\UILayoutSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\UIAnchorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\UI\UIFactory.cpp">
+      <Filter>Systems\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\DepthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\UIWidgetComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\VisibilityComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TappableComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\UIInteractionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityTappedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\NetworkSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ScreenSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Screens\GameScreen.cpp">
+      <Filter>Systems\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Screens\LoginScreen.cpp">
+      <Filter>Systems\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ScreenChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LoginErrorEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ServerEventReader.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ClientActionWriter.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp">
+      <Filter>Services\MobileServices</Filter>
+    </ClCompile>
+    <ClCompile Include="Actions\ConnectToServerAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\FileLogger.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\GameException.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\AudioResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\BitmapResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\PinnedDownResourceManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Network\ClientActionDispatcher.cpp">
+      <Filter>Systems\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Actions\PlaySoundAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardLayoutSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\LuaInstance.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\LocalizationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\LocalizationSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\TextResourceHandle.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ResourceLoadedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ClientIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ClientIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\ClientIdMappingCreatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\PlayerSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\EntityIdMapping.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityIdMappingCreatedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\EntityIdMappingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\AssignmentSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardTappedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardSelectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CardDeselectedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CardUIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\FightSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\DisconnectedFromServerEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\LocalizedTextChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CardPlayingSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityHoveredEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EntityUnhoveredEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\UIModeChangedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\SoundEffectSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\MatchEndedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="PinnedDownClientMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\SystemManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ISystem.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\RenderSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Util\HashedString.h">
+    <ClInclude Include="Events\AppWindowChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="PinnedDownGame.h" />
+    <ClInclude Include="Events\AppSuspendingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppResumingEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AppWindowSizeChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayDpiChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayOrientationChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceLostEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\RenderTargetChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerPressedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerReleasedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PointerMovedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryUtils.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Event.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Lua\lapi.h">
+      <Filter>Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Core\EventManager.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Lua\lauxlib.h">
+      <Filter>Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GameException.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Lua\lcode.h">
+      <Filter>Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Core\IEventListener.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Lua\lctype.h">
+      <Filter>Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Events\AppWindowChangedEvent.h">
+    <ClInclude Include="Lua\ldebug.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\ldo.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lfunc.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lgc.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\llex.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\llimits.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lmem.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lobject.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lopcodes.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lparser.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lstate.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lstring.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\ltable.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\ltm.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lua.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lua.hpp">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\luaconf.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lualib.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lundump.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lvm.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua\lzio.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\LuaScriptSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StringUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventLogger.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2F.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\RectF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\MathUtils.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\SoundSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\DirectXUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StepTimer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\DebugInfoSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ScreenPositionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TextComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TextAlignmentComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\FontComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\UIPanelComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\BoundsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UILayoutSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\UIAnchorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Anchor.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Panel.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\UIFactory.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Sprite.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Rendering\IRenderable.h">
+      <Filter>Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Label.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\DepthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\UIWidgetComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\VisibilityComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TappableComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UIInteractionSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Button.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityTappedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\NetworkSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\Screen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ScreenSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\GameScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\LoginScreen.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Screens\ScreenName.h">
+      <Filter>Systems\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ScreenChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LoginErrorEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ServerEventReader.h">
+      <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ClientActionWriter.h">
+      <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h">
+      <Filter>Services\MobileServices</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\ConnectToServerAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\FileLogger.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\GameException.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\AudioResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\BitmapResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\PinnedDownResourceManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Network\ClientActionDispatcher.h">
+      <Filter>Systems\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\PlaySoundAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\AudioEngineChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardLayoutSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\Card.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LuaInstance.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\LocalizationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\LocalizationSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\TextResourceHandle.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ResourceLoadedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LocalizationDataLoadedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ClientIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ClientIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ClientIdMappingCreatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\PlayerSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\EntityIdMapping.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityIdMappingCreatedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\EntityIdMappingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\AssignmentSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardTappedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardSelectedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CardDeselectedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardSelectionHighlightSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CardUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\FightSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\BidirectionalMap.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\DisconnectedFromServerEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardLayout\DamageLayoutData.h">
+      <Filter>Systems\CardLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LocalizedTextChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CardPlayingSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityHoveredEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EntityUnhoveredEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\UI\UIMode.h">
+      <Filter>Systems\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\UIModeChangedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\SoundEffectSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\VersionUtils.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\MatchEndedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
@@ -144,5 +807,83 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PinnedDownClient_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Window.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Button.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BlueWingStarship.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\CardHighlight.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Hints.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Splash.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Square30x30.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Square150x150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Store.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Square70x70.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Wide310x150.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Logos\Square310x310.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallLogo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Text\English.lua">
+      <Filter>Assets\Text</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Sounds\AttackPhase.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\EffectPlayed.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\EntityTapped.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\FightResolved.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\JumpPhase.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\GameOver.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
+    <Media Include="Assets\Sounds\StarshipPlayed.wav">
+      <Filter>Assets\Sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

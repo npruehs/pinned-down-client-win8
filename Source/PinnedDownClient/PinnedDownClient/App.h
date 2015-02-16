@@ -1,15 +1,7 @@
-﻿//// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-//// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-//// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//// PARTICULAR PURPOSE.
-////
-//// Copyright (c) Microsoft Corporation. All rights reserved
-
-#pragma once
+﻿#pragma once
 
 #include "pch.h"
-#include "Helpers\DeviceResources.h"
-#include "PinnedDownClientMain.h"
+#include "PinnedDownGame.h"
 
 namespace PinnedDownClient
 {
@@ -42,12 +34,16 @@ namespace PinnedDownClient
         void OnOrientationChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
         void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 
+		// Input event handlers.
+		void OnPointerPressed(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::PointerEventArgs^ args);
+		void OnPointerMoved(_In_ Windows::UI::Core::CoreWindow^ sender, _In_ Windows::UI::Core::PointerEventArgs^ args);
+		void OnPointerReleased(_In_ Windows::UI::Core::CoreWindow^ sender,_In_ Windows::UI::Core::PointerEventArgs^ args);
+
     private:
-        std::shared_ptr<DX::DeviceResources> m_deviceResources;
-        std::unique_ptr<PinnedDownClientMain> m_main;
-        bool m_windowClosed;
-        bool m_windowVisible;
-        Platform::Agile<Windows::UI::Core::CoreWindow> m_coreWindow;
+		std::unique_ptr<PinnedDownGame> game;
+        bool windowClosed;
+        bool windowVisible;
+        Platform::Agile<Windows::UI::Core::CoreWindow> coreWindow;
     };
 }
 

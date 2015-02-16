@@ -1,23 +1,25 @@
 #pragma once
 
-#include "Core\Event.h"
+#include "Event.h"
+
+using namespace PinnedDownCore;
 
 namespace PinnedDownClient
 {
 	namespace Events
 	{
-		struct AppWindowChangedEvent : public PinnedDownClient::Core::Event
+		struct AppWindowChangedEvent : public PinnedDownCore::Event
 		{
-			static const PinnedDownClient::Util::HashedString AppWindowChangedEventType;
+			static const HashedString AppWindowChangedEventType;
 
-			const PinnedDownClient::Util::HashedString & GetEventType() const
+			const HashedString & GetEventType() const
 			{
 				return AppWindowChangedEventType;
 			}
 
-			Windows::UI::Core::CoreWindow^ appWindow;
+			Platform::Agile<Windows::UI::Core::CoreWindow> appWindow;
 
-			explicit AppWindowChangedEvent(Windows::UI::Core::CoreWindow^ appWindow)
+			explicit AppWindowChangedEvent(Platform::Agile<Windows::UI::Core::CoreWindow> appWindow)
 			{
 				this->appWindow = appWindow;
 			}

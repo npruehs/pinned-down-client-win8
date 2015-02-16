@@ -77,28 +77,48 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x86\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x86\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x86\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x86\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x86\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x86\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x86\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x86\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\ARM\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\ARM\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\ARM\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\ARM\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\ARM\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\ARM\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\ARM\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\ARM\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x64\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x64\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x64\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x64\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x64\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x64\MobileServicesCppClient.props')" />
+    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x64\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x64\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>PinnedDownClient_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\Bin\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <IntDir>..\..\..\Obj\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\Bin\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <IntDir>..\..\..\Obj\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
@@ -136,24 +156,25 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
       <AdditionalDependencies>d2d1.lib; d3d11.lib; dxgi.lib; ole32.lib; windowscodecs.lib; dwrite.lib; xaudio2.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;xinput.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(VCInstallDir)\lib\store;$(VCInstallDir)\lib</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -178,53 +199,433 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\SCM\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;D:\Dev\SCM\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAsWinRT>true</CompileAsWinRT>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Image Include="Assets\Logo.png" />
-    <Image Include="Assets\SmallLogo.png" />
-    <Image Include="Assets\StoreLogo.png" />
-    <Image Include="Assets\SplashScreen.png" />
+    <Image Include="Assets\BlueWingStarship.png" />
+    <Image Include="Assets\Button.png" />
+    <Image Include="Assets\CardHighlight.png" />
+    <Image Include="Assets\Hints.png" />
+    <Image Include="Assets\Logo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Splash.png" />
+    <Image Include="Assets\Logos\Square150x150.png" />
+    <Image Include="Assets\Logos\Square30x30.png" />
+    <Image Include="Assets\Logos\Square310x310.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Square70x70.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Logos\Store.png" />
+    <Image Include="Assets\Logos\Wide310x150.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\SmallLogo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-100.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="Assets\Window.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Event.h" />
-    <ClInclude Include="Core\EventManager.h" />
-    <ClInclude Include="Core\GameException.h" />
-    <ClInclude Include="Core\IEventListener.h" />
-    <ClInclude Include="Core\ISystem.h" />
-    <ClInclude Include="Core\SystemManager.h" />
+    <ClInclude Include="Actions\ConnectToServerAction.h" />
+    <ClInclude Include="Actions\PlaySoundAction.h" />
+    <ClInclude Include="Events\MatchEndedEvent.h" />
+    <ClInclude Include="Util\VersionUtils.h" />
+    <ClInclude Include="Components\BoundsComponent.h" />
+    <ClInclude Include="Components\CardUIComponent.h" />
+    <ClInclude Include="Components\ColorComponent.h" />
+    <ClInclude Include="Components\DepthComponent.h" />
+    <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\LocalizationComponent.h" />
+    <ClInclude Include="Components\SpriteComponent.h" />
+    <ClInclude Include="Components\TappableComponent.h" />
+    <ClInclude Include="Components\UIAnchorComponent.h" />
+    <ClInclude Include="Components\UIPanelComponent.h" />
+    <ClInclude Include="Components\ScreenPositionComponent.h" />
+    <ClInclude Include="Components\TextComponent.h" />
+    <ClInclude Include="Components\TextAlignmentComponent.h" />
+    <ClInclude Include="Components\UIWidgetComponent.h" />
+    <ClInclude Include="Components\VisibilityComponent.h" />
+    <ClInclude Include="Events\AppResumingEvent.h" />
+    <ClInclude Include="Events\AppSuspendingEvent.h" />
     <ClInclude Include="Events\AppWindowChangedEvent.h" />
-    <ClInclude Include="Helpers\InputManager.h" />
-    <ClInclude Include="Helpers\OverlayManager.h" />
-    <ClInclude Include="Helpers\SoundPlayer.h" />
+    <ClInclude Include="Events\AppWindowSizeChangedEvent.h" />
+    <ClInclude Include="Events\AudioEngineChangedEvent.h" />
+    <ClInclude Include="Events\CardDeselectedEvent.h" />
+    <ClInclude Include="Events\CardSelectedEvent.h" />
+    <ClInclude Include="Events\CardTappedEvent.h" />
+    <ClInclude Include="Events\DisconnectedFromServerEvent.h" />
+    <ClInclude Include="Events\EntityHoveredEvent.h" />
+    <ClInclude Include="Events\EntityIdMappingCreatedEvent.h" />
+    <ClInclude Include="Events\ClientIdMappingCreatedEvent.h" />
+    <ClInclude Include="Events\DisplayContentsInvalidatedEvent.h" />
+    <ClInclude Include="Events\DisplayDpiChangedEvent.h" />
+    <ClInclude Include="Events\DisplayOrientationChangedEvent.h" />
+    <ClInclude Include="Events\EntityTappedEvent.h" />
+    <ClInclude Include="Events\EntityUnhoveredEvent.h" />
+    <ClInclude Include="Events\EventLogger.h" />
+    <ClInclude Include="Events\GraphicsDeviceLostEvent.h" />
+    <ClInclude Include="Events\GraphicsDeviceRestoredEvent.h" />
+    <ClInclude Include="Events\LocalizationDataLoadedEvent.h" />
+    <ClInclude Include="Events\LocalizedTextChangedEvent.h" />
+    <ClInclude Include="Events\LoginErrorEvent.h" />
+    <ClInclude Include="Events\PointerMovedEvent.h" />
+    <ClInclude Include="Events\PointerPressedEvent.h" />
+    <ClInclude Include="Events\PointerReleasedEvent.h" />
+    <ClInclude Include="Events\RenderTargetChangedEvent.h" />
+    <ClInclude Include="Events\ResourceLoadedEvent.h" />
+    <ClInclude Include="Events\ScreenChangedEvent.h" />
     <ClInclude Include="App.h" />
-    <ClInclude Include="Helpers\DeviceResources.h" />
-    <ClInclude Include="PinnedDownClientMain.h" />
-    <ClInclude Include="Helpers\DirectXHelper.h" />
-    <ClInclude Include="Helpers\StepTimer.h" />
-    <ClInclude Include="Content\SampleDebugTextRenderer.h" />
-    <ClInclude Include="Content\SampleVirtualControllerRenderer.h" />
-    <ClInclude Include="Content\ShaderStructures.h" />
+    <ClInclude Include="Events\UIModeChangedEvent.h" />
+    <ClInclude Include="Lua\lapi.h" />
+    <ClInclude Include="Lua\lauxlib.h" />
+    <ClInclude Include="Lua\lcode.h" />
+    <ClInclude Include="Lua\lctype.h" />
+    <ClInclude Include="Lua\ldebug.h" />
+    <ClInclude Include="Lua\ldo.h" />
+    <ClInclude Include="Lua\lfunc.h" />
+    <ClInclude Include="Lua\lgc.h" />
+    <ClInclude Include="Lua\llex.h" />
+    <ClInclude Include="Lua\llimits.h" />
+    <ClInclude Include="Lua\lmem.h" />
+    <ClInclude Include="Lua\lobject.h" />
+    <ClInclude Include="Lua\lopcodes.h" />
+    <ClInclude Include="Lua\lparser.h" />
+    <ClInclude Include="Lua\lstate.h" />
+    <ClInclude Include="Lua\lstring.h" />
+    <ClInclude Include="Lua\ltable.h" />
+    <ClInclude Include="Lua\ltm.h" />
+    <ClInclude Include="Lua\lua.h" />
+    <ClInclude Include="Lua\lua.hpp" />
+    <ClInclude Include="Lua\luaconf.h" />
+    <ClInclude Include="Lua\lualib.h" />
+    <ClInclude Include="Lua\lundump.h" />
+    <ClInclude Include="Lua\lvm.h" />
+    <ClInclude Include="Lua\lzio.h" />
+    <ClInclude Include="Math\MathUtils.h" />
+    <ClInclude Include="Math\RectF.h" />
+    <ClInclude Include="Math\Vector2F.h" />
+    <ClInclude Include="PinnedDownGame.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Resources\AudioResourceHandle.h" />
+    <ClInclude Include="Resources\BitmapResourceHandle.h" />
+    <ClInclude Include="Resources\PinnedDownResourceManager.h" />
+    <ClInclude Include="Resources\TextResourceHandle.h" />
+    <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h" />
+    <ClInclude Include="Systems\AssignmentSystem.h" />
+    <ClInclude Include="Systems\CardIdMappingSystem.h" />
+    <ClInclude Include="Systems\CardLayoutSystem.h" />
+    <ClInclude Include="Systems\CardLayout\DamageLayoutData.h" />
+    <ClInclude Include="Systems\CardSelectionHighlightSystem.h" />
+    <ClInclude Include="Systems\ClientIdMappingSystem.h" />
+    <ClInclude Include="Systems\DebugInfoSystem.h" />
+    <ClInclude Include="Systems\EntityIdMappingSystem.h" />
+    <ClInclude Include="Systems\FightSystem.h" />
+    <ClInclude Include="Systems\LocalizationSystem.h" />
+    <ClInclude Include="Systems\LuaScriptSystem.h" />
+    <ClInclude Include="Systems\NetworkSystem.h" />
+    <ClInclude Include="Systems\Network\ClientActionWriter.h" />
+    <ClInclude Include="Systems\Network\ClientActionDispatcher.h" />
+    <ClInclude Include="Systems\Network\ServerEventReader.h" />
+    <ClInclude Include="Systems\CardPlayingSystem.h" />
+    <ClInclude Include="Systems\PlayerSystem.h" />
+    <ClInclude Include="Systems\Rendering\IRenderable.h" />
     <ClInclude Include="Systems\RenderSystem.h" />
-    <ClInclude Include="Util\HashedString.h" />
+    <ClInclude Include="Systems\ScreenSystem.h" />
+    <ClInclude Include="Systems\Screens\GameScreen.h" />
+    <ClInclude Include="Systems\Screens\LoginScreen.h" />
+    <ClInclude Include="Systems\Screens\Screen.h" />
+    <ClInclude Include="Systems\Screens\ScreenName.h" />
+    <ClInclude Include="Systems\SoundEffectSystem.h" />
+    <ClInclude Include="Systems\SoundSystem.h" />
+    <ClInclude Include="Systems\UIInteractionSystem.h" />
+    <ClInclude Include="Systems\UILayoutSystem.h" />
+    <ClInclude Include="Systems\UI\Anchor.h" />
+    <ClInclude Include="Systems\UI\Button.h" />
+    <ClInclude Include="Systems\UI\Card.h" />
+    <ClInclude Include="Systems\UI\Label.h" />
+    <ClInclude Include="Systems\UI\Panel.h" />
+    <ClInclude Include="Systems\UI\Sprite.h" />
+    <ClInclude Include="Systems\UI\UIFactory.h" />
+    <ClInclude Include="Systems\UI\UIMode.h" />
+    <ClInclude Include="Util\BidirectionalMap.h" />
+    <ClInclude Include="Util\EntityIdMapping.h" />
+    <ClInclude Include="Util\ClientIdMapping.h" />
+    <ClInclude Include="Util\DirectXUtils.h" />
+    <ClInclude Include="Util\FileLogger.h" />
+    <ClInclude Include="Util\GameException.h" />
+    <ClInclude Include="Util\LuaInstance.h" />
+    <ClInclude Include="Util\MemoryUtils.h" />
+    <ClInclude Include="Util\StepTimer.h" />
+    <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\EventManager.cpp" />
-    <ClCompile Include="Core\SystemManager.cpp" />
+    <ClCompile Include="Actions\ConnectToServerAction.cpp" />
+    <ClCompile Include="Actions\PlaySoundAction.cpp" />
+    <ClCompile Include="Components\BoundsComponent.cpp" />
+    <ClCompile Include="Components\CardUIComponent.cpp" />
+    <ClCompile Include="Components\ColorComponent.cpp" />
+    <ClCompile Include="Components\DepthComponent.cpp" />
+    <ClCompile Include="Components\FontComponent.cpp" />
+    <ClCompile Include="Components\LocalizationComponent.cpp" />
+    <ClCompile Include="Components\ScreenPositionComponent.cpp" />
+    <ClCompile Include="Components\SpriteComponent.cpp" />
+    <ClCompile Include="Components\TappableComponent.cpp" />
+    <ClCompile Include="Components\TextComponent.cpp" />
+    <ClCompile Include="Components\TextAlignmentComponent.cpp" />
+    <ClCompile Include="Components\UIAnchorComponent.cpp" />
+    <ClCompile Include="Components\UIPanelComponent.cpp" />
+    <ClCompile Include="Components\UIWidgetComponent.cpp" />
+    <ClCompile Include="Components\VisibilityComponent.cpp" />
+    <ClCompile Include="Events\AppResumingEvent.cpp" />
+    <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
-    <ClCompile Include="Helpers\InputManager.cpp" />
-    <ClCompile Include="Helpers\OverlayManager.cpp" />
-    <ClCompile Include="Helpers\SoundPlayer.cpp" />
+    <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
+    <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
+    <ClCompile Include="Events\CardDeselectedEvent.cpp" />
+    <ClCompile Include="Events\CardSelectedEvent.cpp" />
+    <ClCompile Include="Events\CardTappedEvent.cpp" />
+    <ClCompile Include="Events\DisconnectedFromServerEvent.cpp" />
+    <ClCompile Include="Events\EntityHoveredEvent.cpp" />
+    <ClCompile Include="Events\EntityIdMappingCreatedEvent.cpp" />
+    <ClCompile Include="Events\ClientIdMappingCreatedEvent.cpp" />
+    <ClCompile Include="Events\DisplayContentsInvalidatedEvent.cpp" />
+    <ClCompile Include="Events\DisplayDpiChangedEvent.cpp" />
+    <ClCompile Include="Events\DisplayOrientationChangedEvent.cpp" />
+    <ClCompile Include="Events\EntityTappedEvent.cpp" />
+    <ClCompile Include="Events\EntityUnhoveredEvent.cpp" />
+    <ClCompile Include="Events\EventLogger.cpp" />
+    <ClCompile Include="Events\GraphicsDeviceLostEvent.cpp" />
+    <ClCompile Include="Events\GraphicsDeviceRestoredEvent.cpp" />
+    <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp" />
+    <ClCompile Include="Events\LocalizedTextChangedEvent.cpp" />
+    <ClCompile Include="Events\LoginErrorEvent.cpp" />
+    <ClCompile Include="Events\PointerMovedEvent.cpp" />
+    <ClCompile Include="Events\PointerPressedEvent.cpp" />
+    <ClCompile Include="Events\PointerReleasedEvent.cpp" />
+    <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Helpers\DeviceResources.cpp" />
-    <ClCompile Include="PinnedDownClientMain.cpp" />
-    <ClCompile Include="Content\SampleDebugTextRenderer.cpp" />
-    <ClCompile Include="Content\SampleVirtualControllerRenderer.cpp" />
+    <ClCompile Include="Events\ResourceLoadedEvent.cpp" />
+    <ClCompile Include="Events\ScreenChangedEvent.cpp" />
+    <ClCompile Include="Events\UIModeChangedEvent.cpp" />
+    <ClCompile Include="Lua\lapi.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lauxlib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lbaselib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lbitlib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lcode.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lcorolib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lctype.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ldblib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ldebug.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ldo.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ldump.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lfunc.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lgc.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\linit.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\liolib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\llex.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lmathlib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lmem.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\loadlib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lobject.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lopcodes.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\loslib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lparser.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lstate.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lstring.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lstrlib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ltable.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ltablib.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\ltm.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lua.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\luac.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lundump.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lvm.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Lua\lzio.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Events\MatchEndedEvent.cpp" />
+    <ClCompile Include="PinnedDownGame.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -233,7 +634,41 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Resources\AudioResourceHandle.cpp" />
+    <ClCompile Include="Resources\BitmapResourceHandle.cpp" />
+    <ClCompile Include="Resources\PinnedDownResourceManager.cpp" />
+    <ClCompile Include="Resources\TextResourceHandle.cpp" />
+    <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp" />
+    <ClCompile Include="Systems\AssignmentSystem.cpp" />
+    <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
+    <ClCompile Include="Systems\CardLayoutSystem.cpp" />
+    <ClCompile Include="Systems\CardPlayingSystem.cpp" />
+    <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp" />
+    <ClCompile Include="Systems\ClientIdMappingSystem.cpp" />
+    <ClCompile Include="Systems\DebugInfoSystem.cpp" />
+    <ClCompile Include="Systems\EntityIdMappingSystem.cpp" />
+    <ClCompile Include="Systems\FightSystem.cpp" />
+    <ClCompile Include="Systems\LocalizationSystem.cpp" />
+    <ClCompile Include="Systems\LuaScriptSystem.cpp" />
+    <ClCompile Include="Systems\NetworkSystem.cpp" />
+    <ClCompile Include="Systems\Network\ClientActionWriter.cpp" />
+    <ClCompile Include="Systems\Network\ClientActionDispatcher.cpp" />
+    <ClCompile Include="Systems\Network\ServerEventReader.cpp" />
+    <ClCompile Include="Systems\PlayerSystem.cpp" />
     <ClCompile Include="Systems\RenderSystem.cpp" />
+    <ClCompile Include="Systems\Screens\GameScreen.cpp" />
+    <ClCompile Include="Systems\Screens\LoginScreen.cpp" />
+    <ClCompile Include="Systems\SoundEffectSystem.cpp" />
+    <ClCompile Include="Systems\SoundSystem.cpp" />
+    <ClCompile Include="Systems\UIInteractionSystem.cpp" />
+    <ClCompile Include="Systems\UILayoutSystem.cpp" />
+    <ClCompile Include="Systems\ScreenSystem.cpp" />
+    <ClCompile Include="Systems\UI\UIFactory.cpp" />
+    <ClCompile Include="Util\EntityIdMapping.cpp" />
+    <ClCompile Include="Util\ClientIdMapping.cpp" />
+    <ClCompile Include="Util\FileLogger.cpp" />
+    <ClCompile Include="Util\GameException.cpp" />
+    <ClCompile Include="Util\LuaInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -242,8 +677,28 @@
     <None Include="PinnedDownClient_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Assets\becky.wma" />
-    <Media Include="Assets\chord.wav" />
+    <Media Include="Assets\Sounds\AttackPhase.wav" />
+    <Media Include="Assets\Sounds\EffectPlayed.wav" />
+    <Media Include="Assets\Sounds\EntityTapped.wav" />
+    <Media Include="Assets\Sounds\FightResolved.wav" />
+    <Media Include="Assets\Sounds\GameOver.wav" />
+    <Media Include="Assets\Sounds\JumpPhase.wav" />
+    <Media Include="Assets\Sounds\StarshipPlayed.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCore.vcxproj">
+      <Project>{51037f52-f903-4bb2-90cd-70b5bde869de}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet\PinnedDownNet.vcxproj">
+      <Project>{2c645185-98f4-4398-9cf2-319cf875e6d1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="CppRESTWindowsSDK, version=1.0" />
+    <SDKReference Include="MobileServicesCppClient, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Text\English.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

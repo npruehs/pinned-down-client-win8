@@ -1,42 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-
-  <Identity Name="d397b702-0b52-4c2a-9bc0-c91cb16e0ca7"
-            Publisher="CN=npruehs"
-            Version="1.0.0.0" />
-
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="Npruehs.PinnedDown" Publisher="CN=npruehs" Version="0.1.0.0" />
   <Properties>
-    <DisplayName>PinnedDownClient</DisplayName>
+    <DisplayName>Pinned Down</DisplayName>
     <PublisherDisplayName>npruehs</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.3.0</OSMinVersion>
     <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-        Executable="$targetnametoken$.exe"
-        EntryPoint="PinnedDownClient.App">
-        <VisualElements
-            DisplayName="PinnedDownClient"
-            Logo="Assets\Logo.png"
-            SmallLogo="Assets\SmallLogo.png"
-            Description="PinnedDownClient"
-            ForegroundText="light"
-            BackgroundColor="#464646">
-            <DefaultTile ShowName="allLogos" />
-            <SplashScreen Image="Assets\SplashScreen.png" />
-        </VisualElements>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="PinnedDownClient.App">
+      <m2:VisualElements DisplayName="Pinned Down" Description="Command your flagship. Outsmart your enemies. Against all odds." BackgroundColor="#000000" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
+        <m2:DefaultTile ShortName="Pinned Down" DefaultSize="wide310x150Logo" Square310x310Logo="Assets\Logos\Square310x310.png" Wide310x150Logo="Assets\Logos\Wide310x150.png" Square70x70Logo="Assets\Logos\Square70x70.png">
+          <m2:ShowNameOnTiles>
+            <m2:ShowOn Tile="square150x150Logo" />
+            <m2:ShowOn Tile="wide310x150Logo" />
+            <m2:ShowOn Tile="square310x310Logo" />
+          </m2:ShowNameOnTiles>
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+          <m2:Rotation Preference="landscapeFlipped" />
+        </m2:InitialRotationPreference>
+      </m2:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
   </Capabilities>
 </Package>
