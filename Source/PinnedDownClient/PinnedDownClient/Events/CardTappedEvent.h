@@ -25,7 +25,7 @@ namespace PinnedDownClient
 				this->entity = entity;
 			}
 
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				return std::wstring(L"Card tapped: " + std::to_wstring(this->entity));
 			}

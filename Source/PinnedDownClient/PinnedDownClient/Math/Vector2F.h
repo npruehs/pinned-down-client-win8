@@ -97,7 +97,7 @@ namespace PinnedDownClient
 			}
 
 			// ToString.
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				return L"(" + std::to_wstring(this->x) + L" / " + std::to_wstring(this->y) + L")";
 			}

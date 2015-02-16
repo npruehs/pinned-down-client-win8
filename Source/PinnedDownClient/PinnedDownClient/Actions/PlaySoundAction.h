@@ -24,7 +24,7 @@ namespace PinnedDownClient
 				this->soundAsset = soundAsset;
 			}
 
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				return std::wstring(L"Play sound " + this->soundAsset);
 			}

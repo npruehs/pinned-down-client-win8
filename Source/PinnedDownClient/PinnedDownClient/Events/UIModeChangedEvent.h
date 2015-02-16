@@ -29,7 +29,7 @@ namespace PinnedDownClient
 				this->newMode = newMode;
 			}
 
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				return std::wstring(L"UI mode changed: " + PinnedDownClient::Util::StringToWString(UIModeToString(this->newMode)));
 			}

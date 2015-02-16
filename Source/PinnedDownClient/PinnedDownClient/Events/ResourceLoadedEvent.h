@@ -25,7 +25,7 @@ namespace PinnedDownClient
 				this->resourceName = resourceName;
 			}
 
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				return std::wstring(L"Resource loaded: " + PinnedDownClient::Util::StringToWString(resourceName));
 			}

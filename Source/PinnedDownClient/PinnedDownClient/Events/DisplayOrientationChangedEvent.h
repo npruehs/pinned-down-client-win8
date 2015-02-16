@@ -26,7 +26,7 @@ namespace PinnedDownClient
 				this->orientation = orientation;
 			}
 
-			std::wstring ToString()
+			std::wstring ToString() const
 			{
 				std::wstring orientationString;
 
