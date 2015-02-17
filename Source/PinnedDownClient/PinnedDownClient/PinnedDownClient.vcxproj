@@ -144,7 +144,7 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -158,7 +158,7 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -201,7 +201,7 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -215,7 +215,7 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>D:\Dev\SCM\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;D:\Dev\SCM\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore;..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
