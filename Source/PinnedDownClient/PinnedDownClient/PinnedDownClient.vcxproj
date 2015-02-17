@@ -974,19 +974,19 @@
     <Media Include="Assets\Sounds\StarshipPlayed.wav" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCore.vcxproj">
-      <Project>{51037f52-f903-4bb2-90cd-70b5bde869de}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet\PinnedDownNet.vcxproj">
-      <Project>{2c645185-98f4-4398-9cf2-319cf875e6d1}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <SDKReference Include="CppRESTWindowsSDK, version=1.0" />
     <SDKReference Include="MobileServicesCppClient, Version=1.0" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Text\English.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\pinned-down-core\Source\PinnedDownCore\PinnedDownCore\PinnedDownCoreClient.vcxproj">
+      <Project>{752120e4-5024-44ff-8b79-cb0c7c9ab43e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\pinned-down-net\Source\PinnedDownNet\PinnedDownNet\PinnedDownNetClient.vcxproj">
+      <Project>{31f65484-72b0-46cc-84ec-a22946b49c69}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
