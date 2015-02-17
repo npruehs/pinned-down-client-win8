@@ -97,7 +97,7 @@ void GameScreen::LoadUI()
 	this->uiFactory->FinishUIWidget(this->playerNameLabel);
 
 	// Distance label.
-	this->distanceLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_DistanceCovered");
+	this->distanceLabel = this->uiFactory->CreateLabel("GameScreen_Info_DistanceCovered");
 	this->uiFactory->SetAnchor(this->distanceLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->playerNameLabel);
 	this->uiFactory->FinishUIWidget(this->distanceLabel);
 
@@ -106,20 +106,20 @@ void GameScreen::LoadUI()
 	this->uiFactory->FinishUIWidget(this->distanceValueLabel);
 
 	// Turn Phase label.
-	this->turnPhaseLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_TurnPhase");
+	this->turnPhaseLabel = this->uiFactory->CreateLabel("GameScreen_Info_TurnPhase");
 	this->uiFactory->SetAnchor(this->turnPhaseLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->distanceLabel);
 	this->uiFactory->FinishUIWidget(this->turnPhaseLabel);
 
-	this->turnPhaseValueLabel = this->uiFactory->CreateLabel(L"");
+	this->turnPhaseValueLabel = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->turnPhaseValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->turnPhaseLabel);
 	this->uiFactory->FinishUIWidget(this->turnPhaseValueLabel);
 
 	// Threat label.
-	this->threatLabel = this->uiFactory->CreateLabel(L"GameScreen_Info_Threat");
+	this->threatLabel = this->uiFactory->CreateLabel("GameScreen_Info_Threat");
 	this->uiFactory->SetAnchor(this->threatLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), this->turnPhaseLabel);
 	this->uiFactory->FinishUIWidget(this->threatLabel);
 
-	this->threatValueLabel = this->uiFactory->CreateLabel(L"");
+	this->threatValueLabel = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->threatValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->threatLabel);
 	this->uiFactory->FinishUIWidget(this->threatValueLabel);
 
@@ -129,7 +129,7 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetTappable(this->endTurnButton, true);
 	this->uiFactory->FinishUIWidget(this->endTurnButton);
 
-	this->endTurnLabel = this->uiFactory->CreateLabel(L"GameScreen_Button_EndTurnPhase");
+	this->endTurnLabel = this->uiFactory->CreateLabel("GameScreen_Button_EndTurnPhase");
 	this->uiFactory->SetAnchor(this->endTurnLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endTurnButton);
 	this->uiFactory->FinishUIWidget(this->endTurnLabel);
 
@@ -139,17 +139,17 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetTappable(this->hintButton, true);
 	this->uiFactory->FinishUIWidget(this->hintButton);
 
-	this->hintLabel = this->uiFactory->CreateLabel(L"GameScreen_Button_Hint");
+	this->hintLabel = this->uiFactory->CreateLabel("GameScreen_Button_Hint");
 	this->uiFactory->SetAnchor(this->hintLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->hintButton);
 	this->uiFactory->FinishUIWidget(this->hintLabel);
 
 	// Turn Phase Hint label.
-	this->turnPhaseHintLabel = this->uiFactory->CreateLabel(L"");
+	this->turnPhaseHintLabel = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->turnPhaseHintLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->FinishUIWidget(this->turnPhaseHintLabel);
 
 	// Error Message label.
-	this->errorMessageLabel = this->uiFactory->CreateLabel(L"");
+	this->errorMessageLabel = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->errorMessageLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0556f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->turnPhaseHintLabel);
 	this->uiFactory->SetColor(this->errorMessageLabel, D2D1::ColorF(D2D1::ColorF::Red));
 	this->uiFactory->FinishUIWidget(this->errorMessageLabel);
@@ -250,13 +250,13 @@ void GameScreen::OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDi
 	int distanceMaximum = coveredDistanceChangedEvent.distanceMaximum;
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->distanceValueLabel, TextComponent::TextComponentType);
-	textComponent->text = std::to_wstring(distanceCovered) + L" / " + std::to_wstring(distanceMaximum);
+	textComponent->text = std::to_string(distanceCovered) + " / " + std::to_string(distanceMaximum);
 }
 
 void GameScreen::OnDefeat(DefeatEvent& defeatEvent)
 {
 	// Show defeat window.
-	this->ShowGameOver(L"GameScreen_GameOver_Defeat");
+	this->ShowGameOver("GameScreen_GameOver_Defeat");
 }
 
 void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
@@ -287,7 +287,7 @@ void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
 {
 	// Set error message text.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->errorMessageLabel, LocalizationComponent::LocalizationComponentType);
-	localizationComponent->localizationKey = StringToWString(errorMessageEvent.errorMessage);
+	localizationComponent->localizationKey = errorMessageEvent.errorMessage;
 
 	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->errorMessageLabel);
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
@@ -301,20 +301,20 @@ void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
 	if (this->clientIdMapping->IsLocalPlayer(playerAddedEvent.serverEntity))
 	{
 		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameLabel, TextComponent::TextComponentType);
-		textComponent->text = StringToWString(playerAddedEvent.playerName);
+		textComponent->text = playerAddedEvent.playerName;
 	}
 }
 
 void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
 {
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->threatValueLabel, TextComponent::TextComponentType);
-	textComponent->text = std::to_wstring(threatChangedEvent.newThreat);
+	textComponent->text = threatChangedEvent.newThreat;
 }
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
 {
 	// Update phase.
-	std::wstring turnPhaseNameKey = L"GameScreen_TurnPhase_" + StringToWString(TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase));
+	std::string turnPhaseNameKey = "GameScreen_TurnPhase_" + TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase);
 
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->turnPhaseValueLabel, LocalizationComponent::LocalizationComponentType);
 	localizationComponent->localizationKey = turnPhaseNameKey;
@@ -323,7 +323,7 @@ void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 
 	// Update hint.
-	std::wstring turnPhaseHintKey = L"GameScreen_Hint_" + StringToWString(TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase));
+	std::string turnPhaseHintKey = "GameScreen_Hint_" + TurnPhaseToString(turnPhaseChangedEvent.newTurnPhase);
 
 	localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->turnPhaseHintLabel, LocalizationComponent::LocalizationComponentType);
 	localizationComponent->localizationKey = turnPhaseHintKey;
@@ -335,10 +335,10 @@ void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent
 void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 {
 	// Show victory window.
-	this->ShowGameOver(L"GameScreen_GameOver_Victory");
+	this->ShowGameOver("GameScreen_GameOver_Victory");
 }
 
-void GameScreen::ShowGameOver(std::wstring title)
+void GameScreen::ShowGameOver(std::string title)
 {
 	// Remove End Turn button.
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
@@ -363,7 +363,7 @@ void GameScreen::ShowGameOver(std::wstring title)
 	this->uiFactory->SetTappable(this->endGameButton, true);
 	this->uiFactory->FinishUIWidget(this->endGameButton);
 
-	this->endGameLabel = this->uiFactory->CreateLabel(L"GameScreen_GameOver_EndGame");
+	this->endGameLabel = this->uiFactory->CreateLabel("GameScreen_GameOver_EndGame");
 	this->uiFactory->SetAnchor(this->endGameLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endGameButton);
 	this->uiFactory->FinishUIWidget(this->endGameLabel);
 }

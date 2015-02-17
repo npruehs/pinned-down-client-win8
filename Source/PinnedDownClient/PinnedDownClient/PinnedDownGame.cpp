@@ -41,12 +41,12 @@ game(std::make_shared<PinnedDownCore::Game>()),
 timer(std::make_unique<Util::StepTimer>())
 {
 	// Setup game infrastructure.
-	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, L"PinnedDown.log"));
-	this->game->logger->LogInfo(L"Pinned Down Client " + GetPinnedDownClientVersion());
-	this->game->logger->LogInfo(L"Logger initialized.");
+	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, "PinnedDown.log"));
+	this->game->logger->LogInfo("Pinned Down Client " + GetPinnedDownClientVersion());
+	this->game->logger->LogInfo("Logger initialized.");
 
 	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager(this->game.get()));
-	this->game->logger->LogInfo(L"Resource manager initialized.");
+	this->game->logger->LogInfo("Resource manager initialized.");
 
 	// Init systems.
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardIdMappingSystem>());
@@ -70,7 +70,7 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundEffectSystem>());
 
 	this->game->systemManager->InitSystems();
-	this->game->logger->LogInfo(L"Game initialized.");
+	this->game->logger->LogInfo("Game initialized.");
 
 	// Setup event logger.
 	this->eventLogger = std::make_shared<Events::EventLogger>(this->game);

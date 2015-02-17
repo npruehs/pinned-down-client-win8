@@ -19,7 +19,7 @@ namespace PinnedDownClient
 				return TextComponentType;
 			}
 
-			std::wstring text;
+			std::string text;
 			float maxWidth = 0.3f;
 		};
 	}

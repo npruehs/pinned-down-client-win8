@@ -134,9 +134,9 @@ namespace PinnedDownClient
 			}
 
 			// ToString.
-			std::wstring ToString()
+			std::string ToString()
 			{
-				return L"Position: " + this->position.ToString() + L" Size: " + this->size.ToString();
+				return "Position: " + this->position.ToString() + " Size: " + this->size.ToString();
 			}
 		};
 	}

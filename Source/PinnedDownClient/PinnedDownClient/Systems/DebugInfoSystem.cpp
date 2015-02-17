@@ -36,19 +36,19 @@ void DebugInfoSystem::InitSystem(Game* game)
 
 void DebugInfoSystem::CreateEntities()
 {
-	this->pointerPositionTextEntity = this->uiFactory->CreateLabel(L"");
+	this->pointerPositionTextEntity = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->pointerPositionTextEntity,
 		VerticalAnchor(VerticalAnchorType::Bottom, pointerPositionTextPosition.y),
 		HorizontalAnchor(HorizontalAnchorType::Left, pointerPositionTextPosition.x));
 	this->uiFactory->FinishUIWidget(this->pointerPositionTextEntity);
 
-	this->fpsTextEntity = this->uiFactory->CreateLabel(L"");
+	this->fpsTextEntity = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->fpsTextEntity,
 		VerticalAnchor(VerticalAnchorType::Bottom, fpsTextPosition.y),
 		HorizontalAnchor(HorizontalAnchorType::Left, fpsTextPosition.x));
 	this->uiFactory->FinishUIWidget(this->fpsTextEntity);
 
-	this->versionTextEntity = this->uiFactory->CreateLabel(L"");
+	this->versionTextEntity = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->versionTextEntity, 
 		VerticalAnchor(VerticalAnchorType::Bottom, versionTextPosition.y),
 		HorizontalAnchor(HorizontalAnchorType::Left, versionTextPosition.x));
@@ -56,7 +56,7 @@ void DebugInfoSystem::CreateEntities()
 
 	// Show version number.
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\n" + GetPinnedDownClientVersion();
+	textComponent->text = "\n" + GetPinnedDownClientVersion();
 }
 
 void DebugInfoSystem::Update(float dt)
@@ -64,7 +64,7 @@ void DebugInfoSystem::Update(float dt)
 	this->timer->Update();
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->fpsTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\nFPS: " + std::to_wstring(this->timer->GetFramesPerSecond());
+	textComponent->text = "\nFPS: " + std::to_string(this->timer->GetFramesPerSecond());
 }
 
 void DebugInfoSystem::OnEvent(Event & newEvent)
@@ -77,5 +77,5 @@ EVENT_HANDLER_DEFINITION(DebugInfoSystem, PointerMovedEvent)
 	this->pointerPosition = data.position;
 	
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->pointerPositionTextEntity, TextComponent::TextComponentType);
-	textComponent->text = L"\nPointer Position: " + this->pointerPosition.ToString();
+	textComponent->text = "\nPointer Position: " + this->pointerPosition.ToString();
 }

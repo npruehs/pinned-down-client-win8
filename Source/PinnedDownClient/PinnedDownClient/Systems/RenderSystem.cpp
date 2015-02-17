@@ -19,6 +19,8 @@
 #include "Events\GraphicsDeviceRestoredEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
+#include "Util\StringUtils.h"
+
 using namespace PinnedDownCore;
 using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Math;
@@ -709,9 +711,11 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 	// Create text format.
 	ComPtr<IDWriteTextFormat> textFormat;
 
+	auto fontFamilyNameWide = StringToWString(label->fontComponent->fontFamilyName);
+
 	ThrowIfFailed(
 		this->writeFactory->CreateTextFormat(
-		label->fontComponent->fontFamilyName.c_str(),
+		fontFamilyNameWide.c_str(),
 		NULL,
 		label->fontComponent->fontWeight,
 		label->fontComponent->fontStyle,
@@ -729,9 +733,11 @@ void RenderSystem::DrawLabel(std::shared_ptr<UI::Label> label)
 	// Create final text layout for drawing.
 	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
 
+	auto textWide = StringToWString(label->textComponent->text);
+
 	ThrowIfFailed(
 		this->writeFactory->CreateTextLayout(
-		label->textComponent->text.c_str(),
+		textWide.c_str(),
 		(uint32)label->textComponent->text.length(),
 		textFormat.Get(),
 		label->textComponent->maxWidth * this->logicalWindowSize.x, // Max width.

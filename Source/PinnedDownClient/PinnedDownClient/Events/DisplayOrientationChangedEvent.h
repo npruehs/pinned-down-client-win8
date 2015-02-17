@@ -26,30 +26,30 @@ namespace PinnedDownClient
 				this->orientation = orientation;
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				std::wstring orientationString;
+				std::string orientationString;
 
 				switch (orientation)
 				{
 				case DisplayOrientations::Landscape:
-					orientationString = L"Landscape";
+					orientationString = "Landscape";
 					break;
 				case DisplayOrientations::LandscapeFlipped:
-					orientationString = L"LandscapeFlipped";
+					orientationString = "LandscapeFlipped";
 					break;
 				case DisplayOrientations::None:
-					orientationString = L"None";
+					orientationString = "None";
 					break;
 				case DisplayOrientations::Portrait:
-					orientationString = L"Portrait";
+					orientationString = "Portrait";
 					break;
 				case DisplayOrientations::PortraitFlipped:
-					orientationString = L"PortraitFlipped";
+					orientationString = "PortraitFlipped";
 					break;
 				}
 
-				return std::wstring(L"Display orientation changed: " + orientationString);
+				return std::string("Display orientation changed: " + orientationString);
 			}
 		};
 	}

@@ -33,15 +33,15 @@ UIFactory::UIFactory(PinnedDownCore::Game* game)
 
 Entity UIFactory::CreateLabel()
 {
-	return this->CreateLabel(L"");
+	return this->CreateLabel("");
 }
 
-Entity UIFactory::CreateLabel(std::wstring localizationKey)
+Entity UIFactory::CreateLabel(std::string localizationKey)
 {
 	return this->CreateLabel(localizationKey, 0.0f);
 }
 
-Entity UIFactory::CreateLabel(std::wstring localizationKey, float maxWidth)
+Entity UIFactory::CreateLabel(std::string localizationKey, float maxWidth)
 {
 	Entity entity = this->game->entityManager->CreateEntity();
 
@@ -186,7 +186,7 @@ void UIFactory::SetPanel(Entity entity, Entity panel)
 	widgetComponent->panel = panel;
 }
 
-void UIFactory::SetText(Entity entity, std::wstring text)
+void UIFactory::SetText(Entity entity, std::string text)
 {
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entity, TextComponent::TextComponentType);
 	textComponent->text = text;

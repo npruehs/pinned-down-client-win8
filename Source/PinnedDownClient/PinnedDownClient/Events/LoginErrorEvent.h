@@ -17,16 +17,16 @@ namespace PinnedDownClient
 				return LoginErrorEventType;
 			}
 
-			std::wstring errorMessage;
+			std::string errorMessage;
 
-			explicit LoginErrorEvent(std::wstring errorMessage)
+			explicit LoginErrorEvent(std::string errorMessage)
 			{
 				this->errorMessage = errorMessage;
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				return std::wstring(L"Login error " + this->errorMessage);
+				return std::string("Login error " + this->errorMessage);
 			}
 		};
 	}

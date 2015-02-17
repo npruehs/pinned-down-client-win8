@@ -213,6 +213,6 @@ void LuaInstance::LogError(const char* message)
 	if (this->logger != nullptr)
 	{
 		// Print error message.
-		this->logger->LogError(StringToWString(message));
+		this->logger->LogError(message);
 	}
 }

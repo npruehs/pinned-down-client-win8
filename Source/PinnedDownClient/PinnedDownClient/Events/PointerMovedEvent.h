@@ -28,9 +28,9 @@ namespace PinnedDownClient
 				this->position = Vector2F(positionX, positionY);
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				return std::wstring(L"Pointer " + std::to_wstring(pointerId) + L" moved: " + position.ToString());
+				return std::string("Pointer " + std::to_string(pointerId) + " moved: " + position.ToString());
 			}
 		};
 	}

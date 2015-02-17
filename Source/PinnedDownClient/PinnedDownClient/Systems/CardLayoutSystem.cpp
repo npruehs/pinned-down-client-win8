@@ -245,7 +245,7 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, PowerChangedEvent)
 
 	if (card != nullptr)
 	{
-		this->uiFactory->SetText(card->powerValueLabel, std::to_wstring(data.newPower));
+		this->uiFactory->SetText(card->powerValueLabel, std::to_string(data.newPower));
 	}
 }
 
@@ -321,7 +321,7 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, StructureChangedEvent)
 
 	if (card != nullptr)
 	{
-		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(data.newStructure) + L"%");
+		this->uiFactory->SetText(card->structureValueLabel, std::to_string(data.newStructure) + "%");
 	}
 }
 
@@ -342,7 +342,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	// Name label.
 	auto cardComponent = this->game->entityManager->GetComponent<CardComponent>(card->cardEntity, CardComponent::CardComponentType);
 
-	card->nameLabel = this->uiFactory->CreateLabel(L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex));
+	card->nameLabel = this->uiFactory->CreateLabel("Card_" + std::to_string(cardComponent->setIndex) + "_" + std::to_string(cardComponent->cardIndex));
 	this->uiFactory->SetAnchor(card->nameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
 	this->uiFactory->SetColor(card->nameLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->nameLabel, card->panel);
@@ -351,7 +351,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	// Card type label.
 	auto cardType = StringToWString(CardTypeToString(cardComponent->cardType));
 
-	card->cardTypeLabel = this->uiFactory->CreateLabel(L"Card_Type_" + StringToWString(CardTypeToString(cardComponent->cardType)));
+	card->cardTypeLabel = this->uiFactory->CreateLabel("Card_Type_" + CardTypeToString(cardComponent->cardType));
 	this->uiFactory->SetAnchor(card->cardTypeLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), card->backgroundSprite);
 	this->uiFactory->SetColor(card->cardTypeLabel, D2D1::ColorF(D2D1::ColorF::Black));
 	this->uiFactory->SetPanel(card->cardTypeLabel, card->panel);
@@ -366,7 +366,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->SetAnchor(card->threatLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
 		this->uiFactory->SetColor(card->threatLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->threatLabel, card->panel);
-		this->uiFactory->SetText(card->threatLabel, L"[" + std::to_wstring(threatComponent->threat) + L"]");
+		this->uiFactory->SetText(card->threatLabel, "[" + std::to_string(threatComponent->threat) + "]");
 		this->uiFactory->FinishUIWidget(card->threatLabel);
 	}
 
@@ -375,7 +375,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 
 	if (powerComponent != nullptr)
 	{
-		card->powerLabel = this->uiFactory->CreateLabel(L"Card_Property_Power");
+		card->powerLabel = this->uiFactory->CreateLabel("Card_Property_Power");
 		this->uiFactory->SetAnchor(card->powerLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.0f), card->backgroundSprite);
 		this->uiFactory->SetColor(card->powerLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->powerLabel, card->panel);
@@ -385,7 +385,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->SetAnchor(card->powerValueLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, powerLabelOffsetX), card->powerLabel);
 		this->uiFactory->SetColor(card->powerValueLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->powerValueLabel, card->panel);
-		this->uiFactory->SetText(card->powerValueLabel, std::to_wstring(powerComponent->power));
+		this->uiFactory->SetText(card->powerValueLabel, std::to_string(powerComponent->power));
 		this->uiFactory->FinishUIWidget(card->powerValueLabel);
 	}
 
@@ -394,7 +394,7 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 
 	if (structureComponent != nullptr)
 	{
-		card->structureLabel = this->uiFactory->CreateLabel(L"Card_Property_Structure");
+		card->structureLabel = this->uiFactory->CreateLabel("Card_Property_Structure");
 		this->uiFactory->SetAnchor(card->structureLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, -structureLabelOffsetX), card->backgroundSprite);
 		this->uiFactory->SetColor(card->structureLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->structureLabel, card->panel);
@@ -404,12 +404,12 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 		this->uiFactory->SetAnchor(card->structureValueLabel, VerticalAnchor(VerticalAnchorType::Bottom, 0.0f), HorizontalAnchor(HorizontalAnchorType::Right, 0.0f), card->backgroundSprite);
 		this->uiFactory->SetColor(card->structureValueLabel, D2D1::ColorF(D2D1::ColorF::Black));
 		this->uiFactory->SetPanel(card->structureValueLabel, card->panel);
-		this->uiFactory->SetText(card->structureValueLabel, std::to_wstring(structureComponent->structure) + L"%");
+		this->uiFactory->SetText(card->structureValueLabel, std::to_string(structureComponent->structure) + "%");
 		this->uiFactory->FinishUIWidget(card->structureValueLabel);
 	}
 
 	// Ability label.
-	std::wstring cardText = L"Card_" + std::to_wstring(cardComponent->setIndex) + L"_" + std::to_wstring(cardComponent->cardIndex) + L"_Text";
+	std::string cardText = "Card_" + std::to_string(cardComponent->setIndex) + "_" + std::to_string(cardComponent->cardIndex) + "_Text";
 
 	card->abilityLabel = this->uiFactory->CreateLabel(cardText, 0.08f);
 	this->uiFactory->SetAnchor(card->abilityLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, abilityLabelOffsetY), HorizontalAnchor(HorizontalAnchorType::Left, abilityLabelOffsetX), card->backgroundSprite);

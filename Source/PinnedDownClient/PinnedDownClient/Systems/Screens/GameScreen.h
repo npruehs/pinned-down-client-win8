@@ -77,7 +77,7 @@ namespace PinnedDownClient
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
 				
-				void ShowGameOver(std::wstring title);
+				void ShowGameOver(std::string title);
 			};
 		}
 	}

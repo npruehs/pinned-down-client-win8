@@ -12,7 +12,6 @@ namespace PinnedDownClient
 		{
 		public:
 			GameException(const char *msg);
-			GameException(std::wstring msg);
 		};
 	}
 }

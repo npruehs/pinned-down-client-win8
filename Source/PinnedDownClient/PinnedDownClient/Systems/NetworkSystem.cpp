@@ -29,8 +29,8 @@ using namespace Windows::Networking::Sockets;
 using namespace Windows::Storage::Streams;
 
 
-//#define PINNED_DOWN_SERVER_HOST "localhost"
-#define PINNED_DOWN_SERVER_HOST "pinneddown.cloudapp.net"
+#define PINNED_DOWN_SERVER_HOST "localhost"
+//#define PINNED_DOWN_SERVER_HOST "pinneddown.cloudapp.net"
 //#define REQUIRES_AUTH
 
 NetworkSystem::NetworkSystem()
@@ -93,7 +93,7 @@ void NetworkSystem::InitSocket()
 		else
 		{
 			// Notify listeners.
-			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"You must authenticate yourself in order to play Pinned Down.");
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>("You must authenticate yourself in order to play Pinned Down.");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
 #endif
@@ -107,13 +107,13 @@ void NetworkSystem::InitSocket()
 		catch (Platform::Exception^ e)
 		{
 			// Notify listeners.
-			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"Error_UnableToConntect");
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>("Error_UnableToConntect");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
 		catch (azure::mobile::mobile_exception&)
 		{
 			// Notify listeners.
-			auto loginErrorEvent = std::make_shared<LoginErrorEvent>(L"Error_AuthenticationRequired");
+			auto loginErrorEvent = std::make_shared<LoginErrorEvent>("Error_AuthenticationRequired");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
 	});

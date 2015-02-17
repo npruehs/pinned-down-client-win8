@@ -93,13 +93,13 @@ EVENT_HANDLER_DEFINITION(SoundEffectSystem, AudioEngineChangedEvent)
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, DefeatEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/GameOver.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/GameOver.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, EffectPlayedEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/EffectPlayed.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/EffectPlayed.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
@@ -110,19 +110,19 @@ EVENT_HANDLER_DEFINITION(SoundEffectSystem, EntityIdMappingCreatedEvent)
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, EntityTappedEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/EntityTapped.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/EntityTapped.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, FightResolvedEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/FightResolved.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/FightResolved.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, StarshipPlayedEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/StarshipPlayed.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/StarshipPlayed.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }
 
@@ -130,18 +130,18 @@ EVENT_HANDLER_DEFINITION(SoundEffectSystem, TurnPhaseChangedEvent)
 {
 	if (data.newTurnPhase == TurnPhase::Attack)
 	{
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/AttackPhase.wav");
+		auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/AttackPhase.wav");
 		this->game->eventManager->QueueEvent(playSoundAction);
 	}
 	else if (data.newTurnPhase == TurnPhase::Jump)
 	{
-		auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/JumpPhase.wav");
+		auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/JumpPhase.wav");
 		this->game->eventManager->QueueEvent(playSoundAction);
 	}
 }
 
 EVENT_HANDLER_DEFINITION(SoundEffectSystem, VictoryEvent)
 {
-	auto playSoundAction = std::make_shared<PlaySoundAction>(L"Assets/Sounds/GameOver.wav");
+	auto playSoundAction = std::make_shared<PlaySoundAction>("Assets/Sounds/GameOver.wav");
 	this->game->eventManager->QueueEvent(playSoundAction);
 }

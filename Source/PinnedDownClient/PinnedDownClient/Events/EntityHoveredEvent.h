@@ -25,9 +25,9 @@ namespace PinnedDownClient
 				this->entity = entity;
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				return std::wstring(L"Entity hovered: " + std::to_wstring(this->entity));
+				return std::string("Entity hovered: " + std::to_string(this->entity));
 			}
 		};
 	}

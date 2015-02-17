@@ -17,16 +17,16 @@ namespace PinnedDownClient
 				return PlaySoundActionType;
 			}
 
-			std::wstring soundAsset;
+			std::string soundAsset;
 
-			explicit PlaySoundAction(std::wstring soundAsset)
+			explicit PlaySoundAction(std::string soundAsset)
 			{
 				this->soundAsset = soundAsset;
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				return std::wstring(L"Play sound " + this->soundAsset);
+				return std::string("Play sound " + this->soundAsset);
 			}
 		};
 	}

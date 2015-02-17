@@ -22,8 +22,8 @@ namespace PinnedDownClient
 				UIFactory(PinnedDownCore::Game* game);
 
 				Entity CreateLabel();
-				Entity CreateLabel(std::wstring localizationKey);
-				Entity CreateLabel(std::wstring localizationKey, float maxWidth);
+				Entity CreateLabel(std::string localizationKey);
+				Entity CreateLabel(std::string localizationKey, float maxWidth);
 				Entity CreatePanel();
 				Entity CreateSprite(std::string spriteName);
 
@@ -34,7 +34,7 @@ namespace PinnedDownClient
 				void SetFontSize(Entity entity, float fontSize);
 				void SetPanel(Entity entity, Entity panel);
 				void SetTappable(Entity entity, bool tappable);
-				void SetText(Entity entity, std::wstring text);
+				void SetText(Entity entity, std::string text);
 				void SetVisible(Entity entity, bool visible);
 
 				void FinishUIWidget(Entity widget);

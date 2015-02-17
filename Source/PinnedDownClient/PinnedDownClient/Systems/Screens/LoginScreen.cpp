@@ -51,19 +51,19 @@ void LoginScreen::Update(float dt)
 	}
 
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
-	std::wstring text = localizationComponent->localizationValue;
+	std::string text = localizationComponent->localizationValue;
 
 	if (this->totalTime - floorf(this->totalTime) < 0.33)
 	{
-		text += L".";
+		text += ".";
 	}
 	else if (this->totalTime - floorf(this->totalTime) < 0.66)
 	{
-		text += L"..";
+		text += "..";
 	}
 	else
 	{
-		text += L"...";
+		text += "...";
 	}
 
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->statusLabel, TextComponent::TextComponentType);
@@ -93,7 +93,7 @@ void LoginScreen::UnloadResources()
 void LoginScreen::LoadUI()
 {
 	// Status label.
-	this->statusLabel = this->uiFactory->CreateLabel(L"LoginScreen_Connecting");
+	this->statusLabel = this->uiFactory->CreateLabel("LoginScreen_Connecting");
 	this->uiFactory->SetAnchor(this->statusLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.222f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
 	this->uiFactory->SetFontSize(this->statusLabel, 22.0f);
 	this->uiFactory->FinishUIWidget(this->statusLabel);
@@ -143,7 +143,7 @@ void LoginScreen::DoLogin()
 
 	// Set status label text.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
-	localizationComponent->localizationKey = L"LoginScreen_Connecting";
+	localizationComponent->localizationKey = "LoginScreen_Connecting";
 
 	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
@@ -183,7 +183,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->uiFactory->SetTappable(this->reconnectButton, true);
 	this->uiFactory->FinishUIWidget(this->reconnectButton);
 
-	this->reconnectLabel = this->uiFactory->CreateLabel(L"LoginScreen_Reconnect");
+	this->reconnectLabel = this->uiFactory->CreateLabel("LoginScreen_Reconnect");
 	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
 	this->uiFactory->SetFontSize(this->reconnectLabel, 22.0f);
 	this->uiFactory->FinishUIWidget(this->reconnectLabel);

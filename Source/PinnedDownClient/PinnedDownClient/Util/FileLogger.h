@@ -15,15 +15,15 @@ namespace PinnedDownClient
 		class FileLogger : public Logger
 		{
 		public:
-			FileLogger(LogLevel logLevel, const wchar_t* const logFileName);
+			FileLogger(LogLevel logLevel, const char* const logFileName);
 			~FileLogger();
 
-			void WriteLog(LogLevel logLevel, const wchar_t* const message);
+			void WriteLog(LogLevel logLevel, const char* const message);
 			void Flush();
 
 		private:
 			StorageFile^ logFile;
-			std::wstring logBuffer;
+			std::string logBuffer;
 		};
 	}
 }

@@ -26,9 +26,9 @@ namespace PinnedDownClient
 			{
 			}
 
-			std::wstring ToString() const
+			std::string ToString() const
 			{
-				return std::wstring(L"App window size changed: " + this->size.ToString());
+				return std::string("App window size changed: " + this->size.ToString());
 			}
 		};
 	}

@@ -23,7 +23,6 @@ using namespace PinnedDownClient::Util;
 
 
 #define LOCALIZATION_FILE_NAME "English.lua"
-#define LOCALIZATION_FILE_WNAME L"English.lua"
 
 
 LocalizationSystem::LocalizationSystem()
@@ -44,14 +43,14 @@ void LocalizationSystem::InitSystem(Game* game)
 
 	// Load localization data.
 	auto resourceManager = static_cast<PinnedDownResourceManager*>(this->game->resourceManager.get());
-	resourceManager->LoadTextFromFile(LOCALIZATION_FILE_WNAME);
+	resourceManager->LoadTextFromFile(LOCALIZATION_FILE_NAME);
 }
 
 void LocalizationSystem::LoadLocalizationData()
 {
 	// Load data.
 	auto localizationDataHandle = this->game->resourceManager->GetResource<TextResourceHandle>(LOCALIZATION_FILE_NAME);
-	auto localizationDataString = WStringToString(localizationDataHandle->text);
+	auto localizationDataString = localizationDataHandle->text;
 	auto localizationData = localizationDataString.c_str();
 	this->lua->ExecuteScript(localizationData);
 
@@ -92,9 +91,9 @@ void LocalizationSystem::LocalizeText(Entity entity)
 	if (localizationComponent != nullptr && !localizationComponent->localizationKey.empty())
 	{
 		// Store localized value.
-		auto key = WStringToString(localizationComponent->localizationKey);
+		auto key = localizationComponent->localizationKey;
 		auto value = this->lua->GetString(key.c_str());
-		localizationComponent->localizationValue = value.empty() ? localizationComponent->localizationKey : StringToWString(value);
+		localizationComponent->localizationValue = value.empty() ? localizationComponent->localizationKey : value;
 
 		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(entity, TextComponent::TextComponentType);
 		textComponent->text = localizationComponent->localizationValue;

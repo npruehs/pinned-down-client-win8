@@ -12,9 +12,9 @@ namespace PinnedDownClient
 		class TextResourceHandle : public ResourceHandle
 		{
 		public:
-			TextResourceHandle(std::string resourceName, std::wstring text);
+			TextResourceHandle(std::string resourceName, std::string text);
 
-			std::wstring text;
+			std::string text;
 		};
 	}
 }

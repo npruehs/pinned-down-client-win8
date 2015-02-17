@@ -20,7 +20,7 @@ namespace PinnedDownClient
 			void LoadBitmapFromFile(ID2D1DeviceContext* d2dContext, PCWSTR imageUri);
 
 			void LoadAudioFromFile(IXAudio2* engine, LPCWSTR audioUri);
-			void LoadTextFromFile(std::wstring fileUri);
+			void LoadTextFromFile(std::string fileUri);
 
 		private:
 			// Windows Imaging Component factory used for loading bitmaps.

@@ -90,7 +90,8 @@ void SoundSystem::OnEvent(Event & newEvent)
 
 EVENT_HANDLER_DEFINITION(SoundSystem, PlaySoundAction)
 {
-	this->PlaySound(data.soundAsset);
+	auto assetPath = StringToWString(data.soundAsset);
+	this->PlaySound(assetPath);
 }
 
 void SoundSystem::InitXAudio()

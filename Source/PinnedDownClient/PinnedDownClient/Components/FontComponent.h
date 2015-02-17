@@ -20,7 +20,7 @@ namespace PinnedDownClient
 				return FontComponentType;
 			}
 
-			std::wstring fontFamilyName = L"Arial";
+			std::string fontFamilyName = "Arial";
 			DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL;
 			DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL;
 			DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL;

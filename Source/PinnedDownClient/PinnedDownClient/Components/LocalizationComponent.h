@@ -19,8 +19,8 @@ namespace PinnedDownClient
 				return LocalizationComponentType;
 			}
 
-			std::wstring localizationKey;
-			std::wstring localizationValue;
+			std::string localizationKey;
+			std::string localizationValue;
 		};
 	}
 }
