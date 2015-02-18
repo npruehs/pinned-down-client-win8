@@ -18,6 +18,7 @@ using namespace PinnedDownClient::Systems::Screens;
 
 
 LoginScreen::LoginScreen()
+	: loginStatus(LoginStatus::Default)
 {
 }
 
@@ -33,19 +34,21 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
+	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
 void LoginScreen::DeInitScreen()
 {
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
+	this->game->eventManager->RemoveListener(this, LoginSuccessEvent::LoginSuccessEventType);
 }
 
 void LoginScreen::Update(float dt)
 {
 	this->totalTime += dt;
 
-	if (!this->connecting)
+	if (this->loginStatus != LoginStatus::Connecting && this->loginStatus != LoginStatus::WaitingForPlayers)
 	{
 		return;
 	}
@@ -112,8 +115,9 @@ void LoginScreen::UnloadUI()
 	this->game->entityManager->RemoveEntity(this->statusLabel);
 	this->game->entityManager->RemoveEntity(this->splashScreen);
 
-	if (this->showReconnectUI)
+	if (this->loginStatus == LoginStatus::ConnectionError)
 	{
+		// Remove reconnect UI.
 		this->game->entityManager->RemoveEntity(this->reconnectButton);
 		this->game->entityManager->RemoveEntity(this->reconnectLabel);
 	}
@@ -131,15 +135,27 @@ void LoginScreen::OnEvent(Event & newEvent)
 		auto loginErrorEvent = static_cast<LoginErrorEvent&>(newEvent);
 		this->OnLoginError(loginErrorEvent);
 	}
+	else if (newEvent.GetEventType() == LoginSuccessEvent::LoginSuccessEventType)
+	{
+		auto loginSuccessEvent = static_cast<LoginSuccessEvent&>(newEvent);
+		this->OnLoginSuccess(loginSuccessEvent);
+	}
 }
 
 void LoginScreen::DoLogin()
 {
+	// Hide reconnect button.
+	if (this->loginStatus == LoginStatus::ConnectionError)
+	{
+		this->game->entityManager->RemoveEntity(this->reconnectButton);
+		this->game->entityManager->RemoveEntity(this->reconnectLabel);
+	}
+
 	// Start connecting.
 	auto connectToServerAction = std::make_shared<ConnectToServerAction>();
 	this->game->eventManager->QueueEvent(connectToServerAction);
 
-	this->connecting = true;
+	this->loginStatus = LoginStatus::Connecting;
 
 	// Set status label text.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
@@ -147,15 +163,6 @@ void LoginScreen::DoLogin()
 
 	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
-
-	// Hide reconnect button.
-	if (this->showReconnectUI)
-	{
-		this->game->entityManager->RemoveEntity(this->reconnectButton);
-		this->game->entityManager->RemoveEntity(this->reconnectLabel);
-
-		this->showReconnectUI = false;
-	}
 }
 
 void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
@@ -176,7 +183,7 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 
 	// Add Reconnect button.
-	this->connecting = false;
+	this->loginStatus = LoginStatus::ConnectionError;
 
 	this->reconnectButton = this->uiFactory->CreateSprite("Assets/Button.png");
 	this->uiFactory->SetAnchor(this->reconnectButton, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.333f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), 0);
@@ -187,6 +194,16 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 	this->uiFactory->SetAnchor(this->reconnectLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->reconnectButton);
 	this->uiFactory->SetFontSize(this->reconnectLabel, 22.0f);
 	this->uiFactory->FinishUIWidget(this->reconnectLabel);
+}
 
-	this->showReconnectUI = true;
+void LoginScreen::OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent)
+{
+	this->loginStatus = LoginStatus::WaitingForPlayers;
+
+	// Set status label text.
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = "LoginScreen_WaitingForPlayers";
+
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }

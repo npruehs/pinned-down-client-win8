@@ -1,11 +1,15 @@
 #pragma once
 
+#include "LoginStatus.h"
+
 #include "Events\EntityTappedEvent.h"
 #include "Events\LoginErrorEvent.h"
+#include "Events\LoginSuccessEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownNet::Events;
 
 namespace PinnedDownClient
 {
@@ -37,8 +41,7 @@ namespace PinnedDownClient
 				Entity reconnectButton = INVALID_ENTITY_ID;
 				Entity reconnectLabel = INVALID_ENTITY_ID;
 
-				bool connecting = false;
-				bool showReconnectUI = false;
+				LoginStatus loginStatus;
 
 				float totalTime = 0.0f;
 
@@ -48,6 +51,7 @@ namespace PinnedDownClient
 
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnLoginError(LoginErrorEvent& loginErrorEvent);
+				void OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent);
 			};
 		}
 	}

@@ -7,8 +7,8 @@
 #include "Events\ClientIdMappingCreatedEvent.h"
 #include "Events\DisconnectedFromServerEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
+#include "Events\GameStartedEvent.h"
 #include "Events\LocalizationDataLoadedEvent.h"
-#include "Events\LoginSuccessEvent.h"
 #include "Events\MatchEndedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 
@@ -52,8 +52,8 @@ namespace PinnedDownClient
 			EVENT_HANDLER_DECLARATION(ClientIdMappingCreatedEvent);
 			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
 			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(GameStartedEvent);
 			EVENT_HANDLER_DECLARATION(LocalizationDataLoadedEvent);
-			EVENT_HANDLER_DECLARATION(LoginSuccessEvent);
 			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 

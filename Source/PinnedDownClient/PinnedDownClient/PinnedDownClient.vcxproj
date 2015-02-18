@@ -258,6 +258,7 @@
     <ClInclude Include="Actions\ConnectToServerAction.h" />
     <ClInclude Include="Actions\PlaySoundAction.h" />
     <ClInclude Include="Events\MatchEndedEvent.h" />
+    <ClInclude Include="Systems\Screens\LoginStatus.h" />
     <ClInclude Include="Util\VersionUtils.h" />
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\CardUIComponent.h" />

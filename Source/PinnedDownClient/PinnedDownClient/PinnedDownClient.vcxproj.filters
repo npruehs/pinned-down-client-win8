@@ -801,6 +801,7 @@
     <ClInclude Include="Events\MatchEndedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="Systems\Screens\LoginStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

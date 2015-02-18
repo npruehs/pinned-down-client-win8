@@ -3,8 +3,6 @@
 
 #include "Event.h"
 
-#include "Events\DisconnectedFromServerEvent.h"
-#include "Events\LoginSuccessEvent.h"
 #include "Events\ScreenChangedEvent.h"
 
 #include "Systems\ScreenSystem.h"
@@ -32,8 +30,8 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, GameStartedEvent::GameStartedEventType);
 	this->game->eventManager->AddListener(this, LocalizationDataLoadedEvent::LocalizationDataLoadedEventType);
-	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
 	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 }
@@ -51,8 +49,8 @@ void ScreenSystem::OnEvent(Event & newEvent)
 	CALL_EVENT_HANDLER(ClientIdMappingCreatedEvent);
 	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
 	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(GameStartedEvent);
 	CALL_EVENT_HANDLER(LocalizationDataLoadedEvent);
-	CALL_EVENT_HANDLER(LoginSuccessEvent);
 	CALL_EVENT_HANDLER(MatchEndedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 }
@@ -73,7 +71,7 @@ EVENT_HANDLER_DEFINITION(ScreenSystem, EntityIdMappingCreatedEvent)
 	this->entityIdMapping = data.entityIdMapping;
 }
 
-EVENT_HANDLER_DEFINITION(ScreenSystem, LoginSuccessEvent)
+EVENT_HANDLER_DEFINITION(ScreenSystem, GameStartedEvent)
 {
 	// Switch to game screen.
 	this->SetScreen(std::make_shared<GameScreen>());

@@ -12,6 +12,7 @@
 #include "Events\EffectPlayedEvent.h"
 #include "Events\ErrorMessageEvent.h"
 #include "Events\FightResolvedEvent.h"
+#include "Events\GameStartedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\PlayerAddedEvent.h"
 #include "Events\PowerChangedEvent.h"
@@ -106,6 +107,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto fightResolvedEvent = std::make_shared<FightResolvedEvent>();
 		fightResolvedEvent->Deserialize(in);
 		return fightResolvedEvent;
+	}
+	else if (hashedEventType == GameStartedEvent::GameStartedEventType)
+	{
+		auto gameStartedEvent = std::make_shared<GameStartedEvent>();
+		gameStartedEvent->Deserialize(in);
+		return gameStartedEvent;
 	}
 	else if (hashedEventType == LoginSuccessEvent::LoginSuccessEventType)
 	{
