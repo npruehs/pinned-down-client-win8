@@ -308,7 +308,7 @@ void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
 void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
 {
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->threatValueLabel, TextComponent::TextComponentType);
-	textComponent->text = threatChangedEvent.newThreat;
+	textComponent->text = std::to_string(threatChangedEvent.newThreat);
 }
 
 void GameScreen::OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent)
