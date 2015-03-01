@@ -110,6 +110,8 @@ namespace PinnedDownClient
 			void OnDeviceLost();
 			void CreateWindowSizeDependentResources();
 
+			void DrawDebugGrid(int cellWidth, int cellHeight);
+
 			void DrawSprite(std::shared_ptr<UI::Sprite> sprite);
 			void DrawLabel(std::shared_ptr<UI::Label> label);
 

@@ -577,6 +577,9 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	float currentWidth = ConvertDipsToPixels(this->logicalWindowSize.x, this->logicalDpi);
 	float currentHeight = ConvertDipsToPixels(this->logicalWindowSize.y, this->logicalDpi);
 
+	this->game->logger->LogInfo("Logical window width: " + std::to_string(this->logicalWindowSize.x));
+	this->game->logger->LogInfo("Logical window height: " + std::to_string(this->logicalWindowSize.y));
+
 	// Prevent zero size DirectX content from being created.
 	currentWidth = max(currentWidth, 1);
 	currentHeight = max(currentHeight, 1);
@@ -691,6 +694,35 @@ void RenderSystem::OnDeviceLost()
 	// Notify the renderers that resources can now be created again.
 	auto graphicsDeviceRestoredEvent = std::make_shared<Events::GraphicsDeviceRestoredEvent>();
 	this->game->eventManager->RaiseEvent(graphicsDeviceRestoredEvent);
+}
+
+void RenderSystem::DrawDebugGrid(int cellWidth, int cellHeight)
+{
+	ComPtr<ID2D1SolidColorBrush> gridBrush;
+
+	ThrowIfFailed(
+		this->d2dContext->CreateSolidColorBrush(
+		D2D1::ColorF(D2D1::ColorF::LightSlateGray),
+		&gridBrush)
+		);
+
+	// Draw vertical lines.
+	for (int x = 0; x < this->logicalWindowSize.x; x += cellWidth)
+	{
+		this->d2dContext->DrawLine(
+			D2D1::Point2F(static_cast<FLOAT>(x), 0.0f),
+			D2D1::Point2F(static_cast<FLOAT>(x), this->logicalWindowSize.y),
+			gridBrush.Get());
+	}
+
+	// Draw horizontal lines.
+	for (int y = 0; y < this->logicalWindowSize.y; y += cellHeight)
+	{
+		this->d2dContext->DrawLine(
+			D2D1::Point2F(0.0f, static_cast<FLOAT>(y)),
+			D2D1::Point2F(this->logicalWindowSize.x, static_cast<FLOAT>(y)),
+			gridBrush.Get());
+	}
 }
 
 void RenderSystem::DrawSprite(std::shared_ptr<UI::Sprite> sprite)
