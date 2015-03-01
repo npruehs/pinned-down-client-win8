@@ -81,6 +81,7 @@ namespace PinnedDownClient
 			Vector2F windowScale;
 			float logicalDpi = 0.0f;
 			DisplayOrientations displayOrientation = DisplayOrientations::None;
+			Vector2F pixelWindowSize;
 
 			const Vector2F designResolution = Vector2F(1920, 1080);
 

@@ -15,6 +15,7 @@
 #include "Components\UIWidgetComponent.h"
 #include "Components\VisibilityComponent.h"
 
+#include "Events\AppWindowPixelSizeChangedEvent.h"
 #include "Events\GraphicsDeviceLostEvent.h"
 #include "Events\GraphicsDeviceRestoredEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
@@ -562,6 +563,7 @@ DXGI_MODE_ROTATION RenderSystem::ComputeDisplayRotation(DisplayOrientations nati
 void RenderSystem::CreateWindowSizeDependentResources()
 {
 	this->d2dContext->SetDpi(this->logicalDpi, this->logicalDpi);
+	this->game->logger->LogInfo("Logical DPI: " + std::to_string(this->logicalDpi));
 
 	// Clear the previous window size specific context.
 	this->d3dRenderTargetView = nullptr;
@@ -587,6 +589,15 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
 	float newWidth = swapDimensions ? currentHeight : currentWidth;
 	float newHeight = swapDimensions ? currentWidth : currentHeight;
+
+	this->game->logger->LogInfo("Window width (pixels): " + std::to_string(newWidth));
+	this->game->logger->LogInfo("Window height (pixels): " + std::to_string(newHeight));
+
+	this->pixelWindowSize = Vector2F(newWidth, newHeight);
+
+	// Notify listeners of window pixel size.
+	auto appWindowPixelSizeChangedEvent = std::make_shared<AppWindowPixelSizeChangedEvent>(this->pixelWindowSize);
+	this->game->eventManager->QueueEvent(appWindowPixelSizeChangedEvent);
 
 	if (this->dxgiSwapChain != nullptr)
 	{
