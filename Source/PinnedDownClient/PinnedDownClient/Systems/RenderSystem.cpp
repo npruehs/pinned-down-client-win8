@@ -382,8 +382,8 @@ void RenderSystem::CreateSwapChain()
 	// Change the region of the swap chain that will be presented to the screen.
 	ThrowIfFailed(
 		this->dxgiSwapChain->SetSourceSize(
-		static_cast<UINT>(this->logicalWindowSize.x * this->windowScale.x + 0.5f),
-		static_cast<UINT>(this->logicalWindowSize.y * this->windowScale.y + 0.5f)
+		static_cast<UINT>(this->pixelWindowSize.x * this->windowScale.x + 0.5f),
+		static_cast<UINT>(this->pixelWindowSize.y * this->windowScale.y + 0.5f)
 		)
 		);
 
