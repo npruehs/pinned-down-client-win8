@@ -10,4 +10,13 @@
     <DebuggerType>Mixed</DebuggerType>
     <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <DebuggerMachineName>npruehs-surface</DebuggerMachineName>
+    <RemoteDebuggerDeployDebugCppRuntime>true</RemoteDebuggerDeployDebugCppRuntime>
+    <DebuggerFlavor>AppHostRemoteDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <DebuggerMachineName>npruehs-surface</DebuggerMachineName>
+    <DebuggerFlavor>AppHostRemoteDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
