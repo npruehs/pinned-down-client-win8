@@ -257,6 +257,7 @@
   <ItemGroup>
     <ClInclude Include="Actions\ConnectToServerAction.h" />
     <ClInclude Include="Actions\PlaySoundAction.h" />
+    <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
     <ClInclude Include="Events\MatchEndedEvent.h" />
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
     <ClInclude Include="Util\VersionUtils.h" />
@@ -409,6 +410,7 @@
     <ClCompile Include="Events\AppResumingEvent.cpp" />
     <ClCompile Include="Events\AppSupendingEvent.cpp" />
     <ClCompile Include="Events\AppWindowChangedEvent.cpp" />
+    <ClCompile Include="Events\AppWindowPixelSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
     <ClCompile Include="Events\CardDeselectedEvent.cpp" />
