@@ -5,6 +5,7 @@
 #include "Events\EntityTappedEvent.h"
 #include "Events\ErrorMessageEvent.h"
 #include "Events\PlayerAddedEvent.h"
+#include "Events\PlayerReadyStateResetEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
@@ -73,10 +74,12 @@ namespace PinnedDownClient
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnErrorMessage(ErrorMessageEvent& errorMessageEvent);
 				void OnPlayerAdded(PlayerAddedEvent& playerAddedEvent);
+				void OnPlayerReadyStateReset(PlayerReadyStateResetEvent& playerReadyStateResetEvent);
 				void OnThreatChanged(ThreatChangedEvent& threatChangedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
 				
+				void ShowPlayerReady(bool ready);
 				void ShowGameOver(std::string title);
 			};
 		}

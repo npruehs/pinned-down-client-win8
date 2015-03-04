@@ -15,6 +15,7 @@
 #include "Events\GameStartedEvent.h"
 #include "Events\LoginSuccessEvent.h"
 #include "Events\PlayerAddedEvent.h"
+#include "Events\PlayerReadyStateResetEvent.h"
 #include "Events\PowerChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
 #include "Events\StarshipPlayedEvent.h"
@@ -125,6 +126,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto playerAddedEvent = std::make_shared<PlayerAddedEvent>();
 		playerAddedEvent->Deserialize(in);
 		return playerAddedEvent;
+	}
+	else if (hashedEventType == PlayerReadyStateResetEvent::PlayerReadyStateResetEventType)
+	{
+		auto playerReadyStateResetEvent = std::make_shared<PlayerReadyStateResetEvent>();
+		playerReadyStateResetEvent->Deserialize(in);
+		return playerReadyStateResetEvent;
 	}
 	else if (hashedEventType == PowerChangedEvent::PowerChangedEventType)
 	{

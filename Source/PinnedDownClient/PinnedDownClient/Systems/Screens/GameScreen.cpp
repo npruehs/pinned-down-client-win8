@@ -47,6 +47,7 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientId
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
+	this->game->eventManager->AddListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);	
@@ -59,6 +60,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->RemoveListener(this, PlayerAddedEvent::PlayerAddedEventType);
+	this->game->eventManager->RemoveListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
@@ -129,7 +131,7 @@ void GameScreen::LoadUI()
 	this->uiFactory->SetTappable(this->endTurnButton, true);
 	this->uiFactory->FinishUIWidget(this->endTurnButton);
 
-	this->endTurnLabel = this->uiFactory->CreateLabel("GameScreen_Button_EndTurnPhase");
+	this->endTurnLabel = this->uiFactory->CreateLabel("GameScreen_Button_EndTurnPhase_NotReady");
 	this->uiFactory->SetAnchor(this->endTurnLabel, VerticalAnchor(VerticalAnchorType::VerticalCenter, 0.0f), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), this->endTurnButton);
 	this->uiFactory->FinishUIWidget(this->endTurnLabel);
 
@@ -212,6 +214,11 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto playerAddedEvent = static_cast<PlayerAddedEvent&>(newEvent);
 		this->OnPlayerAdded(playerAddedEvent);
 	}
+	else if (newEvent.GetEventType() == PlayerReadyStateResetEvent::PlayerReadyStateResetEventType)
+	{
+		auto playerReadyStateResetEvent = static_cast<PlayerReadyStateResetEvent&>(newEvent);
+		this->OnPlayerReadyStateReset(playerReadyStateResetEvent);
+	}
 	else if (newEvent.GetEventType() == ThreatChangedEvent::ThreatChangedEventType)
 	{
 		auto threatChangedEvent = static_cast<ThreatChangedEvent&>(newEvent);
@@ -263,8 +270,11 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
 	if (entityTappedEvent.entity == this->endTurnButton)
 	{
+		// Player ready to end turn.
 		auto endTurnAction = std::make_shared<EndTurnAction>();
 		this->game->eventManager->QueueEvent(endTurnAction);
+
+		this->ShowPlayerReady(true);
 	}
 	else if (entityTappedEvent.entity == this->hintButton)
 	{
@@ -305,6 +315,11 @@ void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
 	}
 }
 
+void GameScreen::OnPlayerReadyStateReset(PlayerReadyStateResetEvent& playerReadyStateResetEvent)
+{
+	this->ShowPlayerReady(false);
+}
+
 void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
 {
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->threatValueLabel, TextComponent::TextComponentType);
@@ -336,6 +351,16 @@ void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 {
 	// Show victory window.
 	this->ShowGameOver("GameScreen_GameOver_Victory");
+}
+
+void GameScreen::ShowPlayerReady(bool ready)
+{
+	// Update button label.
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->endTurnLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = ready ? "GameScreen_Button_EndTurnPhase_Ready" : "GameScreen_Button_EndTurnPhase_NotReady";
+
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->endTurnLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }
 
 void GameScreen::ShowGameOver(std::string title)
