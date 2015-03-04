@@ -3,8 +3,6 @@
 #include "Game.h"
 #include "Event.h"
 
-#include "Actions\EndTurnAction.h"
-
 #include "Events\DisconnectedFromServerEvent.h"
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"

@@ -2,7 +2,7 @@
 #include "pch.h"
 
 #include "Actions\DisconnectClientAction.h"
-#include "Actions\EndTurnAction.h"
+#include "Actions\PlayerReadyAction.h"
 
 #include "Events\LocalizedTextChangedEvent.h"
 #include "Events\MatchEndedEvent.h"
@@ -270,11 +270,11 @@ void GameScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
 	if (entityTappedEvent.entity == this->endTurnButton)
 	{
-		// Player ready to end turn.
-		auto endTurnAction = std::make_shared<EndTurnAction>();
-		this->game->eventManager->QueueEvent(endTurnAction);
+		this->SetPlayerReady(!this->playerReady);
 
-		this->ShowPlayerReady(true);
+		// Player ready to end turn?
+		auto endTurnAction = std::make_shared<PlayerReadyAction>(this->playerReady);
+		this->game->eventManager->QueueEvent(endTurnAction);
 	}
 	else if (entityTappedEvent.entity == this->hintButton)
 	{
@@ -317,7 +317,7 @@ void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
 
 void GameScreen::OnPlayerReadyStateReset(PlayerReadyStateResetEvent& playerReadyStateResetEvent)
 {
-	this->ShowPlayerReady(false);
+	this->SetPlayerReady(false);
 }
 
 void GameScreen::OnThreatChanged(ThreatChangedEvent& threatChangedEvent)
@@ -353,8 +353,10 @@ void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 	this->ShowGameOver("GameScreen_GameOver_Victory");
 }
 
-void GameScreen::ShowPlayerReady(bool ready)
+void GameScreen::SetPlayerReady(bool ready)
 {
+	this->playerReady = ready;
+
 	// Update button label.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->endTurnLabel, LocalizationComponent::LocalizationComponentType);
 	localizationComponent->localizationKey = ready ? "GameScreen_Button_EndTurnPhase_Ready" : "GameScreen_Button_EndTurnPhase_NotReady";

@@ -67,6 +67,10 @@ namespace PinnedDownClient
 				// Time before the current message is hidden, in seconds.
 				float errorTimeRemaining = 0.0f;
 
+				// Whether local player is ready to end turn, or not.
+				bool playerReady = false;
+
+
 				void OnEvent(Event & event);
 
 				void OnCoveredDistanceChanged(CoveredDistanceChangedEvent& coveredDistanceChangedEvent);
@@ -79,7 +83,7 @@ namespace PinnedDownClient
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
 				
-				void ShowPlayerReady(bool ready);
+				void SetPlayerReady(bool ready);
 				void ShowGameOver(std::string title);
 			};
 		}
