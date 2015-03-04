@@ -45,6 +45,9 @@ Card_Type_Starship = "Starship"
 
 
 Error_AuthenticationRequired = "You must authenticate yourself in order to play Pinned Down."
+Error_CanOnlyAssignOwnCards = "You can only assign your own ships to fight."
+Error_CanOnlyPlayOwnCards = "You can only play cards from your own hand."
+Error_CanOnlyResolveOwnFights = "You can only resolve fights involving your own ships."
 Error_NotAllEnemyShipsAssigned = "You have to assign all of your ships to fight!"
 Error_NotAllFightsResolved = "You have to resolve all fights first!"
 Error_UnableToConntect = "Unable to connect to server.\r\n\r\nCheck http://pinneddown.de/server if you're sure you've done everything right!"
