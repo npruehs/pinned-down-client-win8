@@ -56,7 +56,7 @@ void DebugInfoSystem::CreateEntities()
 
 	// Show version number.
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->versionTextEntity, TextComponent::TextComponentType);
-	textComponent->text = "\n" + GetPinnedDownClientVersion();
+	textComponent->text = "\n" + GetPinnedDownClientVersionString();
 }
 
 void DebugInfoSystem::Update(float dt)

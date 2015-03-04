@@ -2,6 +2,7 @@
 
 #include "LoginStatus.h"
 
+#include "Events\ClientVersionVerifiedEvent.h"
 #include "Events\EntityTappedEvent.h"
 #include "Events\LoginErrorEvent.h"
 #include "Events\LoginSuccessEvent.h"
@@ -49,6 +50,7 @@ namespace PinnedDownClient
 
 				void DoLogin();
 
+				void OnClientVersionVerified(ClientVersionVerifiedEvent& clientVersionVerifiedEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnLoginError(LoginErrorEvent& loginErrorEvent);
 				void OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent);

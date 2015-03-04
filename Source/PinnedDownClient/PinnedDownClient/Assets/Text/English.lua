@@ -78,7 +78,8 @@ GameScreen_TurnPhase_Jump = "Jump"
 GameScreen_TurnPhase_Main = "Main"
 
 
+LoginScreen_ClientVersionOutOfDate = "Your client is out-of-date.\r\n\r\nPlease download the current version\r\nfrom http://pinneddown.de/"
 LoginScreen_Connecting = "Connecting"
 LoginScreen_Reconnect = "Reconnect"
-LoginScreen_UnableToConnect = "Connecting"
+LoginScreen_VerifyingClientVersion = "Verifying Client Version"
 LoginScreen_WaitingForPlayers = "Waiting For Players"

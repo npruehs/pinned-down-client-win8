@@ -7,6 +7,7 @@
 #include "Events\CardRemovedEvent.h"
 #include "Events\CardStateChangedEvent.h"
 #include "Events\CardUnassignedEvent.h"
+#include "Events\ClientVersionVerifiedEvent.h"
 #include "Events\CoveredDistanceChangedEvent.h"
 #include "Events\DefeatEvent.h"
 #include "Events\EffectPlayedEvent.h"
@@ -78,6 +79,12 @@ std::shared_ptr<Event> ServerEventReader::ReadServerEvent(int packetSize)
 		auto cardUnassignedEvent = std::make_shared<CardUnassignedEvent>();
 		cardUnassignedEvent->Deserialize(in);
 		return cardUnassignedEvent;
+	}
+	else if (hashedEventType == ClientVersionVerifiedEvent::ClientVersionVerifiedEventType)
+	{
+		auto clientVersionVerifiedEvent = std::make_shared<ClientVersionVerifiedEvent>();
+		clientVersionVerifiedEvent->Deserialize(in);
+		return clientVersionVerifiedEvent;
 	}
 	else if (hashedEventType == CoveredDistanceChangedEvent::CoveredDistanceChangedEventType)
 	{

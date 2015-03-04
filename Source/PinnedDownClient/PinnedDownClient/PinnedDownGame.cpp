@@ -42,7 +42,7 @@ timer(std::make_unique<Util::StepTimer>())
 {
 	// Setup game infrastructure.
 	this->game->logger = std::unique_ptr<FileLogger>(new FileLogger(LogLevel::Debug, "PinnedDown.log"));
-	this->game->logger->LogInfo("Pinned Down Client " + GetPinnedDownClientVersion());
+	this->game->logger->LogInfo("Pinned Down Client " + GetPinnedDownClientVersionString());
 	this->game->logger->LogInfo("Logger initialized.");
 
 	this->game->resourceManager = std::unique_ptr<ResourceManager>(new PinnedDownResourceManager(this->game.get()));

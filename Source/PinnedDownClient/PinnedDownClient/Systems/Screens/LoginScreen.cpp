@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Actions\ConnectToServerAction.h"
+#include "Actions\VerifyClientVersionAction.h"
 
 #include "Events\LocalizedTextChangedEvent.h"
 
@@ -11,6 +12,7 @@
 
 #include "Systems\Screens\LoginScreen.h"
 
+#include "Util\VersionUtils.h"
 
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
@@ -32,6 +34,7 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 {
 	Screen::InitScreen(game, clientIdMapping, entityIdMapping);
 
+	this->game->eventManager->AddListener(this, ClientVersionVerifiedEvent::ClientVersionVerifiedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
@@ -39,6 +42,7 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 
 void LoginScreen::DeInitScreen()
 {
+	this->game->eventManager->RemoveListener(this, ClientVersionVerifiedEvent::ClientVersionVerifiedEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
 	this->game->eventManager->RemoveListener(this, LoginSuccessEvent::LoginSuccessEventType);
@@ -48,7 +52,9 @@ void LoginScreen::Update(float dt)
 {
 	this->totalTime += dt;
 
-	if (this->loginStatus != LoginStatus::Connecting && this->loginStatus != LoginStatus::WaitingForPlayers)
+	if (this->loginStatus != LoginStatus::Connecting &&
+		this->loginStatus != LoginStatus::WaitingForPlayers &&
+		this->loginStatus != LoginStatus::VerifyingClientVersion)
 	{
 		return;
 	}
@@ -125,7 +131,12 @@ void LoginScreen::UnloadUI()
 
 void LoginScreen::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
+	if (newEvent.GetEventType() == ClientVersionVerifiedEvent::ClientVersionVerifiedEventType)
+	{
+		auto clientVersionVerifiedEvent = static_cast<ClientVersionVerifiedEvent&>(newEvent);
+		this->OnClientVersionVerified(clientVersionVerifiedEvent);
+	}
+	else if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
 	{
 		auto entityTappedEvent = static_cast<EntityTappedEvent&>(newEvent);
 		this->OnEntityTapped(entityTappedEvent);
@@ -165,6 +176,32 @@ void LoginScreen::DoLogin()
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }
 
+void LoginScreen::OnClientVersionVerified(ClientVersionVerifiedEvent& clientVersionVerifiedEvent)
+{
+	if (clientVersionVerifiedEvent.clientUpToDate)
+	{
+		this->loginStatus = LoginStatus::WaitingForPlayers;
+
+		// Set status label text.
+		auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+		localizationComponent->localizationKey = "LoginScreen_WaitingForPlayers";
+
+		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
+	}
+	else
+	{
+		this->loginStatus = LoginStatus::ConnectionError;
+
+		// Set status label text.
+		auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+		localizationComponent->localizationKey = "LoginScreen_ClientVersionOutOfDate";
+
+		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
+	}
+}
+
 void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)
 {
 	if (entityTappedEvent.entity == this->reconnectButton)
@@ -198,11 +235,20 @@ void LoginScreen::OnLoginError(LoginErrorEvent& loginErrorEvent)
 
 void LoginScreen::OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent)
 {
-	this->loginStatus = LoginStatus::WaitingForPlayers;
+	this->loginStatus = LoginStatus::VerifyingClientVersion;
+
+	// Send version number to server.
+	auto major = GetPinnedDownClientVersionMajor();
+	auto minor = GetPinnedDownClientVersionMinor();
+	auto build = GetPinnedDownClientVersionBuild();
+	auto revision = GetPinnedDownClientVersionRevision();
+
+	auto verifyClientVersionAction = std::make_shared<VerifyClientVersionAction>(major, minor, build, revision);
+	this->game->eventManager->QueueEvent(verifyClientVersionAction);
 
 	// Set status label text.
 	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
-	localizationComponent->localizationKey = "LoginScreen_WaitingForPlayers";
+	localizationComponent->localizationKey = "LoginScreen_VerifyingClientVersion";
 
 	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
