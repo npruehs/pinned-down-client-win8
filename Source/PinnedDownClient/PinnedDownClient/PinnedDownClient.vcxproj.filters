@@ -766,9 +766,6 @@
     <ClInclude Include="Systems\FightSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Util\BidirectionalMap.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Events\DisconnectedFromServerEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
