@@ -46,6 +46,7 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientId
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
+	this->game->eventManager->AddListener(this, PlayerLeftEvent::PlayerLeftEventType);
 	this->game->eventManager->AddListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
@@ -59,6 +60,7 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, ErrorMessageEvent::ErrorMessageEventType);
 	this->game->eventManager->RemoveListener(this, PlayerAddedEvent::PlayerAddedEventType);
+	this->game->eventManager->RemoveListener(this, PlayerLeftEvent::PlayerLeftEventType);
 	this->game->eventManager->RemoveListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
@@ -213,6 +215,11 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto playerAddedEvent = static_cast<PlayerAddedEvent&>(newEvent);
 		this->OnPlayerAdded(playerAddedEvent);
 	}
+	else if (newEvent.GetEventType() == PlayerLeftEvent::PlayerLeftEventType)
+	{
+		auto playerLeftEvent = static_cast<PlayerLeftEvent&>(newEvent);
+		this->OnPlayerLeft(playerLeftEvent);
+	}
 	else if (newEvent.GetEventType() == PlayerReadyStateResetEvent::PlayerReadyStateResetEventType)
 	{
 		auto playerReadyStateResetEvent = static_cast<PlayerReadyStateResetEvent&>(newEvent);
@@ -312,6 +319,12 @@ void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
 		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameLabel, TextComponent::TextComponentType);
 		textComponent->text = playerAddedEvent.playerName;
 	}
+}
+
+void GameScreen::OnPlayerLeft(PlayerLeftEvent& playerLeftEvent)
+{
+	// Show defeat window.
+	this->ShowGameOver("GameScreen_GameOver_PlayerLeft");
 }
 
 void GameScreen::OnPlayerReadyStateReset(PlayerReadyStateResetEvent& playerReadyStateResetEvent)
