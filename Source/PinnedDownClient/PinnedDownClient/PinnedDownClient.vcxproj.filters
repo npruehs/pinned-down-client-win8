@@ -413,6 +413,7 @@
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="Events\AppWindowPixelSizeChangedEvent.cpp" />
+    <ClCompile Include="Systems\Screens\LobbyScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -801,6 +802,7 @@
     </ClInclude>
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
     <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
+    <ClInclude Include="Systems\Screens\LobbyScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

@@ -34,7 +34,7 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 {
 	Screen::InitScreen(game, clientIdMapping, entityIdMapping);
 
-	this->game->eventManager->AddListener(this, ClientVersionVerifiedEvent::ClientVersionVerifiedEventType);
+	this->game->eventManager->AddListener(this, ClientVersionNotVerifiedEvent::ClientVersionNotVerifiedEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, LoginErrorEvent::LoginErrorEventType);
 	this->game->eventManager->AddListener(this, LoginSuccessEvent::LoginSuccessEventType);
@@ -42,7 +42,7 @@ void LoginScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientI
 
 void LoginScreen::DeInitScreen()
 {
-	this->game->eventManager->RemoveListener(this, ClientVersionVerifiedEvent::ClientVersionVerifiedEventType);
+	this->game->eventManager->RemoveListener(this, ClientVersionNotVerifiedEvent::ClientVersionNotVerifiedEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, LoginErrorEvent::LoginErrorEventType);
 	this->game->eventManager->RemoveListener(this, LoginSuccessEvent::LoginSuccessEventType);
@@ -53,7 +53,6 @@ void LoginScreen::Update(float dt)
 	this->totalTime += dt;
 
 	if (this->loginStatus != LoginStatus::Connecting &&
-		this->loginStatus != LoginStatus::WaitingForPlayers &&
 		this->loginStatus != LoginStatus::VerifyingClientVersion)
 	{
 		return;
@@ -131,10 +130,10 @@ void LoginScreen::UnloadUI()
 
 void LoginScreen::OnEvent(Event & newEvent)
 {
-	if (newEvent.GetEventType() == ClientVersionVerifiedEvent::ClientVersionVerifiedEventType)
+	if (newEvent.GetEventType() == ClientVersionNotVerifiedEvent::ClientVersionNotVerifiedEventType)
 	{
-		auto clientVersionVerifiedEvent = static_cast<ClientVersionVerifiedEvent&>(newEvent);
-		this->OnClientVersionVerified(clientVersionVerifiedEvent);
+		auto clientVersionVerifiedEvent = static_cast<ClientVersionNotVerifiedEvent&>(newEvent);
+		this->OnClientVersionNotVerified(clientVersionVerifiedEvent);
 	}
 	else if (newEvent.GetEventType() == EntityTappedEvent::EntityTappedEventType)
 	{
@@ -176,30 +175,16 @@ void LoginScreen::DoLogin()
 	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }
 
-void LoginScreen::OnClientVersionVerified(ClientVersionVerifiedEvent& clientVersionVerifiedEvent)
+void LoginScreen::OnClientVersionNotVerified(ClientVersionNotVerifiedEvent& clientVersionNotVerifiedEvent)
 {
-	if (clientVersionVerifiedEvent.clientUpToDate)
-	{
-		this->loginStatus = LoginStatus::WaitingForPlayers;
+	this->loginStatus = LoginStatus::ConnectionError;
 
-		// Set status label text.
-		auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
-		localizationComponent->localizationKey = "LoginScreen_WaitingForPlayers";
+	// Set status label text.
+	auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
+	localizationComponent->localizationKey = "LoginScreen_ClientVersionOutOfDate";
 
-		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
-		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
-	}
-	else
-	{
-		this->loginStatus = LoginStatus::ConnectionError;
-
-		// Set status label text.
-		auto localizationComponent = this->game->entityManager->GetComponent<LocalizationComponent>(this->statusLabel, LocalizationComponent::LocalizationComponentType);
-		localizationComponent->localizationKey = "LoginScreen_ClientVersionOutOfDate";
-
-		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
-		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
-	}
+	auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->statusLabel);
+	this->game->eventManager->QueueEvent(localizedTextChangedEvent);
 }
 
 void LoginScreen::OnEntityTapped(EntityTappedEvent& entityTappedEvent)

@@ -5,6 +5,7 @@
 #include "IEventListener.h"
 
 #include "Events\ClientIdMappingCreatedEvent.h"
+#include "Events\ClientVersionVerifiedEvent.h"
 #include "Events\DisconnectedFromServerEvent.h"
 #include "Events\EntityIdMappingCreatedEvent.h"
 #include "Events\GameStartedEvent.h"
@@ -50,6 +51,7 @@ namespace PinnedDownClient
 			void OnEvent(Event & event);
 
 			EVENT_HANDLER_DECLARATION(ClientIdMappingCreatedEvent);
+			EVENT_HANDLER_DECLARATION(ClientVersionVerifiedEvent);
 			EVENT_HANDLER_DECLARATION(DisconnectedFromServerEvent);
 			EVENT_HANDLER_DECLARATION(EntityIdMappingCreatedEvent);
 			EVENT_HANDLER_DECLARATION(GameStartedEvent);

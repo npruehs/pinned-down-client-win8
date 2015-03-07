@@ -7,6 +7,7 @@
 
 #include "Systems\ScreenSystem.h"
 #include "Systems\Screens\GameScreen.h"
+#include "Systems\Screens\LobbyScreen.h"
 #include "Systems\Screens\LoginScreen.h"
 
 using namespace PinnedDownCore;
@@ -28,6 +29,7 @@ void ScreenSystem::InitSystem(PinnedDownCore::Game* game)
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
 	this->game->eventManager->AddListener(this, ClientIdMappingCreatedEvent::ClientIdMappingCreatedEventType);
+	this->game->eventManager->AddListener(this, ClientVersionVerifiedEvent::ClientVersionVerifiedEventType);
 	this->game->eventManager->AddListener(this, DisconnectedFromServerEvent::DisconnectedFromServerEventType);
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, GameStartedEvent::GameStartedEventType);
@@ -47,6 +49,7 @@ void ScreenSystem::Update(float dt)
 void ScreenSystem::OnEvent(Event & newEvent)
 {
 	CALL_EVENT_HANDLER(ClientIdMappingCreatedEvent);
+	CALL_EVENT_HANDLER(ClientVersionVerifiedEvent);
 	CALL_EVENT_HANDLER(DisconnectedFromServerEvent);
 	CALL_EVENT_HANDLER(EntityIdMappingCreatedEvent);
 	CALL_EVENT_HANDLER(GameStartedEvent);
@@ -58,6 +61,12 @@ void ScreenSystem::OnEvent(Event & newEvent)
 EVENT_HANDLER_DEFINITION(ScreenSystem, ClientIdMappingCreatedEvent)
 {
 	this->clientIdMapping = data.clientIdMapping;
+}
+
+EVENT_HANDLER_DEFINITION(ScreenSystem, ClientVersionVerifiedEvent)
+{
+	// Switch to lobby.
+	this->SetScreen(std::make_shared<LobbyScreen>());
 }
 
 EVENT_HANDLER_DEFINITION(ScreenSystem, DisconnectedFromServerEvent)
@@ -85,8 +94,8 @@ EVENT_HANDLER_DEFINITION(ScreenSystem, LocalizationDataLoadedEvent)
 
 EVENT_HANDLER_DEFINITION(ScreenSystem, MatchEndedEvent)
 {
-	// Switch to login screen.
-	this->SetScreen(std::make_shared<LoginScreen>());
+	// Switch to lobby screen.
+	this->SetScreen(std::make_shared<LobbyScreen>());
 }
 
 EVENT_HANDLER_DEFINITION(ScreenSystem, RenderTargetChangedEvent)

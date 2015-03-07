@@ -82,4 +82,6 @@ LoginScreen_ClientVersionOutOfDate = "Your client is out-of-date.\r\n\r\nPlease 
 LoginScreen_Connecting = "Connecting"
 LoginScreen_Reconnect = "Reconnect"
 LoginScreen_VerifyingClientVersion = "Verifying Client Version"
-LoginScreen_WaitingForPlayers = "Waiting For Players"
+
+
+LobbyScreen_WaitingForPlayers = "Waiting For Players"

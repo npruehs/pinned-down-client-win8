@@ -1,7 +1,6 @@
 
 #include "pch.h"
 
-#include "Actions\DisconnectClientAction.h"
 #include "Actions\PlayerReadyAction.h"
 
 #include "Events\LocalizedTextChangedEvent.h"
@@ -355,6 +354,11 @@ void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 
 void GameScreen::SetPlayerReady(bool ready)
 {
+	if (this->gameOver)
+	{
+		return;
+	}
+
 	this->playerReady = ready;
 
 	// Update button label.
@@ -367,6 +371,8 @@ void GameScreen::SetPlayerReady(bool ready)
 
 void GameScreen::ShowGameOver(std::string title)
 {
+	this->gameOver = true;
+
 	// Remove End Turn button.
 	this->game->entityManager->RemoveEntity(this->endTurnButton);
 	this->game->entityManager->RemoveEntity(this->endTurnLabel);

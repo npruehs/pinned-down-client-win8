@@ -11,7 +11,6 @@ namespace PinnedDownClient
 				Default,
 				Connecting,
 				VerifyingClientVersion,
-				WaitingForPlayers,
 				ConnectionError
 			};
 		}

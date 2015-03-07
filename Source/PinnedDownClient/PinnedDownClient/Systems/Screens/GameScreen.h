@@ -69,7 +69,7 @@ namespace PinnedDownClient
 
 				// Whether local player is ready to end turn, or not.
 				bool playerReady = false;
-
+				bool gameOver = false;
 
 				void OnEvent(Event & event);
 

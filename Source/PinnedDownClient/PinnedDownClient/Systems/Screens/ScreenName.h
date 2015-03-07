@@ -9,6 +9,7 @@ namespace PinnedDownClient
 			enum ScreenName
 			{
 				Login,
+				Lobby,
 				Game
 			};
 		}

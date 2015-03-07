@@ -1,16 +1,8 @@
 #pragma once
 
-#include "LoginStatus.h"
-
-#include "Events\ClientVersionNotVerifiedEvent.h"
-#include "Events\EntityTappedEvent.h"
-#include "Events\LoginErrorEvent.h"
-#include "Events\LoginSuccessEvent.h"
-
 #include "Systems\Screens\Screen.h"
 
 using namespace PinnedDownClient::Events;
-using namespace PinnedDownNet::Events;
 
 namespace PinnedDownClient
 {
@@ -18,10 +10,10 @@ namespace PinnedDownClient
 	{
 		namespace Screens
 		{
-			class LoginScreen : public Screen, public IEventListener
+			class LobbyScreen : public Screen, public IEventListener
 			{
 			public:
-				LoginScreen();
+				LobbyScreen();
 
 				void InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientIdMapping> clientIdMapping, std::shared_ptr<EntityIdMapping> entityIdMapping);
 				void DeInitScreen();
@@ -39,21 +31,10 @@ namespace PinnedDownClient
 			private:
 				Entity splashScreen = INVALID_ENTITY_ID;
 				Entity statusLabel = INVALID_ENTITY_ID;
-				Entity reconnectButton = INVALID_ENTITY_ID;
-				Entity reconnectLabel = INVALID_ENTITY_ID;
-
-				LoginStatus loginStatus;
 
 				float totalTime = 0.0f;
 
 				void OnEvent(Event & event);
-
-				void DoLogin();
-
-				void OnClientVersionNotVerified(ClientVersionNotVerifiedEvent& clientVersionNotVerifiedEvent);
-				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
-				void OnLoginError(LoginErrorEvent& loginErrorEvent);
-				void OnLoginSuccess(LoginSuccessEvent& loginSuccessEvent);
 			};
 		}
 	}
