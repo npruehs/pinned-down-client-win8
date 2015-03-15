@@ -14,6 +14,7 @@ using namespace PinnedDownClient::Systems;
 
 
 InputSystem::InputSystem()
+	: fingerDown(false)
 {
 }
 

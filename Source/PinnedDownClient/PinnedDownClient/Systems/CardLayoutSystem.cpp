@@ -38,6 +38,7 @@ using namespace PinnedDownClient::Util;
 
 
 CardLayoutSystem::CardLayoutSystem()
+	: cardCameraPosition(Vector2F())
 {
 }
 
@@ -59,6 +60,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
 	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
+	this->game->eventManager->AddListener(this, PointerDraggedEvent::PointerDraggedEventType);
 	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, ShipDamagedEvent::ShipDamagedEventType);
@@ -89,6 +91,7 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	CALL_EVENT_HANDLER(EntityUnhoveredEvent);
 	CALL_EVENT_HANDLER(FightResolvedEvent);
 	CALL_EVENT_HANDLER(MatchEndedEvent);
+	CALL_EVENT_HANDLER(PointerDraggedEvent);
 	CALL_EVENT_HANDLER(PowerChangedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 	CALL_EVENT_HANDLER(ShipDamagedEvent);
@@ -237,6 +240,12 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, FightResolvedEvent)
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, MatchEndedEvent)
 {
 	this->Reset();
+}
+
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, PointerDraggedEvent)
+{
+	this->cardCameraPosition += data.delta;
+	this->LayoutCards();
 }
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, PowerChangedEvent)
@@ -482,6 +491,10 @@ void CardLayoutSystem::LayoutCards()
 
 	// Center player hand cards.
 	float playerHandCardPositionX = -(playerHandCards - 1) * cardOffset / 2;
+
+	// Apply card camera.
+	unassignedPlayerCardPositionX += this->cardCameraPosition.x / 1920;
+	playerHandCardPositionX += this->cardCameraPosition.x / 1920;
 
 	// Align assigned enemy cards left. Assigned player cards will be anchored to their respective enemies.
 	float assignedEnemyCardPositionX = firstAssignedCardPositionX;
