@@ -247,7 +247,11 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, MatchEndedEvent)
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, PlayerAddedEvent)
 {
-	this->players.push_back(data.serverEntity);
+	auto player = std::make_shared<PlayerLayoutData>();
+	player->playerEntity = data.serverEntity;
+
+	this->players.push_back(player);
+
 	this->cardCameraPositionXMax = (this->players.size() - 1) * this->designWidth;
 }
 
@@ -447,9 +451,14 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 void CardLayoutSystem::LayoutCards()
 {
 	// Count cards.
+	for (auto iterator = this->players.begin(); iterator != this->players.end(); iterator++)
+	{
+		auto player = *iterator;
+		player->handCards = 0;
+		player->unassignedCards = 0;
+	}
+
 	int assignedPlayerCards = 0;
-	int unassignedPlayerCards = 0;
-	int playerHandCards = 0;
 	int enemyCards = 0;
 
 	for (auto iterator = this->cards.begin(); iterator != this->cards.end(); iterator++)
@@ -469,15 +478,22 @@ void CardLayoutSystem::LayoutCards()
 				// Card is assigned to an enemy.
 				assignedPlayerCards++;
 			}
-			else if (cardStateComponent->cardState == CardState::Hand)
-			{
-				// Card is in hand.
-				playerHandCards++;
-			}
 			else
 			{
-				// Card is not assigned.
-				unassignedPlayerCards++;
+				// Get player.
+				auto player = this->GetPlayer(ownerComponent->owner);
+
+				// Update playe card count.
+				if (cardStateComponent->cardState == CardState::Hand)
+				{
+					// Card is in hand.
+					player->handCards++;
+				}
+				else
+				{
+					// Card is not assigned.
+					player->unassignedCards++;
+				}
 			}
 		}
 		else
@@ -497,15 +513,27 @@ void CardLayoutSystem::LayoutCards()
 	// Compute offset between assigned cards to the left and unassigned cards to the right.
 	float unassignedCardOffset = assignedPlayerCards * cardOffset;
 
-	// Center unassigned player cards to the right.
-	float unassignedPlayerCardPositionX = -(unassignedPlayerCards - 1) * cardOffset / 2 + unassignedCardOffset;
+	int playerIndex = 0;
+	for (auto iterator = this->players.begin(); iterator != this->players.end(); iterator++)
+	{
+		auto player = *iterator;
 
-	// Center player hand cards.
-	float playerHandCardPositionX = -(playerHandCards - 1) * cardOffset / 2;
+		// Center unassigned player cards to the right.
+		player->unassignedCardPositionX = -(player->unassignedCards - 1) * cardOffset / 2 + unassignedCardOffset;
 
-	// Apply card camera.
-	unassignedPlayerCardPositionX -= this->cardCameraPositionX / designWidth;
-	playerHandCardPositionX -= this->cardCameraPositionX / designWidth;
+		// Center player hand cards.
+		player->handCardPositionX = -(player->handCards - 1) * cardOffset / 2;
+
+		// Apply card camera.
+		player->unassignedCardPositionX -= this->cardCameraPositionX / designWidth;
+		player->handCardPositionX -= this->cardCameraPositionX / designWidth;
+
+		// Distribute players across screens.
+		player->unassignedCardPositionX += playerIndex;
+		player->handCardPositionX += playerIndex;
+
+		++playerIndex;
+	}
 
 	// Align assigned enemy cards left. Assigned player cards will be anchored to their respective enemies.
 	float assignedEnemyCardPositionX = firstAssignedCardPositionX;
@@ -533,17 +561,23 @@ void CardLayoutSystem::LayoutCards()
 
 				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
 			}
-			else if (cardStateComponent->cardState == CardState::Hand)
-			{
-				// Card is in hand.
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::Bottom, this->playerHandPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, playerHandCardPositionX), 0);
-				playerHandCardPositionX += cardOffset;
-			}
 			else
 			{
-				// Card is not assigned.
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, unassignedPlayerCardPositionX), 0);
-				unassignedPlayerCardPositionX += cardOffset;
+				// Get player.
+				auto player = this->GetPlayer(ownerComponent->owner);
+
+				if (cardStateComponent->cardState == CardState::Hand)
+				{
+					// Card is in hand.
+					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::Bottom, this->playerHandPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, player->handCardPositionX), 0);
+					player->handCardPositionX += cardOffset;
+				}
+				else
+				{
+					// Card is not assigned.
+					this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->playerCardPositionY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, player->unassignedCardPositionX), 0);
+					player->unassignedCardPositionX += cardOffset;
+				}
 			}
 		}
 		else
@@ -645,6 +679,22 @@ std::shared_ptr<Card> CardLayoutSystem::ServerEntityToCard(Entity serverEntity)
 		if (card->cardEntity == clientEntity)
 		{
 			return card;
+		}
+	}
+
+	return nullptr;
+}
+
+std::shared_ptr<PlayerLayoutData> CardLayoutSystem::GetPlayer(Entity entity)
+{
+	// Get player.
+	for (auto iterator = this->players.begin(); iterator != this->players.end(); iterator++)
+	{
+		auto player = *iterator;
+
+		if (player->playerEntity == entity)
+		{
+			return player;
 		}
 	}
 

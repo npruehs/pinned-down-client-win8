@@ -42,6 +42,16 @@ namespace PinnedDownClient
 {
 	namespace Systems
 	{
+		class PlayerLayoutData
+		{
+		public:
+			Entity playerEntity;
+			int unassignedCards;
+			int handCards;
+			float unassignedCardPositionX;
+			float handCardPositionX;
+		};
+
 		class CardLayoutSystem : public GameSystem, public IEventListener
 		{
 		public:
@@ -63,7 +73,7 @@ namespace PinnedDownClient
 
 			float cardCameraPositionX;
 			float cardCameraPositionXMax;
-			std::list<Entity> players;
+			std::list<std::shared_ptr<PlayerLayoutData>> players;
 
 			const float designWidth = 1920.0f;
 
@@ -110,6 +120,8 @@ namespace PinnedDownClient
 			
 			Entity CardBackgroundToEntityId(Entity backgroundSprite);
 			std::shared_ptr<Card> ServerEntityToCard(Entity serverEntity);
+
+			std::shared_ptr<PlayerLayoutData> GetPlayer(Entity entity);
 		};
 	}
 }
