@@ -19,6 +19,7 @@
 #include "Events\EntityUnhoveredEvent.h"
 #include "Events\FightResolvedEvent.h"
 #include "Events\MatchEndedEvent.h"
+#include "Events\PlayerAddedEvent.h"
 #include "Events\PointerDraggedEvent.h"
 #include "Events\PowerChangedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
@@ -60,7 +61,11 @@ namespace PinnedDownClient
 
 			std::shared_ptr<Card> cardDetailView;
 
-			Vector2F cardCameraPosition;
+			float cardCameraPositionX;
+			float cardCameraPositionXMax;
+			std::list<Entity> players;
+
+			const float designWidth = 1920.0f;
 
 			const float cardOffset = 0.125f;
 			const float firstAssignedCardPositionX = 0.03125f;
@@ -91,6 +96,7 @@ namespace PinnedDownClient
 			EVENT_HANDLER_DECLARATION(EntityUnhoveredEvent);
 			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
 			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
+			EVENT_HANDLER_DECLARATION(PlayerAddedEvent);
 			EVENT_HANDLER_DECLARATION(PointerDraggedEvent);
 			EVENT_HANDLER_DECLARATION(PowerChangedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);

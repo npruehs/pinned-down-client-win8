@@ -24,6 +24,7 @@
 
 #include "Systems\CardLayoutSystem.h"
 
+#include "Util\MathUtils.h"
 #include "Util\StringUtils.h"
 
 using namespace PinnedDownCore;
@@ -38,7 +39,7 @@ using namespace PinnedDownClient::Util;
 
 
 CardLayoutSystem::CardLayoutSystem()
-	: cardCameraPosition(Vector2F())
+	: cardCameraPositionX(0.0f)
 {
 }
 
@@ -60,6 +61,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, EntityIdMappingCreatedEvent::EntityIdMappingCreatedEventType);
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
 	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
+	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->AddListener(this, PointerDraggedEvent::PointerDraggedEventType);
 	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
@@ -91,6 +93,7 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	CALL_EVENT_HANDLER(EntityUnhoveredEvent);
 	CALL_EVENT_HANDLER(FightResolvedEvent);
 	CALL_EVENT_HANDLER(MatchEndedEvent);
+	CALL_EVENT_HANDLER(PlayerAddedEvent);
 	CALL_EVENT_HANDLER(PointerDraggedEvent);
 	CALL_EVENT_HANDLER(PowerChangedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
@@ -242,9 +245,17 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, MatchEndedEvent)
 	this->Reset();
 }
 
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, PlayerAddedEvent)
+{
+	this->players.push_back(data.serverEntity);
+	this->cardCameraPositionXMax = (this->players.size() - 1) * this->designWidth;
+}
+
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, PointerDraggedEvent)
 {
-	this->cardCameraPosition += data.delta;
+	this->cardCameraPositionX -= data.delta.x;
+	this->cardCameraPositionX = Clamp(this->cardCameraPositionX, 0, this->cardCameraPositionXMax);
+	
 	this->LayoutCards();
 }
 
@@ -493,8 +504,8 @@ void CardLayoutSystem::LayoutCards()
 	float playerHandCardPositionX = -(playerHandCards - 1) * cardOffset / 2;
 
 	// Apply card camera.
-	unassignedPlayerCardPositionX += this->cardCameraPosition.x / 1920;
-	playerHandCardPositionX += this->cardCameraPosition.x / 1920;
+	unassignedPlayerCardPositionX -= this->cardCameraPositionX / designWidth;
+	playerHandCardPositionX -= this->cardCameraPositionX / designWidth;
 
 	// Align assigned enemy cards left. Assigned player cards will be anchored to their respective enemies.
 	float assignedEnemyCardPositionX = firstAssignedCardPositionX;

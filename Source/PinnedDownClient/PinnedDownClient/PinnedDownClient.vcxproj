@@ -110,7 +110,7 @@
     <PackageCertificateKeyFile>PinnedDownClient_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\Bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
@@ -263,6 +263,7 @@
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
+    <ClInclude Include="Util\MathUtils.h" />
     <ClInclude Include="Util\VersionUtils.h" />
     <ClInclude Include="Components\BoundsComponent.h" />
     <ClInclude Include="Components\CardUIComponent.h" />

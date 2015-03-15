@@ -807,6 +807,7 @@
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Events\PointerDraggedEvent.h" />
+    <ClInclude Include="Util\MathUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
