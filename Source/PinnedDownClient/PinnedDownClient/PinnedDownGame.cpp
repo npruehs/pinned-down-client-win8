@@ -5,6 +5,7 @@
 #include "Resources\PinnedDownResourceManager.h"
 
 #include "Systems\AssignmentSystem.h"
+#include "Systems\CardCameraSystem.h"
 #include "Systems\CardIdMappingSystem.h"
 #include "Systems\CardLayoutSystem.h"
 #include "Systems\CardSelectionHighlightSystem.h"
@@ -52,6 +53,7 @@ timer(std::make_unique<Util::StepTimer>())
 	// Init systems.
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardIdMappingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::EntityIdMappingSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::CardCameraSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardLayoutSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::ClientIdMappingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::RenderSystem>());

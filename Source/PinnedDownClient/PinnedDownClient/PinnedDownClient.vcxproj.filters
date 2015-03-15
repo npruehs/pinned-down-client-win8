@@ -416,6 +416,10 @@
     <ClCompile Include="Systems\Screens\LobbyScreen.cpp" />
     <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Events\PointerDraggedEvent.cpp" />
+    <ClCompile Include="Systems\CardCameraSystem.cpp" />
+    <ClCompile Include="Components\PositionComponent.cpp" />
+    <ClCompile Include="Events\CardCameraCreatedEvent.cpp" />
+    <ClCompile Include="Events\PositionChangedEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -808,6 +812,10 @@
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Events\PointerDraggedEvent.h" />
     <ClInclude Include="Util\MathUtils.h" />
+    <ClInclude Include="Systems\CardCameraSystem.h" />
+    <ClInclude Include="Components\PositionComponent.h" />
+    <ClInclude Include="Events\CardCameraCreatedEvent.h" />
+    <ClInclude Include="Events\PositionChangedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

@@ -12,6 +12,7 @@
 #include "Components\CardUIComponent.h"
 #include "Components\FlagshipComponent.h"
 #include "Components\OwnerComponent.h"
+#include "Components\PositionComponent.h"
 #include "Components\PowerComponent.h"
 #include "Components\StructureComponent.h"
 #include "Components\ThreatComponent.h"
@@ -24,7 +25,6 @@
 
 #include "Systems\CardLayoutSystem.h"
 
-#include "Util\MathUtils.h"
 #include "Util\StringUtils.h"
 
 using namespace PinnedDownCore;
@@ -37,9 +37,7 @@ using namespace PinnedDownClient::Systems::CardLayout;
 using namespace PinnedDownClient::Util;
 
 
-
 CardLayoutSystem::CardLayoutSystem()
-	: cardCameraPositionX(0.0f)
 {
 }
 
@@ -50,6 +48,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->uiFactory = std::make_shared<UIFactory>(game);
 
 	this->game->eventManager->AddListener(this, CardAssignedEvent::CardAssignedEventType);
+	this->game->eventManager->AddListener(this, CardCameraCreatedEvent::CardCameraCreatedEventType);
 	this->game->eventManager->AddListener(this, CardCreatedEvent::CardCreatedEventType);
 	this->game->eventManager->AddListener(this, CardStateChangedEvent::CardStateChangedEventType);
 	this->game->eventManager->AddListener(this, CardRemovedEvent::CardRemovedEventType);
@@ -62,7 +61,7 @@ void CardLayoutSystem::InitSystem(PinnedDownCore::Game* game)
 	this->game->eventManager->AddListener(this, FightResolvedEvent::FightResolvedEventType);
 	this->game->eventManager->AddListener(this, MatchEndedEvent::MatchEndedEventType);
 	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
-	this->game->eventManager->AddListener(this, PointerDraggedEvent::PointerDraggedEventType);
+	this->game->eventManager->AddListener(this, PositionChangedEvent::PositionChangedEventType);
 	this->game->eventManager->AddListener(this, PowerChangedEvent::PowerChangedEventType);
 	this->game->eventManager->AddListener(this, RenderTargetChangedEvent::RenderTargetChangedEventType);
 	this->game->eventManager->AddListener(this, ShipDamagedEvent::ShipDamagedEventType);
@@ -82,6 +81,7 @@ void CardLayoutSystem::LoadResources()
 void CardLayoutSystem::OnEvent(Event & newEvent)
 {
 	CALL_EVENT_HANDLER(CardAssignedEvent);
+	CALL_EVENT_HANDLER(CardCameraCreatedEvent);
 	CALL_EVENT_HANDLER(CardCreatedEvent);
 	CALL_EVENT_HANDLER(CardRemovedEvent);
 	CALL_EVENT_HANDLER(CardStateChangedEvent);
@@ -94,7 +94,7 @@ void CardLayoutSystem::OnEvent(Event & newEvent)
 	CALL_EVENT_HANDLER(FightResolvedEvent);
 	CALL_EVENT_HANDLER(MatchEndedEvent);
 	CALL_EVENT_HANDLER(PlayerAddedEvent);
-	CALL_EVENT_HANDLER(PointerDraggedEvent);
+	CALL_EVENT_HANDLER(PositionChangedEvent);
 	CALL_EVENT_HANDLER(PowerChangedEvent);
 	CALL_EVENT_HANDLER(RenderTargetChangedEvent);
 	CALL_EVENT_HANDLER(ShipDamagedEvent);
@@ -111,6 +111,11 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardAssignedEvent)
 
 	// Update layout.
 	this->LayoutCards();
+}
+
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, CardCameraCreatedEvent)
+{
+	this->cardCamera = data.entity;
 }
 
 EVENT_HANDLER_DEFINITION(CardLayoutSystem, EntityIdMappingCreatedEvent)
@@ -251,15 +256,15 @@ EVENT_HANDLER_DEFINITION(CardLayoutSystem, PlayerAddedEvent)
 	player->playerEntity = data.serverEntity;
 
 	this->players.push_back(player);
-
-	this->cardCameraPositionXMax = (this->players.size() - 1) * this->designWidth;
 }
 
-EVENT_HANDLER_DEFINITION(CardLayoutSystem, PointerDraggedEvent)
+EVENT_HANDLER_DEFINITION(CardLayoutSystem, PositionChangedEvent)
 {
-	this->cardCameraPositionX -= data.delta.x;
-	this->cardCameraPositionX = Clamp(this->cardCameraPositionX, 0, this->cardCameraPositionXMax);
-	
+	if (this->cardCamera == INVALID_ENTITY_ID || data.entity != this->cardCamera)
+	{
+		return;
+	}
+
 	this->LayoutCards();
 }
 
@@ -450,6 +455,9 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 
 void CardLayoutSystem::LayoutCards()
 {
+	// Get card camera position.
+	auto cameraPosition = this->game->entityManager->GetComponent<PositionComponent>(this->cardCamera, PositionComponent::PositionComponentType);
+
 	// Count cards.
 	for (auto iterator = this->players.begin(); iterator != this->players.end(); iterator++)
 	{
@@ -525,8 +533,8 @@ void CardLayoutSystem::LayoutCards()
 		player->handCardPositionX = -(player->handCards - 1) * cardOffset / 2;
 
 		// Apply card camera.
-		player->unassignedCardPositionX -= this->cardCameraPositionX / designWidth;
-		player->handCardPositionX -= this->cardCameraPositionX / designWidth;
+		player->unassignedCardPositionX -= cameraPosition->position.x;
+		player->handCardPositionX -= cameraPosition->position.x;
 
 		// Distribute players across screens.
 		player->unassignedCardPositionX += playerIndex;

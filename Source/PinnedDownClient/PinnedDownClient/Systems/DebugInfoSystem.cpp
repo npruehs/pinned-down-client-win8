@@ -4,6 +4,7 @@
 
 #include "Components\ColorComponent.h"
 #include "Components\FontComponent.h"
+#include "Components\PositionComponent.h"
 #include "Components\ScreenPositionComponent.h"
 #include "Components\TextAlignmentComponent.h"
 #include "Components\TextComponent.h"
@@ -29,6 +30,7 @@ void DebugInfoSystem::InitSystem(Game* game)
 	this->uiFactory = std::make_shared<UIFactory>(this->game);
 	this->timer = std::make_shared<StepTimer>();
 
+	this->game->eventManager->AddListener(this, CardCameraCreatedEvent::CardCameraCreatedEventType);
 	this->game->eventManager->AddListener(this, PointerMovedEvent::PointerMovedEventType);
 
 	this->CreateEntities();
@@ -36,6 +38,12 @@ void DebugInfoSystem::InitSystem(Game* game)
 
 void DebugInfoSystem::CreateEntities()
 {
+	this->cameraPositionTextEntity = this->uiFactory->CreateLabel("");
+	this->uiFactory->SetAnchor(this->cameraPositionTextEntity,
+		VerticalAnchor(VerticalAnchorType::Bottom, cameraPositionTextPosition.y),
+		HorizontalAnchor(HorizontalAnchorType::Left, cameraPositionTextPosition.x));
+	this->uiFactory->FinishUIWidget(this->cameraPositionTextEntity);
+
 	this->pointerPositionTextEntity = this->uiFactory->CreateLabel("");
 	this->uiFactory->SetAnchor(this->pointerPositionTextEntity,
 		VerticalAnchor(VerticalAnchorType::Bottom, pointerPositionTextPosition.y),
@@ -69,7 +77,13 @@ void DebugInfoSystem::Update(float dt)
 
 void DebugInfoSystem::OnEvent(Event & newEvent)
 {
+	CALL_EVENT_HANDLER(CardCameraCreatedEvent);
 	CALL_EVENT_HANDLER(PointerMovedEvent);
+}
+
+EVENT_HANDLER_DEFINITION(DebugInfoSystem, CardCameraCreatedEvent)
+{
+	this->cardCamera = data.entity;
 }
 
 EVENT_HANDLER_DEFINITION(DebugInfoSystem, PointerMovedEvent)
@@ -78,4 +92,15 @@ EVENT_HANDLER_DEFINITION(DebugInfoSystem, PointerMovedEvent)
 	
 	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->pointerPositionTextEntity, TextComponent::TextComponentType);
 	textComponent->text = "\nPointer Position: " + this->pointerPosition.ToString();
+}
+
+EVENT_HANDLER_DEFINITION(DebugInfoSystem, PositionChangedEvent)
+{
+	if (this->cardCamera == INVALID_ENTITY_ID || data.entity != this->cardCamera)
+	{
+		return;
+	}
+
+	auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->cameraPositionTextEntity, TextComponent::TextComponentType);
+	textComponent->text = "\nCamera Position: " + data.position.ToString();
 }

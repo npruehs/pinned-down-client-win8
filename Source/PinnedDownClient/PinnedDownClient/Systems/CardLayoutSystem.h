@@ -8,6 +8,7 @@
 #include "Systems\CardLayout\DamageLayoutData.h"
 
 #include "Events\CardAssignedEvent.h"
+#include "Events\CardCameraCreatedEvent.h"
 #include "Events\CardCreatedEvent.h"
 #include "Events\CardStateChangedEvent.h"
 #include "Events\CardRemovedEvent.h"
@@ -20,7 +21,7 @@
 #include "Events\FightResolvedEvent.h"
 #include "Events\MatchEndedEvent.h"
 #include "Events\PlayerAddedEvent.h"
-#include "Events\PointerDraggedEvent.h"
+#include "Events\PositionChangedEvent.h"
 #include "Events\PowerChangedEvent.h"
 #include "Events\RenderTargetChangedEvent.h"
 #include "Events\ShipDamagedEvent.h"
@@ -60,22 +61,16 @@ namespace PinnedDownClient
 			void InitSystem(PinnedDownCore::Game* game);
 
 		private:
-			std::map<Entity, Entity> currentAssignments;
-			std::map<Entity, DamageLayoutData> damagedShips;
-			std::list<Entity> handCards;
-
-			std::shared_ptr<EntityIdMapping> entityIdMapping;
-			std::shared_ptr<UIFactory> uiFactory;
-			ComPtr<ID2D1DeviceContext> d2dContext;
 			std::list<std::shared_ptr<Card>> cards;
-
+			Entity cardCamera = INVALID_ENTITY_ID;
 			std::shared_ptr<Card> cardDetailView;
-
-			float cardCameraPositionX;
-			float cardCameraPositionXMax;
+			std::map<Entity, Entity> currentAssignments;
+			ComPtr<ID2D1DeviceContext> d2dContext;
+			std::map<Entity, DamageLayoutData> damagedShips;
+			std::shared_ptr<EntityIdMapping> entityIdMapping;
+			std::list<Entity> handCards;
 			std::list<std::shared_ptr<PlayerLayoutData>> players;
-
-			const float designWidth = 1920.0f;
+			std::shared_ptr<UIFactory> uiFactory;
 
 			const float cardOffset = 0.125f;
 			const float firstAssignedCardPositionX = 0.03125f;
@@ -96,6 +91,7 @@ namespace PinnedDownClient
 			void Reset();
 
 			EVENT_HANDLER_DECLARATION(CardAssignedEvent);
+			EVENT_HANDLER_DECLARATION(CardCameraCreatedEvent);
 			EVENT_HANDLER_DECLARATION(CardCreatedEvent);
 			EVENT_HANDLER_DECLARATION(CardStateChangedEvent);
 			EVENT_HANDLER_DECLARATION(CardRemovedEvent);
@@ -107,7 +103,7 @@ namespace PinnedDownClient
 			EVENT_HANDLER_DECLARATION(FightResolvedEvent);
 			EVENT_HANDLER_DECLARATION(MatchEndedEvent);
 			EVENT_HANDLER_DECLARATION(PlayerAddedEvent);
-			EVENT_HANDLER_DECLARATION(PointerDraggedEvent);
+			EVENT_HANDLER_DECLARATION(PositionChangedEvent);
 			EVENT_HANDLER_DECLARATION(PowerChangedEvent);
 			EVENT_HANDLER_DECLARATION(RenderTargetChangedEvent);
 			EVENT_HANDLER_DECLARATION(ShipDamagedEvent);

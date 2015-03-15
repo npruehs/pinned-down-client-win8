@@ -257,9 +257,13 @@
   <ItemGroup>
     <ClInclude Include="Actions\ConnectToServerAction.h" />
     <ClInclude Include="Actions\PlaySoundAction.h" />
+    <ClInclude Include="Components\PositionComponent.h" />
     <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
+    <ClInclude Include="Events\CardCameraCreatedEvent.h" />
     <ClInclude Include="Events\MatchEndedEvent.h" />
     <ClInclude Include="Events\PointerDraggedEvent.h" />
+    <ClInclude Include="Events\PositionChangedEvent.h" />
+    <ClInclude Include="Systems\CardCameraSystem.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
@@ -401,6 +405,7 @@
     <ClCompile Include="Components\DepthComponent.cpp" />
     <ClCompile Include="Components\FontComponent.cpp" />
     <ClCompile Include="Components\LocalizationComponent.cpp" />
+    <ClCompile Include="Components\PositionComponent.cpp" />
     <ClCompile Include="Components\ScreenPositionComponent.cpp" />
     <ClCompile Include="Components\SpriteComponent.cpp" />
     <ClCompile Include="Components\TappableComponent.cpp" />
@@ -416,6 +421,7 @@
     <ClCompile Include="Events\AppWindowPixelSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AppWindowSizeChangedEvent.cpp" />
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp" />
+    <ClCompile Include="Events\CardCameraCreatedEvent.cpp" />
     <ClCompile Include="Events\CardDeselectedEvent.cpp" />
     <ClCompile Include="Events\CardSelectedEvent.cpp" />
     <ClCompile Include="Events\CardTappedEvent.cpp" />
@@ -438,6 +444,7 @@
     <ClCompile Include="Events\PointerMovedEvent.cpp" />
     <ClCompile Include="Events\PointerPressedEvent.cpp" />
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />
+    <ClCompile Include="Events\PositionChangedEvent.cpp" />
     <ClCompile Include="Events\RenderTargetChangedEvent.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Events\ResourceLoadedEvent.cpp" />
@@ -935,6 +942,7 @@
     <ClCompile Include="Resources\TextResourceHandle.cpp" />
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp" />
     <ClCompile Include="Systems\AssignmentSystem.cpp" />
+    <ClCompile Include="Systems\CardCameraSystem.cpp" />
     <ClCompile Include="Systems\CardIdMappingSystem.cpp" />
     <ClCompile Include="Systems\CardLayoutSystem.cpp" />
     <ClCompile Include="Systems\CardPlayingSystem.cpp" />
