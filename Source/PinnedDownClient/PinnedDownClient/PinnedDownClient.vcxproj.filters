@@ -414,6 +414,8 @@
     </ClCompile>
     <ClCompile Include="Events\AppWindowPixelSizeChangedEvent.cpp" />
     <ClCompile Include="Systems\Screens\LobbyScreen.cpp" />
+    <ClCompile Include="Systems\InputSystem.cpp" />
+    <ClCompile Include="Events\PointerDraggedEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -803,6 +805,8 @@
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
     <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
+    <ClInclude Include="Systems\InputSystem.h" />
+    <ClInclude Include="Events\PointerDraggedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

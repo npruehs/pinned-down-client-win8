@@ -259,6 +259,8 @@
     <ClInclude Include="Actions\PlaySoundAction.h" />
     <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
     <ClInclude Include="Events\MatchEndedEvent.h" />
+    <ClInclude Include="Events\PointerDraggedEvent.h" />
+    <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
     <ClInclude Include="Systems\Screens\LoginStatus.h" />
     <ClInclude Include="Util\VersionUtils.h" />
@@ -431,6 +433,7 @@
     <ClCompile Include="Events\LocalizationDataLoadedEvent.cpp" />
     <ClCompile Include="Events\LocalizedTextChangedEvent.cpp" />
     <ClCompile Include="Events\LoginErrorEvent.cpp" />
+    <ClCompile Include="Events\PointerDraggedEvent.cpp" />
     <ClCompile Include="Events\PointerMovedEvent.cpp" />
     <ClCompile Include="Events\PointerPressedEvent.cpp" />
     <ClCompile Include="Events\PointerReleasedEvent.cpp" />
@@ -939,6 +942,7 @@
     <ClCompile Include="Systems\DebugInfoSystem.cpp" />
     <ClCompile Include="Systems\EntityIdMappingSystem.cpp" />
     <ClCompile Include="Systems\FightSystem.cpp" />
+    <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Systems\LocalizationSystem.cpp" />
     <ClCompile Include="Systems\LuaScriptSystem.cpp" />
     <ClCompile Include="Systems\NetworkSystem.cpp" />

@@ -6,6 +6,7 @@
 #include "EntityInitializedEvent.h"
 #include "EntityRemovedEvent.h"
 
+#include "Events\PointerDraggedEvent.h"
 #include "Events\PointerMovedEvent.h"
 
 using namespace PinnedDownCore;
@@ -22,7 +23,8 @@ void EventLogger::OnEvent(Event & newEvent)
 	if (newEvent.GetEventType() == EntityCreatedEvent::EntityCreatedEventType ||
 		newEvent.GetEventType() == EntityInitializedEvent::EntityInitializedEventType ||
 		newEvent.GetEventType() == EntityRemovedEvent::EntityRemovedEventType ||
-		newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType)
+		newEvent.GetEventType() == PointerMovedEvent::PointerMovedEventType ||
+		newEvent.GetEventType() == PointerDraggedEvent::PointerDraggedEventType)
 	{
 		return;
 	}

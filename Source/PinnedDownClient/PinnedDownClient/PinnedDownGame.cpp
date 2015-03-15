@@ -11,6 +11,7 @@
 #include "Systems\ClientIdMappingSystem.h"
 #include "Systems\DebugInfoSystem.h"
 #include "Systems\EntityIdMappingSystem.h"
+#include "Systems\InputSystem.h"
 #include "Systems\FightSystem.h"
 #include "Systems\LuaScriptSystem.h"
 #include "Systems\LocalizationSystem.h"
@@ -68,6 +69,7 @@ timer(std::make_unique<Util::StepTimer>())
 	this->game->systemManager->AddSystem(std::make_shared<Systems::CardPlayingSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::FightSystem>());
 	this->game->systemManager->AddSystem(std::make_shared<Systems::SoundEffectSystem>());
+	this->game->systemManager->AddSystem(std::make_shared<Systems::InputSystem>());
 
 	this->game->systemManager->InitSystems();
 	this->game->logger->LogInfo("Game initialized.");
