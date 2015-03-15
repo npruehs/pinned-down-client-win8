@@ -69,6 +69,7 @@ GameScreen_Hint_Jump = ""
 GameScreen_Hint_Main = "Tap a starship on your hand to deploy it for battle!\r\nTap and hold any hand card to show its details!\r\n"
 
 GameScreen_Info_DistanceCovered = "Distance Covered:"
+GameScreen_Info_PlayerName_You = "(You!)"
 GameScreen_Info_TurnPhase = "Turn Phase:"
 GameScreen_Info_Threat = "Threat:"
 

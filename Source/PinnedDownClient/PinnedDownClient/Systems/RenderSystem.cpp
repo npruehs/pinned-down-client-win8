@@ -634,7 +634,6 @@ void RenderSystem::CreateWindowSizeDependentResources()
 	}
 
 	// Set the proper orientation for the swap chain.
-	// TODO(np): Always set swap chain rotation?
 	ThrowIfFailed(
 		this->dxgiSwapChain->SetRotation(displayRotation)
 		);

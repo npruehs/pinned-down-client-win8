@@ -263,6 +263,7 @@
     <ClInclude Include="Events\MatchEndedEvent.h" />
     <ClInclude Include="Events\PointerDraggedEvent.h" />
     <ClInclude Include="Events\PositionChangedEvent.h" />
+    <ClInclude Include="Events\WatchedPlayerChangedEvent.h" />
     <ClInclude Include="Systems\CardCameraSystem.h" />
     <ClInclude Include="Systems\InputSystem.h" />
     <ClInclude Include="Systems\Screens\LobbyScreen.h" />
@@ -450,6 +451,7 @@
     <ClCompile Include="Events\ResourceLoadedEvent.cpp" />
     <ClCompile Include="Events\ScreenChangedEvent.cpp" />
     <ClCompile Include="Events\UIModeChangedEvent.cpp" />
+    <ClCompile Include="Events\WatchedPlayerChangedEvent.cpp" />
     <ClCompile Include="Lua\lapi.c">
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

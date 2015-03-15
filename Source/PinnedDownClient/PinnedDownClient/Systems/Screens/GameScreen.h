@@ -4,12 +4,12 @@
 #include "Events\DefeatEvent.h"
 #include "Events\EntityTappedEvent.h"
 #include "Events\ErrorMessageEvent.h"
-#include "Events\PlayerAddedEvent.h"
 #include "Events\PlayerLeftEvent.h"
 #include "Events\PlayerReadyStateResetEvent.h"
 #include "Events\ThreatChangedEvent.h"
 #include "Events\TurnPhaseChangedEvent.h"
 #include "Events\VictoryEvent.h"
+#include "Events\WatchedPlayerChangedEvent.h"
 
 #include "Systems\Screens\Screen.h"
 
@@ -56,6 +56,7 @@ namespace PinnedDownClient
 				Entity hintLabel = INVALID_ENTITY_ID;
 				Entity hintOverlay = INVALID_ENTITY_ID;
 				Entity playerNameLabel = INVALID_ENTITY_ID;
+				Entity playerNameYouLabel = INVALID_ENTITY_ID;
 				Entity threatLabel = INVALID_ENTITY_ID;
 				Entity threatValueLabel = INVALID_ENTITY_ID;
 				Entity turnPhaseLabel = INVALID_ENTITY_ID;
@@ -78,12 +79,12 @@ namespace PinnedDownClient
 				void OnDefeat(DefeatEvent& defeatEvent);
 				void OnEntityTapped(EntityTappedEvent& entityTappedEvent);
 				void OnErrorMessage(ErrorMessageEvent& errorMessageEvent);
-				void OnPlayerAdded(PlayerAddedEvent& playerAddedEvent);
 				void OnPlayerLeft(PlayerLeftEvent& playerLeftEvent);
 				void OnPlayerReadyStateReset(PlayerReadyStateResetEvent& playerReadyStateResetEvent);
 				void OnThreatChanged(ThreatChangedEvent& threatChangedEvent);
 				void OnTurnPhaseChanged(TurnPhaseChangedEvent& turnPhaseChangedEvent);
 				void OnVictory(VictoryEvent& victoryEvent);
+				void OnWatchedPlayerChanged(WatchedPlayerChangedEvent& watchedPlayerChangedEvent);
 				
 				void SetPlayerReady(bool ready);
 				void ShowGameOver(std::string title);

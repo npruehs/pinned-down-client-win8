@@ -420,6 +420,7 @@
     <ClCompile Include="Components\PositionComponent.cpp" />
     <ClCompile Include="Events\CardCameraCreatedEvent.cpp" />
     <ClCompile Include="Events\PositionChangedEvent.cpp" />
+    <ClCompile Include="Events\WatchedPlayerChangedEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -816,6 +817,7 @@
     <ClInclude Include="Components\PositionComponent.h" />
     <ClInclude Include="Events\CardCameraCreatedEvent.h" />
     <ClInclude Include="Events\PositionChangedEvent.h" />
+    <ClInclude Include="Events\WatchedPlayerChangedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

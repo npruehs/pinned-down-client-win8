@@ -45,12 +45,12 @@ void GameScreen::InitScreen(PinnedDownCore::Game* game, std::shared_ptr<ClientId
 	this->game->eventManager->AddListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->AddListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->AddListener(this, ErrorMessageEvent::ErrorMessageEventType);
-	this->game->eventManager->AddListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->AddListener(this, PlayerLeftEvent::PlayerLeftEventType);
 	this->game->eventManager->AddListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->AddListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->AddListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
-	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);	
+	this->game->eventManager->AddListener(this, VictoryEvent::VictoryEventType);
+	this->game->eventManager->AddListener(this, WatchedPlayerChangedEvent::WatchedPlayerChangedEventType);
 }
 
 void GameScreen::DeInitScreen()
@@ -59,12 +59,12 @@ void GameScreen::DeInitScreen()
 	this->game->eventManager->RemoveListener(this, DefeatEvent::DefeatEventType);
 	this->game->eventManager->RemoveListener(this, EntityTappedEvent::EntityTappedEventType);
 	this->game->eventManager->RemoveListener(this, ErrorMessageEvent::ErrorMessageEventType);
-	this->game->eventManager->RemoveListener(this, PlayerAddedEvent::PlayerAddedEventType);
 	this->game->eventManager->RemoveListener(this, PlayerLeftEvent::PlayerLeftEventType);
 	this->game->eventManager->RemoveListener(this, PlayerReadyStateResetEvent::PlayerReadyStateResetEventType);
 	this->game->eventManager->RemoveListener(this, ThreatChangedEvent::ThreatChangedEventType);
 	this->game->eventManager->RemoveListener(this, TurnPhaseChangedEvent::TurnPhaseChangedEventType);
 	this->game->eventManager->RemoveListener(this, VictoryEvent::VictoryEventType);
+	this->game->eventManager->RemoveListener(this, WatchedPlayerChangedEvent::WatchedPlayerChangedEventType);
 }
 
 void GameScreen::LoadResources(Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dContext)
@@ -96,8 +96,12 @@ void GameScreen::LoadUI()
 {
 	// Player name label.
 	this->playerNameLabel = this->uiFactory->CreateLabel();
-	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Right, -0.125f), 0);
+	this->uiFactory->SetAnchor(this->playerNameLabel, VerticalAnchor(VerticalAnchorType::Top, 0.022f), HorizontalAnchor(HorizontalAnchorType::Left, 0.875f), 0);
 	this->uiFactory->FinishUIWidget(this->playerNameLabel);
+
+	this->playerNameYouLabel = this->uiFactory->CreateLabel("GameScreen_Info_PlayerName_You");
+	this->uiFactory->SetAnchor(this->playerNameYouLabel, VerticalAnchor(VerticalAnchorType::Top, 0.0f), HorizontalAnchor(HorizontalAnchorType::Left, 0.075f), this->playerNameLabel);
+	this->uiFactory->FinishUIWidget(this->playerNameYouLabel);
 
 	// Distance label.
 	this->distanceLabel = this->uiFactory->CreateLabel("GameScreen_Info_DistanceCovered");
@@ -181,6 +185,7 @@ void GameScreen::UnloadUI()
 	this->game->entityManager->RemoveEntity(this->hintLabel);
 	this->game->entityManager->RemoveEntity(this->hintOverlay);
 	this->game->entityManager->RemoveEntity(this->playerNameLabel);
+	this->game->entityManager->RemoveEntity(this->playerNameYouLabel);
 	this->game->entityManager->RemoveEntity(this->threatLabel);
 	this->game->entityManager->RemoveEntity(this->threatValueLabel);
 	this->game->entityManager->RemoveEntity(this->turnPhaseLabel);
@@ -210,11 +215,6 @@ void GameScreen::OnEvent(Event & newEvent)
 		auto errorMessageEvent = static_cast<ErrorMessageEvent&>(newEvent);
 		this->OnErrorMessage(errorMessageEvent);
 	}
-	else if (newEvent.GetEventType() == PlayerAddedEvent::PlayerAddedEventType)
-	{
-		auto playerAddedEvent = static_cast<PlayerAddedEvent&>(newEvent);
-		this->OnPlayerAdded(playerAddedEvent);
-	}
 	else if (newEvent.GetEventType() == PlayerLeftEvent::PlayerLeftEventType)
 	{
 		auto playerLeftEvent = static_cast<PlayerLeftEvent&>(newEvent);
@@ -239,6 +239,11 @@ void GameScreen::OnEvent(Event & newEvent)
 	{
 		auto victoryEvent = static_cast<VictoryEvent&>(newEvent);
 		this->OnVictory(victoryEvent);
+	}
+	else if (newEvent.GetEventType() == WatchedPlayerChangedEvent::WatchedPlayerChangedEventType)
+	{
+		auto watchedPlayerChangedEvent = static_cast<WatchedPlayerChangedEvent&>(newEvent);
+		this->OnWatchedPlayerChanged(watchedPlayerChangedEvent);
 	}
 }
 
@@ -312,15 +317,6 @@ void GameScreen::OnErrorMessage(ErrorMessageEvent& errorMessageEvent)
 	this->errorTimeRemaining = this->errorTimeout;
 }
 
-void GameScreen::OnPlayerAdded(PlayerAddedEvent& playerAddedEvent)
-{
-	if (this->clientIdMapping->IsLocalPlayer(playerAddedEvent.serverEntity))
-	{
-		auto textComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameLabel, TextComponent::TextComponentType);
-		textComponent->text = playerAddedEvent.playerName;
-	}
-}
-
 void GameScreen::OnPlayerLeft(PlayerLeftEvent& playerLeftEvent)
 {
 	// Show defeat window.
@@ -363,6 +359,25 @@ void GameScreen::OnVictory(VictoryEvent& victoryEvent)
 {
 	// Show victory window.
 	this->ShowGameOver("GameScreen_GameOver_Victory");
+}
+
+void GameScreen::OnWatchedPlayerChanged(WatchedPlayerChangedEvent& watchedPlayerChangedEvent)
+{
+	auto playerNameTextComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameLabel, TextComponent::TextComponentType);
+	playerNameTextComponent->text = watchedPlayerChangedEvent.playerName;
+	
+	if (this->clientIdMapping->IsLocalPlayer(watchedPlayerChangedEvent.serverEntity))
+	{
+		// Show "You!".
+		auto localizedTextChangedEvent = std::make_shared<LocalizedTextChangedEvent>(this->playerNameYouLabel);
+		this->game->eventManager->QueueEvent(localizedTextChangedEvent);
+	}
+	else
+	{
+		// Hide "You!".
+		auto playerNameYouTextComponent = this->game->entityManager->GetComponent<TextComponent>(this->playerNameYouLabel, TextComponent::TextComponentType);
+		playerNameYouTextComponent->text = "";
+	}
 }
 
 void GameScreen::SetPlayerReady(bool ready)
