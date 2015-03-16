@@ -6,9 +6,10 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-#include "Actions\PlaySoundAction.h"
+#include "Source\Features\Audio\Actions\PlaySoundAction.h"
 
 using namespace PinnedDownCore;
+using namespace PinnedDownClient::Features::Audio::Actions;
 using namespace PinnedDownClient::Events;
 using namespace Microsoft::WRL;
 

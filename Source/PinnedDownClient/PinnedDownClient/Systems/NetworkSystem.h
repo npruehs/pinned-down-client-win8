@@ -3,7 +3,7 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-#include "Actions\ConnectToServerAction.h"
+#include "Source\Features\Network\Actions\ConnectToServerAction.h"
 
 #include "Services\MobileServices\PinnedDownMobileService.h"
 
@@ -18,6 +18,8 @@ using namespace Windows::Storage::Streams;
 using namespace Microsoft::WRL;
 
 using namespace PinnedDownClient::Events;
+
+using namespace PinnedDownClient::Features::Network::Actions;
 
 using namespace PinnedDownClient::Systems::Network;
 

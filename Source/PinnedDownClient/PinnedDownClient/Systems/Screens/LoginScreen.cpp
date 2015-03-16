@@ -1,6 +1,5 @@
 #include "pch.h"
 
-#include "Actions\ConnectToServerAction.h"
 #include "Actions\VerifyClientVersionAction.h"
 
 #include "Events\LocalizedTextChangedEvent.h"
@@ -10,11 +9,14 @@
 
 #include "Resources\PinnedDownResourceManager.h"
 
+#include "Source\Features\Network\Actions\ConnectToServerAction.h"
+
 #include "Systems\Screens\LoginScreen.h"
 
 #include "Util\VersionUtils.h"
 
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Features::Network::Actions;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
 

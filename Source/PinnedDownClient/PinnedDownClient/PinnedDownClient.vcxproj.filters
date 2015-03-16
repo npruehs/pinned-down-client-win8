@@ -295,9 +295,6 @@
     <ClCompile Include="Services\MobileServices\PinnedDownMobileService.cpp">
       <Filter>Services\MobileServices</Filter>
     </ClCompile>
-    <ClCompile Include="Actions\ConnectToServerAction.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="Util\FileLogger.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -315,9 +312,6 @@
     </ClCompile>
     <ClCompile Include="Systems\Network\ClientActionDispatcher.cpp">
       <Filter>Systems\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Actions\PlaySoundAction.cpp">
-      <Filter>Actions</Filter>
     </ClCompile>
     <ClCompile Include="Events\AudioEngineChangedEvent.cpp">
       <Filter>Events</Filter>
@@ -421,6 +415,12 @@
     <ClCompile Include="Events\CardCameraCreatedEvent.cpp" />
     <ClCompile Include="Events\PositionChangedEvent.cpp" />
     <ClCompile Include="Events\WatchedPlayerChangedEvent.cpp" />
+    <ClCompile Include="Source\Features\Audio\Actions\PlaySoundAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Network\Actions\ConnectToServerAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -678,9 +678,6 @@
     <ClInclude Include="Services\MobileServices\PinnedDownMobileService.h">
       <Filter>Services\MobileServices</Filter>
     </ClInclude>
-    <ClInclude Include="Actions\ConnectToServerAction.h">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="Util\FileLogger.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -698,9 +695,6 @@
     </ClInclude>
     <ClInclude Include="Systems\Network\ClientActionDispatcher.h">
       <Filter>Systems\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Actions\PlaySoundAction.h">
-      <Filter>Actions</Filter>
     </ClInclude>
     <ClInclude Include="Events\AudioEngineChangedEvent.h">
       <Filter>Events</Filter>
@@ -818,6 +812,12 @@
     <ClInclude Include="Events\CardCameraCreatedEvent.h" />
     <ClInclude Include="Events\PositionChangedEvent.h" />
     <ClInclude Include="Events\WatchedPlayerChangedEvent.h" />
+    <ClInclude Include="Source\Features\Audio\Actions\PlaySoundAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Network\Actions\ConnectToServerAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

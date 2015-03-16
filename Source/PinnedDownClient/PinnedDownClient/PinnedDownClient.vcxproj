@@ -255,8 +255,8 @@
     <Image Include="Assets\Window.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actions\ConnectToServerAction.h" />
-    <ClInclude Include="Actions\PlaySoundAction.h" />
+    <ClInclude Include="Source\Features\Network\Actions\ConnectToServerAction.h" />
+    <ClInclude Include="Source\Features\Audio\Actions\PlaySoundAction.h" />
     <ClInclude Include="Components\PositionComponent.h" />
     <ClInclude Include="Events\AppWindowPixelSizeChangedEvent.h" />
     <ClInclude Include="Events\CardCameraCreatedEvent.h" />
@@ -398,8 +398,8 @@
     <ClInclude Include="Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actions\ConnectToServerAction.cpp" />
-    <ClCompile Include="Actions\PlaySoundAction.cpp" />
+    <ClCompile Include="Source\Features\Network\Actions\ConnectToServerAction.cpp" />
+    <ClCompile Include="Source\Features\Audio\Actions\PlaySoundAction.cpp" />
     <ClCompile Include="Components\BoundsComponent.cpp" />
     <ClCompile Include="Components\CardUIComponent.cpp" />
     <ClCompile Include="Components\ColorComponent.cpp" />

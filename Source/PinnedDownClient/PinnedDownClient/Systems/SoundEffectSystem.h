@@ -3,7 +3,7 @@
 #include "IEventListener.h"
 #include "GameSystem.h"
 
-#include "Actions\PlaySoundAction.h"
+#include "Source\Features\Audio\Actions\PlaySoundAction.h"
 
 #include "Events\AudioEngineChangedEvent.h"
 #include "Events\DefeatEvent.h"
