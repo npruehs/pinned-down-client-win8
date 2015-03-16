@@ -2,10 +2,11 @@
 
 #include "pch.h"
 
-#include "Components\SpriteComponent.h"
+#include "Source\Features\Rendering\Components\SpriteComponent.h"
+
 #include "Systems\Rendering\IRenderable.h"
 
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Rendering;
 using namespace PinnedDownClient::Systems::Rendering;
 
 namespace PinnedDownClient

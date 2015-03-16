@@ -2,9 +2,9 @@
 #include "Event.h"
 #include "Systems\UIInteractionSystem.h"
 
-#include "Components\BoundsComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\TappableComponent.h"
+#include "Source\Features\Input\Components\TappableComponent.h"
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
 
 #include "EntityRemovedEvent.h"
 #include "Events\EntityHoveredEvent.h"
@@ -14,7 +14,8 @@
 #include "Math\RectF.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Input;
+using namespace PinnedDownClient::Features::Layout;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Systems;

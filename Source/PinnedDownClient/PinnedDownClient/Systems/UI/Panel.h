@@ -2,10 +2,8 @@
 
 #include "pch.h"
 
-#include "Components\BoundsComponent.h"
-#include "Components\ScreenPositionComponent.h"
-
-using namespace PinnedDownClient::Components;
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
 
 namespace PinnedDownClient
 {

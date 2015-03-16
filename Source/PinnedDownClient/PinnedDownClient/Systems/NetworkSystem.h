@@ -19,7 +19,7 @@ using namespace Microsoft::WRL;
 
 using namespace PinnedDownClient::Events;
 
-using namespace PinnedDownClient::Features::Network::Actions;
+using namespace PinnedDownClient::Features::Network;
 
 using namespace PinnedDownClient::Systems::Network;
 

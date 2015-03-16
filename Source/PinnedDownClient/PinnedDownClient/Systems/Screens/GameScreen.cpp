@@ -8,9 +8,9 @@
 
 #include "Data\TurnPhase.h"
 
-#include "Components\ColorComponent.h"
-#include "Components\LocalizationComponent.h"
-#include "Components\TextComponent.h"
+#include "Source\Features\Rendering\Components\ColorComponent.h"
+#include "Source\Features\Globalization\Components\LocalizationComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
@@ -21,7 +21,8 @@
 
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownNet::Data;
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Globalization;
+using namespace PinnedDownClient::Features::Rendering;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;

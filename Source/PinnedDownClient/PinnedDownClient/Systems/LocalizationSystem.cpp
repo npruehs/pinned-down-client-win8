@@ -4,8 +4,8 @@
 
 #include "Events\LocalizationDataLoadedEvent.h"
 
-#include "Components\LocalizationComponent.h"
-#include "Components\TextComponent.h"
+#include "Source\Features\Globalization\Components\LocalizationComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 #include "Resources\TextResourceHandle.h"
@@ -15,11 +15,12 @@
 #include "Util\StringUtils.h"
 
 
-using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Util;
+
+using namespace PinnedDownClient::Features::Globalization;
 
 
 #define LOCALIZATION_FILE_NAME "English.lua"

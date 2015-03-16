@@ -4,8 +4,8 @@
 
 #include "Events\LocalizedTextChangedEvent.h"
 
-#include "Components\LocalizationComponent.h"
-#include "Components\TextComponent.h"
+#include "Source\Features\Globalization\Components\LocalizationComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
 
 #include "Resources\PinnedDownResourceManager.h"
 
@@ -13,6 +13,7 @@
 
 
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Features::Globalization;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems::Screens;
 using namespace PinnedDownNet::Events;

@@ -2,16 +2,19 @@
 #include "Event.h"
 #include "Systems\UILayoutSystem.h"
 
-#include "Components\UIPanelComponent.h"
-#include "Components\BoundsComponent.h"
-#include "Components\ScreenPositionComponent.h"
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\UI\Components\UIPanelComponent.h"
+
 
 using namespace PinnedDownCore;
 
 using namespace Windows::ApplicationModel;
 
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::UI;
 using namespace PinnedDownClient::Systems;
-using namespace PinnedDownClient::Components;
+
 
 UILayoutSystem::UILayoutSystem()
 {

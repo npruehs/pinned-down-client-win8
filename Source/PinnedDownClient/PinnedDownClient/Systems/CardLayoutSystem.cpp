@@ -9,10 +9,10 @@
 #include "Components\AffiliationComponent.h"
 #include "Components\CardComponent.h"
 #include "Components\CardStateComponent.h"
-#include "Components\CardUIComponent.h"
+#include "Source\Features\Cards\Components\CardBackgroundComponent.h"
 #include "Components\FlagshipComponent.h"
 #include "Components\OwnerComponent.h"
-#include "Components\PositionComponent.h"
+#include "Source\Features\Layout\Components\PositionComponent.h"
 #include "Components\PowerComponent.h"
 #include "Components\StructureComponent.h"
 #include "Components\ThreatComponent.h"
@@ -31,6 +31,8 @@ using namespace PinnedDownCore;
 using namespace PinnedDownNet::Components;
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
+using namespace PinnedDownClient::Features::Cards;
+using namespace PinnedDownClient::Features::Layout;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::CardLayout;
@@ -446,9 +448,9 @@ std::shared_ptr<Card> CardLayoutSystem::CreateCard(Entity cardEntity)
 	this->uiFactory->SetPanel(card->abilityLabel, card->panel);
 	this->uiFactory->FinishUIWidget(card->abilityLabel);
 
-	auto cardUiComponent = std::make_shared<CardUIComponent>();
-	cardUiComponent->background = card->backgroundSprite;
-	this->game->entityManager->AddComponent(card->cardEntity, cardUiComponent);
+	auto cardBackgroundComponent = std::make_shared<CardBackgroundComponent>();
+	cardBackgroundComponent->background = card->backgroundSprite;
+	this->game->entityManager->AddComponent(card->cardEntity, cardBackgroundComponent);
 
 	return card;
 }
@@ -565,9 +567,9 @@ void CardLayoutSystem::LayoutCards()
 			{
 				// Card is assigned to an enemy.
 				auto targetCard = assignment->second;
-				auto targetCardUiComponent = this->game->entityManager->GetComponent<CardUIComponent>(targetCard, CardUIComponent::CardUIComponentType);
+				auto targetCardBackgroundComponent = this->game->entityManager->GetComponent<CardBackgroundComponent>(targetCard, CardBackgroundComponent::CardBackgroundComponentType);
 
-				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardUiComponent->background);
+				this->uiFactory->SetAnchor(card->backgroundSprite, VerticalAnchor(VerticalAnchorType::VerticalCenter, this->assignedCardOffsetY), HorizontalAnchor(HorizontalAnchorType::HorizontalCenter, 0.0f), targetCardBackgroundComponent->background);
 			}
 			else
 			{

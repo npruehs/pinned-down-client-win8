@@ -5,10 +5,11 @@
 #include "Game.h"
 #include "PinnedDownGame.h"
 
-#include "Components\UIAnchorComponent.h"
+#include "Source\Features\UI\Components\UIAnchorComponent.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Components;
+
+using namespace PinnedDownClient::Features::UI;
 
 namespace PinnedDownClient
 {

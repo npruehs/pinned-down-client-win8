@@ -13,7 +13,7 @@ using namespace PinnedDownCore;
 using namespace PinnedDownNet::Components;
 using namespace PinnedDownNet::Events;
 using namespace PinnedDownClient::Events;
-using namespace PinnedDownClient::Features::Audio::Actions;
+using namespace PinnedDownClient::Features::Audio;
 using namespace PinnedDownClient::Resources;
 using namespace PinnedDownClient::Systems;
 

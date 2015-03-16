@@ -10,30 +10,27 @@ namespace PinnedDownClient
 	{
 		namespace Audio
 		{
-			namespace Actions
+			struct PlaySoundAction : public PinnedDownCore::Event
 			{
-				struct PlaySoundAction : public PinnedDownCore::Event
+				static const HashedString PlaySoundActionType;
+
+				const HashedString & GetEventType() const
 				{
-					static const HashedString PlaySoundActionType;
+					return PlaySoundActionType;
+				}
 
-					const HashedString & GetEventType() const
-					{
-						return PlaySoundActionType;
-					}
+				std::string soundAsset;
 
-					std::string soundAsset;
+				explicit PlaySoundAction(std::string soundAsset)
+				{
+					this->soundAsset = soundAsset;
+				}
 
-					explicit PlaySoundAction(std::string soundAsset)
-					{
-						this->soundAsset = soundAsset;
-					}
-
-					std::string ToString() const
-					{
-						return std::string("Play sound " + this->soundAsset);
-					}
-				};
-			}
+				std::string ToString() const
+				{
+					return std::string("Play sound " + this->soundAsset);
+				}
+			};
 		}
 	}
 }

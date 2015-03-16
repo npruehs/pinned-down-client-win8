@@ -217,50 +217,11 @@
     <ClCompile Include="Systems\DebugInfoSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Components\ScreenPositionComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\TextComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\TextAlignmentComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\FontComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\ColorComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\UIPanelComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\BoundsComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\UILayoutSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Components\UIAnchorComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\UI\UIFactory.cpp">
       <Filter>Systems\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\SpriteComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\DepthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\UIWidgetComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\VisibilityComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\TappableComponent.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Systems\UIInteractionSystem.cpp">
       <Filter>Systems</Filter>
@@ -325,9 +286,6 @@
     <ClCompile Include="Util\LuaInstance.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Components\LocalizationComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\LocalizationSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -376,9 +334,6 @@
     <ClCompile Include="Systems\CardSelectionHighlightSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Components\CardUIComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\FightSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -411,7 +366,6 @@
     <ClCompile Include="Systems\InputSystem.cpp" />
     <ClCompile Include="Events\PointerDraggedEvent.cpp" />
     <ClCompile Include="Systems\CardCameraSystem.cpp" />
-    <ClCompile Include="Components\PositionComponent.cpp" />
     <ClCompile Include="Events\CardCameraCreatedEvent.cpp" />
     <ClCompile Include="Events\PositionChangedEvent.cpp" />
     <ClCompile Include="Events\WatchedPlayerChangedEvent.cpp" />
@@ -420,6 +374,52 @@
     </ClCompile>
     <ClCompile Include="Source\Features\Network\Actions\ConnectToServerAction.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Layout\Components\BoundsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Globalization\Components\LocalizationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\ColorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\DepthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\FontComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\SpriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Input\Components\TappableComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\TextAlignmentComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Layout\Components\PositionComponent.cpp" />
+    <ClCompile Include="Source\Features\Layout\Components\ScreenPositionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Globalization\Components\TextComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Rendering\Components\VisibilityComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\UI\Components\UIAnchorComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\UI\Components\UIPanelComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\UI\Components\UIWidgetComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Features\Cards\Components\CardBackgroundComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -576,32 +576,8 @@
     <ClInclude Include="Systems\DebugInfoSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Components\ScreenPositionComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\TextComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\TextAlignmentComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\FontComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\ColorComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\UIPanelComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\BoundsComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\UILayoutSystem.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\UIAnchorComponent.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UI\Anchor.h">
       <Filter>Systems\UI</Filter>
@@ -612,9 +588,6 @@
     <ClInclude Include="Systems\UI\UIFactory.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Components\SpriteComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\UI\Sprite.h">
       <Filter>Systems\UI</Filter>
     </ClInclude>
@@ -623,18 +596,6 @@
     </ClInclude>
     <ClInclude Include="Systems\UI\Label.h">
       <Filter>Systems\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\DepthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\UIWidgetComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\VisibilityComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\TappableComponent.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Systems\UIInteractionSystem.h">
       <Filter>Systems</Filter>
@@ -711,9 +672,6 @@
     <ClInclude Include="Util\LuaInstance.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Components\LocalizationComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\LocalizationSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -762,9 +720,6 @@
     <ClInclude Include="Systems\CardSelectionHighlightSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Components\CardUIComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\FightSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -808,7 +763,6 @@
     <ClInclude Include="Events\PointerDraggedEvent.h" />
     <ClInclude Include="Util\MathUtils.h" />
     <ClInclude Include="Systems\CardCameraSystem.h" />
-    <ClInclude Include="Components\PositionComponent.h" />
     <ClInclude Include="Events\CardCameraCreatedEvent.h" />
     <ClInclude Include="Events\PositionChangedEvent.h" />
     <ClInclude Include="Events\WatchedPlayerChangedEvent.h" />
@@ -817,6 +771,52 @@
     </ClInclude>
     <ClInclude Include="Source\Features\Network\Actions\ConnectToServerAction.h">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Layout\Components\BoundsComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Globalization\Components\LocalizationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\ColorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\DepthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\FontComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\SpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Input\Components\TappableComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\TextAlignmentComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Layout\Components\PositionComponent.h" />
+    <ClInclude Include="Source\Features\Layout\Components\ScreenPositionComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Globalization\Components\TextComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Rendering\Components\VisibilityComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\UI\Components\UIAnchorComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\UI\Components\UIPanelComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\UI\Components\UIWidgetComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Features\Cards\Components\CardBackgroundComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

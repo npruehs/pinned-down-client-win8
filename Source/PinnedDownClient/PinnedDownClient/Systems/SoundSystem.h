@@ -9,7 +9,7 @@
 #include "Source\Features\Audio\Actions\PlaySoundAction.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Features::Audio::Actions;
+using namespace PinnedDownClient::Features::Audio;
 using namespace PinnedDownClient::Events;
 using namespace Microsoft::WRL;
 

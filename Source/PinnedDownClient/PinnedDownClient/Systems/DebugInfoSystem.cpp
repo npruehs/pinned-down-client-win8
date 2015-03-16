@@ -2,23 +2,25 @@
 #include "Event.h"
 #include "Systems\DebugInfoSystem.h"
 
-#include "Components\ColorComponent.h"
-#include "Components\FontComponent.h"
-#include "Components\PositionComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\TextAlignmentComponent.h"
-#include "Components\TextComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
+#include "Source\Features\Layout\Components\PositionComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\Rendering\Components\ColorComponent.h"
+#include "Source\Features\Rendering\Components\FontComponent.h"
+#include "Source\Features\Rendering\Components\TextAlignmentComponent.h"
+
 
 #include "EntityInitializedEvent.h"
 
 #include "..\Util\VersionUtils.h"
 
 using namespace PinnedDownCore;
+using namespace PinnedDownClient::Features::Globalization;
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::Rendering;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Systems::UI;
-using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Util;
-
 DebugInfoSystem::DebugInfoSystem()
 {
 }

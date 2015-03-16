@@ -5,12 +5,13 @@
 #include "Math\Vector2F.h"
 #include "Systems\Rendering\IRenderable.h"
 
-#include "Components\ColorComponent.h"
-#include "Components\FontComponent.h"
-#include "Components\TextAlignmentComponent.h"
-#include "Components\TextComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
+#include "Source\Features\Rendering\Components\ColorComponent.h"
+#include "Source\Features\Rendering\Components\FontComponent.h"
+#include "Source\Features\Rendering\Components\TextAlignmentComponent.h"
 
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Globalization;
+using namespace PinnedDownClient::Features::Rendering;
 
 namespace PinnedDownClient
 {

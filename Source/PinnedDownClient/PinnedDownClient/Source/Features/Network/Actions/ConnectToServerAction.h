@@ -10,18 +10,15 @@ namespace PinnedDownClient
 	{
 		namespace Network
 		{
-			namespace Actions
+			struct ConnectToServerAction : public PinnedDownCore::Event
 			{
-				struct ConnectToServerAction : public PinnedDownCore::Event
-				{
-					static const HashedString ConnectToServerActionType;
+				static const HashedString ConnectToServerActionType;
 
-					const HashedString & GetEventType() const
-					{
-						return ConnectToServerActionType;
-					}
-				};
-			}
+				const HashedString & GetEventType() const
+				{
+					return ConnectToServerActionType;
+				}
+			};
 		}
 	}
 }

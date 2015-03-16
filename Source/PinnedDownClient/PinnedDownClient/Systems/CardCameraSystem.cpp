@@ -6,7 +6,7 @@
 #include "Event.h"
 #include "EntityManager.h"
 
-#include "Components\PositionComponent.h"
+#include "Source\Features\Layout\Components\PositionComponent.h"
 
 #include "Events\CardCameraCreatedEvent.h"
 #include "Events\PositionChangedEvent.h"
@@ -19,7 +19,7 @@
 
 using namespace PinnedDownCore;
 using namespace PinnedDownNet::Events;
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Layout;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Util;

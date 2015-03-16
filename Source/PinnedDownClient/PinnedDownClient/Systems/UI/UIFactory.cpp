@@ -1,26 +1,30 @@
 #include "pch.h"
 #include "UIFactory.h"
 
-#include "Components\BoundsComponent.h"
-#include "Components\ColorComponent.h"
-#include "Components\DepthComponent.h"
-#include "Components\FontComponent.h"
-#include "Components\LocalizationComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\SpriteComponent.h"
-#include "Components\TappableComponent.h"
-#include "Components\TextAlignmentComponent.h"
-#include "Components\TextComponent.h"
-#include "Components\UIPanelComponent.h"
-#include "Components\UIWidgetComponent.h"
-#include "Components\VisibilityComponent.h"
+#include "Source\Features\Globalization\Components\LocalizationComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
+#include "Source\Features\Input\Components\TappableComponent.h"
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\Rendering\Components\ColorComponent.h"
+#include "Source\Features\Rendering\Components\DepthComponent.h"
+#include "Source\Features\Rendering\Components\FontComponent.h"
+#include "Source\Features\Rendering\Components\SpriteComponent.h"
+#include "Source\Features\Rendering\Components\TextAlignmentComponent.h"
+#include "Source\Features\Rendering\Components\VisibilityComponent.h"
+#include "Source\Features\UI\Components\UIPanelComponent.h"
+#include "Source\Features\UI\Components\UIWidgetComponent.h"
 
 #include "EntityInitializedEvent.h"
 
 #include "Math\Vector2F.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Globalization;
+using namespace PinnedDownClient::Features::Input;
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::Rendering;
+using namespace PinnedDownClient::Features::UI;
 using namespace PinnedDownClient::Events;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Systems::UI;

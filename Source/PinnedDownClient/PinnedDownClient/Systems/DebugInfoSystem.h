@@ -6,7 +6,7 @@
 #include "Math\Vector2F.h"
 #include "Util\StepTimer.h"
 
-#include "Components\UIAnchorComponent.h"
+#include "Source\Features\UI\Components\UIAnchorComponent.h"
 
 #include "Events\CardCameraCreatedEvent.h"
 #include "Events\PointerMovedEvent.h"
@@ -17,7 +17,6 @@
 using namespace PinnedDownCore;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Events;
-using namespace PinnedDownClient::Components;
 using namespace PinnedDownClient::Systems::UI;
 using namespace PinnedDownClient::Util;
 

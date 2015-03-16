@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Components\BoundsComponent.h"
-#include "Components\DepthComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\UIWidgetComponent.h"
-#include "Components\VisibilityComponent.h"
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\Rendering\Components\DepthComponent.h"
+#include "Source\Features\Rendering\Components\VisibilityComponent.h"
 
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::Rendering;
 
 namespace PinnedDownClient
 {

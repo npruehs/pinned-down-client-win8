@@ -2,12 +2,14 @@
 
 #include "pch.h"
 
-#include "Components\BoundsComponent.h"
-#include "Components\DepthComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\TappableComponent.h"
+#include "Source\Features\Input\Components\TappableComponent.h"
+#include "Source\Features\Layout\Components\BoundsComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\Rendering\Components\DepthComponent.h"
 
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Input;
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::Rendering;
 
 namespace PinnedDownClient
 {

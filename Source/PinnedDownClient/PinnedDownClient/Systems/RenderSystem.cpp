@@ -6,14 +6,14 @@
 #include "Math\Vector2F.h"
 #include "Util\DirectXUtils.h"
 
-#include "Components\ColorComponent.h"
-#include "Components\FontComponent.h"
-#include "Components\ScreenPositionComponent.h"
-#include "Components\SpriteComponent.h"
-#include "Components\TextAlignmentComponent.h"
-#include "Components\TextComponent.h"
-#include "Components\UIWidgetComponent.h"
-#include "Components\VisibilityComponent.h"
+#include "Source\Features\Globalization\Components\TextComponent.h"
+#include "Source\Features\Layout\Components\ScreenPositionComponent.h"
+#include "Source\Features\Rendering\Components\ColorComponent.h"
+#include "Source\Features\Rendering\Components\FontComponent.h"
+#include "Source\Features\Rendering\Components\SpriteComponent.h"
+#include "Source\Features\Rendering\Components\TextAlignmentComponent.h"
+#include "Source\Features\Rendering\Components\VisibilityComponent.h"
+#include "Source\Features\UI\Components\UIWidgetComponent.h"
 
 #include "Events\AppWindowPixelSizeChangedEvent.h"
 #include "Events\GraphicsDeviceLostEvent.h"
@@ -23,7 +23,10 @@
 #include "Util\StringUtils.h"
 
 using namespace PinnedDownCore;
-using namespace PinnedDownClient::Components;
+using namespace PinnedDownClient::Features::Globalization;
+using namespace PinnedDownClient::Features::Layout;
+using namespace PinnedDownClient::Features::Rendering;
+using namespace PinnedDownClient::Features::UI;
 using namespace PinnedDownClient::Math;
 using namespace PinnedDownClient::Systems;
 using namespace PinnedDownClient::Resources;
