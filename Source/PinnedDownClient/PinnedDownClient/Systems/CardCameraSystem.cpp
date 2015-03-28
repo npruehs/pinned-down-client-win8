@@ -68,6 +68,12 @@ EVENT_HANDLER_DEFINITION(CardCameraSystem, PlayerAddedEvent)
 
 EVENT_HANDLER_DEFINITION(CardCameraSystem, PointerDraggedEvent)
 {
+	if (this->players.size() < 1)
+	{
+		// Early out if game hasn't begun yet.
+		return;
+	}
+
 	// Update position.
 	auto positionComponent = this->game->entityManager->GetComponent<PositionComponent>(this->camera, PositionComponent::PositionComponentType);
 	auto oldPosition = positionComponent->position;
