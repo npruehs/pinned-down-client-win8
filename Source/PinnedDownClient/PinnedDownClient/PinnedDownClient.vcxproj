@@ -77,40 +77,25 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x86\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x86\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x86\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x86\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x86\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x86\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x86\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x86\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\ARM\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\ARM\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\ARM\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\ARM\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\ARM\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\ARM\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\ARM\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\ARM\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x64\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Debug\x64\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x64\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Debug\x64\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x64\MobileServicesCppClient.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\MobileServicesCppClient\1.0\DesignTime\Retail\x64\MobileServicesCppClient.props')" />
-    <Import Project="$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x64\CppRESTWindowsSDK.props" Condition="exists('$(ExtensionSDKDirectoryRoot)\Windows\v$(TargetPlatformVersion)\ExtensionSDKs\CppRESTWindowsSDK\1.0\DesignTime\Retail\x64\CppRESTWindowsSDK.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>PinnedDownClient_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\Bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
@@ -991,10 +976,6 @@
     <Media Include="Assets\Sounds\GameOver.wav" />
     <Media Include="Assets\Sounds\JumpPhase.wav" />
     <Media Include="Assets\Sounds\StarshipPlayed.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="CppRESTWindowsSDK, version=1.0" />
-    <SDKReference Include="MobileServicesCppClient, Version=1.0" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Text\English.lua" />
