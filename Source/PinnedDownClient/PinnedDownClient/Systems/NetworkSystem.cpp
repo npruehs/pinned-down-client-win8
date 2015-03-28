@@ -29,7 +29,7 @@ using namespace Windows::Storage::Streams;
 
 #define PINNED_DOWN_SERVER_HOST "localhost"
 //#define PINNED_DOWN_SERVER_HOST "pinneddown.cloudapp.net"
-//#define REQUIRES_AUTH
+
 
 NetworkSystem::NetworkSystem()
 {
@@ -108,12 +108,14 @@ void NetworkSystem::InitSocket()
 			auto loginErrorEvent = std::make_shared<LoginErrorEvent>("Error_UnableToConntect");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
+#ifdef REQUIRES_AUTH
 		catch (azure::mobile::mobile_exception&)
 		{
 			// Notify listeners.
 			auto loginErrorEvent = std::make_shared<LoginErrorEvent>("Error_AuthenticationRequired");
 			this->game->eventManager->QueueEvent(loginErrorEvent);
 		}
+#endif
 	});
 }
 

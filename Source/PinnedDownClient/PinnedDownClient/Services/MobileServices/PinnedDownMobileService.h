@@ -1,5 +1,9 @@
 ﻿#pragma once
 
+//#define REQUIRES_AUTH
+
+#ifdef REQUIRES_AUTH
+
 #include <azuremobile.h>
 
 namespace PinnedDownClient
@@ -13,3 +17,5 @@ namespace PinnedDownClient
 		};
 	}
 }
+
+#endif

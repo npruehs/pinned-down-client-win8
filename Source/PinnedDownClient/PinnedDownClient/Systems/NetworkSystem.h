@@ -23,6 +23,7 @@ using namespace PinnedDownClient::Features::Network;
 
 using namespace PinnedDownClient::Systems::Network;
 
+
 namespace PinnedDownClient
 {
 	namespace Systems
@@ -42,8 +43,9 @@ namespace PinnedDownClient
 			std::shared_ptr<ServerEventReader> serverEventReader;
 			std::shared_ptr<ClientActionWriter> clientActionWriter;
 			std::shared_ptr<ClientActionDispatcher> clientActionDispatcher;
+#ifdef REQUIRES_AUTH
 			azure::mobile::user user;
-
+#endif
 			bool connected = false;
 
 			void OnEvent(Event & event);
